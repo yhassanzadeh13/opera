@@ -4,6 +4,7 @@ import com.sun.deploy.util.StringUtils;
 
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
+import java.util.zip.CheckedOutputStream;
 
 public class Simulator<T extends BaseNode> {
 
@@ -20,7 +21,7 @@ public class Simulator<T extends BaseNode> {
     private static HashMap<UUID, NodeThread> allInstances;
     private static HashMap<UUID, Boolean> isReady;
     private T factory;
-    CountDownLatch latch;
+    private static CountDownLatch latch;
 
     public Simulator(T factory, int N)
     {
@@ -59,6 +60,7 @@ public class Simulator<T extends BaseNode> {
             NodeThread<T> Node = new NodeThread<T>(factory, allID.get(i), allID);
             allInstances.put(allID.get(i), Node);
         }
+        latch = new CountDownLatch(nodeCnt);
     }
 
     public static boolean Submit(UUID originalID, UUID targetID, Message msg)
@@ -84,6 +86,7 @@ public class Simulator<T extends BaseNode> {
         allInstances.get(nodeID).terminate();
         allInstances.remove(nodeID);
         isReady.remove(nodeID);
+        latch.countDown();
     }
 
 
