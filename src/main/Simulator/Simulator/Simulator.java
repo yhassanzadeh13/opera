@@ -1,58 +1,110 @@
 package Simulator;
 
-import SimulatorTest.SendHello;
 import java.util.*;
-import org.apache.log4j.Logger;
 
+import org.apache.log4j.Logger;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 public class Simulator<T extends BaseNode> {
 
     //Simulator config
-    private static int nodeCnt = 0;
-    private static boolean isLocal = true;
+    private boolean isLocal = true;
     private ArrayList<UUID> allID;
     private static HashMap<UUID, Boolean> isReady;
     private T factory;
     private static Network network;
-    public static Logger log = Logger.getLogger(Simulator.class.getName());
+    static Logger log = Logger.getLogger(Simulator.class.getName());
 
+    /**
+     * Initializes a newly created simulator based on a factory node and the number of nodes in
+     * the simulator.
+     * @param factory a dummy factory instance of special node class.
+     * @param N the number of nodes.
+     */
     public Simulator(T factory, int N)
     {
         this(factory, N, true);
     }
 
-    public Simulator(T factory, int N, boolean isLocal)
+    /**
+     * Constructors to be added later when the online simulation feature is added.
+     * @param factory
+     * @param N
+     * @param isLocal
+     */
+    private Simulator(T factory, int N, boolean isLocal)
     {
         this(factory, N, isLocal, new ArrayList<UUID>());
     }
 
-    public Simulator(T factory, int N, boolean isLocal, ArrayList<UUID> allID)
+    private Simulator(T factory, int N, boolean isLocal, ArrayList<UUID> allID)
     {
         this.factory = factory;
-        this.nodeCnt = N;
         this.isLocal = isLocal;
         this.allID = allID;
-        isReady = new HashMap<UUID, Boolean>();
-        if(!isLocal && allID.size() != N)throw new InputMismatchException();
 
-        network = new Network(allID, new HashMap<UUID, NodeThread>());
-        if(isLocal)this.generateNodes();
+        isReady = new HashMap<UUID, Boolean>();
+
+        this.allID = generateIDs(N);
+
+        //logging
+        log.info("Nodes IDs are:");
+        for(UUID id : this.allID)
+            log.info(id);
+
+
+        network = new Network(this.allID);
+        if(isLocal)
+        {
+            this.generateNodesInstances(this.allID);
+        }
     }
 
-    private void generateNodes() {
-        for(int i = 0;i<nodeCnt;i++)
-            allID.add(UUID.randomUUID());
+    /**
+     * Generate new random UUID for the nodes
+     * @param N number of nodes
+     * @return ArrayList of random N ids
+     */
+    private ArrayList<UUID> generateIDs(int N)
+    {
+        //logging
+        log.info("Generating IDs for " + N + " node..");
 
-        network.setAllID(allID);
-        for(int i = 0;i<nodeCnt;i++)
+        ArrayList<UUID> tmp = new ArrayList<>();
+        for(int i = 0;i < N; i++)
+            tmp.add(UUID.randomUUID());
+
+        return tmp;
+    }
+
+    /**
+     * Generate new instances for the nodes and add them to the network
+     * @param allID ArrayList of the IDs of the nodes
+     */
+    private void generateNodesInstances(ArrayList<UUID> allID) {
+
+        //logging
+        log.debug("Generating nodes instanes");
+
+        for(int i = 0; i < allID.size(); i++)
         {
             isReady.put(allID.get(i), false);
             NodeThread<T> node = new NodeThread<T>(factory, allID.get(i), allID);
             network.addInstance(allID.get(i), node);
+            node.onCreate(allID);
         }
     }
 
 
+    /**
+     * Serves as a channel for nodes to communicate. When a node A want to send a new message
+     * to node B it should call this method.
+     * @param originalID the sender node ID
+     * @param targetID the receiver node ID
+     * @param msg the message content
+     * @return
+     */
     public static boolean Submit(UUID originalID, UUID targetID, Event msg)
     {
         if(!isReady.get(originalID)){
@@ -81,52 +133,56 @@ public class Simulator<T extends BaseNode> {
         return false;
     }
 
+    /**
+     * Should be called by the node to declare itself ready for simulation.
+     * @param nodeID ID of the node
+     */
     public static void Ready(UUID nodeID)
     {
         isReady.put(nodeID, true);
+
+        //logging
         log.info(nodeID + ": node is ready");
     }
 
+    /**
+     * Should be called by the node when it is done with the simulation and want to terminate
+     * @param nodeID ID of the node
+     */
     public static void Done(UUID nodeID)
     {
-        log.info(nodeID + ": node is terminating");
+        //logging
+        log.info(nodeID + ": node is terminating...");
+
         isReady.put(nodeID, false);
         network.stopNode(nodeID);
+
+        //logging
+        log.info(nodeID + ": node has been terminated");
     }
 
+
+    /**
+     * getter for node Index in the Simulator
+     * @param nodeID ID of the node
+     * @return the index of the node in the network
+     */
     public static int getNodeIndex(UUID nodeID)
     {
         return network.getNodeIndex(nodeID);
     }
 
+    /**
+     * Used to start the simulation.
+     * It calls the onStart method for all nodes to start the simulation.
+     */
     public void start()
     {
-        System.out.println("Simulation is ready...");
-        System.out.println("Simulation servers IDs:");
-        System.out.println(allID);
-        System.out.println("The following operations are available:\n" +
-                "1 nodeIndex: turn down a node in the cluster\n" +
-                "2 originalIndex TargetIndex msg: send a message from originalID to targetID\n" +
-                "3 to terminate");
-        Scanner s = new Scanner(System.in);
-        int query = s.nextInt();
-        System.out.println(query);
-        while(query != 3)
-        {
-            int idA = s.nextInt();
-            switch (query)
-            {
-                case 1:
-                    Done(allID.get(idA));
-                    break;
-                case 2:
-                    int idB = s.nextInt();
-                    SendHello msg = new SendHello("Hello", allID.get(idA), allID.get(idB));
-                    System.out.println(Submit(allID.get(idA), allID.get(idB), msg));
-                    break;
-            }
-            query = s.nextInt();
-        }
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        log.info("New simulation started on " +  dtf.format(now));
+        for(UUID id : this.allID)
+            network.startNode(id);
     }
 
 }

@@ -46,7 +46,6 @@ public class SimulatorUtils {
     /**
      * Converts the given byte array into its object representation.
      * @param bytes the byte array to convert.
-     * @param length length of the byte array.
      * @return the object representation.
      */
     public static Object deserialize(byte[] bytes) {

@@ -18,7 +18,6 @@ public class NodeThread<T extends BaseNode> extends Thread {
         this.selfID = selfID;
         this.allID = allID;
         Node = factory.newInstance(selfID);
-        Node.onStart(allID);
     }
 
     @Override
@@ -40,9 +39,14 @@ public class NodeThread<T extends BaseNode> extends Thread {
         Node.onNewMessage(originID, msg);
     }
 
-    public void onStart(ArrayList<UUID> allID)
+    public void onCreate(ArrayList<UUID> allID)
     {
-        Node.onStart(allID);
+        Node.onCreate(allID);
+    }
+
+    public void onStart()
+    {
+        Node.onStart();
     }
 
     public void onStop()
