@@ -5,6 +5,8 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 
 /**
@@ -16,6 +18,7 @@ public class Network {
     final private ArrayList<UUID> allID;
     private HashMap<UUID, NodeThread> allInstances;
     private Logger log = Logger.getLogger(Network.class.getName());
+    ReadWriteLock lock = new ReentrantReadWriteLock();
 
     /**
      * Initialize a new network layer based on the IDs of the node in the cluster.
@@ -60,12 +63,16 @@ public class Network {
             return false;
         }
         try {
-
             Event event = (Event) SimulatorUtils.deserialize(msg.getMessage());
             new Thread(new Runnable() {
             @Override
             public void run() {
-                allInstances.get(msg.getTargetID()).onNewMessage(msg.getOriginalID(), event);
+                try{
+                    allInstances.get(msg.getTargetID()).onNewMessage(msg.getOriginalID(), event);
+                }catch (Exception e)
+                {
+                    Simulator.getLogger().error("Trying accessing a deleted instance");
+                }
             }
 
         }).start();
@@ -83,12 +90,14 @@ public class Network {
      * start the simulation in a node by calling onStart method
      * @param nodeID the ID of the node to be removed.
      */
-    public void startNode(UUID nodeID) {
+    public boolean startNode(UUID nodeID) {
 
-        if(!this.allInstances.containsKey(nodeID))
+        if(!this.allInstances.containsKey(nodeID)) {
             Simulator.log.debug("Cannot start node " + nodeID + ": node instance was not found");
-
+            return false;
+        }
         allInstances.get(nodeID).onStart();
+        return true;
     }
 
     /**
@@ -96,13 +105,19 @@ public class Network {
      * @param nodeID the ID of the node to be removed.
      */
     public void stopNode(UUID nodeID) {
-
         if(!this.allInstances.containsKey(nodeID))
             Simulator.log.debug("Cannot Stop node " + nodeID + ": node instance was not found");
 
-        allInstances.get(nodeID).terminate();
-        allInstances.remove(nodeID);
-        allID.remove(nodeID);
+        lock.writeLock().lock();
+        Simulator.getLogger().debug("accessing allInstances was locked");
+        try {
+            allInstances.get(nodeID).terminate();
+            allInstances.remove(nodeID);
+            allID.remove(nodeID);
+        }finally {
+            Simulator.getLogger().debug("accessing allInstances was released");
+            lock.writeLock().unlock();
+        }
     }
 
     /**

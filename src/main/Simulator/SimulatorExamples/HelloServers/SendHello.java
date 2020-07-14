@@ -1,15 +1,12 @@
-package SimulatorTest;
+package SimulatorExamples.HelloServers;
 
 import Simulator.*;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.io.Serializable;
 import java.util.UUID;
 
 public class SendHello implements Event, Serializable {
 
-    @JsonDeserialize(as = Event.class)
 
     String msg;
     UUID origionalID;
@@ -51,9 +48,14 @@ public class SendHello implements Event, Serializable {
     }
 
     @Override
-    public void actionPerformed() {
-        System.out.println(origionalID + " says " + msg);
-        if(msg.equals("Hello"))Simulator.Submit(targetID, origionalID, new SendHello("Thank you", targetID, origionalID));
+    public boolean actionPerformed(BaseNode hostNode) {
+        System.out.println(origionalID + " says to " + targetID + " " + msg);
+        myNode node = (myNode) hostNode;
+        if(this.msg.equals("Hello"))
+            node.sendNewMessage("Thank You");
+        else
+            node.sendNewMessage("Hello");
+        return true;
     }
 
 }

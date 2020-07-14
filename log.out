@@ -1,73 +1,283 @@
-a58b6a8c-954f-4b7e-a8ba-1ea5ef000ff5: node is ready
-  c203cfe1-7752-497b-9db1-f22a840e5619: node is ready
-  071b4b34-c0db-4ae8-aa4a-1310712dc02a: node is ready
-  7f3e39ea-9110-4f17-a71c-1170adf5155c: node is ready
-  bb78a8a5-ad5f-48e4-8656-7757b69dd2aa: node is ready
-  9000480d-2c85-47cf-bd9f-0fedb90c22dd: node is ready
-  7ee1b181-8fe4-4e15-8651-aae73a5d9258: node is ready
-  767ff5b1-03ea-4035-952d-b6abef345a5b: node is ready
-  fb87dbc3-09ff-48a9-991e-b644fa11273c: node is ready
-  06fcc44c-61dd-4304-8452-aea616013b15: node is ready
-  50bba079-be1e-4ba4-885a-948c4c2577e0: node is ready
-  620cedbc-e4ad-446b-be56-17eda0c13c91: node is ready
-  27b7dbd6-ffe5-461e-9383-5454ab7a82d3: node is ready
-  9e95ce8b-c6a6-4473-979f-69b3b6efb914: node is ready
-  0d5aedd0-a898-41e8-bf27-d181dc3c415d: node is ready
-  de9fd484-f221-4c74-acac-cfa1a942d1a7: node is ready
-  83b76fb0-a291-441a-a3f9-6c3c7aa21fa4: node is ready
-  7265c246-a88e-40b9-973d-1bbea61f2348: node is ready
-  e23e7dd6-bd68-4ccf-a37b-83eba9eea0d4: node is ready
-  89aac0c0-5234-40ae-a3ef-647c8668cea8: node is ready
-  a58b6a8c-954f-4b7e-a8ba-1ea5ef000ff5: an event SimulatorTest.SendHello@6576fe71 was sent to node c203cfe1-7752-497b-9db1-f22a840e5619
-  c203cfe1-7752-497b-9db1-f22a840e5619: an event SimulatorTest.SendHello@4536b3b1 was sent to node a58b6a8c-954f-4b7e-a8ba-1ea5ef000ff5
-  c203cfe1-7752-497b-9db1-f22a840e5619: an event SimulatorTest.SendHello@573fd745 was sent to node 071b4b34-c0db-4ae8-aa4a-1310712dc02a
-  071b4b34-c0db-4ae8-aa4a-1310712dc02a: an event SimulatorTest.SendHello@37e88394 was sent to node c203cfe1-7752-497b-9db1-f22a840e5619
-  883e3f7f-b1ce-4790-b1e9-05a78940d5e9: node is ready
-  01bf891e-2bb1-4742-ae21-0bedccf8ec71: node is ready
-  8dbc65f5-bd81-4c79-b047-6128d5081d35: node is ready
-  2e4a5814-b6b1-44ce-ae19-51085432d5b7: node is ready
-  6ef50bce-a2ac-4c35-b800-c229560fbcdc: node is ready
-  8df1952a-b1eb-4d65-9472-cf106b69d8d4: node is ready
-  35fae536-4ad2-4b0b-a032-5c8eefd25d24: node is ready
-  ef2564e2-3540-42ea-91f2-c07cf1232e59: node is ready
-  c1a0fb25-1219-4cf2-9ae7-2a4fea1582ae: node is ready
-  34f8bd92-7935-4127-9c47-805351a6db2e: node is ready
-  4207a792-71e1-48e8-86cd-9f3d95e5a6fe: node is ready
-  5809676a-359b-4959-a3e1-266a6de70f97: node is ready
-  2040e81a-ee21-4227-b3d5-82af86a9c70a: node is ready
-  0b19e43b-c61d-4df8-b727-cd5462bc4b04: node is ready
-  9e3a52a7-6243-40fb-8272-a7cb95206ae5: node is ready
-  2d465065-049f-4b68-9686-fe2c92355c02: node is ready
-  acf6bd67-9684-4d8f-b565-2dca1918b2e1: node is ready
-  e311812c-497e-4447-9bd7-3283d2f3c7a9: node is ready
-  6572cdd5-21a5-40db-9137-bbaf72a53813: node is ready
-  cc8b63f5-07a6-4281-a62d-c7f49001f598: node is ready
-  883e3f7f-b1ce-4790-b1e9-05a78940d5e9: an event Hello was sent to node 01bf891e-2bb1-4742-ae21-0bedccf8ec71
-  01bf891e-2bb1-4742-ae21-0bedccf8ec71: an event Thank you was sent to node 883e3f7f-b1ce-4790-b1e9-05a78940d5e9
-  f8ebe51e-01e2-4f2e-b6bc-4d7f96773862: node is ready
-  1eb25331-c970-448a-8b98-d5ec8f4331ce: node is ready
-  50bb03f6-458c-4fc8-8fcd-be425be298c8: node is ready
-  21728a56-3839-4d52-bafa-98a90a9d10c9: node is ready
-  7cd708b4-bdcb-498a-894c-0f98c75dccd6: node is ready
-  b85f42c0-1517-4c78-9174-817ffce436ca: node is ready
-  9ea0e25f-8079-4b7b-96bd-bbc7f711fd5b: node is ready
-  8e2f27b8-37d7-4a1b-a35e-7aa9de31ef10: node is ready
-  6195cceb-3aec-4cab-a222-d73354d1bf7d: node is ready
-  5eb45a85-d61e-47e8-886c-ec12a31af131: node is ready
-  4f680098-e0b4-4e83-b0a6-5407facd4196: node is ready
-  ec80c0c9-8084-425b-b7b5-f60330633156: node is ready
-  d654f7c1-8e77-407d-a903-bdaf9579f86f: node is ready
-  a7ae0683-13d3-4340-a0fc-92da971665a1: node is ready
-  7974f74b-9004-4430-b5a2-67eaa1ee9152: node is ready
-  a9e9b921-d9cc-42a7-9b0e-e385b0b94554: node is ready
-  800b37c1-171f-4ec5-ba8f-5d51d7deb868: node is ready
-  2c2411e5-068d-4b17-ae5f-e949caa9d43a: node is ready
-  ef6b663e-cb44-4b2c-9017-f762839ddef1: node is ready
-  9c4b59db-887f-4b62-9109-2947036c1e73: node is ready
-  f8ebe51e-01e2-4f2e-b6bc-4d7f96773862: an event Hello was sent to node 1eb25331-c970-448a-8b98-d5ec8f4331ce
-  1eb25331-c970-448a-8b98-d5ec8f4331ce: an event Thank you was sent to node f8ebe51e-01e2-4f2e-b6bc-4d7f96773862
-  1eb25331-c970-448a-8b98-d5ec8f4331ce: an event Hello was sent to node 50bb03f6-458c-4fc8-8fcd-be425be298c8
-  50bb03f6-458c-4fc8-8fcd-be425be298c8: an event Thank you was sent to node 1eb25331-c970-448a-8b98-d5ec8f4331ce
-  7cd708b4-bdcb-498a-894c-0f98c75dccd6: an event Hello was sent to node b85f42c0-1517-4c78-9174-817ffce436ca
-  b85f42c0-1517-4c78-9174-817ffce436ca: an event Thank you was sent to node 7cd708b4-bdcb-498a-894c-0f98c75dccd6
+Generating IDs for 4 node..
+  Nodes IDs are:
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5
+  1ba144b0-1ca3-4281-9af7-646927fe1a9b
+  c83959b4-321e-4277-a5de-a9249995a977
+  d9fa28f9-10a3-44be-852c-164bb2597584
+  Generating nodes instanes
+  Contestant ef53e349-c28b-4c5c-a18c-4032bb5f1fa5was initialized with level 12
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: node is ready
+  Contestant 1ba144b0-1ca3-4281-9af7-646927fe1a9bwas initialized with level 8
+  1ba144b0-1ca3-4281-9af7-646927fe1a9b: node is ready
+  Contestant c83959b4-321e-4277-a5de-a9249995a977was initialized with level 7
+  c83959b4-321e-4277-a5de-a9249995a977: node is ready
+  Contestant d9fa28f9-10a3-44be-852c-164bb2597584was initialized with level 24
+  d9fa28f9-10a3-44be-852c-164bb2597584: node is ready
+  New simulation started on 2020/07/10 14:36:32
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> 1ba144b0-1ca3-4281-9af7-646927fe1a9b: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation is pending 1ba144b0-1ca3-4281-9af7-646927fe1a9b Confirmation
+  1ba144b0-1ca3-4281-9af7-646927fe1a9b --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: 1ba144b0-1ca3-4281-9af7-646927fe1a9b confirms ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: node started
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 is fighting against 1ba144b0-1ca3-4281-9af7-646927fe1a9b
+  1ba144b0-1ca3-4281-9af7-646927fe1a9b: node started
+  1ba144b0-1ca3-4281-9af7-646927fe1a9b --> c83959b4-321e-4277-a5de-a9249995a977: 1ba144b0-1ca3-4281-9af7-646927fe1a9b declines c83959b4-321e-4277-a5de-a9249995a977 Invitation
+  c83959b4-321e-4277-a5de-a9249995a977 --> 1ba144b0-1ca3-4281-9af7-646927fe1a9b: c83959b4-321e-4277-a5de-a9249995a977 Invitation is pending 1ba144b0-1ca3-4281-9af7-646927fe1a9b Confirmation
+  c83959b4-321e-4277-a5de-a9249995a977: node started
+  d9fa28f9-10a3-44be-852c-164bb2597584 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: d9fa28f9-10a3-44be-852c-164bb2597584 Invitation is pending ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Confirmation
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 declines d9fa28f9-10a3-44be-852c-164bb2597584 Invitation
+  d9fa28f9-10a3-44be-852c-164bb2597584: node started
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> 1ba144b0-1ca3-4281-9af7-646927fe1a9b: 1ba144b0-1ca3-4281-9af7-646927fe1a9b defeated ef53e349-c28b-4c5c-a18c-4032bb5f1fa5
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 gains 5 points
+  1ba144b0-1ca3-4281-9af7-646927fe1a9b losses 10 points
+  1ba144b0-1ca3-4281-9af7-646927fe1a9b: node is terminating...
+  accessing allInstances was locked
+  accessing allInstances was released
+  1ba144b0-1ca3-4281-9af7-646927fe1a9b: node has been terminated
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> c83959b4-321e-4277-a5de-a9249995a977: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation is pending c83959b4-321e-4277-a5de-a9249995a977 Confirmation
+  c83959b4-321e-4277-a5de-a9249995a977 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: c83959b4-321e-4277-a5de-a9249995a977 confirms ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 is fighting against c83959b4-321e-4277-a5de-a9249995a977
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> c83959b4-321e-4277-a5de-a9249995a977: c83959b4-321e-4277-a5de-a9249995a977 defeated ef53e349-c28b-4c5c-a18c-4032bb5f1fa5
+  c83959b4-321e-4277-a5de-a9249995a977 losses 10 points
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 gains 5 points
+  c83959b4-321e-4277-a5de-a9249995a977: node is terminating...
+  accessing allInstances was locked
+  accessing allInstances was released
+  c83959b4-321e-4277-a5de-a9249995a977: node has been terminated
+  c83959b4-321e-4277-a5de-a9249995a977: Node is currently off
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> c83959b4-321e-4277-a5de-a9249995a977: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation is pending c83959b4-321e-4277-a5de-a9249995a977 Confirmation was not able to be sent to node 
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation is pending d9fa28f9-10a3-44be-852c-164bb2597584 Confirmation
+  d9fa28f9-10a3-44be-852c-164bb2597584 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: d9fa28f9-10a3-44be-852c-164bb2597584 confirms ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 is fighting against d9fa28f9-10a3-44be-852c-164bb2597584
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 defeated d9fa28f9-10a3-44be-852c-164bb2597584
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 losses 10 points
+  d9fa28f9-10a3-44be-852c-164bb2597584 gains 5 points
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation is pending d9fa28f9-10a3-44be-852c-164bb2597584 Confirmation
+  d9fa28f9-10a3-44be-852c-164bb2597584 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: d9fa28f9-10a3-44be-852c-164bb2597584 Invitation is pending ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Confirmation
+  d9fa28f9-10a3-44be-852c-164bb2597584 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: d9fa28f9-10a3-44be-852c-164bb2597584 confirms ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 confirms d9fa28f9-10a3-44be-852c-164bb2597584 Invitation
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 aborted the game
+  d9fa28f9-10a3-44be-852c-164bb2597584 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: d9fa28f9-10a3-44be-852c-164bb2597584 Invitation is pending ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Confirmation
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 declines d9fa28f9-10a3-44be-852c-164bb2597584 Invitation
+  d9fa28f9-10a3-44be-852c-164bb2597584 is fighting against ef53e349-c28b-4c5c-a18c-4032bb5f1fa5
+  d9fa28f9-10a3-44be-852c-164bb2597584 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 defeated d9fa28f9-10a3-44be-852c-164bb2597584
+  d9fa28f9-10a3-44be-852c-164bb2597584 gains 5 points
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 losses 10 points
+  d9fa28f9-10a3-44be-852c-164bb2597584 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: d9fa28f9-10a3-44be-852c-164bb2597584 Invitation is pending ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Confirmation
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation is pending d9fa28f9-10a3-44be-852c-164bb2597584 Confirmation
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 confirms d9fa28f9-10a3-44be-852c-164bb2597584 Invitation
+  d9fa28f9-10a3-44be-852c-164bb2597584 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: d9fa28f9-10a3-44be-852c-164bb2597584 confirms ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 aborted the game
+  d9fa28f9-10a3-44be-852c-164bb2597584 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: d9fa28f9-10a3-44be-852c-164bb2597584 Invitation is pending ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Confirmation
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 declines d9fa28f9-10a3-44be-852c-164bb2597584 Invitation
+  d9fa28f9-10a3-44be-852c-164bb2597584 is fighting against ef53e349-c28b-4c5c-a18c-4032bb5f1fa5
+  Simulation duration finished
+  Nodes will be terminated....
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: node is terminating...
+  accessing allInstances was locked
+  accessing allInstances was released
+  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: node has been terminated
+  d9fa28f9-10a3-44be-852c-164bb2597584: node is terminating...
+  accessing allInstances was locked
+  accessing allInstances was released
+  d9fa28f9-10a3-44be-852c-164bb2597584: node has been terminated
+  d9fa28f9-10a3-44be-852c-164bb2597584: Node is not ready yet..
+  d9fa28f9-10a3-44be-852c-164bb2597584 gains 5 points
+  Generating IDs for 4 node..
+  Nodes IDs are:
+  fff83e24-9b86-42d3-9780-b49d40116423
+  890c95bd-1866-49af-bf63-08b39440eef0
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b
+  75b9fafa-b501-443d-8f76-a8ea44667159
+  Generating nodes instanes
+  Contestant fff83e24-9b86-42d3-9780-b49d40116423was initialized with level 23
+  fff83e24-9b86-42d3-9780-b49d40116423: node is ready
+  Contestant 890c95bd-1866-49af-bf63-08b39440eef0was initialized with level 19
+  890c95bd-1866-49af-bf63-08b39440eef0: node is ready
+  Contestant 4cf79ff3-7d33-4ef3-b376-2fec80924c1bwas initialized with level 13
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b: node is ready
+  Contestant 75b9fafa-b501-443d-8f76-a8ea44667159was initialized with level 17
+  75b9fafa-b501-443d-8f76-a8ea44667159: node is ready
+  New simulation started on 2020/07/14 14:03:41
+  fff83e24-9b86-42d3-9780-b49d40116423 --> 75b9fafa-b501-443d-8f76-a8ea44667159: fff83e24-9b86-42d3-9780-b49d40116423 Invitation is pending 75b9fafa-b501-443d-8f76-a8ea44667159 Confirmation
+  75b9fafa-b501-443d-8f76-a8ea44667159 --> fff83e24-9b86-42d3-9780-b49d40116423: 75b9fafa-b501-443d-8f76-a8ea44667159 confirms fff83e24-9b86-42d3-9780-b49d40116423 Invitation
+  fff83e24-9b86-42d3-9780-b49d40116423: node started
+  fff83e24-9b86-42d3-9780-b49d40116423 is fighting against 75b9fafa-b501-443d-8f76-a8ea44667159
+  fff83e24-9b86-42d3-9780-b49d40116423 --> 890c95bd-1866-49af-bf63-08b39440eef0: fff83e24-9b86-42d3-9780-b49d40116423 declines 890c95bd-1866-49af-bf63-08b39440eef0 Invitation
+  890c95bd-1866-49af-bf63-08b39440eef0 --> fff83e24-9b86-42d3-9780-b49d40116423: 890c95bd-1866-49af-bf63-08b39440eef0 Invitation is pending fff83e24-9b86-42d3-9780-b49d40116423 Confirmation
+  890c95bd-1866-49af-bf63-08b39440eef0: node started
+  75b9fafa-b501-443d-8f76-a8ea44667159 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: 75b9fafa-b501-443d-8f76-a8ea44667159 declines 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> 75b9fafa-b501-443d-8f76-a8ea44667159: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation is pending 75b9fafa-b501-443d-8f76-a8ea44667159 Confirmation
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b: node started
+  75b9fafa-b501-443d-8f76-a8ea44667159: node started
+  fff83e24-9b86-42d3-9780-b49d40116423 --> 75b9fafa-b501-443d-8f76-a8ea44667159: 75b9fafa-b501-443d-8f76-a8ea44667159 defeated fff83e24-9b86-42d3-9780-b49d40116423
+  75b9fafa-b501-443d-8f76-a8ea44667159 losses 10 points
+  fff83e24-9b86-42d3-9780-b49d40116423 gains 5 points
+  fff83e24-9b86-42d3-9780-b49d40116423 --> 890c95bd-1866-49af-bf63-08b39440eef0: fff83e24-9b86-42d3-9780-b49d40116423 Invitation is pending 890c95bd-1866-49af-bf63-08b39440eef0 Confirmation
+  75b9fafa-b501-443d-8f76-a8ea44667159 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: 75b9fafa-b501-443d-8f76-a8ea44667159 Invitation is pending 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Confirmation
+  890c95bd-1866-49af-bf63-08b39440eef0 --> fff83e24-9b86-42d3-9780-b49d40116423: 890c95bd-1866-49af-bf63-08b39440eef0 confirms fff83e24-9b86-42d3-9780-b49d40116423 Invitation
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> 75b9fafa-b501-443d-8f76-a8ea44667159: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b confirms 75b9fafa-b501-443d-8f76-a8ea44667159 Invitation
+  75b9fafa-b501-443d-8f76-a8ea44667159 is fighting against 4cf79ff3-7d33-4ef3-b376-2fec80924c1b
+  fff83e24-9b86-42d3-9780-b49d40116423 is fighting against 890c95bd-1866-49af-bf63-08b39440eef0
+  75b9fafa-b501-443d-8f76-a8ea44667159 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: 75b9fafa-b501-443d-8f76-a8ea44667159 defeated 4cf79ff3-7d33-4ef3-b376-2fec80924c1b
+  75b9fafa-b501-443d-8f76-a8ea44667159 losses 10 points
+  75b9fafa-b501-443d-8f76-a8ea44667159: node is terminating...
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b gains 5 points
+  accessing allInstances was locked
+  75b9fafa-b501-443d-8f76-a8ea44667159: Node is not ready yet..
+  accessing allInstances was released
+  75b9fafa-b501-443d-8f76-a8ea44667159: node has been terminated
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> 890c95bd-1866-49af-bf63-08b39440eef0: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation is pending 890c95bd-1866-49af-bf63-08b39440eef0 Confirmation
+  890c95bd-1866-49af-bf63-08b39440eef0 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: 890c95bd-1866-49af-bf63-08b39440eef0 declines 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation
+  890c95bd-1866-49af-bf63-08b39440eef0 losses 10 points
+  fff83e24-9b86-42d3-9780-b49d40116423 --> 890c95bd-1866-49af-bf63-08b39440eef0: 890c95bd-1866-49af-bf63-08b39440eef0 defeated fff83e24-9b86-42d3-9780-b49d40116423
+  fff83e24-9b86-42d3-9780-b49d40116423 gains 5 points
+  890c95bd-1866-49af-bf63-08b39440eef0 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: 890c95bd-1866-49af-bf63-08b39440eef0 Invitation is pending 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Confirmation
+  fff83e24-9b86-42d3-9780-b49d40116423 --> 890c95bd-1866-49af-bf63-08b39440eef0: fff83e24-9b86-42d3-9780-b49d40116423 Invitation is pending 890c95bd-1866-49af-bf63-08b39440eef0 Confirmation
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> 890c95bd-1866-49af-bf63-08b39440eef0: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b confirms 890c95bd-1866-49af-bf63-08b39440eef0 Invitation
+  890c95bd-1866-49af-bf63-08b39440eef0 --> fff83e24-9b86-42d3-9780-b49d40116423: 890c95bd-1866-49af-bf63-08b39440eef0 confirms fff83e24-9b86-42d3-9780-b49d40116423 Invitation
+  fff83e24-9b86-42d3-9780-b49d40116423 is fighting against 890c95bd-1866-49af-bf63-08b39440eef0
+  890c95bd-1866-49af-bf63-08b39440eef0 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: 890c95bd-1866-49af-bf63-08b39440eef0 aborted the game
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> 890c95bd-1866-49af-bf63-08b39440eef0: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation is pending 890c95bd-1866-49af-bf63-08b39440eef0 Confirmation
+  890c95bd-1866-49af-bf63-08b39440eef0 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: 890c95bd-1866-49af-bf63-08b39440eef0 declines 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation
+  890c95bd-1866-49af-bf63-08b39440eef0 losses 10 points
+  890c95bd-1866-49af-bf63-08b39440eef0: node is terminating...
+  accessing allInstances was locked
+  accessing allInstances was released
+  890c95bd-1866-49af-bf63-08b39440eef0: node has been terminated
+  fff83e24-9b86-42d3-9780-b49d40116423 --> 890c95bd-1866-49af-bf63-08b39440eef0: 890c95bd-1866-49af-bf63-08b39440eef0 defeated fff83e24-9b86-42d3-9780-b49d40116423
+  fff83e24-9b86-42d3-9780-b49d40116423 gains 5 points
+  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 Invitation is pending 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Confirmation
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b confirms fff83e24-9b86-42d3-9780-b49d40116423 Invitation
+  fff83e24-9b86-42d3-9780-b49d40116423 is fighting against 4cf79ff3-7d33-4ef3-b376-2fec80924c1b
+  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b defeated fff83e24-9b86-42d3-9780-b49d40116423
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b losses 10 points
+  fff83e24-9b86-42d3-9780-b49d40116423 gains 5 points
+  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 Invitation is pending 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Confirmation
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation is pending fff83e24-9b86-42d3-9780-b49d40116423 Confirmation
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b confirms fff83e24-9b86-42d3-9780-b49d40116423 Invitation
+  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 confirms 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b aborted the game
+  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 aborted the game
+  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 Invitation is pending 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Confirmation
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation is pending fff83e24-9b86-42d3-9780-b49d40116423 Confirmation
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b confirms fff83e24-9b86-42d3-9780-b49d40116423 Invitation
+  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 confirms 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b aborted the game
+  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 aborted the game
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation is pending fff83e24-9b86-42d3-9780-b49d40116423 Confirmation
+  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 Invitation is pending 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Confirmation
+  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 confirms 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b confirms fff83e24-9b86-42d3-9780-b49d40116423 Invitation
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b aborted the game
+  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 Invitation is pending 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Confirmation
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b declines fff83e24-9b86-42d3-9780-b49d40116423 Invitation
+  fff83e24-9b86-42d3-9780-b49d40116423 is fighting against 4cf79ff3-7d33-4ef3-b376-2fec80924c1b
+  Simulation duration finished
+  Nodes will be terminated....
+  fff83e24-9b86-42d3-9780-b49d40116423: node is terminating...
+  accessing allInstances was locked
+  accessing allInstances was released
+  fff83e24-9b86-42d3-9780-b49d40116423: node has been terminated
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b: node is terminating...
+  accessing allInstances was locked
+  accessing allInstances was released
+  4cf79ff3-7d33-4ef3-b376-2fec80924c1b: node has been terminated
+  fff83e24-9b86-42d3-9780-b49d40116423: Node is not ready yet..
+  fff83e24-9b86-42d3-9780-b49d40116423 gains 5 points
+  Generating IDs for 4 node..
+  Nodes IDs are:
+  e8357fde-2d4c-4971-9792-189c852b3ad1
+  c033c1a2-4fcc-492e-94ab-c9e173893802
+  6a104f05-6057-4174-9938-910e2a3069fa
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812
+  Generating nodes instanes
+  Contestant e8357fde-2d4c-4971-9792-189c852b3ad1was initialized with level 29
+  e8357fde-2d4c-4971-9792-189c852b3ad1: node is ready
+  Contestant c033c1a2-4fcc-492e-94ab-c9e173893802was initialized with level 25
+  c033c1a2-4fcc-492e-94ab-c9e173893802: node is ready
+  Contestant 6a104f05-6057-4174-9938-910e2a3069fawas initialized with level 3
+  6a104f05-6057-4174-9938-910e2a3069fa: node is ready
+  Contestant 0aa4a205-fea7-43f9-98b1-2a0c02b73812was initialized with level 29
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812: node is ready
+  New simulation started on 2020/07/14 14:04:38
+  e8357fde-2d4c-4971-9792-189c852b3ad1 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation is pending 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Confirmation
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> e8357fde-2d4c-4971-9792-189c852b3ad1: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 confirms e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation
+  e8357fde-2d4c-4971-9792-189c852b3ad1: node started
+  e8357fde-2d4c-4971-9792-189c852b3ad1 is fighting against 0aa4a205-fea7-43f9-98b1-2a0c02b73812
+  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation is pending 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Confirmation
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 declines c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation
+  c033c1a2-4fcc-492e-94ab-c9e173893802: node started
+  6a104f05-6057-4174-9938-910e2a3069fa --> c033c1a2-4fcc-492e-94ab-c9e173893802: 6a104f05-6057-4174-9938-910e2a3069fa Invitation is pending c033c1a2-4fcc-492e-94ab-c9e173893802 Confirmation
+  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 6a104f05-6057-4174-9938-910e2a3069fa: c033c1a2-4fcc-492e-94ab-c9e173893802 confirms 6a104f05-6057-4174-9938-910e2a3069fa Invitation
+  6a104f05-6057-4174-9938-910e2a3069fa: node started
+  6a104f05-6057-4174-9938-910e2a3069fa is fighting against c033c1a2-4fcc-492e-94ab-c9e173893802
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812: node started
+  6a104f05-6057-4174-9938-910e2a3069fa --> c033c1a2-4fcc-492e-94ab-c9e173893802: 6a104f05-6057-4174-9938-910e2a3069fa defeated c033c1a2-4fcc-492e-94ab-c9e173893802
+  6a104f05-6057-4174-9938-910e2a3069fa losses 10 points
+  6a104f05-6057-4174-9938-910e2a3069fa: node is terminating...
+  accessing allInstances was locked
+  accessing allInstances was released
+  6a104f05-6057-4174-9938-910e2a3069fa: node has been terminated
+  c033c1a2-4fcc-492e-94ab-c9e173893802 gains 5 points
+  c033c1a2-4fcc-492e-94ab-c9e173893802 --> e8357fde-2d4c-4971-9792-189c852b3ad1: c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation is pending e8357fde-2d4c-4971-9792-189c852b3ad1 Confirmation
+  e8357fde-2d4c-4971-9792-189c852b3ad1 --> c033c1a2-4fcc-492e-94ab-c9e173893802: e8357fde-2d4c-4971-9792-189c852b3ad1 declines c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation
+  e8357fde-2d4c-4971-9792-189c852b3ad1 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: e8357fde-2d4c-4971-9792-189c852b3ad1 draw with 0aa4a205-fea7-43f9-98b1-2a0c02b73812
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 gains 1 point
+  e8357fde-2d4c-4971-9792-189c852b3ad1 gains 1 point
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> e8357fde-2d4c-4971-9792-189c852b3ad1: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Invitation is pending e8357fde-2d4c-4971-9792-189c852b3ad1 Confirmation
+  e8357fde-2d4c-4971-9792-189c852b3ad1 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation is pending 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Confirmation
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> e8357fde-2d4c-4971-9792-189c852b3ad1: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 confirms e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation
+  e8357fde-2d4c-4971-9792-189c852b3ad1 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: e8357fde-2d4c-4971-9792-189c852b3ad1 confirms 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Invitation
+  e8357fde-2d4c-4971-9792-189c852b3ad1 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: e8357fde-2d4c-4971-9792-189c852b3ad1 aborted the game
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> e8357fde-2d4c-4971-9792-189c852b3ad1: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 aborted the game
+  e8357fde-2d4c-4971-9792-189c852b3ad1 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation is pending 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Confirmation
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Invitation is pending c033c1a2-4fcc-492e-94ab-c9e173893802 Confirmation
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> e8357fde-2d4c-4971-9792-189c852b3ad1: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 confirms e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation
+  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: c033c1a2-4fcc-492e-94ab-c9e173893802 confirms 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Invitation
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 aborted the game
+  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation is pending 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Confirmation
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 declines c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation
+  e8357fde-2d4c-4971-9792-189c852b3ad1 is fighting against 0aa4a205-fea7-43f9-98b1-2a0c02b73812
+  e8357fde-2d4c-4971-9792-189c852b3ad1 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: e8357fde-2d4c-4971-9792-189c852b3ad1 draw with 0aa4a205-fea7-43f9-98b1-2a0c02b73812
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 gains 1 point
+  e8357fde-2d4c-4971-9792-189c852b3ad1 gains 1 point
+  e8357fde-2d4c-4971-9792-189c852b3ad1 --> c033c1a2-4fcc-492e-94ab-c9e173893802: e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation is pending c033c1a2-4fcc-492e-94ab-c9e173893802 Confirmation
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Invitation is pending c033c1a2-4fcc-492e-94ab-c9e173893802 Confirmation
+  c033c1a2-4fcc-492e-94ab-c9e173893802 --> e8357fde-2d4c-4971-9792-189c852b3ad1: c033c1a2-4fcc-492e-94ab-c9e173893802 confirms e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation
+  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: c033c1a2-4fcc-492e-94ab-c9e173893802 confirms 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Invitation
+  e8357fde-2d4c-4971-9792-189c852b3ad1 is fighting against c033c1a2-4fcc-492e-94ab-c9e173893802
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 is fighting against c033c1a2-4fcc-492e-94ab-c9e173893802
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: c033c1a2-4fcc-492e-94ab-c9e173893802 defeated 0aa4a205-fea7-43f9-98b1-2a0c02b73812
+  c033c1a2-4fcc-492e-94ab-c9e173893802 losses 10 points
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 gains 5 points
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Invitation is pending c033c1a2-4fcc-492e-94ab-c9e173893802 Confirmation
+  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation is pending 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Confirmation
+  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: c033c1a2-4fcc-492e-94ab-c9e173893802 confirms 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Invitation
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 confirms c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation
+  e8357fde-2d4c-4971-9792-189c852b3ad1 --> c033c1a2-4fcc-492e-94ab-c9e173893802: c033c1a2-4fcc-492e-94ab-c9e173893802 defeated e8357fde-2d4c-4971-9792-189c852b3ad1
+  e8357fde-2d4c-4971-9792-189c852b3ad1 gains 5 points
+  e8357fde-2d4c-4971-9792-189c852b3ad1 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation is pending 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Confirmation
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> e8357fde-2d4c-4971-9792-189c852b3ad1: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 declines e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 aborted the game
+  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation is pending 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Confirmation
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 declines c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation
+  c033c1a2-4fcc-492e-94ab-c9e173893802 losses 10 points
+  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation is pending 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Confirmation
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 declines c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation
+  c033c1a2-4fcc-492e-94ab-c9e173893802 is fighting against 0aa4a205-fea7-43f9-98b1-2a0c02b73812
+  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: c033c1a2-4fcc-492e-94ab-c9e173893802 defeated 0aa4a205-fea7-43f9-98b1-2a0c02b73812
+  c033c1a2-4fcc-492e-94ab-c9e173893802 losses 10 points
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 gains 5 points
+  c033c1a2-4fcc-492e-94ab-c9e173893802: node is terminating...
+  accessing allInstances was locked
+  accessing allInstances was released
+  c033c1a2-4fcc-492e-94ab-c9e173893802: node has been terminated
+  c033c1a2-4fcc-492e-94ab-c9e173893802: Node is currently off
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Invitation is pending c033c1a2-4fcc-492e-94ab-c9e173893802 Confirmation was not able to be sent to node 
+  Contestant 0aa4a205-fea7-43f9-98b1-2a0c02b73812 is the winner
+  Simulation duration finished
+  Nodes will be terminated....
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812: node is terminating...
+  accessing allInstances was locked
+  accessing allInstances was released
+  0aa4a205-fea7-43f9-98b1-2a0c02b73812: node has been terminated
   

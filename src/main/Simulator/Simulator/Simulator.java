@@ -5,6 +5,11 @@ import java.util.*;
 import org.apache.log4j.Logger;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
 
 public class Simulator<T extends BaseNode> {
 
@@ -15,6 +20,8 @@ public class Simulator<T extends BaseNode> {
     private T factory;
     private static Network network;
     static Logger log = Logger.getLogger(Simulator.class.getName());
+
+    static CountDownLatch count;
 
     /**
      * Initializes a newly created simulator based on a factory node and the number of nodes in
@@ -53,13 +60,14 @@ public class Simulator<T extends BaseNode> {
         for(UUID id : this.allID)
             log.info(id);
 
-
+        count = new CountDownLatch(N);
         network = new Network(this.allID);
         if(isLocal)
         {
             this.generateNodesInstances(this.allID);
         }
     }
+
 
     /**
      * Generate new random UUID for the nodes
@@ -103,7 +111,7 @@ public class Simulator<T extends BaseNode> {
      * @param originalID the sender node ID
      * @param targetID the receiver node ID
      * @param msg the message content
-     * @return
+     * @return True if the message was sent successfuly. False otherwise.
      */
     public static boolean Submit(UUID originalID, UUID targetID, Event msg)
     {
@@ -120,11 +128,11 @@ public class Simulator<T extends BaseNode> {
             boolean sent =  network.sendMessage(new Message(originalID, targetID, tmp));
             if(sent)
             {
-                log.info(originalID + ": an event " + msg.logMessage() + " was sent to node " + targetID);
+                log.info(originalID + " --> " + targetID + ": "  + msg.logMessage());
                 return true;
             }
             else
-                log.error(originalID + ": event " + msg.logMessage() + " was not able to be sent to node " + targetID);
+                log.error(originalID + " --> " + targetID + ": " + msg.logMessage() + " was not able to be sent to node ");
 
         } catch (Exception e)
         {
@@ -140,9 +148,9 @@ public class Simulator<T extends BaseNode> {
     public static void Ready(UUID nodeID)
     {
         isReady.put(nodeID, true);
-
         //logging
         log.info(nodeID + ": node is ready");
+        count.countDown();
     }
 
     /**
@@ -161,6 +169,14 @@ public class Simulator<T extends BaseNode> {
         log.info(nodeID + ": node has been terminated");
     }
 
+    /**
+     * getter for the simulator logger of log4j
+     * @return the simultor logger
+     */
+    public static Logger getLogger()
+    {
+        return log;
+    }
 
     /**
      * getter for node Index in the Simulator
@@ -176,13 +192,42 @@ public class Simulator<T extends BaseNode> {
      * Used to start the simulation.
      * It calls the onStart method for all nodes to start the simulation.
      */
-    public void start()
+    public void start(int duration)
     {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         log.info("New simulation started on " +  dtf.format(now));
-        for(UUID id : this.allID)
-            network.startNode(id);
+        try{
+            count.await();
+        }
+        catch (Exception e){
+            log.error("Count down latch could not wait " + e.getMessage());
+        }
+
+        ArrayList<UUID> tem = new ArrayList<>();
+
+        for(UUID id : this.allID) tem.add(id);
+
+        for(UUID id : tem){
+            if(network.startNode(id))
+                log.info(id + ": node started");
+        }
+
+        try{
+            Thread.sleep(duration);
+        }catch (Exception e)
+        {
+            log.error(e.getMessage());
+        }
+
+        log.info("Simulation duration finished");
+        log.info("Nodes will be terminated....");
+        //terminating all nodes
+        while(!allID.isEmpty())
+        {
+            int sz = allID.size();
+            Simulator.Done(allID.get(sz-1));
+        }
     }
 
 }
