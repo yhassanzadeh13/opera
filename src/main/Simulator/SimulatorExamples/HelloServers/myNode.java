@@ -1,8 +1,10 @@
 
 package SimulatorExamples.HelloServers;
 
-import Simulator.BaseNode;
+import Node.BaseNode;
 import Simulator.*;
+import underlay.MiddleLayer;
+import underlay.packets.Event;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -11,18 +13,20 @@ import java.util.UUID;
 public class myNode implements BaseNode {
 
 
-    UUID selfID;
-    ArrayList<UUID> allID;
+    private UUID selfID;
+    private ArrayList<UUID> allID;
+    private MiddleLayer network;
 
-    myNode(UUID selfID){
+    myNode(UUID selfID, MiddleLayer network){
         this.selfID = selfID;
+        this.network = network;
     }
 
 
     @Override
     public void onCreate(ArrayList<UUID> allID) {
         this.allID = allID;
-        Simulator.Ready(selfID);
+        network.ready();
     }
 
     @Override
@@ -38,7 +42,7 @@ public class myNode implements BaseNode {
         Random rand = new Random();
         int ind = rand.nextInt(allID.size());
         SendHello helloMessage = new SendHello(msg, selfID, allID.get(ind));
-        Simulator.Submit(selfID, allID.get(ind), helloMessage);
+        network.send(allID.get(ind), helloMessage);
     }
 
     @Override
@@ -46,8 +50,8 @@ public class myNode implements BaseNode {
     }
 
     @Override
-    public BaseNode newInstance(UUID ID) {
-        return new myNode(ID);
+    public BaseNode newInstance(UUID ID, MiddleLayer network) {
+        return new myNode(ID, network);
     }
 
     @Override

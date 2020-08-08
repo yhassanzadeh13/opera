@@ -1,4 +1,7 @@
-package Simulator;
+package Node;
+
+import underlay.MiddleLayer;
+import underlay.packets.Event;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -14,10 +17,10 @@ public class NodeThread<T extends BaseNode> extends Thread {
     private final AtomicBoolean running = new AtomicBoolean(false);
 
 
-    public NodeThread(T factory, UUID selfID, ArrayList<UUID> allID) {
+    public NodeThread(T factory, UUID selfID, ArrayList<UUID> allID, MiddleLayer middleLayer) {
         this.selfID = selfID;
         this.allID = allID;
-        Node = factory.newInstance(selfID);
+        Node = factory.newInstance(selfID, middleLayer);
     }
 
     @Override

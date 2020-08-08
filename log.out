@@ -1,283 +1,1258 @@
-Generating IDs for 4 node..
+Generating IDs for 10 node..
+  Generating full Addresses for 10 node..
   Nodes IDs are:
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5
-  1ba144b0-1ca3-4281-9af7-646927fe1a9b
-  c83959b4-321e-4277-a5de-a9249995a977
-  d9fa28f9-10a3-44be-852c-164bb2597584
-  Generating nodes instanes
-  Contestant ef53e349-c28b-4c5c-a18c-4032bb5f1fa5was initialized with level 12
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: node is ready
-  Contestant 1ba144b0-1ca3-4281-9af7-646927fe1a9bwas initialized with level 8
-  1ba144b0-1ca3-4281-9af7-646927fe1a9b: node is ready
-  Contestant c83959b4-321e-4277-a5de-a9249995a977was initialized with level 7
-  c83959b4-321e-4277-a5de-a9249995a977: node is ready
-  Contestant d9fa28f9-10a3-44be-852c-164bb2597584was initialized with level 24
-  d9fa28f9-10a3-44be-852c-164bb2597584: node is ready
-  New simulation started on 2020/07/10 14:36:32
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> 1ba144b0-1ca3-4281-9af7-646927fe1a9b: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation is pending 1ba144b0-1ca3-4281-9af7-646927fe1a9b Confirmation
-  1ba144b0-1ca3-4281-9af7-646927fe1a9b --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: 1ba144b0-1ca3-4281-9af7-646927fe1a9b confirms ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: node started
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 is fighting against 1ba144b0-1ca3-4281-9af7-646927fe1a9b
-  1ba144b0-1ca3-4281-9af7-646927fe1a9b: node started
-  1ba144b0-1ca3-4281-9af7-646927fe1a9b --> c83959b4-321e-4277-a5de-a9249995a977: 1ba144b0-1ca3-4281-9af7-646927fe1a9b declines c83959b4-321e-4277-a5de-a9249995a977 Invitation
-  c83959b4-321e-4277-a5de-a9249995a977 --> 1ba144b0-1ca3-4281-9af7-646927fe1a9b: c83959b4-321e-4277-a5de-a9249995a977 Invitation is pending 1ba144b0-1ca3-4281-9af7-646927fe1a9b Confirmation
-  c83959b4-321e-4277-a5de-a9249995a977: node started
-  d9fa28f9-10a3-44be-852c-164bb2597584 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: d9fa28f9-10a3-44be-852c-164bb2597584 Invitation is pending ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Confirmation
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 declines d9fa28f9-10a3-44be-852c-164bb2597584 Invitation
-  d9fa28f9-10a3-44be-852c-164bb2597584: node started
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> 1ba144b0-1ca3-4281-9af7-646927fe1a9b: 1ba144b0-1ca3-4281-9af7-646927fe1a9b defeated ef53e349-c28b-4c5c-a18c-4032bb5f1fa5
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 gains 5 points
-  1ba144b0-1ca3-4281-9af7-646927fe1a9b losses 10 points
-  1ba144b0-1ca3-4281-9af7-646927fe1a9b: node is terminating...
-  accessing allInstances was locked
-  accessing allInstances was released
-  1ba144b0-1ca3-4281-9af7-646927fe1a9b: node has been terminated
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> c83959b4-321e-4277-a5de-a9249995a977: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation is pending c83959b4-321e-4277-a5de-a9249995a977 Confirmation
-  c83959b4-321e-4277-a5de-a9249995a977 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: c83959b4-321e-4277-a5de-a9249995a977 confirms ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 is fighting against c83959b4-321e-4277-a5de-a9249995a977
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> c83959b4-321e-4277-a5de-a9249995a977: c83959b4-321e-4277-a5de-a9249995a977 defeated ef53e349-c28b-4c5c-a18c-4032bb5f1fa5
-  c83959b4-321e-4277-a5de-a9249995a977 losses 10 points
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 gains 5 points
-  c83959b4-321e-4277-a5de-a9249995a977: node is terminating...
-  accessing allInstances was locked
-  accessing allInstances was released
-  c83959b4-321e-4277-a5de-a9249995a977: node has been terminated
-  c83959b4-321e-4277-a5de-a9249995a977: Node is currently off
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> c83959b4-321e-4277-a5de-a9249995a977: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation is pending c83959b4-321e-4277-a5de-a9249995a977 Confirmation was not able to be sent to node 
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation is pending d9fa28f9-10a3-44be-852c-164bb2597584 Confirmation
-  d9fa28f9-10a3-44be-852c-164bb2597584 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: d9fa28f9-10a3-44be-852c-164bb2597584 confirms ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 is fighting against d9fa28f9-10a3-44be-852c-164bb2597584
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 defeated d9fa28f9-10a3-44be-852c-164bb2597584
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 losses 10 points
-  d9fa28f9-10a3-44be-852c-164bb2597584 gains 5 points
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation is pending d9fa28f9-10a3-44be-852c-164bb2597584 Confirmation
-  d9fa28f9-10a3-44be-852c-164bb2597584 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: d9fa28f9-10a3-44be-852c-164bb2597584 Invitation is pending ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Confirmation
-  d9fa28f9-10a3-44be-852c-164bb2597584 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: d9fa28f9-10a3-44be-852c-164bb2597584 confirms ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 confirms d9fa28f9-10a3-44be-852c-164bb2597584 Invitation
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 aborted the game
-  d9fa28f9-10a3-44be-852c-164bb2597584 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: d9fa28f9-10a3-44be-852c-164bb2597584 Invitation is pending ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Confirmation
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 declines d9fa28f9-10a3-44be-852c-164bb2597584 Invitation
-  d9fa28f9-10a3-44be-852c-164bb2597584 is fighting against ef53e349-c28b-4c5c-a18c-4032bb5f1fa5
-  d9fa28f9-10a3-44be-852c-164bb2597584 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 defeated d9fa28f9-10a3-44be-852c-164bb2597584
-  d9fa28f9-10a3-44be-852c-164bb2597584 gains 5 points
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 losses 10 points
-  d9fa28f9-10a3-44be-852c-164bb2597584 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: d9fa28f9-10a3-44be-852c-164bb2597584 Invitation is pending ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Confirmation
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation is pending d9fa28f9-10a3-44be-852c-164bb2597584 Confirmation
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 confirms d9fa28f9-10a3-44be-852c-164bb2597584 Invitation
-  d9fa28f9-10a3-44be-852c-164bb2597584 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: d9fa28f9-10a3-44be-852c-164bb2597584 confirms ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Invitation
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 aborted the game
-  d9fa28f9-10a3-44be-852c-164bb2597584 --> ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: d9fa28f9-10a3-44be-852c-164bb2597584 Invitation is pending ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 Confirmation
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 --> d9fa28f9-10a3-44be-852c-164bb2597584: ef53e349-c28b-4c5c-a18c-4032bb5f1fa5 declines d9fa28f9-10a3-44be-852c-164bb2597584 Invitation
-  d9fa28f9-10a3-44be-852c-164bb2597584 is fighting against ef53e349-c28b-4c5c-a18c-4032bb5f1fa5
+  77f7ed23-04e6-44f0-8c06-e4730bd2f0d2
+  976f6379-fbad-4a23-87e9-8908d52f44a4
+  c695bbf0-3d1f-45b3-b33d-d9b8fc0120dd
+  86f6461f-8b88-41a3-baec-d33af019e0be
+  19acb4b8-a93e-4307-8138-14a415becee7
+  583abd90-bdbe-49f4-8778-0a9cab0f2b32
+  3282e1cb-41dd-46b0-a2ca-c7652b70391f
+  b5453445-79fe-4840-8d76-f061f5ebed8b
+  746899fa-9772-409e-8991-5b004de6e9c8
+  f7145539-f813-4686-a26f-8a64d81ef914
+  Nodes Addresses are:
+  localhost:2002
+  localhost:2008
+  localhost:2001
+  localhost:2003
+  localhost:2006
+  localhost:2000
+  localhost:2004
+  localhost:2005
+  localhost:2007
+  localhost:2009
+  Generating new nodes instances
+  Contestant c695bbf0-3d1f-45b3-b33d-d9b8fc0120ddwas initialized with level 22
+  c695bbf0-3d1f-45b3-b33d-d9b8fc0120dd: node is ready
+  Contestant 976f6379-fbad-4a23-87e9-8908d52f44a4was initialized with level 28
+  976f6379-fbad-4a23-87e9-8908d52f44a4: node is ready
+  Contestant 19acb4b8-a93e-4307-8138-14a415becee7was initialized with level 4
+  19acb4b8-a93e-4307-8138-14a415becee7: node is ready
+  Contestant 86f6461f-8b88-41a3-baec-d33af019e0bewas initialized with level 1
+  86f6461f-8b88-41a3-baec-d33af019e0be: node is ready
+  Contestant 3282e1cb-41dd-46b0-a2ca-c7652b70391fwas initialized with level 4
+  3282e1cb-41dd-46b0-a2ca-c7652b70391f: node is ready
+  Contestant 583abd90-bdbe-49f4-8778-0a9cab0f2b32was initialized with level 11
+  583abd90-bdbe-49f4-8778-0a9cab0f2b32: node is ready
+  Contestant 746899fa-9772-409e-8991-5b004de6e9c8was initialized with level 19
+  746899fa-9772-409e-8991-5b004de6e9c8: node is ready
+  Contestant b5453445-79fe-4840-8d76-f061f5ebed8bwas initialized with level 10
+  b5453445-79fe-4840-8d76-f061f5ebed8b: node is ready
+  Contestant f7145539-f813-4686-a26f-8a64d81ef914was initialized with level 8
+  f7145539-f813-4686-a26f-8a64d81ef914: node is ready
+  Contestant 77f7ed23-04e6-44f0-8c06-e4730bd2f0d2was initialized with level 25
+  77f7ed23-04e6-44f0-8c06-e4730bd2f0d2: node is ready
+  New simulation started on 2020/07/18 19:29:57
+  c695bbf0-3d1f-45b3-b33d-d9b8fc0120dd is fighting against 77f7ed23-04e6-44f0-8c06-e4730bd2f0d2
+  976f6379-fbad-4a23-87e9-8908d52f44a4 is fighting against 583abd90-bdbe-49f4-8778-0a9cab0f2b32
+  86f6461f-8b88-41a3-baec-d33af019e0be is fighting against 19acb4b8-a93e-4307-8138-14a415becee7
+  3282e1cb-41dd-46b0-a2ca-c7652b70391f is fighting against 746899fa-9772-409e-8991-5b004de6e9c8
+  b5453445-79fe-4840-8d76-f061f5ebed8b is fighting against f7145539-f813-4686-a26f-8a64d81ef914
+  86f6461f-8b88-41a3-baec-d33af019e0be losses 10 points
+  19acb4b8-a93e-4307-8138-14a415becee7 gains 5 points
+  86f6461f-8b88-41a3-baec-d33af019e0be: node is terminating...
+  86f6461f-8b88-41a3-baec-d33af019e0be: node has been terminated
+  976f6379-fbad-4a23-87e9-8908d52f44a4 gains 5 points
+  583abd90-bdbe-49f4-8778-0a9cab0f2b32 losses 10 points
+  3282e1cb-41dd-46b0-a2ca-c7652b70391f losses 10 points
+  3282e1cb-41dd-46b0-a2ca-c7652b70391f: node is terminating...
+  746899fa-9772-409e-8991-5b004de6e9c8 gains 5 points
+  3282e1cb-41dd-46b0-a2ca-c7652b70391f: node has been terminated
+  c695bbf0-3d1f-45b3-b33d-d9b8fc0120dd losses 10 points
+  77f7ed23-04e6-44f0-8c06-e4730bd2f0d2 gains 5 points
+  c695bbf0-3d1f-45b3-b33d-d9b8fc0120dd is fighting against 976f6379-fbad-4a23-87e9-8908d52f44a4
+  b5453445-79fe-4840-8d76-f061f5ebed8b gains 5 points
+  f7145539-f813-4686-a26f-8a64d81ef914 losses 10 points
+  f7145539-f813-4686-a26f-8a64d81ef914: node is terminating...
+  f7145539-f813-4686-a26f-8a64d81ef914: node has been terminated
+  b5453445-79fe-4840-8d76-f061f5ebed8b is fighting against 746899fa-9772-409e-8991-5b004de6e9c8
+  b5453445-79fe-4840-8d76-f061f5ebed8b losses 10 points
+  746899fa-9772-409e-8991-5b004de6e9c8 gains 5 points
+  c695bbf0-3d1f-45b3-b33d-d9b8fc0120dd losses 10 points
+  976f6379-fbad-4a23-87e9-8908d52f44a4 gains 5 points
+  c695bbf0-3d1f-45b3-b33d-d9b8fc0120dd is fighting against b5453445-79fe-4840-8d76-f061f5ebed8b
+  77f7ed23-04e6-44f0-8c06-e4730bd2f0d2 is fighting against 583abd90-bdbe-49f4-8778-0a9cab0f2b32
+  77f7ed23-04e6-44f0-8c06-e4730bd2f0d2 gains 5 points
+  583abd90-bdbe-49f4-8778-0a9cab0f2b32 losses 10 points
+  583abd90-bdbe-49f4-8778-0a9cab0f2b32: node is terminating...
+  583abd90-bdbe-49f4-8778-0a9cab0f2b32: node has been terminated
+  c695bbf0-3d1f-45b3-b33d-d9b8fc0120dd losses 10 points
+  c695bbf0-3d1f-45b3-b33d-d9b8fc0120dd: node is terminating...
+  b5453445-79fe-4840-8d76-f061f5ebed8b gains 5 points
+  c695bbf0-3d1f-45b3-b33d-d9b8fc0120dd: node has been terminated
+  b5453445-79fe-4840-8d76-f061f5ebed8b is fighting against 746899fa-9772-409e-8991-5b004de6e9c8
+  b5453445-79fe-4840-8d76-f061f5ebed8b losses 10 points
+  b5453445-79fe-4840-8d76-f061f5ebed8b: node is terminating...
+  746899fa-9772-409e-8991-5b004de6e9c8 gains 5 points
+  b5453445-79fe-4840-8d76-f061f5ebed8b: node has been terminated
+  746899fa-9772-409e-8991-5b004de6e9c8 is fighting against 77f7ed23-04e6-44f0-8c06-e4730bd2f0d2
+  746899fa-9772-409e-8991-5b004de6e9c8 losses 10 points
+  77f7ed23-04e6-44f0-8c06-e4730bd2f0d2 gains 5 points
+  77f7ed23-04e6-44f0-8c06-e4730bd2f0d2 is fighting against 746899fa-9772-409e-8991-5b004de6e9c8
+  77f7ed23-04e6-44f0-8c06-e4730bd2f0d2 gains 5 points
+  746899fa-9772-409e-8991-5b004de6e9c8 losses 10 points
+  77f7ed23-04e6-44f0-8c06-e4730bd2f0d2 is fighting against 746899fa-9772-409e-8991-5b004de6e9c8
+  77f7ed23-04e6-44f0-8c06-e4730bd2f0d2 gains 5 points
+  746899fa-9772-409e-8991-5b004de6e9c8 losses 10 points
+  746899fa-9772-409e-8991-5b004de6e9c8 is fighting against 77f7ed23-04e6-44f0-8c06-e4730bd2f0d2
   Simulation duration finished
   Nodes will be terminated....
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: node is terminating...
-  accessing allInstances was locked
-  accessing allInstances was released
-  ef53e349-c28b-4c5c-a18c-4032bb5f1fa5: node has been terminated
-  d9fa28f9-10a3-44be-852c-164bb2597584: node is terminating...
-  accessing allInstances was locked
-  accessing allInstances was released
-  d9fa28f9-10a3-44be-852c-164bb2597584: node has been terminated
-  d9fa28f9-10a3-44be-852c-164bb2597584: Node is not ready yet..
-  d9fa28f9-10a3-44be-852c-164bb2597584 gains 5 points
+  77f7ed23-04e6-44f0-8c06-e4730bd2f0d2: node is terminating...
+  77f7ed23-04e6-44f0-8c06-e4730bd2f0d2: node has been terminated
+  976f6379-fbad-4a23-87e9-8908d52f44a4: node is terminating...
+  976f6379-fbad-4a23-87e9-8908d52f44a4: node has been terminated
+  746899fa-9772-409e-8991-5b004de6e9c8: node is terminating...
+  746899fa-9772-409e-8991-5b004de6e9c8: node has been terminated
+  19acb4b8-a93e-4307-8138-14a415becee7: node is terminating...
+  19acb4b8-a93e-4307-8138-14a415becee7: node has been terminated
+  localhost: Node is not found
+  746899fa-9772-409e-8991-5b004de6e9c8 losses 10 points
+  746899fa-9772-409e-8991-5b004de6e9c8: node is terminating...
+  [Simulator] Cannot find node 746899fa-9772-409e-8991-5b004de6e9c8
+  [Simulator] Node 746899fa-9772-409e-8991-5b004de6e9c8has already been terminate
+  746899fa-9772-409e-8991-5b004de6e9c8: node has been terminated
+  Generating IDs for 10 node..
+  Generating full Addresses for 10 node..
+  Nodes IDs are:
+  eb31bd83-f047-42bf-9867-5ab6869a2d80
+  75faee95-1a39-49bb-bf35-a8d3a972599b
+  0332e864-6634-4db9-8ac0-e54d7f5a4dd0
+  1cac90b6-0c09-4917-9909-70a0332b212a
+  c88dd8f4-4c75-4fd1-a9ce-930d42b639f7
+  f92e53b6-f396-4a0e-a7ec-5151a77175b6
+  ea3604a3-5c21-457d-99a6-90704b5d1d23
+  30345084-1dab-4bd5-862c-1d9ce480bc80
+  d79ee701-5658-4996-8c2c-861258eab242
+  54286151-1a5d-44b2-8f2d-d5182d72a441
+  Nodes Addresses are:
+  localhost:2009
+  localhost:2000
+  localhost:2006
+  localhost:2001
+  localhost:2008
+  localhost:2005
+  localhost:2002
+  localhost:2003
+  localhost:2007
+  localhost:2004
+  Generating new nodes instances
+  Contestant 0332e864-6634-4db9-8ac0-e54d7f5a4dd0was initialized with level 13
+  0332e864-6634-4db9-8ac0-e54d7f5a4dd0: node is ready
+  Contestant 75faee95-1a39-49bb-bf35-a8d3a972599bwas initialized with level 2
+  75faee95-1a39-49bb-bf35-a8d3a972599b: node is ready
+  Contestant c88dd8f4-4c75-4fd1-a9ce-930d42b639f7was initialized with level 23
+  c88dd8f4-4c75-4fd1-a9ce-930d42b639f7: node is ready
+  Contestant 1cac90b6-0c09-4917-9909-70a0332b212awas initialized with level 29
+  1cac90b6-0c09-4917-9909-70a0332b212a: node is ready
+  Contestant ea3604a3-5c21-457d-99a6-90704b5d1d23was initialized with level 7
+  ea3604a3-5c21-457d-99a6-90704b5d1d23: node is ready
+  Contestant f92e53b6-f396-4a0e-a7ec-5151a77175b6was initialized with level 22
+  f92e53b6-f396-4a0e-a7ec-5151a77175b6: node is ready
+  Contestant d79ee701-5658-4996-8c2c-861258eab242was initialized with level 14
+  d79ee701-5658-4996-8c2c-861258eab242: node is ready
+  Contestant 30345084-1dab-4bd5-862c-1d9ce480bc80was initialized with level 12
+  30345084-1dab-4bd5-862c-1d9ce480bc80: node is ready
+  Contestant 54286151-1a5d-44b2-8f2d-d5182d72a441was initialized with level 14
+  54286151-1a5d-44b2-8f2d-d5182d72a441: node is ready
+  Contestant eb31bd83-f047-42bf-9867-5ab6869a2d80was initialized with level 27
+  eb31bd83-f047-42bf-9867-5ab6869a2d80: node is ready
+  New simulation started on 2020/07/18 19:30:57
+  0332e864-6634-4db9-8ac0-e54d7f5a4dd0 is fighting against 30345084-1dab-4bd5-862c-1d9ce480bc80
+  75faee95-1a39-49bb-bf35-a8d3a972599b is fighting against c88dd8f4-4c75-4fd1-a9ce-930d42b639f7
+  1cac90b6-0c09-4917-9909-70a0332b212a is fighting against eb31bd83-f047-42bf-9867-5ab6869a2d80
+  ea3604a3-5c21-457d-99a6-90704b5d1d23 is fighting against f92e53b6-f396-4a0e-a7ec-5151a77175b6
+  d79ee701-5658-4996-8c2c-861258eab242 is fighting against 54286151-1a5d-44b2-8f2d-d5182d72a441
+  75faee95-1a39-49bb-bf35-a8d3a972599b losses 10 points
+  75faee95-1a39-49bb-bf35-a8d3a972599b: node is terminating...
+  c88dd8f4-4c75-4fd1-a9ce-930d42b639f7 gains 5 points
+  75faee95-1a39-49bb-bf35-a8d3a972599b: node has been terminated
+  0332e864-6634-4db9-8ac0-e54d7f5a4dd0 gains 5 points
+  30345084-1dab-4bd5-862c-1d9ce480bc80 losses 10 points
+  0332e864-6634-4db9-8ac0-e54d7f5a4dd0 is fighting against c88dd8f4-4c75-4fd1-a9ce-930d42b639f7
+  1cac90b6-0c09-4917-9909-70a0332b212a gains 5 points
+  eb31bd83-f047-42bf-9867-5ab6869a2d80 losses 10 points
+  ea3604a3-5c21-457d-99a6-90704b5d1d23 losses 10 points
+  f92e53b6-f396-4a0e-a7ec-5151a77175b6 gains 5 points
+  ea3604a3-5c21-457d-99a6-90704b5d1d23: node is terminating...
+  ea3604a3-5c21-457d-99a6-90704b5d1d23: node has been terminated
+  d79ee701-5658-4996-8c2c-861258eab242 gains 1 point
+  54286151-1a5d-44b2-8f2d-d5182d72a441 gains 1 point
+  d79ee701-5658-4996-8c2c-861258eab242 is fighting against 54286151-1a5d-44b2-8f2d-d5182d72a441
+  0332e864-6634-4db9-8ac0-e54d7f5a4dd0 losses 10 points
+  c88dd8f4-4c75-4fd1-a9ce-930d42b639f7 gains 5 points
+  0332e864-6634-4db9-8ac0-e54d7f5a4dd0 is fighting against 1cac90b6-0c09-4917-9909-70a0332b212a
+  c88dd8f4-4c75-4fd1-a9ce-930d42b639f7 is fighting against 1cac90b6-0c09-4917-9909-70a0332b212a
+  0332e864-6634-4db9-8ac0-e54d7f5a4dd0 losses 10 points
+  1cac90b6-0c09-4917-9909-70a0332b212a gains 5 points
+  0332e864-6634-4db9-8ac0-e54d7f5a4dd0: node is terminating...
+  0332e864-6634-4db9-8ac0-e54d7f5a4dd0: node has been terminated
+  d79ee701-5658-4996-8c2c-861258eab242 gains 1 point
+  54286151-1a5d-44b2-8f2d-d5182d72a441 gains 1 point
+  54286151-1a5d-44b2-8f2d-d5182d72a441 is fighting against 1cac90b6-0c09-4917-9909-70a0332b212a
+  d79ee701-5658-4996-8c2c-861258eab242 is fighting against f92e53b6-f396-4a0e-a7ec-5151a77175b6
+  d79ee701-5658-4996-8c2c-861258eab242 losses 10 points
+  f92e53b6-f396-4a0e-a7ec-5151a77175b6 gains 5 points
+  d79ee701-5658-4996-8c2c-861258eab242 is fighting against 30345084-1dab-4bd5-862c-1d9ce480bc80
+  c88dd8f4-4c75-4fd1-a9ce-930d42b639f7 losses 10 points
+  1cac90b6-0c09-4917-9909-70a0332b212a gains 5 points
+  d79ee701-5658-4996-8c2c-861258eab242 gains 5 points
+  30345084-1dab-4bd5-862c-1d9ce480bc80 losses 10 points
+  30345084-1dab-4bd5-862c-1d9ce480bc80: node is terminating...
+  30345084-1dab-4bd5-862c-1d9ce480bc80: node has been terminated
+  d79ee701-5658-4996-8c2c-861258eab242 is fighting against 1cac90b6-0c09-4917-9909-70a0332b212a
+  54286151-1a5d-44b2-8f2d-d5182d72a441 losses 10 points
+  1cac90b6-0c09-4917-9909-70a0332b212a gains 5 points
+  54286151-1a5d-44b2-8f2d-d5182d72a441 is fighting against eb31bd83-f047-42bf-9867-5ab6869a2d80
+  1cac90b6-0c09-4917-9909-70a0332b212a is fighting against eb31bd83-f047-42bf-9867-5ab6869a2d80
+  54286151-1a5d-44b2-8f2d-d5182d72a441 losses 10 points
+  54286151-1a5d-44b2-8f2d-d5182d72a441: node is terminating...
+  eb31bd83-f047-42bf-9867-5ab6869a2d80 gains 5 points
+  54286151-1a5d-44b2-8f2d-d5182d72a441: node has been terminated
+  eb31bd83-f047-42bf-9867-5ab6869a2d80 is fighting against f92e53b6-f396-4a0e-a7ec-5151a77175b6
+  1cac90b6-0c09-4917-9909-70a0332b212a gains 5 points
+  d79ee701-5658-4996-8c2c-861258eab242 losses 10 points
+  1cac90b6-0c09-4917-9909-70a0332b212a gains 5 points
+  d79ee701-5658-4996-8c2c-861258eab242 is fighting against 1cac90b6-0c09-4917-9909-70a0332b212a
+  Simulation duration finished
+  Nodes will be terminated....
+  1cac90b6-0c09-4917-9909-70a0332b212a: node is terminating...
+  1cac90b6-0c09-4917-9909-70a0332b212a: node has been terminated
+  d79ee701-5658-4996-8c2c-861258eab242: node is terminating...
+  d79ee701-5658-4996-8c2c-861258eab242: node has been terminated
+  f92e53b6-f396-4a0e-a7ec-5151a77175b6: node is terminating...
+  f92e53b6-f396-4a0e-a7ec-5151a77175b6: node has been terminated
+  c88dd8f4-4c75-4fd1-a9ce-930d42b639f7: node is terminating...
+  c88dd8f4-4c75-4fd1-a9ce-930d42b639f7: node has been terminated
+  eb31bd83-f047-42bf-9867-5ab6869a2d80: node is terminating...
+  eb31bd83-f047-42bf-9867-5ab6869a2d80: node has been terminated
+  localhost: Node is not found
+  eb31bd83-f047-42bf-9867-5ab6869a2d80 losses 10 points
+  eb31bd83-f047-42bf-9867-5ab6869a2d80 losses 10 points
+  localhost: Node is not found
+  d79ee701-5658-4996-8c2c-861258eab242 losses 10 points
+  d79ee701-5658-4996-8c2c-861258eab242: node is terminating...
+  [Simulator] Cannot find node d79ee701-5658-4996-8c2c-861258eab242
+  [Simulator] Node d79ee701-5658-4996-8c2c-861258eab242has already been terminate
+  d79ee701-5658-4996-8c2c-861258eab242: node has been terminated
+  Generating IDs for 20 node..
+  Generating full Addresses for 20 node..
+  Nodes IDs are:
+  c4ec6552-a30c-47e3-a75f-187185c337c4
+  ec09cffe-1fba-4711-b595-e95002044e9a
+  b091f7dc-9366-4494-8810-2a9ce3a5ca23
+  3bec4a4b-c7b8-44f5-a439-ee300701ac3c
+  26862f71-5f5c-4955-898f-eefc4f002fd9
+  8c17d993-be9a-4c2a-8a21-5bfade6563cb
+  58c0a22d-1c6c-412d-ad55-39b78e7339b3
+  5b7d8d57-ed69-42f7-a929-cf034f67a382
+  ad9f91a9-d957-4fde-85c0-f74ade8b2052
+  5eaf76af-9ff7-49c2-8a7f-d0a02872f448
+  42b52fa3-689e-4111-b70e-2605f9e619c2
+  45b5e67c-6f64-4010-91f1-9e727c5c5ffa
+  63ec1044-071e-4c13-a90e-47f4d9bcd8f5
+  faf7a8b0-07ca-4e16-909d-7e1cb8943929
+  5c96e41d-5827-4354-84b8-d416ba2883dd
+  2e85ee08-e820-4b49-a36b-533f9c42c029
+  4894ecda-9efc-4a78-8d04-c359075d3a60
+  04dbd340-c73d-4367-9aa6-742fd5e217bb
+  2b6c4d49-1a2d-4fa2-9509-7a60809283f1
+  324cf04c-f1c0-478d-ac3b-4be94b94229d
+  Nodes Addresses are:
+  localhost:2018
+  localhost:2005
+  localhost:2014
+  localhost:2001
+  localhost:2013
+  localhost:2016
+  localhost:2008
+  localhost:2006
+  localhost:2009
+  localhost:2017
+  localhost:2004
+  localhost:2002
+  localhost:2010
+  localhost:2012
+  localhost:2019
+  localhost:2000
+  localhost:2011
+  localhost:2007
+  localhost:2015
+  localhost:2003
+  Generating new nodes instances
+  c4ec6552-a30c-47e3-a75f-187185c337c4: node is ready
+  ec09cffe-1fba-4711-b595-e95002044e9a: node is ready
+  b091f7dc-9366-4494-8810-2a9ce3a5ca23: node is ready
+  3bec4a4b-c7b8-44f5-a439-ee300701ac3c: node is ready
+  26862f71-5f5c-4955-898f-eefc4f002fd9: node is ready
+  8c17d993-be9a-4c2a-8a21-5bfade6563cb: node is ready
+  58c0a22d-1c6c-412d-ad55-39b78e7339b3: node is ready
+  5b7d8d57-ed69-42f7-a929-cf034f67a382: node is ready
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  0e33ede6-43a5-4782-8e32-d010ab27b120
+  4c846de2-426b-45cf-8aeb-572299bdef7c
+  4b2c77de-32d2-472f-990b-2f37b1b3faaf
+  Nodes Addresses are:
+  localhost:2000
+  localhost:2001
+  localhost:2002
+  Generating new nodes instances
+  0e33ede6-43a5-4782-8e32-d010ab27b120: node is ready
+  4c846de2-426b-45cf-8aeb-572299bdef7c: node is ready
+  4b2c77de-32d2-472f-990b-2f37b1b3faaf: node is ready
+  New simulation started on 2020/07/18 19:42:10
+  Simulation duration finished
+  Nodes will be terminated....
+  4b2c77de-32d2-472f-990b-2f37b1b3faaf: node is terminating...
+  4b2c77de-32d2-472f-990b-2f37b1b3faaf: node has been terminated
+  4c846de2-426b-45cf-8aeb-572299bdef7c: node is terminating...
+  4c846de2-426b-45cf-8aeb-572299bdef7c: node has been terminated
+  0e33ede6-43a5-4782-8e32-d010ab27b120: node is terminating...
+  0e33ede6-43a5-4782-8e32-d010ab27b120: node has been terminated
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  25d42f18-6016-4214-a4ac-8b4a6ec2d43d
+  6422dc1c-deac-4733-b673-cf01f92eea88
+  d9c09676-fff3-4b25-b68a-b96333e6b3fb
+  Nodes Addresses are:
+  192.168.1.102:2002
+  192.168.1.102:2001
+  192.168.1.102:2000
+  Generating new nodes instances
+  25d42f18-6016-4214-a4ac-8b4a6ec2d43d: node is ready
+  6422dc1c-deac-4733-b673-cf01f92eea88: node is ready
+  d9c09676-fff3-4b25-b68a-b96333e6b3fb: node is ready
+  New simulation started on 2020/07/18 19:45:06
+  Simulation duration finished
+  Nodes will be terminated....
+  d9c09676-fff3-4b25-b68a-b96333e6b3fb: node is terminating...
+  d9c09676-fff3-4b25-b68a-b96333e6b3fb: node has been terminated
+  6422dc1c-deac-4733-b673-cf01f92eea88: node is terminating...
+  6422dc1c-deac-4733-b673-cf01f92eea88: node has been terminated
+  25d42f18-6016-4214-a4ac-8b4a6ec2d43d: node is terminating...
+  25d42f18-6016-4214-a4ac-8b4a6ec2d43d: node has been terminated
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  a884b4f6-c7e7-4056-a9f4-427882af6fc8
+  6e689db9-613b-4876-9101-24bf23e8d6bc
+  92d45bf1-2836-454c-9001-a8b4584be2f2
+  Nodes Addresses are:
+  192.168.1.102:2002
+  192.168.1.102:2001
+  192.168.1.102:2000
+  Generating new nodes instances
+  a884b4f6-c7e7-4056-a9f4-427882af6fc8: node is ready
+  6e689db9-613b-4876-9101-24bf23e8d6bc: node is ready
+  92d45bf1-2836-454c-9001-a8b4584be2f2: node is ready
+  New simulation started on 2020/07/18 19:45:51
+  Simulation duration finished
+  Nodes will be terminated....
+  92d45bf1-2836-454c-9001-a8b4584be2f2: node is terminating...
+  92d45bf1-2836-454c-9001-a8b4584be2f2: node has been terminated
+  6e689db9-613b-4876-9101-24bf23e8d6bc: node is terminating...
+  6e689db9-613b-4876-9101-24bf23e8d6bc: node has been terminated
+  a884b4f6-c7e7-4056-a9f4-427882af6fc8: node is terminating...
+  a884b4f6-c7e7-4056-a9f4-427882af6fc8: node has been terminated
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  df960ef2-4152-470f-8e2a-c028e75f51d1
+  203abf00-7e27-4797-bc01-a38d4184b380
+  74cf9108-8085-4939-9d7e-7534ba93f7fd
+  Nodes Addresses are:
+  192.168.1.102:2001
+  192.168.1.102:2000
+  192.168.1.102:2002
+  Generating new nodes instances
+  df960ef2-4152-470f-8e2a-c028e75f51d1: node is ready
+  203abf00-7e27-4797-bc01-a38d4184b380: node is ready
+  74cf9108-8085-4939-9d7e-7534ba93f7fd: node is ready
+  New simulation started on 2020/07/18 19:51:44
+  Simulation duration finished
+  Nodes will be terminated....
+  74cf9108-8085-4939-9d7e-7534ba93f7fd: node is terminating...
+  74cf9108-8085-4939-9d7e-7534ba93f7fd: node has been terminated
+  203abf00-7e27-4797-bc01-a38d4184b380: node is terminating...
+  203abf00-7e27-4797-bc01-a38d4184b380: node has been terminated
+  df960ef2-4152-470f-8e2a-c028e75f51d1: node is terminating...
+  df960ef2-4152-470f-8e2a-c028e75f51d1: node has been terminated
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  920e364a-4748-47b8-bb55-ef8d50fb470a
+  a750e463-2384-44f7-9908-2780e98b55e0
+  3e22cc41-8741-444a-acad-db27b7088630
+  Nodes Addresses are:
+  192.168.1.102:2001
+  192.168.1.102:2002
+  192.168.1.102:2000
+  Generating new nodes instances
+  920e364a-4748-47b8-bb55-ef8d50fb470a: node is ready
+  a750e463-2384-44f7-9908-2780e98b55e0: node is ready
+  3e22cc41-8741-444a-acad-db27b7088630: node is ready
+  New simulation started on 2020/07/18 19:52:23
+  Simulation duration finished
+  Nodes will be terminated....
+  3e22cc41-8741-444a-acad-db27b7088630: node is terminating...
+  3e22cc41-8741-444a-acad-db27b7088630: node has been terminated
+  a750e463-2384-44f7-9908-2780e98b55e0: node is terminating...
+  a750e463-2384-44f7-9908-2780e98b55e0: node has been terminated
+  920e364a-4748-47b8-bb55-ef8d50fb470a: node is terminating...
+  920e364a-4748-47b8-bb55-ef8d50fb470a: node has been terminated
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  4668f9e4-caa3-4fd1-ad00-c8b358f80c85
+  ead5cb11-5ac6-46f2-a18b-d9c7e6bd3606
+  7777adcc-4c84-4003-bc62-0af1ab3b0032
+  Nodes Addresses are:
+  192.168.1.102:2000
+  192.168.1.102:2002
+  192.168.1.102:2001
+  Generating new nodes instances
+  4668f9e4-caa3-4fd1-ad00-c8b358f80c85: node is ready
+  ead5cb11-5ac6-46f2-a18b-d9c7e6bd3606: node is ready
+  7777adcc-4c84-4003-bc62-0af1ab3b0032: node is ready
+  New simulation started on 2020/07/18 19:52:51
+  Simulation duration finished
+  Nodes will be terminated....
+  7777adcc-4c84-4003-bc62-0af1ab3b0032: node is terminating...
+  7777adcc-4c84-4003-bc62-0af1ab3b0032: node has been terminated
+  ead5cb11-5ac6-46f2-a18b-d9c7e6bd3606: node is terminating...
+  ead5cb11-5ac6-46f2-a18b-d9c7e6bd3606: node has been terminated
+  4668f9e4-caa3-4fd1-ad00-c8b358f80c85: node is terminating...
+  4668f9e4-caa3-4fd1-ad00-c8b358f80c85: node has been terminated
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  75200426-235a-4c61-84f9-5fe851df1243
+  8fc4c609-bcfa-4fb0-8d8c-c9a5dddbeec9
+  0aed51ad-0939-42d4-a258-dbc51812de9c
+  Nodes Addresses are:
+  192.168.1.102:2000
+  192.168.1.102:2001
+  192.168.1.102:2002
+  Generating new nodes instances
+  75200426-235a-4c61-84f9-5fe851df1243: node is ready
+  8fc4c609-bcfa-4fb0-8d8c-c9a5dddbeec9: node is ready
+  0aed51ad-0939-42d4-a258-dbc51812de9c: node is ready
+  New simulation started on 2020/07/18 19:54:18
+  Simulation duration finished
+  Nodes will be terminated....
+  0aed51ad-0939-42d4-a258-dbc51812de9c: node is terminating...
+  0aed51ad-0939-42d4-a258-dbc51812de9c: node has been terminated
+  8fc4c609-bcfa-4fb0-8d8c-c9a5dddbeec9: node is terminating...
+  8fc4c609-bcfa-4fb0-8d8c-c9a5dddbeec9: node has been terminated
+  75200426-235a-4c61-84f9-5fe851df1243: node is terminating...
+  75200426-235a-4c61-84f9-5fe851df1243: node has been terminated
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  091215aa-0194-473f-9858-47d1e8e075f6
+  2f4e95a1-9640-4c0e-b7af-48bd9d272d45
+  6bbabf42-473a-43c4-ba7d-22d3c7d7a7d0
+  Nodes Addresses are:
+  192.168.1.102:2001
+  192.168.1.102:2000
+  192.168.1.102:2002
+  Generating new nodes instances
+  091215aa-0194-473f-9858-47d1e8e075f6: node is ready
+  2f4e95a1-9640-4c0e-b7af-48bd9d272d45: node is ready
+  6bbabf42-473a-43c4-ba7d-22d3c7d7a7d0: node is ready
+  New simulation started on 2020/07/18 19:55:05
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  76cd2a37-8ff1-46c4-a05b-71415c026159
+  20093806-4bb6-4c1a-a559-35a1b2dcfd82
+  a6282e41-9f9d-428f-be32-4bb75f02743b
+  Nodes Addresses are:
+  192.168.1.102:2001
+  192.168.1.102:2002
+  192.168.1.102:2000
+  Generating new nodes instances
+  76cd2a37-8ff1-46c4-a05b-71415c026159: node is ready
+  20093806-4bb6-4c1a-a559-35a1b2dcfd82: node is ready
+  a6282e41-9f9d-428f-be32-4bb75f02743b: node is ready
+  New simulation started on 2020/07/18 20:01:26
+  Simulation duration finished
+  Nodes will be terminated....
+  a6282e41-9f9d-428f-be32-4bb75f02743b: node is terminating...
+  a6282e41-9f9d-428f-be32-4bb75f02743b: node has been terminated
+  20093806-4bb6-4c1a-a559-35a1b2dcfd82: node is terminating...
+  20093806-4bb6-4c1a-a559-35a1b2dcfd82: node has been terminated
+  76cd2a37-8ff1-46c4-a05b-71415c026159: node is terminating...
+  76cd2a37-8ff1-46c4-a05b-71415c026159: node has been terminated
+  Generating IDs for 10 node..
+  Generating full Addresses for 10 node..
+  Nodes IDs are:
+  b9d091d5-6176-4986-a240-cdc5aa9c947b
+  71eec2f2-0360-449d-b455-043fe94c2821
+  89f70308-3cd6-4b59-9ee8-51158f5ea21a
+  e6df61fd-ffdd-475b-b1a2-a937b3ac9f0c
+  1c2d0db9-7563-49b2-9c1a-fec7b74fbaf3
+  a12b367b-29cb-43e2-9aa7-b2b3053f15e6
+  1644febd-2e48-486c-ac9d-2f138a9a0d22
+  0635f0e6-8f46-4624-b381-c9d0600b1e50
+  5cba3b07-39bc-4fe2-835a-01dfd41b3386
+  d1bb50bc-1634-45a6-a3ea-0f0fd5eabe23
+  Nodes Addresses are:
+  192.168.1.102:2003
+  192.168.1.102:2004
+  192.168.1.102:2005
+  192.168.1.102:2001
+  192.168.1.102:2000
+  192.168.1.102:2002
+  192.168.1.102:2009
+  192.168.1.102:2006
+  192.168.1.102:2007
+  192.168.1.102:2008
+  Generating new nodes instances
+  Contestant b9d091d5-6176-4986-a240-cdc5aa9c947bwas initialized with level 23
+  b9d091d5-6176-4986-a240-cdc5aa9c947b: node is ready
+  Contestant 71eec2f2-0360-449d-b455-043fe94c2821was initialized with level 15
+  71eec2f2-0360-449d-b455-043fe94c2821: node is ready
+  Contestant 89f70308-3cd6-4b59-9ee8-51158f5ea21awas initialized with level 2
+  89f70308-3cd6-4b59-9ee8-51158f5ea21a: node is ready
+  Contestant e6df61fd-ffdd-475b-b1a2-a937b3ac9f0cwas initialized with level 9
+  e6df61fd-ffdd-475b-b1a2-a937b3ac9f0c: node is ready
+  Contestant 1c2d0db9-7563-49b2-9c1a-fec7b74fbaf3was initialized with level 9
+  1c2d0db9-7563-49b2-9c1a-fec7b74fbaf3: node is ready
+  Contestant a12b367b-29cb-43e2-9aa7-b2b3053f15e6was initialized with level 27
+  a12b367b-29cb-43e2-9aa7-b2b3053f15e6: node is ready
+  Contestant 1644febd-2e48-486c-ac9d-2f138a9a0d22was initialized with level 23
+  1644febd-2e48-486c-ac9d-2f138a9a0d22: node is ready
+  Contestant 0635f0e6-8f46-4624-b381-c9d0600b1e50was initialized with level 23
+  0635f0e6-8f46-4624-b381-c9d0600b1e50: node is ready
+  Contestant 5cba3b07-39bc-4fe2-835a-01dfd41b3386was initialized with level 12
+  5cba3b07-39bc-4fe2-835a-01dfd41b3386: node is ready
   Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
   Nodes IDs are:
-  fff83e24-9b86-42d3-9780-b49d40116423
-  890c95bd-1866-49af-bf63-08b39440eef0
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b
-  75b9fafa-b501-443d-8f76-a8ea44667159
-  Generating nodes instanes
-  Contestant fff83e24-9b86-42d3-9780-b49d40116423was initialized with level 23
-  fff83e24-9b86-42d3-9780-b49d40116423: node is ready
-  Contestant 890c95bd-1866-49af-bf63-08b39440eef0was initialized with level 19
-  890c95bd-1866-49af-bf63-08b39440eef0: node is ready
-  Contestant 4cf79ff3-7d33-4ef3-b376-2fec80924c1bwas initialized with level 13
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b: node is ready
-  Contestant 75b9fafa-b501-443d-8f76-a8ea44667159was initialized with level 17
-  75b9fafa-b501-443d-8f76-a8ea44667159: node is ready
-  New simulation started on 2020/07/14 14:03:41
-  fff83e24-9b86-42d3-9780-b49d40116423 --> 75b9fafa-b501-443d-8f76-a8ea44667159: fff83e24-9b86-42d3-9780-b49d40116423 Invitation is pending 75b9fafa-b501-443d-8f76-a8ea44667159 Confirmation
-  75b9fafa-b501-443d-8f76-a8ea44667159 --> fff83e24-9b86-42d3-9780-b49d40116423: 75b9fafa-b501-443d-8f76-a8ea44667159 confirms fff83e24-9b86-42d3-9780-b49d40116423 Invitation
-  fff83e24-9b86-42d3-9780-b49d40116423: node started
-  fff83e24-9b86-42d3-9780-b49d40116423 is fighting against 75b9fafa-b501-443d-8f76-a8ea44667159
-  fff83e24-9b86-42d3-9780-b49d40116423 --> 890c95bd-1866-49af-bf63-08b39440eef0: fff83e24-9b86-42d3-9780-b49d40116423 declines 890c95bd-1866-49af-bf63-08b39440eef0 Invitation
-  890c95bd-1866-49af-bf63-08b39440eef0 --> fff83e24-9b86-42d3-9780-b49d40116423: 890c95bd-1866-49af-bf63-08b39440eef0 Invitation is pending fff83e24-9b86-42d3-9780-b49d40116423 Confirmation
-  890c95bd-1866-49af-bf63-08b39440eef0: node started
-  75b9fafa-b501-443d-8f76-a8ea44667159 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: 75b9fafa-b501-443d-8f76-a8ea44667159 declines 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> 75b9fafa-b501-443d-8f76-a8ea44667159: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation is pending 75b9fafa-b501-443d-8f76-a8ea44667159 Confirmation
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b: node started
-  75b9fafa-b501-443d-8f76-a8ea44667159: node started
-  fff83e24-9b86-42d3-9780-b49d40116423 --> 75b9fafa-b501-443d-8f76-a8ea44667159: 75b9fafa-b501-443d-8f76-a8ea44667159 defeated fff83e24-9b86-42d3-9780-b49d40116423
-  75b9fafa-b501-443d-8f76-a8ea44667159 losses 10 points
-  fff83e24-9b86-42d3-9780-b49d40116423 gains 5 points
-  fff83e24-9b86-42d3-9780-b49d40116423 --> 890c95bd-1866-49af-bf63-08b39440eef0: fff83e24-9b86-42d3-9780-b49d40116423 Invitation is pending 890c95bd-1866-49af-bf63-08b39440eef0 Confirmation
-  75b9fafa-b501-443d-8f76-a8ea44667159 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: 75b9fafa-b501-443d-8f76-a8ea44667159 Invitation is pending 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Confirmation
-  890c95bd-1866-49af-bf63-08b39440eef0 --> fff83e24-9b86-42d3-9780-b49d40116423: 890c95bd-1866-49af-bf63-08b39440eef0 confirms fff83e24-9b86-42d3-9780-b49d40116423 Invitation
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> 75b9fafa-b501-443d-8f76-a8ea44667159: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b confirms 75b9fafa-b501-443d-8f76-a8ea44667159 Invitation
-  75b9fafa-b501-443d-8f76-a8ea44667159 is fighting against 4cf79ff3-7d33-4ef3-b376-2fec80924c1b
-  fff83e24-9b86-42d3-9780-b49d40116423 is fighting against 890c95bd-1866-49af-bf63-08b39440eef0
-  75b9fafa-b501-443d-8f76-a8ea44667159 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: 75b9fafa-b501-443d-8f76-a8ea44667159 defeated 4cf79ff3-7d33-4ef3-b376-2fec80924c1b
-  75b9fafa-b501-443d-8f76-a8ea44667159 losses 10 points
-  75b9fafa-b501-443d-8f76-a8ea44667159: node is terminating...
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b gains 5 points
-  accessing allInstances was locked
-  75b9fafa-b501-443d-8f76-a8ea44667159: Node is not ready yet..
-  accessing allInstances was released
-  75b9fafa-b501-443d-8f76-a8ea44667159: node has been terminated
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> 890c95bd-1866-49af-bf63-08b39440eef0: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation is pending 890c95bd-1866-49af-bf63-08b39440eef0 Confirmation
-  890c95bd-1866-49af-bf63-08b39440eef0 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: 890c95bd-1866-49af-bf63-08b39440eef0 declines 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation
-  890c95bd-1866-49af-bf63-08b39440eef0 losses 10 points
-  fff83e24-9b86-42d3-9780-b49d40116423 --> 890c95bd-1866-49af-bf63-08b39440eef0: 890c95bd-1866-49af-bf63-08b39440eef0 defeated fff83e24-9b86-42d3-9780-b49d40116423
-  fff83e24-9b86-42d3-9780-b49d40116423 gains 5 points
-  890c95bd-1866-49af-bf63-08b39440eef0 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: 890c95bd-1866-49af-bf63-08b39440eef0 Invitation is pending 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Confirmation
-  fff83e24-9b86-42d3-9780-b49d40116423 --> 890c95bd-1866-49af-bf63-08b39440eef0: fff83e24-9b86-42d3-9780-b49d40116423 Invitation is pending 890c95bd-1866-49af-bf63-08b39440eef0 Confirmation
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> 890c95bd-1866-49af-bf63-08b39440eef0: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b confirms 890c95bd-1866-49af-bf63-08b39440eef0 Invitation
-  890c95bd-1866-49af-bf63-08b39440eef0 --> fff83e24-9b86-42d3-9780-b49d40116423: 890c95bd-1866-49af-bf63-08b39440eef0 confirms fff83e24-9b86-42d3-9780-b49d40116423 Invitation
-  fff83e24-9b86-42d3-9780-b49d40116423 is fighting against 890c95bd-1866-49af-bf63-08b39440eef0
-  890c95bd-1866-49af-bf63-08b39440eef0 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: 890c95bd-1866-49af-bf63-08b39440eef0 aborted the game
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> 890c95bd-1866-49af-bf63-08b39440eef0: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation is pending 890c95bd-1866-49af-bf63-08b39440eef0 Confirmation
-  890c95bd-1866-49af-bf63-08b39440eef0 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: 890c95bd-1866-49af-bf63-08b39440eef0 declines 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation
-  890c95bd-1866-49af-bf63-08b39440eef0 losses 10 points
-  890c95bd-1866-49af-bf63-08b39440eef0: node is terminating...
-  accessing allInstances was locked
-  accessing allInstances was released
-  890c95bd-1866-49af-bf63-08b39440eef0: node has been terminated
-  fff83e24-9b86-42d3-9780-b49d40116423 --> 890c95bd-1866-49af-bf63-08b39440eef0: 890c95bd-1866-49af-bf63-08b39440eef0 defeated fff83e24-9b86-42d3-9780-b49d40116423
-  fff83e24-9b86-42d3-9780-b49d40116423 gains 5 points
-  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 Invitation is pending 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Confirmation
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b confirms fff83e24-9b86-42d3-9780-b49d40116423 Invitation
-  fff83e24-9b86-42d3-9780-b49d40116423 is fighting against 4cf79ff3-7d33-4ef3-b376-2fec80924c1b
-  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b defeated fff83e24-9b86-42d3-9780-b49d40116423
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b losses 10 points
-  fff83e24-9b86-42d3-9780-b49d40116423 gains 5 points
-  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 Invitation is pending 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Confirmation
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation is pending fff83e24-9b86-42d3-9780-b49d40116423 Confirmation
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b confirms fff83e24-9b86-42d3-9780-b49d40116423 Invitation
-  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 confirms 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b aborted the game
-  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 aborted the game
-  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 Invitation is pending 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Confirmation
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation is pending fff83e24-9b86-42d3-9780-b49d40116423 Confirmation
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b confirms fff83e24-9b86-42d3-9780-b49d40116423 Invitation
-  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 confirms 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b aborted the game
-  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 aborted the game
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation is pending fff83e24-9b86-42d3-9780-b49d40116423 Confirmation
-  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 Invitation is pending 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Confirmation
-  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 confirms 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Invitation
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b confirms fff83e24-9b86-42d3-9780-b49d40116423 Invitation
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b aborted the game
-  fff83e24-9b86-42d3-9780-b49d40116423 --> 4cf79ff3-7d33-4ef3-b376-2fec80924c1b: fff83e24-9b86-42d3-9780-b49d40116423 Invitation is pending 4cf79ff3-7d33-4ef3-b376-2fec80924c1b Confirmation
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b --> fff83e24-9b86-42d3-9780-b49d40116423: 4cf79ff3-7d33-4ef3-b376-2fec80924c1b declines fff83e24-9b86-42d3-9780-b49d40116423 Invitation
-  fff83e24-9b86-42d3-9780-b49d40116423 is fighting against 4cf79ff3-7d33-4ef3-b376-2fec80924c1b
-  Simulation duration finished
-  Nodes will be terminated....
-  fff83e24-9b86-42d3-9780-b49d40116423: node is terminating...
-  accessing allInstances was locked
-  accessing allInstances was released
-  fff83e24-9b86-42d3-9780-b49d40116423: node has been terminated
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b: node is terminating...
-  accessing allInstances was locked
-  accessing allInstances was released
-  4cf79ff3-7d33-4ef3-b376-2fec80924c1b: node has been terminated
-  fff83e24-9b86-42d3-9780-b49d40116423: Node is not ready yet..
-  fff83e24-9b86-42d3-9780-b49d40116423 gains 5 points
+  a514b675-d5cf-4bb4-9eab-01fd45201057
+  71290939-acc8-48ea-83cf-db0ff6b04d05
+  c843167c-465c-4679-9b73-1e3b9ecb0142
+  b2b9a43d-43de-491f-acef-92fcf2c9cdba
+  Nodes Addresses are:
+  192.168.1.102:2003
+  192.168.1.102:2001
+  192.168.1.102:2000
+  192.168.1.102:2002
+  Generating new nodes instances
+  Contestant a514b675-d5cf-4bb4-9eab-01fd45201057was initialized with level 4
+  a514b675-d5cf-4bb4-9eab-01fd45201057: node is ready
+  Contestant 71290939-acc8-48ea-83cf-db0ff6b04d05was initialized with level 17
+  71290939-acc8-48ea-83cf-db0ff6b04d05: node is ready
+  Contestant c843167c-465c-4679-9b73-1e3b9ecb0142was initialized with level 15
+  c843167c-465c-4679-9b73-1e3b9ecb0142: node is ready
+  Contestant b2b9a43d-43de-491f-acef-92fcf2c9cdbawas initialized with level 5
+  b2b9a43d-43de-491f-acef-92fcf2c9cdba: node is ready
+  New simulation started on 2020/07/18 20:04:35
+  Contestant c843167c-465c-4679-9b73-1e3b9ecb0142 is the winner
   Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
   Nodes IDs are:
-  e8357fde-2d4c-4971-9792-189c852b3ad1
-  c033c1a2-4fcc-492e-94ab-c9e173893802
-  6a104f05-6057-4174-9938-910e2a3069fa
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812
-  Generating nodes instanes
-  Contestant e8357fde-2d4c-4971-9792-189c852b3ad1was initialized with level 29
-  e8357fde-2d4c-4971-9792-189c852b3ad1: node is ready
-  Contestant c033c1a2-4fcc-492e-94ab-c9e173893802was initialized with level 25
-  c033c1a2-4fcc-492e-94ab-c9e173893802: node is ready
-  Contestant 6a104f05-6057-4174-9938-910e2a3069fawas initialized with level 3
-  6a104f05-6057-4174-9938-910e2a3069fa: node is ready
-  Contestant 0aa4a205-fea7-43f9-98b1-2a0c02b73812was initialized with level 29
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812: node is ready
-  New simulation started on 2020/07/14 14:04:38
-  e8357fde-2d4c-4971-9792-189c852b3ad1 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation is pending 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Confirmation
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> e8357fde-2d4c-4971-9792-189c852b3ad1: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 confirms e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation
-  e8357fde-2d4c-4971-9792-189c852b3ad1: node started
-  e8357fde-2d4c-4971-9792-189c852b3ad1 is fighting against 0aa4a205-fea7-43f9-98b1-2a0c02b73812
-  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation is pending 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Confirmation
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 declines c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation
-  c033c1a2-4fcc-492e-94ab-c9e173893802: node started
-  6a104f05-6057-4174-9938-910e2a3069fa --> c033c1a2-4fcc-492e-94ab-c9e173893802: 6a104f05-6057-4174-9938-910e2a3069fa Invitation is pending c033c1a2-4fcc-492e-94ab-c9e173893802 Confirmation
-  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 6a104f05-6057-4174-9938-910e2a3069fa: c033c1a2-4fcc-492e-94ab-c9e173893802 confirms 6a104f05-6057-4174-9938-910e2a3069fa Invitation
-  6a104f05-6057-4174-9938-910e2a3069fa: node started
-  6a104f05-6057-4174-9938-910e2a3069fa is fighting against c033c1a2-4fcc-492e-94ab-c9e173893802
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812: node started
-  6a104f05-6057-4174-9938-910e2a3069fa --> c033c1a2-4fcc-492e-94ab-c9e173893802: 6a104f05-6057-4174-9938-910e2a3069fa defeated c033c1a2-4fcc-492e-94ab-c9e173893802
-  6a104f05-6057-4174-9938-910e2a3069fa losses 10 points
-  6a104f05-6057-4174-9938-910e2a3069fa: node is terminating...
-  accessing allInstances was locked
-  accessing allInstances was released
-  6a104f05-6057-4174-9938-910e2a3069fa: node has been terminated
-  c033c1a2-4fcc-492e-94ab-c9e173893802 gains 5 points
-  c033c1a2-4fcc-492e-94ab-c9e173893802 --> e8357fde-2d4c-4971-9792-189c852b3ad1: c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation is pending e8357fde-2d4c-4971-9792-189c852b3ad1 Confirmation
-  e8357fde-2d4c-4971-9792-189c852b3ad1 --> c033c1a2-4fcc-492e-94ab-c9e173893802: e8357fde-2d4c-4971-9792-189c852b3ad1 declines c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation
-  e8357fde-2d4c-4971-9792-189c852b3ad1 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: e8357fde-2d4c-4971-9792-189c852b3ad1 draw with 0aa4a205-fea7-43f9-98b1-2a0c02b73812
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 gains 1 point
-  e8357fde-2d4c-4971-9792-189c852b3ad1 gains 1 point
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> e8357fde-2d4c-4971-9792-189c852b3ad1: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Invitation is pending e8357fde-2d4c-4971-9792-189c852b3ad1 Confirmation
-  e8357fde-2d4c-4971-9792-189c852b3ad1 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation is pending 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Confirmation
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> e8357fde-2d4c-4971-9792-189c852b3ad1: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 confirms e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation
-  e8357fde-2d4c-4971-9792-189c852b3ad1 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: e8357fde-2d4c-4971-9792-189c852b3ad1 confirms 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Invitation
-  e8357fde-2d4c-4971-9792-189c852b3ad1 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: e8357fde-2d4c-4971-9792-189c852b3ad1 aborted the game
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> e8357fde-2d4c-4971-9792-189c852b3ad1: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 aborted the game
-  e8357fde-2d4c-4971-9792-189c852b3ad1 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation is pending 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Confirmation
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Invitation is pending c033c1a2-4fcc-492e-94ab-c9e173893802 Confirmation
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> e8357fde-2d4c-4971-9792-189c852b3ad1: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 confirms e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation
-  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: c033c1a2-4fcc-492e-94ab-c9e173893802 confirms 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Invitation
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 aborted the game
-  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation is pending 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Confirmation
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 declines c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation
-  e8357fde-2d4c-4971-9792-189c852b3ad1 is fighting against 0aa4a205-fea7-43f9-98b1-2a0c02b73812
-  e8357fde-2d4c-4971-9792-189c852b3ad1 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: e8357fde-2d4c-4971-9792-189c852b3ad1 draw with 0aa4a205-fea7-43f9-98b1-2a0c02b73812
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 gains 1 point
-  e8357fde-2d4c-4971-9792-189c852b3ad1 gains 1 point
-  e8357fde-2d4c-4971-9792-189c852b3ad1 --> c033c1a2-4fcc-492e-94ab-c9e173893802: e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation is pending c033c1a2-4fcc-492e-94ab-c9e173893802 Confirmation
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Invitation is pending c033c1a2-4fcc-492e-94ab-c9e173893802 Confirmation
-  c033c1a2-4fcc-492e-94ab-c9e173893802 --> e8357fde-2d4c-4971-9792-189c852b3ad1: c033c1a2-4fcc-492e-94ab-c9e173893802 confirms e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation
-  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: c033c1a2-4fcc-492e-94ab-c9e173893802 confirms 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Invitation
-  e8357fde-2d4c-4971-9792-189c852b3ad1 is fighting against c033c1a2-4fcc-492e-94ab-c9e173893802
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 is fighting against c033c1a2-4fcc-492e-94ab-c9e173893802
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: c033c1a2-4fcc-492e-94ab-c9e173893802 defeated 0aa4a205-fea7-43f9-98b1-2a0c02b73812
-  c033c1a2-4fcc-492e-94ab-c9e173893802 losses 10 points
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 gains 5 points
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Invitation is pending c033c1a2-4fcc-492e-94ab-c9e173893802 Confirmation
-  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation is pending 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Confirmation
-  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: c033c1a2-4fcc-492e-94ab-c9e173893802 confirms 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Invitation
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 confirms c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation
-  e8357fde-2d4c-4971-9792-189c852b3ad1 --> c033c1a2-4fcc-492e-94ab-c9e173893802: c033c1a2-4fcc-492e-94ab-c9e173893802 defeated e8357fde-2d4c-4971-9792-189c852b3ad1
-  e8357fde-2d4c-4971-9792-189c852b3ad1 gains 5 points
-  e8357fde-2d4c-4971-9792-189c852b3ad1 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation is pending 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Confirmation
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> e8357fde-2d4c-4971-9792-189c852b3ad1: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 declines e8357fde-2d4c-4971-9792-189c852b3ad1 Invitation
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 aborted the game
-  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation is pending 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Confirmation
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 declines c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation
-  c033c1a2-4fcc-492e-94ab-c9e173893802 losses 10 points
-  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation is pending 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Confirmation
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 declines c033c1a2-4fcc-492e-94ab-c9e173893802 Invitation
-  c033c1a2-4fcc-492e-94ab-c9e173893802 is fighting against 0aa4a205-fea7-43f9-98b1-2a0c02b73812
-  c033c1a2-4fcc-492e-94ab-c9e173893802 --> 0aa4a205-fea7-43f9-98b1-2a0c02b73812: c033c1a2-4fcc-492e-94ab-c9e173893802 defeated 0aa4a205-fea7-43f9-98b1-2a0c02b73812
-  c033c1a2-4fcc-492e-94ab-c9e173893802 losses 10 points
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 gains 5 points
-  c033c1a2-4fcc-492e-94ab-c9e173893802: node is terminating...
-  accessing allInstances was locked
-  accessing allInstances was released
-  c033c1a2-4fcc-492e-94ab-c9e173893802: node has been terminated
-  c033c1a2-4fcc-492e-94ab-c9e173893802: Node is currently off
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812 --> c033c1a2-4fcc-492e-94ab-c9e173893802: 0aa4a205-fea7-43f9-98b1-2a0c02b73812 Invitation is pending c033c1a2-4fcc-492e-94ab-c9e173893802 Confirmation was not able to be sent to node 
-  Contestant 0aa4a205-fea7-43f9-98b1-2a0c02b73812 is the winner
+  b0e260d8-bb3c-49ba-9585-b1bff7dcfe6a
+  dfa5d7f7-aa00-4ed6-ad80-d05833b1e760
+  a1b7972c-4cf9-4ad0-ac0a-9499d7972400
+  306be627-77f8-40ca-9159-90509d02662c
+  Nodes Addresses are:
+  192.168.1.102:2000
+  192.168.1.102:2002
+  192.168.1.102:2003
+  192.168.1.102:2001
+  Generating new nodes instances
+  Contestant b0e260d8-bb3c-49ba-9585-b1bff7dcfe6awas initialized with level 7
+  b0e260d8-bb3c-49ba-9585-b1bff7dcfe6a: node is ready
+  Contestant dfa5d7f7-aa00-4ed6-ad80-d05833b1e760was initialized with level 6
+  dfa5d7f7-aa00-4ed6-ad80-d05833b1e760: node is ready
+  Contestant a1b7972c-4cf9-4ad0-ac0a-9499d7972400was initialized with level 12
+  a1b7972c-4cf9-4ad0-ac0a-9499d7972400: node is ready
+  Contestant 306be627-77f8-40ca-9159-90509d02662cwas initialized with level 7
+  306be627-77f8-40ca-9159-90509d02662c: node is ready
+  New simulation started on 2020/07/18 20:07:08
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  494c4da6-f6a5-4970-b9dc-44a4f5f5da11
+  cf33a416-7657-44c4-8494-398c064e326f
+  b0a7af1e-c934-4e5f-b3d8-4f847c7e71b7
+  76e4dd64-e8e2-4a45-a2ce-57221179b1cd
+  Nodes Addresses are:
+  192.168.1.102:2000
+  192.168.1.102:2002
+  192.168.1.102:2001
+  192.168.1.102:2003
+  Generating new nodes instances
+  Contestant 494c4da6-f6a5-4970-b9dc-44a4f5f5da11was initialized with level 1
+  494c4da6-f6a5-4970-b9dc-44a4f5f5da11: node is ready
+  Contestant cf33a416-7657-44c4-8494-398c064e326fwas initialized with level 6
+  cf33a416-7657-44c4-8494-398c064e326f: node is ready
+  Contestant b0a7af1e-c934-4e5f-b3d8-4f847c7e71b7was initialized with level 10
+  b0a7af1e-c934-4e5f-b3d8-4f847c7e71b7: node is ready
+  Contestant 76e4dd64-e8e2-4a45-a2ce-57221179b1cdwas initialized with level 11
+  76e4dd64-e8e2-4a45-a2ce-57221179b1cd: node is ready
+  New simulation started on 2020/07/18 20:09:49
+  cf33a416-7657-44c4-8494-398c064e326f is fighting against 76e4dd64-e8e2-4a45-a2ce-57221179b1cd
+  494c4da6-f6a5-4970-b9dc-44a4f5f5da11 is fighting against 76e4dd64-e8e2-4a45-a2ce-57221179b1cd
+  b0a7af1e-c934-4e5f-b3d8-4f847c7e71b7 is fighting against 76e4dd64-e8e2-4a45-a2ce-57221179b1cd
+  cf33a416-7657-44c4-8494-398c064e326f losses 10 points
+  cf33a416-7657-44c4-8494-398c064e326f: node is terminating...
+  76e4dd64-e8e2-4a45-a2ce-57221179b1cd gains 5 points
+  cf33a416-7657-44c4-8494-398c064e326f: node has been terminated
+  b0a7af1e-c934-4e5f-b3d8-4f847c7e71b7 losses 10 points
+  b0a7af1e-c934-4e5f-b3d8-4f847c7e71b7: node is terminating...
+  b0a7af1e-c934-4e5f-b3d8-4f847c7e71b7: node has been terminated
+  76e4dd64-e8e2-4a45-a2ce-57221179b1cd gains 5 points
+  494c4da6-f6a5-4970-b9dc-44a4f5f5da11 losses 10 points
+  494c4da6-f6a5-4970-b9dc-44a4f5f5da11: node is terminating...
+  494c4da6-f6a5-4970-b9dc-44a4f5f5da11: node has been terminated
+  76e4dd64-e8e2-4a45-a2ce-57221179b1cd gains 5 points
+  Contestant 76e4dd64-e8e2-4a45-a2ce-57221179b1cd is the winner
   Simulation duration finished
   Nodes will be terminated....
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812: node is terminating...
-  accessing allInstances was locked
-  accessing allInstances was released
-  0aa4a205-fea7-43f9-98b1-2a0c02b73812: node has been terminated
+  76e4dd64-e8e2-4a45-a2ce-57221179b1cd: node is terminating...
+  76e4dd64-e8e2-4a45-a2ce-57221179b1cd: node has been terminated
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  a665a74f-faa1-4a43-b87e-63674cf78ef2
+  905901a0-a630-49e2-bc20-b554c21bf7b6
+  da9d1d9f-491e-4e94-886d-8ac44dbfc98f
+  4ec1590c-a8d5-4e98-9e17-4052f73bebdb
+  Nodes Addresses are:
+  192.168.1.102:2002
+  192.168.1.102:2001
+  192.168.1.102:2000
+  192.168.1.102:2003
+  Generating new nodes instances
+  Contestant a665a74f-faa1-4a43-b87e-63674cf78ef2was initialized with level 29
+  a665a74f-faa1-4a43-b87e-63674cf78ef2: node is ready
+  Contestant 905901a0-a630-49e2-bc20-b554c21bf7b6was initialized with level 2
+  905901a0-a630-49e2-bc20-b554c21bf7b6: node is ready
+  Contestant da9d1d9f-491e-4e94-886d-8ac44dbfc98fwas initialized with level 13
+  da9d1d9f-491e-4e94-886d-8ac44dbfc98f: node is ready
+  Contestant 4ec1590c-a8d5-4e98-9e17-4052f73bebdbwas initialized with level 7
+  4ec1590c-a8d5-4e98-9e17-4052f73bebdb: node is ready
+  New simulation started on 2020/07/18 20:11:08
+  4ec1590c-a8d5-4e98-9e17-4052f73bebdb is fighting against da9d1d9f-491e-4e94-886d-8ac44dbfc98f
+  a665a74f-faa1-4a43-b87e-63674cf78ef2 is fighting against da9d1d9f-491e-4e94-886d-8ac44dbfc98f
+  a665a74f-faa1-4a43-b87e-63674cf78ef2 gains 5 points
+  da9d1d9f-491e-4e94-886d-8ac44dbfc98f losses 10 points
+  da9d1d9f-491e-4e94-886d-8ac44dbfc98f is fighting against 905901a0-a630-49e2-bc20-b554c21bf7b6
+  4ec1590c-a8d5-4e98-9e17-4052f73bebdb losses 10 points
+  4ec1590c-a8d5-4e98-9e17-4052f73bebdb: node is terminating...
+  4ec1590c-a8d5-4e98-9e17-4052f73bebdb: node has been terminated
+  da9d1d9f-491e-4e94-886d-8ac44dbfc98f gains 5 points
+  905901a0-a630-49e2-bc20-b554c21bf7b6 losses 10 points
+  905901a0-a630-49e2-bc20-b554c21bf7b6: node is terminating...
+  905901a0-a630-49e2-bc20-b554c21bf7b6: node has been terminated
+  da9d1d9f-491e-4e94-886d-8ac44dbfc98f gains 5 points
+  Simulation duration finished
+  Nodes will be terminated....
+  4ec1590c-a8d5-4e98-9e17-4052f73bebdb: node is terminating...
+  4ec1590c-a8d5-4e98-9e17-4052f73bebdb: node has been terminated
+  da9d1d9f-491e-4e94-886d-8ac44dbfc98f: node is terminating...
+  da9d1d9f-491e-4e94-886d-8ac44dbfc98f: node has been terminated
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  5bc03745-dea8-4576-8331-b32d6cb72526
+  10cf2be3-3c7a-4ddd-8429-e62d6518fee1
+  8511bc54-677b-45ab-b0be-c9bd263b255c
+  42207a61-c9e5-4709-9935-52861f028bd4
+  Nodes Addresses are:
+  192.168.1.102:2002
+  192.168.1.102:2000
+  192.168.1.102:2001
+  192.168.1.102:2003
+  Generating new nodes instances
+  [UnderlayFactory] could not open underlayTypes.yaml
+  underlayTypes.yaml (No such file or directory)
+  [UnderlayFactory] could not find underlay class name according to the given type tcp
+  
+  Contestant 5bc03745-dea8-4576-8331-b32d6cb72526was initialized with level 14
+  5bc03745-dea8-4576-8331-b32d6cb72526: node is ready
+  [UnderlayFactory] could not open underlayTypes.yaml
+  underlayTypes.yaml (No such file or directory)
+  [UnderlayFactory] could not find underlay class name according to the given type tcp
+  
+  Contestant 10cf2be3-3c7a-4ddd-8429-e62d6518fee1was initialized with level 8
+  10cf2be3-3c7a-4ddd-8429-e62d6518fee1: node is ready
+  [UnderlayFactory] could not open underlayTypes.yaml
+  underlayTypes.yaml (No such file or directory)
+  [UnderlayFactory] could not find underlay class name according to the given type tcp
+  
+  Contestant 8511bc54-677b-45ab-b0be-c9bd263b255cwas initialized with level 4
+  8511bc54-677b-45ab-b0be-c9bd263b255c: node is ready
+  [UnderlayFactory] could not open underlayTypes.yaml
+  underlayTypes.yaml (No such file or directory)
+  [UnderlayFactory] could not find underlay class name according to the given type tcp
+  
+  Contestant 42207a61-c9e5-4709-9935-52861f028bd4was initialized with level 8
+  42207a61-c9e5-4709-9935-52861f028bd4: node is ready
+  New simulation started on 2020/07/18 20:14:07
+  Simulation duration finished
+  Nodes will be terminated....
+  42207a61-c9e5-4709-9935-52861f028bd4: node is terminating...
+  42207a61-c9e5-4709-9935-52861f028bd4: node has been terminated
+  42207a61-c9e5-4709-9935-52861f028bd4: node is terminating...
+  42207a61-c9e5-4709-9935-52861f028bd4: node has been terminated
+  8511bc54-677b-45ab-b0be-c9bd263b255c: node is terminating...
+  8511bc54-677b-45ab-b0be-c9bd263b255c: node has been terminated
+  10cf2be3-3c7a-4ddd-8429-e62d6518fee1: node is terminating...
+  10cf2be3-3c7a-4ddd-8429-e62d6518fee1: node has been terminated
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  2cc5c10a-0f04-482d-b1d0-97072fe84f96
+  8d353434-9fe2-4e47-bb74-7e03cfdd4721
+  01870122-a3bb-4a46-b50d-7f8ebb55d188
+  b071e091-4677-4b51-845c-1b6dd22b372c
+  Nodes Addresses are:
+  192.168.1.102:2003
+  192.168.1.102:2002
+  192.168.1.102:2000
+  192.168.1.102:2001
+  Generating new nodes instances
+  [UnderlayFactory] could not open underlayTypes.yaml
+  underlayTypes.yaml (No such file or directory)
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  023eee17-c7d8-4016-ab54-447b711dc5d2
+  71e6a804-3e61-4d58-8193-afaf9decb206
+  76634cd8-c43c-42eb-94fe-6da3f89b0dae
+  7277a544-2094-489a-92ea-c09f1e408503
+  Nodes Addresses are:
+  192.168.1.102:2002
+  192.168.1.102:2000
+  192.168.1.102:2003
+  192.168.1.102:2001
+  Generating new nodes instances
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  747fc480-6765-41c6-8751-a7d90c796bd4
+  5380ed9f-75e3-4dca-b698-486e3630806d
+  402df743-f70e-4bc8-bfed-feddd7dd4954
+  d8307b1d-0f39-4ca4-b21f-86c39ca07598
+  Nodes Addresses are:
+  192.168.1.102:2002
+  192.168.1.102:2003
+  192.168.1.102:2000
+  192.168.1.102:2001
+  Generating new nodes instances
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  3647f4d7-1480-4a94-8932-c0f03ace9cec
+  c4e10777-b0b7-45c7-936c-d25d6ab46d87
+  fce143eb-941d-4efd-8e5b-8d195dd292e9
+  7b19046a-abcc-4186-851f-82159ed5867c
+  Nodes Addresses are:
+  192.168.1.102:2002
+  192.168.1.102:2000
+  192.168.1.102:2001
+  192.168.1.102:2003
+  Generating new nodes instances
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  491114bb-7651-452c-9e7d-68490380b66d
+  f447b8f3-8776-4d30-9e2f-4b33ed200425
+  0d404e7a-e001-4699-97a3-6e18eb378f60
+  4bfbf507-a0d0-47a7-8b44-a77d7c62b023
+  Nodes Addresses are:
+  192.168.1.102:2003
+  192.168.1.102:2001
+  192.168.1.102:2000
+  192.168.1.102:2002
+  Generating new nodes instances
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  41615234-7d23-4a81-96c6-9c42b063f18b
+  55bb64fb-e44f-4227-b1e0-892773f4235d
+  afd3d51a-2f3a-40e6-8b18-ae9cab570862
+  2ef011a4-84e3-4b52-a27d-a81fb17903b3
+  Nodes Addresses are:
+  192.168.1.102:2002
+  192.168.1.102:2001
+  192.168.1.102:2000
+  192.168.1.102:2003
+  Generating new nodes instances
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  f2106d41-8a15-471b-925e-a519b12f53a2
+  2a0955f6-2b4d-488b-befa-c361194e7756
+  1a04617b-b5f1-487d-877c-b52e080b7dca
+  436ccc3d-e2d6-4047-816d-f3a1a30c5ea8
+  Nodes Addresses are:
+  192.168.1.102:2002
+  192.168.1.102:2000
+  192.168.1.102:2003
+  192.168.1.102:2001
+  Generating new nodes instances
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  4574627e-d068-4abf-92d4-c5dd855968c0
+  9eae4b91-cc64-45c6-a16a-0463cad45dde
+  18125f70-ea34-4bf1-9d7c-145f258c954a
+  3368a371-c1c5-4ca7-a220-242df05e7fb2
+  Nodes Addresses are:
+  192.168.1.102:2002
+  192.168.1.102:2003
+  192.168.1.102:2000
+  192.168.1.102:2001
+  Generating new nodes instances
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  58bcbf5f-e52c-40b8-a94d-10a7f0507b95
+  2ebb42f7-815b-4c8f-8374-b4202b3ce5bd
+  f1d71c31-1cca-4f4a-ad9e-48644a459270
+  30d5de20-3dfa-443b-8ca0-6026c562f540
+  Nodes Addresses are:
+  192.168.1.102:2003
+  192.168.1.102:2000
+  192.168.1.102:2002
+  192.168.1.102:2001
+  Generating new nodes instances
+  [UnderlayFactory] could not create new underlay instance of type tcp
+  TCPUnderlay
+  Contestant 58bcbf5f-e52c-40b8-a94d-10a7f0507b95was initialized with level 18
+  58bcbf5f-e52c-40b8-a94d-10a7f0507b95: node is ready
+  [UnderlayFactory] could not create new underlay instance of type tcp
+  TCPUnderlay
+  Contestant 2ebb42f7-815b-4c8f-8374-b4202b3ce5bdwas initialized with level 11
+  2ebb42f7-815b-4c8f-8374-b4202b3ce5bd: node is ready
+  [UnderlayFactory] could not create new underlay instance of type tcp
+  TCPUnderlay
+  Contestant f1d71c31-1cca-4f4a-ad9e-48644a459270was initialized with level 24
+  f1d71c31-1cca-4f4a-ad9e-48644a459270: node is ready
+  [UnderlayFactory] could not create new underlay instance of type tcp
+  TCPUnderlay
+  Contestant 30d5de20-3dfa-443b-8ca0-6026c562f540was initialized with level 16
+  30d5de20-3dfa-443b-8ca0-6026c562f540: node is ready
+  New simulation started on 2020/07/18 20:21:49
+  Simulation duration finished
+  Nodes will be terminated....
+  58bcbf5f-e52c-40b8-a94d-10a7f0507b95: node is terminating...
+  58bcbf5f-e52c-40b8-a94d-10a7f0507b95: node has been terminated
+  30d5de20-3dfa-443b-8ca0-6026c562f540: node is terminating...
+  30d5de20-3dfa-443b-8ca0-6026c562f540: node has been terminated
+  2ebb42f7-815b-4c8f-8374-b4202b3ce5bd: node is terminating...
+  2ebb42f7-815b-4c8f-8374-b4202b3ce5bd: node has been terminated
+  f1d71c31-1cca-4f4a-ad9e-48644a459270: node is terminating...
+  f1d71c31-1cca-4f4a-ad9e-48644a459270: node has been terminated
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  f2417dc5-a9c5-4efa-94d5-cf16082b8aa0
+  87b636a9-6ee3-46de-bf88-11c98981037c
+  a92cb274-0ce2-4812-bfcd-01ce201cc139
+  db7ca02d-d32c-429a-bac9-01243a8a1ec7
+  Nodes Addresses are:
+  192.168.1.102:2000
+  192.168.1.102:2003
+  192.168.1.102:2001
+  192.168.1.102:2002
+  Generating new nodes instances
+  Contestant f2417dc5-a9c5-4efa-94d5-cf16082b8aa0was initialized with level 6
+  f2417dc5-a9c5-4efa-94d5-cf16082b8aa0: node is ready
+  Contestant 87b636a9-6ee3-46de-bf88-11c98981037cwas initialized with level 21
+  87b636a9-6ee3-46de-bf88-11c98981037c: node is ready
+  Contestant a92cb274-0ce2-4812-bfcd-01ce201cc139was initialized with level 24
+  a92cb274-0ce2-4812-bfcd-01ce201cc139: node is ready
+  Contestant db7ca02d-d32c-429a-bac9-01243a8a1ec7was initialized with level 8
+  db7ca02d-d32c-429a-bac9-01243a8a1ec7: node is ready
+  New simulation started on 2020/07/18 20:23:49
+  db7ca02d-d32c-429a-bac9-01243a8a1ec7 is fighting against f2417dc5-a9c5-4efa-94d5-cf16082b8aa0
+  db7ca02d-d32c-429a-bac9-01243a8a1ec7 gains 5 points
+  f2417dc5-a9c5-4efa-94d5-cf16082b8aa0 losses 10 points
+  f2417dc5-a9c5-4efa-94d5-cf16082b8aa0: node is terminating...
+  f2417dc5-a9c5-4efa-94d5-cf16082b8aa0: node has been terminated
+  Simulation duration finished
+  Nodes will be terminated....
+  a92cb274-0ce2-4812-bfcd-01ce201cc139: node is terminating...
+  a92cb274-0ce2-4812-bfcd-01ce201cc139: node has been terminated
+  db7ca02d-d32c-429a-bac9-01243a8a1ec7: node is terminating...
+  db7ca02d-d32c-429a-bac9-01243a8a1ec7: node has been terminated
+  87b636a9-6ee3-46de-bf88-11c98981037c: node is terminating...
+  87b636a9-6ee3-46de-bf88-11c98981037c: node has been terminated
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  4613b371-22fb-4eab-99a2-90013668e236
+  6e731989-7a89-4548-a24d-18fe384fd4e4
+  891ba801-d48e-4e59-8852-81773fe346b4
+  ea6671fb-2826-40e1-bc46-e38d34ea9272
+  Nodes Addresses are:
+  192.168.1.102:2001
+  192.168.1.102:2003
+  192.168.1.102:2000
+  192.168.1.102:2002
+  Generating new nodes instances
+  Contestant 4613b371-22fb-4eab-99a2-90013668e236was initialized with level 27
+  4613b371-22fb-4eab-99a2-90013668e236: node is ready
+  Contestant 6e731989-7a89-4548-a24d-18fe384fd4e4was initialized with level 29
+  6e731989-7a89-4548-a24d-18fe384fd4e4: node is ready
+  Contestant 891ba801-d48e-4e59-8852-81773fe346b4was initialized with level 8
+  891ba801-d48e-4e59-8852-81773fe346b4: node is ready
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  14d7320b-91be-4b16-9873-8d45e54a1dcc
+  a63a8980-5457-4572-9298-c0c597eb3231
+  2f7b6106-cad8-44eb-8c86-5cde74c84767
+  11c4259a-c043-4e8b-b65f-671b8c021c4f
+  Nodes Addresses are:
+  192.168.1.102:2000
+  192.168.1.102:2001
+  192.168.1.102:2002
+  192.168.1.102:2003
+  Generating new nodes instances
+  Contestant 14d7320b-91be-4b16-9873-8d45e54a1dccwas initialized with level 21
+  14d7320b-91be-4b16-9873-8d45e54a1dcc: node is ready
+  Contestant a63a8980-5457-4572-9298-c0c597eb3231was initialized with level 25
+  a63a8980-5457-4572-9298-c0c597eb3231: node is ready
+  Contestant 2f7b6106-cad8-44eb-8c86-5cde74c84767was initialized with level 5
+  2f7b6106-cad8-44eb-8c86-5cde74c84767: node is ready
+  Contestant 11c4259a-c043-4e8b-b65f-671b8c021c4fwas initialized with level 29
+  11c4259a-c043-4e8b-b65f-671b8c021c4f: node is ready
+  New simulation started on 2020/07/18 20:27:48
+  2f7b6106-cad8-44eb-8c86-5cde74c84767 is fighting against 11c4259a-c043-4e8b-b65f-671b8c021c4f
+  2f7b6106-cad8-44eb-8c86-5cde74c84767 losses 10 points
+  2f7b6106-cad8-44eb-8c86-5cde74c84767: node is terminating...
+  11c4259a-c043-4e8b-b65f-671b8c021c4f gains 5 points
+  2f7b6106-cad8-44eb-8c86-5cde74c84767: node has been terminated
+  Simulation duration finished
+  Nodes will be terminated....
+  11c4259a-c043-4e8b-b65f-671b8c021c4f: node is terminating...
+  11c4259a-c043-4e8b-b65f-671b8c021c4f: node has been terminated
+  a63a8980-5457-4572-9298-c0c597eb3231: node is terminating...
+  a63a8980-5457-4572-9298-c0c597eb3231: node has been terminated
+  14d7320b-91be-4b16-9873-8d45e54a1dcc: node is terminating...
+  14d7320b-91be-4b16-9873-8d45e54a1dcc: node has been terminated
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  d75b5adb-e2b8-4ad8-8ab0-f5d9f2a1bbdc
+  8f3d486d-5db6-478e-9747-6f55a3c99e1b
+  15996f69-1256-4c28-ad1d-c97e64718257
+  f4ad7817-3b6c-4b54-b3e9-13b7928794a4
+  Nodes Addresses are:
+  192.168.1.102:2000
+  192.168.1.102:2001
+  192.168.1.102:2002
+  192.168.1.102:2003
+  Generating new nodes instances
+  Contestant d75b5adb-e2b8-4ad8-8ab0-f5d9f2a1bbdcwas initialized with level 8
+  d75b5adb-e2b8-4ad8-8ab0-f5d9f2a1bbdc: node is ready
+  Contestant 8f3d486d-5db6-478e-9747-6f55a3c99e1bwas initialized with level 10
+  8f3d486d-5db6-478e-9747-6f55a3c99e1b: node is ready
+  Contestant 15996f69-1256-4c28-ad1d-c97e64718257was initialized with level 9
+  15996f69-1256-4c28-ad1d-c97e64718257: node is ready
+  Contestant f4ad7817-3b6c-4b54-b3e9-13b7928794a4was initialized with level 15
+  f4ad7817-3b6c-4b54-b3e9-13b7928794a4: node is ready
+  New simulation started on 2020/07/18 20:29:58
+  8f3d486d-5db6-478e-9747-6f55a3c99e1b is fighting against 15996f69-1256-4c28-ad1d-c97e64718257
+  8f3d486d-5db6-478e-9747-6f55a3c99e1b gains 5 points
+  15996f69-1256-4c28-ad1d-c97e64718257 losses 10 points
+  15996f69-1256-4c28-ad1d-c97e64718257: node is terminating...
+  15996f69-1256-4c28-ad1d-c97e64718257: node has been terminated
+  Simulation duration finished
+  Nodes will be terminated....
+  8f3d486d-5db6-478e-9747-6f55a3c99e1b: node is terminating...
+  8f3d486d-5db6-478e-9747-6f55a3c99e1b: node has been terminated
+  d75b5adb-e2b8-4ad8-8ab0-f5d9f2a1bbdc: node is terminating...
+  d75b5adb-e2b8-4ad8-8ab0-f5d9f2a1bbdc: node has been terminated
+  f4ad7817-3b6c-4b54-b3e9-13b7928794a4: node is terminating...
+  f4ad7817-3b6c-4b54-b3e9-13b7928794a4: node has been terminated
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  8904b225-18de-4f01-be1b-71459437ac1e
+  dfa5a7bb-dac1-4e71-b0f7-0b457a4e8234
+  ff0202bb-9794-4a11-9dd8-8a923d79eab1
+  c40f44bf-bf72-4d70-b44d-911c75ca782f
+  Nodes Addresses are:
+  192.168.1.102:2001
+  192.168.1.102:2003
+  192.168.1.102:2000
+  192.168.1.102:2002
+  Generating new nodes instances
+  Contestant 8904b225-18de-4f01-be1b-71459437ac1ewas initialized with level 19
+  8904b225-18de-4f01-be1b-71459437ac1e: node is ready
+  Contestant dfa5a7bb-dac1-4e71-b0f7-0b457a4e8234was initialized with level 15
+  dfa5a7bb-dac1-4e71-b0f7-0b457a4e8234: node is ready
+  Contestant ff0202bb-9794-4a11-9dd8-8a923d79eab1was initialized with level 20
+  ff0202bb-9794-4a11-9dd8-8a923d79eab1: node is ready
+  Contestant c40f44bf-bf72-4d70-b44d-911c75ca782fwas initialized with level 23
+  c40f44bf-bf72-4d70-b44d-911c75ca782f: node is ready
+  New simulation started on 2020/07/18 20:31:53
+  dfa5a7bb-dac1-4e71-b0f7-0b457a4e8234 is fighting against 8904b225-18de-4f01-be1b-71459437ac1e
+  ff0202bb-9794-4a11-9dd8-8a923d79eab1 is fighting against 8904b225-18de-4f01-be1b-71459437ac1e
+  ff0202bb-9794-4a11-9dd8-8a923d79eab1 gains 5 points
+  8904b225-18de-4f01-be1b-71459437ac1e losses 10 points
+  ff0202bb-9794-4a11-9dd8-8a923d79eab1 is fighting against c40f44bf-bf72-4d70-b44d-911c75ca782f
+  dfa5a7bb-dac1-4e71-b0f7-0b457a4e8234 losses 10 points
+  8904b225-18de-4f01-be1b-71459437ac1e gains 5 points
+  ff0202bb-9794-4a11-9dd8-8a923d79eab1 gains 5 points
+  c40f44bf-bf72-4d70-b44d-911c75ca782f losses 10 points
+  ff0202bb-9794-4a11-9dd8-8a923d79eab1 is fighting against c40f44bf-bf72-4d70-b44d-911c75ca782f
+  ff0202bb-9794-4a11-9dd8-8a923d79eab1 gains 5 points
+  c40f44bf-bf72-4d70-b44d-911c75ca782f losses 10 points
+  ff0202bb-9794-4a11-9dd8-8a923d79eab1 is fighting against dfa5a7bb-dac1-4e71-b0f7-0b457a4e8234
+  c40f44bf-bf72-4d70-b44d-911c75ca782f is fighting against 8904b225-18de-4f01-be1b-71459437ac1e
+  c40f44bf-bf72-4d70-b44d-911c75ca782f losses 10 points
+  c40f44bf-bf72-4d70-b44d-911c75ca782f: node is terminating...
+  8904b225-18de-4f01-be1b-71459437ac1e gains 5 points
+  c40f44bf-bf72-4d70-b44d-911c75ca782f: node has been terminated
+  ff0202bb-9794-4a11-9dd8-8a923d79eab1 gains 5 points
+  dfa5a7bb-dac1-4e71-b0f7-0b457a4e8234 losses 10 points
+  dfa5a7bb-dac1-4e71-b0f7-0b457a4e8234: node is terminating...
+  dfa5a7bb-dac1-4e71-b0f7-0b457a4e8234: node has been terminated
+  ff0202bb-9794-4a11-9dd8-8a923d79eab1 is fighting against 8904b225-18de-4f01-be1b-71459437ac1e
+  ff0202bb-9794-4a11-9dd8-8a923d79eab1 gains 5 points
+  8904b225-18de-4f01-be1b-71459437ac1e losses 10 points
+  Simulation duration finished
+  Nodes will be terminated....
+  ff0202bb-9794-4a11-9dd8-8a923d79eab1: node is terminating...
+  ff0202bb-9794-4a11-9dd8-8a923d79eab1: node has been terminated
+  8904b225-18de-4f01-be1b-71459437ac1e: node is terminating...
+  8904b225-18de-4f01-be1b-71459437ac1e: node has been terminated
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  7451599f-28f7-475e-87b3-4535f190f592
+  8e8218a8-300c-4be4-9567-0e5a9d5c6a84
+  ded612a7-4df3-4a49-8e4f-36f96051615a
+  977393ad-bff0-4fd1-bd7b-c44e7e432135
+  Nodes Addresses are:
+  192.168.1.102:2000
+  192.168.1.102:2002
+  192.168.1.102:2001
+  192.168.1.102:2003
+  Generating new nodes instances
+  Contestant 7451599f-28f7-475e-87b3-4535f190f592was initialized with level 19
+  7451599f-28f7-475e-87b3-4535f190f592: node is ready
+  Contestant 8e8218a8-300c-4be4-9567-0e5a9d5c6a84was initialized with level 17
+  8e8218a8-300c-4be4-9567-0e5a9d5c6a84: node is ready
+  Contestant ded612a7-4df3-4a49-8e4f-36f96051615awas initialized with level 5
+  ded612a7-4df3-4a49-8e4f-36f96051615a: node is ready
+  Contestant 977393ad-bff0-4fd1-bd7b-c44e7e432135was initialized with level 19
+  977393ad-bff0-4fd1-bd7b-c44e7e432135: node is ready
+  New simulation started on 2020/07/18 20:34:28
+  977393ad-bff0-4fd1-bd7b-c44e7e432135 is fighting against ded612a7-4df3-4a49-8e4f-36f96051615a
+  8e8218a8-300c-4be4-9567-0e5a9d5c6a84 is fighting against ded612a7-4df3-4a49-8e4f-36f96051615a
+  977393ad-bff0-4fd1-bd7b-c44e7e432135 gains 5 points
+  ded612a7-4df3-4a49-8e4f-36f96051615a losses 10 points
+  ded612a7-4df3-4a49-8e4f-36f96051615a: node is terminating...
+  ded612a7-4df3-4a49-8e4f-36f96051615a: node has been terminated
+  977393ad-bff0-4fd1-bd7b-c44e7e432135 is fighting against 7451599f-28f7-475e-87b3-4535f190f592
+  977393ad-bff0-4fd1-bd7b-c44e7e432135 gains 5 points
+  7451599f-28f7-475e-87b3-4535f190f592 losses 10 points
+  8e8218a8-300c-4be4-9567-0e5a9d5c6a84 gains 5 points
+  977393ad-bff0-4fd1-bd7b-c44e7e432135 is fighting against 7451599f-28f7-475e-87b3-4535f190f592
+  977393ad-bff0-4fd1-bd7b-c44e7e432135 gains 5 points
+  7451599f-28f7-475e-87b3-4535f190f592 losses 10 points
+  7451599f-28f7-475e-87b3-4535f190f592: node is terminating...
+  7451599f-28f7-475e-87b3-4535f190f592: node has been terminated
+  Simulation duration finished
+  Nodes will be terminated....
+  977393ad-bff0-4fd1-bd7b-c44e7e432135: node is terminating...
+  977393ad-bff0-4fd1-bd7b-c44e7e432135: node has been terminated
+  ded612a7-4df3-4a49-8e4f-36f96051615a: node is terminating...
+  ded612a7-4df3-4a49-8e4f-36f96051615a: node has been terminated
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  21405fe7-e9f7-4bec-ad4a-e82d67ed09b9
+  26fe8896-689e-4e66-bc4f-6c30d833f7a7
+  88faacd5-a9b4-417a-8185-edb920283560
+  444076f8-de55-4fa5-8468-d97eb379a29c
+  Nodes Addresses are:
+  192.168.1.102:2002
+  192.168.1.102:2001
+  192.168.1.102:2003
+  192.168.1.102:2000
+  Generating new nodes instances
+  Contestant 26fe8896-689e-4e66-bc4f-6c30d833f7a7was initialized with level 12
+  26fe8896-689e-4e66-bc4f-6c30d833f7a7: node is ready
+  Contestant 88faacd5-a9b4-417a-8185-edb920283560was initialized with level 27
+  88faacd5-a9b4-417a-8185-edb920283560: node is ready
+  Contestant 444076f8-de55-4fa5-8468-d97eb379a29cwas initialized with level 13
+  444076f8-de55-4fa5-8468-d97eb379a29c: node is ready
+  Contestant 21405fe7-e9f7-4bec-ad4a-e82d67ed09b9was initialized with level 12
+  21405fe7-e9f7-4bec-ad4a-e82d67ed09b9: node is ready
+  New simulation started on 2020/07/18 20:58:39
+  21405fe7-e9f7-4bec-ad4a-e82d67ed09b9 is fighting against 26fe8896-689e-4e66-bc4f-6c30d833f7a7
+  444076f8-de55-4fa5-8468-d97eb379a29c is fighting against 88faacd5-a9b4-417a-8185-edb920283560
+  444076f8-de55-4fa5-8468-d97eb379a29c losses 10 points
+  88faacd5-a9b4-417a-8185-edb920283560 gains 5 points
+  88faacd5-a9b4-417a-8185-edb920283560 is fighting against 444076f8-de55-4fa5-8468-d97eb379a29c
+  21405fe7-e9f7-4bec-ad4a-e82d67ed09b9 gains 1 point
+  26fe8896-689e-4e66-bc4f-6c30d833f7a7 gains 1 point
+  88faacd5-a9b4-417a-8185-edb920283560 gains 5 points
+  444076f8-de55-4fa5-8468-d97eb379a29c losses 10 points
+  444076f8-de55-4fa5-8468-d97eb379a29c: node is terminating...
+  444076f8-de55-4fa5-8468-d97eb379a29c: node has been terminated
+  88faacd5-a9b4-417a-8185-edb920283560 is fighting against 26fe8896-689e-4e66-bc4f-6c30d833f7a7
+  88faacd5-a9b4-417a-8185-edb920283560 gains 5 points
+  26fe8896-689e-4e66-bc4f-6c30d833f7a7 losses 10 points
+  88faacd5-a9b4-417a-8185-edb920283560 is fighting against 26fe8896-689e-4e66-bc4f-6c30d833f7a7
+  88faacd5-a9b4-417a-8185-edb920283560 gains 5 points
+  26fe8896-689e-4e66-bc4f-6c30d833f7a7 losses 10 points
+  26fe8896-689e-4e66-bc4f-6c30d833f7a7: node is terminating...
+  26fe8896-689e-4e66-bc4f-6c30d833f7a7: node has been terminated
+  [UDPUnderlay] Could not send the request.
+  Simulation duration finished
+  Nodes will be terminated....
+  88faacd5-a9b4-417a-8185-edb920283560: node is terminating...
+  88faacd5-a9b4-417a-8185-edb920283560: node has been terminated
+  88faacd5-a9b4-417a-8185-edb920283560: node is terminating...
+  88faacd5-a9b4-417a-8185-edb920283560: node has been terminated
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  8ca3f1b5-a4dc-4b9c-a683-29fa6d8d0cc5
+  010479de-7a35-4cec-ab10-c6b460229129
+  a88a9689-53fa-4279-b719-878355bb39eb
+  57ec14e6-abee-46be-bf01-c14148c1d7a9
+  Nodes Addresses are:
+  192.168.1.102:2003
+  192.168.1.102:2000
+  192.168.1.102:2002
+  192.168.1.102:2001
+  Generating new nodes instances
+  Contestant 010479de-7a35-4cec-ab10-c6b460229129was initialized with level 25
+  010479de-7a35-4cec-ab10-c6b460229129: node is ready
+  Contestant a88a9689-53fa-4279-b719-878355bb39ebwas initialized with level 3
+  a88a9689-53fa-4279-b719-878355bb39eb: node is ready
+  Contestant 57ec14e6-abee-46be-bf01-c14148c1d7a9was initialized with level 5
+  57ec14e6-abee-46be-bf01-c14148c1d7a9: node is ready
+  Contestant 8ca3f1b5-a4dc-4b9c-a683-29fa6d8d0cc5was initialized with level 26
+  8ca3f1b5-a4dc-4b9c-a683-29fa6d8d0cc5: node is ready
+  New simulation started on 2020/07/18 21:01:03
+  a88a9689-53fa-4279-b719-878355bb39eb is fighting against 010479de-7a35-4cec-ab10-c6b460229129
+  010479de-7a35-4cec-ab10-c6b460229129 is fighting against 8ca3f1b5-a4dc-4b9c-a683-29fa6d8d0cc5
+  a88a9689-53fa-4279-b719-878355bb39eb losses 10 points
+  a88a9689-53fa-4279-b719-878355bb39eb: node is terminating...
+  a88a9689-53fa-4279-b719-878355bb39eb: node has been terminated
+  010479de-7a35-4cec-ab10-c6b460229129 losses 10 points
+  8ca3f1b5-a4dc-4b9c-a683-29fa6d8d0cc5 gains 5 points
+  010479de-7a35-4cec-ab10-c6b460229129 gains 5 points
+  8ca3f1b5-a4dc-4b9c-a683-29fa6d8d0cc5 is fighting against 010479de-7a35-4cec-ab10-c6b460229129
+  57ec14e6-abee-46be-bf01-c14148c1d7a9 is fighting against 010479de-7a35-4cec-ab10-c6b460229129
+  57ec14e6-abee-46be-bf01-c14148c1d7a9 losses 10 points
+  57ec14e6-abee-46be-bf01-c14148c1d7a9: node is terminating...
+  57ec14e6-abee-46be-bf01-c14148c1d7a9: node has been terminated
+  010479de-7a35-4cec-ab10-c6b460229129 gains 5 points
+  8ca3f1b5-a4dc-4b9c-a683-29fa6d8d0cc5 gains 5 points
+  010479de-7a35-4cec-ab10-c6b460229129 losses 10 points
+  010479de-7a35-4cec-ab10-c6b460229129 is fighting against 8ca3f1b5-a4dc-4b9c-a683-29fa6d8d0cc5
+  010479de-7a35-4cec-ab10-c6b460229129 losses 10 points
+  8ca3f1b5-a4dc-4b9c-a683-29fa6d8d0cc5 gains 5 points
+  8ca3f1b5-a4dc-4b9c-a683-29fa6d8d0cc5 is fighting against 010479de-7a35-4cec-ab10-c6b460229129
+  Simulation duration finished
+  Nodes will be terminated....
+  010479de-7a35-4cec-ab10-c6b460229129: node is terminating...
+  010479de-7a35-4cec-ab10-c6b460229129: node has been terminated
+  8ca3f1b5-a4dc-4b9c-a683-29fa6d8d0cc5: node is terminating...
+  8ca3f1b5-a4dc-4b9c-a683-29fa6d8d0cc5: node has been terminated
+  [UDPUnderlay] Could not send the request.
+  8ca3f1b5-a4dc-4b9c-a683-29fa6d8d0cc5 gains 5 points
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  d8ec0fec-49c1-4067-aa76-820a58b09406
+  59dead44-0e67-441b-9190-77ed58306381
+  b262fdff-8ce6-4fd4-a314-b113754e2ee1
+  8c42cbd1-2ebc-4523-b6e6-43238865f109
+  Nodes Addresses are:
+  192.168.1.102:2003
+  192.168.1.102:2002
+  192.168.1.102:2001
+  192.168.1.102:2000
+  Generating new nodes instances
+  Contestant 59dead44-0e67-441b-9190-77ed58306381was initialized with level 15
+  59dead44-0e67-441b-9190-77ed58306381: node is ready
+  Contestant b262fdff-8ce6-4fd4-a314-b113754e2ee1was initialized with level 25
+  b262fdff-8ce6-4fd4-a314-b113754e2ee1: node is ready
+  Contestant 8c42cbd1-2ebc-4523-b6e6-43238865f109was initialized with level 7
+  8c42cbd1-2ebc-4523-b6e6-43238865f109: node is ready
+  Contestant d8ec0fec-49c1-4067-aa76-820a58b09406was initialized with level 14
+  d8ec0fec-49c1-4067-aa76-820a58b09406: node is ready
+  New simulation started on 2020/07/18 21:02:23
+  b262fdff-8ce6-4fd4-a314-b113754e2ee1 is fighting against 59dead44-0e67-441b-9190-77ed58306381
+  b262fdff-8ce6-4fd4-a314-b113754e2ee1 gains 5 points
+  59dead44-0e67-441b-9190-77ed58306381 losses 10 points
+  Simulation duration finished
+  Nodes will be terminated....
+  b262fdff-8ce6-4fd4-a314-b113754e2ee1: node is terminating...
+  b262fdff-8ce6-4fd4-a314-b113754e2ee1: node has been terminated
+  8c42cbd1-2ebc-4523-b6e6-43238865f109: node is terminating...
+  8c42cbd1-2ebc-4523-b6e6-43238865f109: node has been terminated
+  d8ec0fec-49c1-4067-aa76-820a58b09406: node is terminating...
+  d8ec0fec-49c1-4067-aa76-820a58b09406: node has been terminated
+  59dead44-0e67-441b-9190-77ed58306381: node is terminating...
+  59dead44-0e67-441b-9190-77ed58306381: node has been terminated
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  baf1274e-3b4c-4df8-99eb-b6b32aa2af9b
+  98b8ca02-f51e-4d2f-966f-0d48b1acb2bc
+  9a49a327-5905-478c-8cfb-74e2f93b855b
+  999fd37a-32d9-412f-a67d-627247e21e2e
+  Nodes Addresses are:
+  192.168.1.102:2003
+  192.168.1.102:2000
+  192.168.1.102:2001
+  192.168.1.102:2002
+  Generating new nodes instances
+  Contestant 98b8ca02-f51e-4d2f-966f-0d48b1acb2bcwas initialized with level 16
+  98b8ca02-f51e-4d2f-966f-0d48b1acb2bc: node is ready
+  Contestant 9a49a327-5905-478c-8cfb-74e2f93b855bwas initialized with level 17
+  9a49a327-5905-478c-8cfb-74e2f93b855b: node is ready
+  Contestant 999fd37a-32d9-412f-a67d-627247e21e2ewas initialized with level 24
+  999fd37a-32d9-412f-a67d-627247e21e2e: node is ready
+  Contestant baf1274e-3b4c-4df8-99eb-b6b32aa2af9bwas initialized with level 1
+  baf1274e-3b4c-4df8-99eb-b6b32aa2af9b: node is ready
+  New simulation started on 2020/07/18 21:04:33
+  999fd37a-32d9-412f-a67d-627247e21e2e is fighting against 9a49a327-5905-478c-8cfb-74e2f93b855b
+  98b8ca02-f51e-4d2f-966f-0d48b1acb2bc is fighting against baf1274e-3b4c-4df8-99eb-b6b32aa2af9b
+  999fd37a-32d9-412f-a67d-627247e21e2e gains 5 points
+  9a49a327-5905-478c-8cfb-74e2f93b855b losses 10 points
+  98b8ca02-f51e-4d2f-966f-0d48b1acb2bc gains 5 points
+  baf1274e-3b4c-4df8-99eb-b6b32aa2af9b losses 10 points
+  baf1274e-3b4c-4df8-99eb-b6b32aa2af9b: node is terminating...
+  baf1274e-3b4c-4df8-99eb-b6b32aa2af9b: node has been terminated
+  98b8ca02-f51e-4d2f-966f-0d48b1acb2bc is fighting against 999fd37a-32d9-412f-a67d-627247e21e2e
+  98b8ca02-f51e-4d2f-966f-0d48b1acb2bc losses 10 points
+  999fd37a-32d9-412f-a67d-627247e21e2e gains 5 points
+  98b8ca02-f51e-4d2f-966f-0d48b1acb2bc is fighting against 999fd37a-32d9-412f-a67d-627247e21e2e
+  98b8ca02-f51e-4d2f-966f-0d48b1acb2bc losses 10 points
+  999fd37a-32d9-412f-a67d-627247e21e2e gains 5 points
+  98b8ca02-f51e-4d2f-966f-0d48b1acb2bc is fighting against 999fd37a-32d9-412f-a67d-627247e21e2e
+  98b8ca02-f51e-4d2f-966f-0d48b1acb2bc losses 10 points
+  98b8ca02-f51e-4d2f-966f-0d48b1acb2bc: node is terminating...
+  98b8ca02-f51e-4d2f-966f-0d48b1acb2bc: node has been terminated
+  999fd37a-32d9-412f-a67d-627247e21e2e gains 5 points
+  999fd37a-32d9-412f-a67d-627247e21e2e is fighting against 9a49a327-5905-478c-8cfb-74e2f93b855b
+  999fd37a-32d9-412f-a67d-627247e21e2e gains 5 points
+  9a49a327-5905-478c-8cfb-74e2f93b855b losses 10 points
+  9a49a327-5905-478c-8cfb-74e2f93b855b: node is terminating...
+  9a49a327-5905-478c-8cfb-74e2f93b855b: node has been terminated
+  Simulation duration finished
+  Nodes will be terminated....
+  999fd37a-32d9-412f-a67d-627247e21e2e: node is terminating...
+  999fd37a-32d9-412f-a67d-627247e21e2e: node has been terminated
   

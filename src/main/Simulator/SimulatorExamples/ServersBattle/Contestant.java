@@ -1,7 +1,8 @@
 package SimulatorExamples.ServersBattle;
 
-import Simulator.BaseNode;
-import Simulator.Event;
+import Node.BaseNode;
+import underlay.MiddleLayer;
+import underlay.packets.Event;
 import Simulator.Simulator;
 
 import java.util.ArrayList;
@@ -18,10 +19,12 @@ public class Contestant implements BaseNode {
     public boolean isWaiting;
     private int healthLevel;
     ReentrantLock lock = new ReentrantLock();
+    MiddleLayer netowrk;
 
-    Contestant(UUID selfId)
+    Contestant(UUID selfId, MiddleLayer netowrk)
     {
         this.selfId = selfId;
+        this.netowrk = netowrk;
     }
 
     public UUID getId()
@@ -48,7 +51,7 @@ public class Contestant implements BaseNode {
         this.isFighting = false;
         this.isWaiting = false;
         this.allID = allID;
-        Simulator.Ready(this.selfId);
+        netowrk.ready();
     }
 
     @Override
@@ -67,7 +70,7 @@ public class Contestant implements BaseNode {
     }
 
     @Override
-    public BaseNode newInstance(UUID selfID) {return new Contestant(selfID);}
+    public BaseNode newInstance(UUID selfID, MiddleLayer netowrk) {return new Contestant(selfID, netowrk);}
 
     public synchronized void sendNewFightInvitation()
     {
@@ -87,7 +90,7 @@ public class Contestant implements BaseNode {
         {
             UUID targetId = this.allID.get(ind);
             if(!this.selfId.equals(targetId)) {
-                if(!Simulator.Submit(this.selfId, targetId, new BattleInvitation(this.selfId, targetId, duration)))
+                if(!netowrk.send(targetId, new BattleInvitation(this.selfId, targetId, duration)))
                     this.allID.remove(targetId);
                 else {
                     this.isWaiting = true;
@@ -123,20 +126,20 @@ public class Contestant implements BaseNode {
     public void onNewFightInvitation(UUID host, int duration)
     {
         if(!this.isFighting) {
-            if(Simulator.Submit(this.selfId, host, new BattleConfirmation(host, this.selfId, true, duration, this.healthLevel)))
+            if(netowrk.send(host, new BattleConfirmation(host, this.selfId, true, duration, this.healthLevel)))
                 this.isFighting = true;
             else
                 Simulator.getLogger().debug(this.selfId + "could not reach " + host);
         }
         else
-            Simulator.Submit(this.selfId, host, new BattleConfirmation(host, this.selfId, false));
+            netowrk.send(host, new BattleConfirmation(host, this.selfId, false));
 
     }
 
     public synchronized void hostFight(UUID opponent, int opponentLevel, int duration){
 
         if(this.isFighting)
-            Simulator.Submit(this.selfId, opponent, new BattleResult(this.selfId, opponent, true));
+            netowrk.send(opponent, new BattleResult(this.selfId, opponent, true));
 
         else if (opponentLevel > 0 && this.healthLevel > 0){
             lock.lock();
@@ -159,7 +162,7 @@ public class Contestant implements BaseNode {
             if(this.healthLevel > opponentLevel) res = 1;
             else if(this.healthLevel < opponentLevel) res = -1;
             System.out.println("New fighting is happening between contestant with level " + opponentLevel + " and contestant with level " +  this.healthLevel);
-            Simulator.Submit(this.selfId, opponent, new BattleResult(this.selfId, opponent, false, res * -1));
+            netowrk.send(opponent, new BattleResult(this.selfId, opponent, false, res * -1));
             updateHealth(res);
         }
     }
@@ -181,7 +184,7 @@ public class Contestant implements BaseNode {
                 break;
         }
         if(this.healthLevel <= 0)
-            {Simulator.Done(this.selfId); return;}
+            {netowrk.done(); return;}
 
         this.isFighting = false;
         this.isWaiting = false;

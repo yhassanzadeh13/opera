@@ -1,7 +1,9 @@
-package Simulator;
+package Node;
 
 
-import java.awt.*;
+import underlay.MiddleLayer;
+import underlay.packets.Event;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -48,7 +50,6 @@ public interface BaseNode{
      * @param selfID the ID of the new node
      * @return a new instance of the special node class
      */
-    BaseNode newInstance(UUID selfID);
-
+    BaseNode newInstance(UUID selfID, MiddleLayer network);
 
 }

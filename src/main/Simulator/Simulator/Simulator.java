@@ -1,27 +1,85 @@
 package Simulator;
 
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.util.*;
 
+import Node.BaseNode;
+import javafx.util.Pair;
 import org.apache.log4j.Logger;
+import underlay.Local.LocalUnderlay;
+import underlay.MiddleLayer;
+import underlay.TCP.TCPUnderlay;
+import underlay.UDP.UDPUnderlay;
+import underlay.Underlay;
+import underlay.UnderlayFactory;
+import underlay.javaRMI.JavaRMIUnderlay;
+import underlay.packets.Event;
+
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.stream.Collectors;
 
-public class Simulator<T extends BaseNode> {
+public class Simulator<T extends BaseNode> implements BaseNode{
 
     //Simulator config
-    private boolean isLocal = true;
+    private final int START_PORT = 2000;
+    private boolean isLocal;
     private ArrayList<UUID> allID;
-    private static HashMap<UUID, Boolean> isReady;
+    private HashMap<UUID, Pair<String, Integer>> allFullAddresses;
+    private HashMap<UUID, Boolean> isReady;
     private T factory;
-    private static Network network;
-    static Logger log = Logger.getLogger(Simulator.class.getName());
+    public static Logger log = Logger.getLogger(Simulator.class.getName());
+    private HashMap<Pair<String, Integer>, MiddleLayer> allMiddleLayers;
 
-    static CountDownLatch count;
+    private CountDownLatch count;
+
+    @Override
+    public void onCreate(ArrayList<UUID> allID) { }
+
+    @Override
+    public void onStart() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        log.info("New simulation started on " +  dtf.format(now));
+        try{
+            count.await();
+        }
+        catch (Exception e){
+            log.error("Count down latch could not wait " + e.getMessage());
+        }
+
+        for(MiddleLayer middleNetwork : this.allMiddleLayers.values()){
+            new Thread(){
+                public void run(){
+                    middleNetwork.start();
+                }
+            }.start();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        log.info("Nodes will be terminated....");
+        //terminating all nodes
+        while(!allID.isEmpty())
+        {
+            int sz = allID.size();
+            this.Done(allID.get(sz-1));
+        }
+        Thread.interrupted();
+    }
+
+    @Override
+    public void onNewMessage(UUID originID, Event msg) {
+        msg.actionPerformed(this);
+    }
+
+    @Override
+    public BaseNode newInstance(UUID selfID, MiddleLayer middleLayer) {
+        return null;
+    }
+
 
     /**
      * Initializes a newly created simulator based on a factory node and the number of nodes in
@@ -29,9 +87,9 @@ public class Simulator<T extends BaseNode> {
      * @param factory a dummy factory instance of special node class.
      * @param N the number of nodes.
      */
-    public Simulator(T factory, int N)
+    public Simulator(T factory, int N, String networkType)
     {
-        this(factory, N, true);
+        this(factory, N, networkType, true);
     }
 
     /**
@@ -40,31 +98,31 @@ public class Simulator<T extends BaseNode> {
      * @param N
      * @param isLocal
      */
-    private Simulator(T factory, int N, boolean isLocal)
-    {
-        this(factory, N, isLocal, new ArrayList<UUID>());
-    }
-
-    private Simulator(T factory, int N, boolean isLocal, ArrayList<UUID> allID)
+    private Simulator(T factory, int N, String networkType, boolean isLocal)
     {
         this.factory = factory;
         this.isLocal = isLocal;
-        this.allID = allID;
 
         isReady = new HashMap<UUID, Boolean>();
 
+        // generate new IDs and addresses
         this.allID = generateIDs(N);
+        this.allFullAddresses = generateFullAddressed(N, this.START_PORT);
 
         //logging
         log.info("Nodes IDs are:");
         for(UUID id : this.allID)
             log.info(id);
 
+        // logging
+        log.info("Nodes Addresses are:");
+        for(Pair<String, Integer> address : this.allFullAddresses.values())
+            log.info(address.getKey() + ":" + address.getValue());
+
         count = new CountDownLatch(N);
-        network = new Network(this.allID);
         if(isLocal)
         {
-            this.generateNodesInstances(this.allID);
+            this.generateNodesInstances(N, networkType);
         }
     }
 
@@ -86,66 +144,67 @@ public class Simulator<T extends BaseNode> {
         return tmp;
     }
 
-    /**
-     * Generate new instances for the nodes and add them to the network
-     * @param allID ArrayList of the IDs of the nodes
-     */
-    private void generateNodesInstances(ArrayList<UUID> allID) {
 
+    private HashMap<UUID, Pair<String, Integer>> generateFullAddressed(int N, int start_port){
         //logging
-        log.debug("Generating nodes instanes");
+        log.info("Generating full Addresses for " + N + " node..");
 
-        for(int i = 0; i < allID.size(); i++)
-        {
-            isReady.put(allID.get(i), false);
-            NodeThread<T> node = new NodeThread<T>(factory, allID.get(i), allID);
-            network.addInstance(allID.get(i), node);
-            node.onCreate(allID);
+        HashMap<UUID, Pair<String, Integer>> tmp = new HashMap<>();
+
+        String address = "localhost";
+
+        try {
+            address = Inet4Address.getLocalHost().getHostAddress();
+        } catch(UnknownHostException e) {
+
+            log.error("[Underlay] Could not acquire the local host name during initialization.");
+            log.error(e.getMessage());
         }
+
+        System.out.println(address);
+        for(int i = 0;i < N;i++)
+            tmp.put(allID.get(i), new Pair<>(address, start_port + i));
+
+        return tmp;
     }
 
 
     /**
-     * Serves as a channel for nodes to communicate. When a node A want to send a new message
-     * to node B it should call this method.
-     * @param originalID the sender node ID
-     * @param targetID the receiver node ID
-     * @param msg the message content
-     * @return True if the message was sent successfuly. False otherwise.
+     * Generate new instances for the nodes and add them to the network
+     * @param N number of nodes
      */
-    public static boolean Submit(UUID originalID, UUID targetID, Event msg)
-    {
-        if(!isReady.get(originalID)){
-            Simulator.log.error(originalID + ": Node is not ready yet..");
-            return false;
-        }
-        if(!isReady.get(targetID)){
-            Simulator.log.error(targetID + ": Node is not ready yet..");
-            return false;
-        }
-        try{
-            byte[] tmp = SimulatorUtils.serialize(msg);
-            boolean sent =  network.sendMessage(new Message(originalID, targetID, tmp));
-            if(sent)
-            {
-                log.info(originalID + " --> " + targetID + ": "  + msg.logMessage());
-                return true;
-            }
-            else
-                log.error(originalID + " --> " + targetID + ": " + msg.logMessage() + " was not able to be sent to node ");
+    private void generateNodesInstances(int N, String networkType) {
 
-        } catch (Exception e)
+        this.allMiddleLayers = new HashMap<Pair<String, Integer>, MiddleLayer>();
+        //logging
+        log.debug("Generating new nodes instances");
+
+        for(UUID id : allID)
         {
-            e.printStackTrace();
+            isReady.put(id, false);
+            MiddleLayer middleLayer = new MiddleLayer(id, this.allFullAddresses, this);
+            BaseNode node = factory.newInstance(id, middleLayer);
+            middleLayer.setOverlay(node);
+            this.allMiddleLayers.put(this.allFullAddresses.get(id), middleLayer);
         }
-        return false;
+        Underlay underlay = UnderlayFactory.getMockUnderlay(this.allMiddleLayers);
+        for(Map.Entry<Pair<String, Integer>, MiddleLayer> node : this.allMiddleLayers.entrySet())
+        {
+            MiddleLayer middleLayer = node.getValue();
+            int port = node.getKey().getValue();
+            if(!networkType.equals("mockNetwork"))
+                underlay = UnderlayFactory.NewUnderlay(networkType, port, middleLayer);
+            middleLayer.setUnderlay(underlay);
+            // call the node onCreat method
+            middleLayer.create(this.allID);
+        }
     }
 
     /**
      * Should be called by the node to declare itself ready for simulation.
      * @param nodeID ID of the node
      */
-    public static void Ready(UUID nodeID)
+    public void Ready(UUID nodeID)
     {
         isReady.put(nodeID, true);
         //logging
@@ -157,13 +216,26 @@ public class Simulator<T extends BaseNode> {
      * Should be called by the node when it is done with the simulation and want to terminate
      * @param nodeID ID of the node
      */
-    public static void Done(UUID nodeID)
+    public void Done(UUID nodeID)
     {
         //logging
         log.info(nodeID + ": node is terminating...");
 
         isReady.put(nodeID, false);
-        network.stopNode(nodeID);
+        Pair<String, Integer> fullAddress = allFullAddresses.get(nodeID);
+        try{
+            MiddleLayer middleLayer = this.allMiddleLayers.get(fullAddress);
+            new Thread(){
+                public void run(){
+                    middleLayer.stop(fullAddress.getKey(), fullAddress.getValue());
+                }
+            }.start();
+            this.allID.remove(nodeID);
+        }catch (NullPointerException e){
+            log.error("[Simulator] Cannot find node " + nodeID);
+            log.debug("[Simulator] Node " + nodeID + "has already been terminate");
+        }
+
 
         //logging
         log.info(nodeID + ": node has been terminated");
@@ -178,15 +250,6 @@ public class Simulator<T extends BaseNode> {
         return log;
     }
 
-    /**
-     * getter for node Index in the Simulator
-     * @param nodeID ID of the node
-     * @return the index of the node in the network
-     */
-    public static int getNodeIndex(UUID nodeID)
-    {
-        return network.getNodeIndex(nodeID);
-    }
 
     /**
      * Used to start the simulation.
@@ -194,25 +257,7 @@ public class Simulator<T extends BaseNode> {
      */
     public void start(int duration)
     {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        log.info("New simulation started on " +  dtf.format(now));
-        try{
-            count.await();
-        }
-        catch (Exception e){
-            log.error("Count down latch could not wait " + e.getMessage());
-        }
-
-        ArrayList<UUID> tem = new ArrayList<>();
-
-        for(UUID id : this.allID) tem.add(id);
-
-        for(UUID id : tem){
-            if(network.startNode(id))
-                log.info(id + ": node started");
-        }
-
+        this.onStart();
         try{
             Thread.sleep(duration);
         }catch (Exception e)
@@ -221,13 +266,8 @@ public class Simulator<T extends BaseNode> {
         }
 
         log.info("Simulation duration finished");
-        log.info("Nodes will be terminated....");
-        //terminating all nodes
-        while(!allID.isEmpty())
-        {
-            int sz = allID.size();
-            Simulator.Done(allID.get(sz-1));
-        }
+        // stop the simulator.
+        this.onStop();
     }
 
 }

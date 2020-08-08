@@ -4,7 +4,7 @@ package Simulator;
 import java.io.*;
 
 /**
- * Contains various static helper methods to be used by the UDP Underlay implementation.
+ * Contains various static helper methods to be used by the UDP underlay implementation.
  */
 public class SimulatorUtils {
 

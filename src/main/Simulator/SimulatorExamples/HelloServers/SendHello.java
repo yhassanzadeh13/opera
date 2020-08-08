@@ -1,6 +1,7 @@
 package SimulatorExamples.HelloServers;
 
-import Simulator.*;
+import Node.BaseNode;
+import underlay.packets.Event;
 
 import java.io.Serializable;
 import java.util.UUID;

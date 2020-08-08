@@ -7,7 +7,8 @@ import java.util.UUID;
 public class Main {
 
     public static void main(String[] args) {
-        Simulator<Contestant> sim = new Simulator<Contestant>(new Contestant(UUID.randomUUID()), 4);
+        Contestant dummyNode = new Contestant(null, null);
+        Simulator<Contestant> sim = new Simulator<Contestant>(dummyNode, 4, "tcp");
         sim.start(10000);
     }
 }

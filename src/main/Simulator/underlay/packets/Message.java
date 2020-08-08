@@ -1,11 +1,11 @@
-package Simulator;
+package underlay.packets;
 
 import java.util.UUID;
 
 /**
  * This method is for the package Similator level and is not supposed to be accessed by the nodes.
- * It serves as the base message between the Network and the Simulator. The Simulator will marshal
- * the Event and capsule it into Message before sending it to the Network layer.
+ * It serves as the base message between the LocalUnderlay and the Simulator. The Simulator will marshal
+ * the Event and capsule it into Message before sending it to the LocalUnderlay layer.
  */
 
 class Message {

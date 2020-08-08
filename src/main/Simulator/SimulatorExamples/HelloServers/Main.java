@@ -1,13 +1,15 @@
 package SimulatorExamples.HelloServers;
 
 import Simulator.Simulator;
+import underlay.MiddleLayer;
 
 import java.util.UUID;
 
 public class Main {
 
     public static void main(String[] args) {
-        Simulator<myNode> simulation = new Simulator<myNode>(new myNode(UUID.randomUUID()), 20);
-        simulation.start(10000);
+        myNode dummyNode = new myNode(null, null);
+        Simulator<myNode> simulation = new Simulator<myNode>(dummyNode, 3, "tcp");
+        simulation.start(3000);
     }
 }
