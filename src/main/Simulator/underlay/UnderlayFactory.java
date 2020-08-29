@@ -1,6 +1,5 @@
 package underlay;
 
-import javafx.util.Pair;
 import org.apache.log4j.Logger;
 import org.yaml.snakeyaml.Yaml;
 import underlay.Local.LocalUnderlay;
@@ -10,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,7 +25,7 @@ public class UnderlayFactory {
     private static String yamlFile = "./src/main/Simulator/underlay/underlayTypes.yaml";
 
 
-    public static Underlay getMockUnderlay(HashMap<Pair<String, Integer>, MiddleLayer> allMiddleLayers){
+    public static Underlay getMockUnderlay(HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers){
         Underlay underlay = new LocalUnderlay(allMiddleLayers);
         underlay.initialize(-1, null);
         return underlay;

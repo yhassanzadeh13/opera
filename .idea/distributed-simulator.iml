@@ -14,5 +14,11 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: log4j:log4j:1.2.17" level="project" />
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.21" level="project" />
+    <orderEntry type="library" name="Maven: io.prometheus:simpleclient:0.9.0" level="project" />
+    <orderEntry type="library" name="Maven: io.prometheus:simpleclient_hotspot:0.9.0" level="project" />
+    <orderEntry type="library" name="Maven: io.prometheus:simpleclient_httpserver:0.9.0" level="project" />
+    <orderEntry type="library" name="Maven: io.prometheus:simpleclient_common:0.9.0" level="project" />
+    <orderEntry type="library" name="Maven: io.prometheus:simpleclient_pushgateway:0.9.0" level="project" />
+    <orderEntry type="library" name="Maven: javax.xml.bind:jaxb-api:2.3.0" level="project" />
   </component>
 </module>

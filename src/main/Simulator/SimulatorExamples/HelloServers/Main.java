@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
         myNode dummyNode = new myNode(null, null);
-        Simulator<myNode> simulation = new Simulator<myNode>(dummyNode, 3, "tcp");
+        Simulator<myNode> simulation = new Simulator<myNode>(dummyNode, 3, "mockNetwork");
         simulation.start(3000);
     }
 }

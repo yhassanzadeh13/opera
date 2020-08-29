@@ -1,5 +1,6 @@
 package underlay.TCP;
 
+import Simulator.Simulator;
 import underlay.MiddleLayer;
 import underlay.Underlay;
 import underlay.packets.Request;
@@ -58,8 +59,7 @@ public class TCPUnderlay extends Underlay {
         try {
             remote = new Socket(address, port);
         } catch (IOException e) {
-            System.err.println("[TCPUnderlay] Could not connect to the address: " + address + ":" + port);
-            e.printStackTrace();
+            Simulator.getLogger().error("[TCPUnderlay] Could not connect to the address: " + address + ":" + port);
             return false;
         }
         // Send the request.

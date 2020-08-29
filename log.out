@@ -1255,4 +1255,711 @@ Generating IDs for 10 node..
   Nodes will be terminated....
   999fd37a-32d9-412f-a67d-627247e21e2e: node is terminating...
   999fd37a-32d9-412f-a67d-627247e21e2e: node has been terminated
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  b24375d8-3fec-490a-a071-29be007908d0
+  11534e75-ec4a-439b-a832-39b782c3d7b4
+  3aa3f9c7-fa76-457e-9bc6-5d8ac93828d5
+  33572581-4b5e-4288-8b42-307d351cb5f2
+  Nodes Addresses are:
+  127.0.0.1:2003
+  127.0.0.1:2001
+  127.0.0.1:2000
+  127.0.0.1:2002
+  Generating new nodes instances
+  Contestant 3aa3f9c7-fa76-457e-9bc6-5d8ac93828d5was initialized with level 3
+  3aa3f9c7-fa76-457e-9bc6-5d8ac93828d5: node is ready
+  Contestant 33572581-4b5e-4288-8b42-307d351cb5f2was initialized with level 11
+  33572581-4b5e-4288-8b42-307d351cb5f2: node is ready
+  Contestant b24375d8-3fec-490a-a071-29be007908d0was initialized with level 11
+  b24375d8-3fec-490a-a071-29be007908d0: node is ready
+  Contestant 11534e75-ec4a-439b-a832-39b782c3d7b4was initialized with level 2
+  11534e75-ec4a-439b-a832-39b782c3d7b4: node is ready
+  New simulation started on 2020/08/22 21:02:50
+  b24375d8-3fec-490a-a071-29be007908d0 is fighting against 33572581-4b5e-4288-8b42-307d351cb5f2
+  b24375d8-3fec-490a-a071-29be007908d0 gains 1 point
+  33572581-4b5e-4288-8b42-307d351cb5f2 gains 1 point
+  b24375d8-3fec-490a-a071-29be007908d0 is fighting against 33572581-4b5e-4288-8b42-307d351cb5f2
+  b24375d8-3fec-490a-a071-29be007908d0 gains 1 point
+  33572581-4b5e-4288-8b42-307d351cb5f2 gains 1 point
+  b24375d8-3fec-490a-a071-29be007908d0 is fighting against 3aa3f9c7-fa76-457e-9bc6-5d8ac93828d5
+  33572581-4b5e-4288-8b42-307d351cb5f2 is fighting against 3aa3f9c7-fa76-457e-9bc6-5d8ac93828d5
+  b24375d8-3fec-490a-a071-29be007908d0 gains 5 points
+  3aa3f9c7-fa76-457e-9bc6-5d8ac93828d5 losses 10 points
+  3aa3f9c7-fa76-457e-9bc6-5d8ac93828d5: node is terminating...
+  3aa3f9c7-fa76-457e-9bc6-5d8ac93828d5: node has been terminated
+  33572581-4b5e-4288-8b42-307d351cb5f2 gains 5 points
+  33572581-4b5e-4288-8b42-307d351cb5f2 is fighting against b24375d8-3fec-490a-a071-29be007908d0
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  b90f04c7-5e53-4f44-b44c-0b9df166c50e
+  71413be4-c087-4049-88c0-3379934a54d2
+  6fdee0a7-dcb8-4737-b303-5e578369dbb6
+  Nodes Addresses are:
+  127.0.0.1:2001
+  127.0.0.1:2002
+  127.0.0.1:2003
+  Generating new nodes instances
+  71413be4-c087-4049-88c0-3379934a54d2: node is ready
+  6fdee0a7-dcb8-4737-b303-5e578369dbb6: node is ready
+  b90f04c7-5e53-4f44-b44c-0b9df166c50e: node is ready
+  New simulation started on 2020/08/22 21:10:48
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  cb619789-183c-4dba-833e-d369bee14a9d
+  a97d23d4-c0cb-4cc4-a798-4c4dde2bea97
+  590a8647-9801-4d6e-9016-e0de7396439b
+  Nodes Addresses are:
+  127.0.0.1:2001
+  127.0.0.1:2003
+  127.0.0.1:2002
+  Generating new nodes instances
+  a97d23d4-c0cb-4cc4-a798-4c4dde2bea97: node is ready
+  590a8647-9801-4d6e-9016-e0de7396439b: node is ready
+  cb619789-183c-4dba-833e-d369bee14a9d: node is ready
+  New simulation started on 2020/08/22 21:11:26
+  Simulation duration finished
+  Nodes will be terminated....
+  590a8647-9801-4d6e-9016-e0de7396439b: node is terminating...
+  590a8647-9801-4d6e-9016-e0de7396439b: node has been terminated
+  a97d23d4-c0cb-4cc4-a798-4c4dde2bea97: node is terminating...
+  a97d23d4-c0cb-4cc4-a798-4c4dde2bea97: node has been terminated
+  cb619789-183c-4dba-833e-d369bee14a9d: node is terminating...
+  cb619789-183c-4dba-833e-d369bee14a9d: node has been terminated
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  ebc95661-95e1-4194-85c3-0a1673058cdd
+  667296c6-905f-41a8-abb6-46ac70e1e241
+  a09ac84f-c56a-45e8-b70f-70205b26230a
+  Nodes Addresses are:
+  127.0.0.1:2001
+  127.0.0.1:2003
+  127.0.0.1:2002
+  Generating new nodes instances
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  611344e6-6aaa-42a9-a489-0b30ee8a7853
+  0557b9bc-7fe9-4b65-b4ce-4ebf5156bca0
+  d1b0b526-9ef3-4119-a20d-cb1d5de70d64
+  Nodes Addresses are:
+  127.0.0.1:2002
+  127.0.0.1:2001
+  127.0.0.1:2003
+  Generating new nodes instances
+  0557b9bc-7fe9-4b65-b4ce-4ebf5156bca0: node is ready
+  d1b0b526-9ef3-4119-a20d-cb1d5de70d64: node is ready
+  611344e6-6aaa-42a9-a489-0b30ee8a7853: node is ready
+  New simulation started on 2020/08/24 01:33:18
+  Simulation duration finished
+  Nodes will be terminated....
+  d1b0b526-9ef3-4119-a20d-cb1d5de70d64: node is terminating...
+  d1b0b526-9ef3-4119-a20d-cb1d5de70d64: node has been terminated
+  0557b9bc-7fe9-4b65-b4ce-4ebf5156bca0: node is terminating...
+  0557b9bc-7fe9-4b65-b4ce-4ebf5156bca0: node has been terminated
+  611344e6-6aaa-42a9-a489-0b30ee8a7853: node is terminating...
+  611344e6-6aaa-42a9-a489-0b30ee8a7853: node has been terminated
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  e6df6926-5f99-4b72-ac94-bcaba43957bc
+  066c878c-56b7-4469-bf8f-63e540be3282
+  78a91ba8-446e-4d71-a790-6784723391a8
+  Nodes Addresses are:
+  127.0.0.1:2003
+  127.0.0.1:2001
+  127.0.0.1:2002
+  Generating new nodes instances
+  066c878c-56b7-4469-bf8f-63e540be3282: node is ready
+  78a91ba8-446e-4d71-a790-6784723391a8: node is ready
+  e6df6926-5f99-4b72-ac94-bcaba43957bc: node is ready
+  New simulation started on 2020/08/24 01:35:22
+  Simulation duration finished
+  Nodes will be terminated....
+  78a91ba8-446e-4d71-a790-6784723391a8: node is terminating...
+  78a91ba8-446e-4d71-a790-6784723391a8: node has been terminated
+  066c878c-56b7-4469-bf8f-63e540be3282: node is terminating...
+  066c878c-56b7-4469-bf8f-63e540be3282: node has been terminated
+  e6df6926-5f99-4b72-ac94-bcaba43957bc: node is terminating...
+  e6df6926-5f99-4b72-ac94-bcaba43957bc: node has been terminated
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  ff40fe76-b319-4353-8538-c97b82e5632d
+  e79b9ab1-fc13-42ee-9c19-f98489989b4d
+  a3df4f8c-db0b-4da8-bd30-580685b5e166
+  Nodes Addresses are:
+  127.0.0.1:2003
+  127.0.0.1:2001
+  127.0.0.1:2002
+  Generating new nodes instances
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  a058988a-77de-423b-b339-6ffbde11d5ef
+  ea132c5e-eb5c-4c23-baa7-a4ecfa480114
+  8b5a4618-ee92-4ae6-b956-f2fa29f1a939
+  Nodes Addresses are:
+  127.0.0.1:2003
+  127.0.0.1:2002
+  127.0.0.1:2001
+  Generating new nodes instances
+  ea132c5e-eb5c-4c23-baa7-a4ecfa480114: node is ready
+  8b5a4618-ee92-4ae6-b956-f2fa29f1a939: node is ready
+  a058988a-77de-423b-b339-6ffbde11d5ef: node is ready
+  New simulation started on 2020/08/24 11:40:31
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  Simulation duration finished
+  Nodes will be terminated....
+  8b5a4618-ee92-4ae6-b956-f2fa29f1a939: node is terminating...
+  8b5a4618-ee92-4ae6-b956-f2fa29f1a939: node has been terminated
+  ea132c5e-eb5c-4c23-baa7-a4ecfa480114: node is terminating...
+  ea132c5e-eb5c-4c23-baa7-a4ecfa480114: node has been terminated
+  a058988a-77de-423b-b339-6ffbde11d5ef: node is terminating...
+  a058988a-77de-423b-b339-6ffbde11d5ef: node has been terminated
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  b5ea3b3d-a796-470a-beea-092ab90ffe80
+  1bc8f3e5-da5c-471a-ae1c-f7eed7810797
+  971fc4a2-8c53-469b-be15-25a5f12bcb3e
+  Nodes Addresses are:
+  127.0.0.1:2003
+  127.0.0.1:2001
+  127.0.0.1:2002
+  Generating new nodes instances
+  1bc8f3e5-da5c-471a-ae1c-f7eed7810797: node is ready
+  971fc4a2-8c53-469b-be15-25a5f12bcb3e: node is ready
+  b5ea3b3d-a796-470a-beea-092ab90ffe80: node is ready
+  New simulation started on 2020/08/24 11:43:59
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  Simulation duration finished
+  Nodes will be terminated....
+  971fc4a2-8c53-469b-be15-25a5f12bcb3e: node is terminating...
+  971fc4a2-8c53-469b-be15-25a5f12bcb3e: node has been terminated
+  1bc8f3e5-da5c-471a-ae1c-f7eed7810797: node is terminating...
+  1bc8f3e5-da5c-471a-ae1c-f7eed7810797: node has been terminated
+  b5ea3b3d-a796-470a-beea-092ab90ffe80: node is terminating...
+  b5ea3b3d-a796-470a-beea-092ab90ffe80: node has been terminated
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  c683441a-9508-4808-89d7-6ca3712dfca3
+  48c1fa58-7e44-4510-9040-323fa29e2812
+  aa804c6a-ea67-412b-868a-6414dbb75ebb
+  Nodes Addresses are:
+  127.0.0.1:2001
+  127.0.0.1:2003
+  127.0.0.1:2002
+  Generating new nodes instances
+  48c1fa58-7e44-4510-9040-323fa29e2812: node is ready
+  aa804c6a-ea67-412b-868a-6414dbb75ebb: node is ready
+  c683441a-9508-4808-89d7-6ca3712dfca3: node is ready
+  New simulation started on 2020/08/24 11:46:19
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  Simulation duration finished
+  Nodes will be terminated....
+  aa804c6a-ea67-412b-868a-6414dbb75ebb: node is terminating...
+  aa804c6a-ea67-412b-868a-6414dbb75ebb: node has been terminated
+  48c1fa58-7e44-4510-9040-323fa29e2812: node is terminating...
+  48c1fa58-7e44-4510-9040-323fa29e2812: node has been terminated
+  c683441a-9508-4808-89d7-6ca3712dfca3: node is terminating...
+  c683441a-9508-4808-89d7-6ca3712dfca3: node has been terminated
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  06586a62-9557-4529-832c-d546ff0aa021
+  186da14a-f4f3-4ad8-84b8-ebeabc077ad6
+  ad54af57-154d-4fa0-8612-660fb36e8470
+  Nodes Addresses are:
+  127.0.0.1:2001
+  127.0.0.1:2003
+  127.0.0.1:2002
+  Generating new nodes instances
+  186da14a-f4f3-4ad8-84b8-ebeabc077ad6: node is ready
+  ad54af57-154d-4fa0-8612-660fb36e8470: node is ready
+  06586a62-9557-4529-832c-d546ff0aa021: node is ready
+  New simulation started on 2020/08/24 11:48:03
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  e05d8930-e6cc-4564-927e-7980d6aa34c5
+  52d18759-382d-4aa6-afbc-5c1819a09f99
+  c790d01a-ead1-4205-9c72-f6466a38a644
+  Nodes Addresses are:
+  127.0.0.1:2001
+  127.0.0.1:2003
+  127.0.0.1:2002
+  Generating new nodes instances
+  52d18759-382d-4aa6-afbc-5c1819a09f99: node is ready
+  c790d01a-ead1-4205-9c72-f6466a38a644: node is ready
+  e05d8930-e6cc-4564-927e-7980d6aa34c5: node is ready
+  New simulation started on 2020/08/24 11:51:36
+  Simulation duration finished
+  Nodes will be terminated....
+  c790d01a-ead1-4205-9c72-f6466a38a644: node is terminating...
+  c790d01a-ead1-4205-9c72-f6466a38a644: node has been terminated
+  52d18759-382d-4aa6-afbc-5c1819a09f99: node is terminating...
+  52d18759-382d-4aa6-afbc-5c1819a09f99: node has been terminated
+  e05d8930-e6cc-4564-927e-7980d6aa34c5: node is terminating...
+  e05d8930-e6cc-4564-927e-7980d6aa34c5: node has been terminated
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  b5632dcf-a42c-4b9d-8952-c96d356934e3
+  f078857b-2d0a-441f-aed9-0b3b4e3c0c4b
+  0456dee5-a418-4fdb-b988-bb30ba8db4b8
+  Nodes Addresses are:
+  127.0.0.1:2002
+  127.0.0.1:2001
+  127.0.0.1:2003
+  Generating new nodes instances
+  f078857b-2d0a-441f-aed9-0b3b4e3c0c4b: node is ready
+  0456dee5-a418-4fdb-b988-bb30ba8db4b8: node is ready
+  b5632dcf-a42c-4b9d-8952-c96d356934e3: node is ready
+  New simulation started on 2020/08/24 11:53:53
+  [SimulatorHistogram] a timer with the given ID already exists
+  [HistogramSimulator] timer is not initialized
+  [SimulatorHistogram] a timer with the given ID already exists
+  [HistogramSimulator] timer is not initialized
+  Simulation duration finished
+  Nodes will be terminated....
+  0456dee5-a418-4fdb-b988-bb30ba8db4b8: node is terminating...
+  0456dee5-a418-4fdb-b988-bb30ba8db4b8: node has been terminated
+  f078857b-2d0a-441f-aed9-0b3b4e3c0c4b: node is terminating...
+  f078857b-2d0a-441f-aed9-0b3b4e3c0c4b: node has been terminated
+  b5632dcf-a42c-4b9d-8952-c96d356934e3: node is terminating...
+  b5632dcf-a42c-4b9d-8952-c96d356934e3: node has been terminated
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  2771d7dc-2fca-42c9-b235-49f5668d1374
+  6cad5531-e2b6-4b5f-bbdf-1ae16197d8d9
+  d590f59a-17d4-4dbe-adf3-fa281fcbc9cb
+  Nodes Addresses are:
+  127.0.0.1:2002
+  127.0.0.1:2001
+  127.0.0.1:2003
+  Generating new nodes instances
+  6cad5531-e2b6-4b5f-bbdf-1ae16197d8d9: node is ready
+  d590f59a-17d4-4dbe-adf3-fa281fcbc9cb: node is ready
+  2771d7dc-2fca-42c9-b235-49f5668d1374: node is ready
+  New simulation started on 2020/08/24 15:38:39
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  Simulation duration finished
+  Nodes will be terminated....
+  d590f59a-17d4-4dbe-adf3-fa281fcbc9cb: node is terminating...
+  d590f59a-17d4-4dbe-adf3-fa281fcbc9cb: node has been terminated
+  6cad5531-e2b6-4b5f-bbdf-1ae16197d8d9: node is terminating...
+  6cad5531-e2b6-4b5f-bbdf-1ae16197d8d9: node has been terminated
+  2771d7dc-2fca-42c9-b235-49f5668d1374: node is terminating...
+  2771d7dc-2fca-42c9-b235-49f5668d1374: node has been terminated
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  a8cf9d7f-f957-4ab1-bbc8-880159f7ffe4
+  9ce76ec7-a465-478c-b20d-3a3c599d25ad
+  5adcf6e6-2ea6-4601-8f59-7010a43f7ab7
+  Nodes Addresses are:
+  127.0.0.1:2002
+  127.0.0.1:2001
+  127.0.0.1:2003
+  Generating new nodes instances
+  9ce76ec7-a465-478c-b20d-3a3c599d25ad: node is ready
+  5adcf6e6-2ea6-4601-8f59-7010a43f7ab7: node is ready
+  a8cf9d7f-f957-4ab1-bbc8-880159f7ffe4: node is ready
+  New simulation started on 2020/08/24 17:43:54
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  Simulation duration finished
+  Nodes will be terminated....
+  5adcf6e6-2ea6-4601-8f59-7010a43f7ab7: node is terminating...
+  5adcf6e6-2ea6-4601-8f59-7010a43f7ab7: node has been terminated
+  9ce76ec7-a465-478c-b20d-3a3c599d25ad: node is terminating...
+  9ce76ec7-a465-478c-b20d-3a3c599d25ad: node has been terminated
+  a8cf9d7f-f957-4ab1-bbc8-880159f7ffe4: node is terminating...
+  a8cf9d7f-f957-4ab1-bbc8-880159f7ffe4: node has been terminated
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  [HistogramSimulator] timer is not initialized
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  36ef4412-6c93-41a3-9752-26e12416e6fa
+  11951f89-f5f9-4519-806e-48178af781eb
+  b4f342ed-6260-4c56-9d00-b6b62a924c44
+  Nodes Addresses are:
+  127.0.0.1:2001
+  127.0.0.1:2003
+  127.0.0.1:2002
+  Generating new nodes instances
+  11951f89-f5f9-4519-806e-48178af781eb: node is ready
+  b4f342ed-6260-4c56-9d00-b6b62a924c44: node is ready
+  36ef4412-6c93-41a3-9752-26e12416e6fa: node is ready
+  New simulation started on 2020/08/24 17:45:00
+  Simulation duration finished
+  Nodes will be terminated....
+  b4f342ed-6260-4c56-9d00-b6b62a924c44: node is terminating...
+  b4f342ed-6260-4c56-9d00-b6b62a924c44: node has been terminated
+  11951f89-f5f9-4519-806e-48178af781eb: node is terminating...
+  11951f89-f5f9-4519-806e-48178af781eb: node has been terminated
+  36ef4412-6c93-41a3-9752-26e12416e6fa: node is terminating...
+  36ef4412-6c93-41a3-9752-26e12416e6fa: node has been terminated
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  38647776-c385-4ed0-b87f-e9fa70206d2e
+  1e64ac30-0805-415e-82ae-1857d9ceeb3b
+  8597e3f3-374b-495d-8d6a-865f177189b0
+  Nodes Addresses are:
+  127.0.0.1:2002
+  127.0.0.1:2003
+  127.0.0.1:2001
+  Generating new nodes instances
+  1e64ac30-0805-415e-82ae-1857d9ceeb3b: node is ready
+  8597e3f3-374b-495d-8d6a-865f177189b0: node is ready
+  38647776-c385-4ed0-b87f-e9fa70206d2e: node is ready
+  New simulation started on 2020/08/24 18:06:45
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  [SimulatorCounter] metric registered with the name ReceivedBucketSize is not a counter
+  Simulation duration finished
+  Nodes will be terminated....
+  8597e3f3-374b-495d-8d6a-865f177189b0: node is terminating...
+  8597e3f3-374b-495d-8d6a-865f177189b0: node has been terminated
+  1e64ac30-0805-415e-82ae-1857d9ceeb3b: node is terminating...
+  1e64ac30-0805-415e-82ae-1857d9ceeb3b: node has been terminated
+  38647776-c385-4ed0-b87f-e9fa70206d2e: node is terminating...
+  38647776-c385-4ed0-b87f-e9fa70206d2e: node has been terminated
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  c07cbd8f-f404-402d-8d26-ba1cf71a3dc0
+  04f021a1-2208-47be-b9d0-b84ca5a57598
+  9cfce273-13c9-476e-8373-e160de912a91
+  Nodes Addresses are:
+  127.0.0.1:2002
+  127.0.0.1:2001
+  127.0.0.1:2003
+  Generating new nodes instances
+  04f021a1-2208-47be-b9d0-b84ca5a57598: node is ready
+  9cfce273-13c9-476e-8373-e160de912a91: node is ready
+  c07cbd8f-f404-402d-8d26-ba1cf71a3dc0: node is ready
+  New simulation started on 2020/08/24 18:07:25
+  Simulation duration finished
+  Nodes will be terminated....
+  9cfce273-13c9-476e-8373-e160de912a91: node is terminating...
+  9cfce273-13c9-476e-8373-e160de912a91: node has been terminated
+  04f021a1-2208-47be-b9d0-b84ca5a57598: node is terminating...
+  04f021a1-2208-47be-b9d0-b84ca5a57598: node has been terminated
+  c07cbd8f-f404-402d-8d26-ba1cf71a3dc0: node is terminating...
+  c07cbd8f-f404-402d-8d26-ba1cf71a3dc0: node has been terminated
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  f8bb4d2c-495a-41ac-8393-5638cb178eb5
+  b765fe27-557f-4241-9cb9-f6166a149e5f
+  ee750e63-8c0b-49f1-901f-2af54563ed9c
+  8ac81cac-9dce-4f6d-876d-4dce8bc1df2b
+  Nodes Addresses are:
+  127.0.0.1:2001
+  127.0.0.1:2002
+  127.0.0.1:2003
+  127.0.0.1:2004
+  Generating new nodes instances
+  Contestant 8ac81cac-9dce-4f6d-876d-4dce8bc1df2bwas initialized with level 16
+  8ac81cac-9dce-4f6d-876d-4dce8bc1df2b: node is ready
+  Contestant b765fe27-557f-4241-9cb9-f6166a149e5fwas initialized with level 19
+  b765fe27-557f-4241-9cb9-f6166a149e5f: node is ready
+  Contestant ee750e63-8c0b-49f1-901f-2af54563ed9cwas initialized with level 1
+  ee750e63-8c0b-49f1-901f-2af54563ed9c: node is ready
+  Contestant f8bb4d2c-495a-41ac-8393-5638cb178eb5was initialized with level 14
+  f8bb4d2c-495a-41ac-8393-5638cb178eb5: node is ready
+  New simulation started on 2020/08/24 18:10:44
+  f8bb4d2c-495a-41ac-8393-5638cb178eb5 is fighting against ee750e63-8c0b-49f1-901f-2af54563ed9c
+  b765fe27-557f-4241-9cb9-f6166a149e5f is fighting against 8ac81cac-9dce-4f6d-876d-4dce8bc1df2b
+  f8bb4d2c-495a-41ac-8393-5638cb178eb5 gains 5 points
+  ee750e63-8c0b-49f1-901f-2af54563ed9c losses 10 points
+  ee750e63-8c0b-49f1-901f-2af54563ed9c: node is terminating...
+  ee750e63-8c0b-49f1-901f-2af54563ed9c: node has been terminated
+  b765fe27-557f-4241-9cb9-f6166a149e5f gains 5 points
+  8ac81cac-9dce-4f6d-876d-4dce8bc1df2b losses 10 points
+  b765fe27-557f-4241-9cb9-f6166a149e5f is fighting against f8bb4d2c-495a-41ac-8393-5638cb178eb5
+  b765fe27-557f-4241-9cb9-f6166a149e5f gains 5 points
+  f8bb4d2c-495a-41ac-8393-5638cb178eb5 losses 10 points
+  b765fe27-557f-4241-9cb9-f6166a149e5f is fighting against 8ac81cac-9dce-4f6d-876d-4dce8bc1df2b
+  f8bb4d2c-495a-41ac-8393-5638cb178eb5 is fighting against 8ac81cac-9dce-4f6d-876d-4dce8bc1df2b
+  b765fe27-557f-4241-9cb9-f6166a149e5f gains 5 points
+  8ac81cac-9dce-4f6d-876d-4dce8bc1df2b losses 10 points
+  8ac81cac-9dce-4f6d-876d-4dce8bc1df2b: node is terminating...
+  8ac81cac-9dce-4f6d-876d-4dce8bc1df2b: node has been terminated
+  f8bb4d2c-495a-41ac-8393-5638cb178eb5 gains 5 points
+  f8bb4d2c-495a-41ac-8393-5638cb178eb5 is fighting against b765fe27-557f-4241-9cb9-f6166a149e5f
+  f8bb4d2c-495a-41ac-8393-5638cb178eb5 losses 10 points
+  b765fe27-557f-4241-9cb9-f6166a149e5f gains 5 points
+  b765fe27-557f-4241-9cb9-f6166a149e5f is fighting against f8bb4d2c-495a-41ac-8393-5638cb178eb5
+  b765fe27-557f-4241-9cb9-f6166a149e5f gains 5 points
+  f8bb4d2c-495a-41ac-8393-5638cb178eb5 losses 10 points
+  f8bb4d2c-495a-41ac-8393-5638cb178eb5: node is terminating...
+  f8bb4d2c-495a-41ac-8393-5638cb178eb5: node has been terminated
+  Contestant b765fe27-557f-4241-9cb9-f6166a149e5f is the winner
+  Simulation duration finished
+  Nodes will be terminated....
+  b765fe27-557f-4241-9cb9-f6166a149e5f: node is terminating...
+  b765fe27-557f-4241-9cb9-f6166a149e5f: node has been terminated
+  Generating IDs for 4 node..
+  Generating full Addresses for 4 node..
+  Nodes IDs are:
+  95c58054-1a33-47d1-ad0f-a69d202b8106
+  dee5b1ba-f690-4c30-ba8b-c909e16aba77
+  8811f54b-640a-45f8-a3a6-0652ef0d2599
+  9cdfb0ce-e1ab-453e-9683-80d1cc461843
+  Nodes Addresses are:
+  127.0.0.1:2002
+  127.0.0.1:2004
+  127.0.0.1:2003
+  127.0.0.1:2001
+  Generating new nodes instances
+  Contestant 9cdfb0ce-e1ab-453e-9683-80d1cc461843was initialized with level 8
+  9cdfb0ce-e1ab-453e-9683-80d1cc461843: node is ready
+  Contestant dee5b1ba-f690-4c30-ba8b-c909e16aba77was initialized with level 13
+  dee5b1ba-f690-4c30-ba8b-c909e16aba77: node is ready
+  Contestant 8811f54b-640a-45f8-a3a6-0652ef0d2599was initialized with level 16
+  8811f54b-640a-45f8-a3a6-0652ef0d2599: node is ready
+  Contestant 95c58054-1a33-47d1-ad0f-a69d202b8106was initialized with level 16
+  95c58054-1a33-47d1-ad0f-a69d202b8106: node is ready
+  New simulation started on 2020/08/24 18:13:40
+  95c58054-1a33-47d1-ad0f-a69d202b8106 is fighting against dee5b1ba-f690-4c30-ba8b-c909e16aba77
+  9cdfb0ce-e1ab-453e-9683-80d1cc461843 is fighting against dee5b1ba-f690-4c30-ba8b-c909e16aba77
+  95c58054-1a33-47d1-ad0f-a69d202b8106 gains 5 points
+  dee5b1ba-f690-4c30-ba8b-c909e16aba77 losses 10 points
+  95c58054-1a33-47d1-ad0f-a69d202b8106 is fighting against dee5b1ba-f690-4c30-ba8b-c909e16aba77
+  9cdfb0ce-e1ab-453e-9683-80d1cc461843 losses 10 points
+  9cdfb0ce-e1ab-453e-9683-80d1cc461843: node is terminating...
+  dee5b1ba-f690-4c30-ba8b-c909e16aba77 gains 5 points
+  9cdfb0ce-e1ab-453e-9683-80d1cc461843: node has been terminated
+  95c58054-1a33-47d1-ad0f-a69d202b8106 gains 5 points
+  dee5b1ba-f690-4c30-ba8b-c909e16aba77 losses 10 points
+  dee5b1ba-f690-4c30-ba8b-c909e16aba77: node is terminating...
+  dee5b1ba-f690-4c30-ba8b-c909e16aba77: node has been terminated
+  95c58054-1a33-47d1-ad0f-a69d202b8106 is fighting against 8811f54b-640a-45f8-a3a6-0652ef0d2599
+  95c58054-1a33-47d1-ad0f-a69d202b8106 gains 5 points
+  8811f54b-640a-45f8-a3a6-0652ef0d2599 losses 10 points
+  8811f54b-640a-45f8-a3a6-0652ef0d2599 is fighting against 95c58054-1a33-47d1-ad0f-a69d202b8106
+  8811f54b-640a-45f8-a3a6-0652ef0d2599 losses 10 points
+  8811f54b-640a-45f8-a3a6-0652ef0d2599: node is terminating...
+  8811f54b-640a-45f8-a3a6-0652ef0d2599: node has been terminated
+  95c58054-1a33-47d1-ad0f-a69d202b8106 gains 5 points
+  Contestant 95c58054-1a33-47d1-ad0f-a69d202b8106 is the winner
+  Simulation duration finished
+  Nodes will be terminated....
+  95c58054-1a33-47d1-ad0f-a69d202b8106: node is terminating...
+  95c58054-1a33-47d1-ad0f-a69d202b8106: node has been terminated
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  80d1250e-2767-49a6-a54e-c13d78611d84
+  9ca5bbf8-ea83-4b73-b449-a8fb3e176df9
+  dfc1dc7b-5b14-4ee8-ab30-5732a8ca24af
+  Nodes Addresses are:
+  127.0.0.1:2002
+  127.0.0.1:2003
+  127.0.0.1:2001
+  Generating new nodes instances
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  2170eb35-04bf-428d-83b4-41dda6ef4caa
+  a6a2f654-b0c4-47e6-97ad-827dfacac062
+  2f1a48b8-b142-421a-a5cd-2ed3291f7caa
+  Nodes Addresses are:
+  127.0.0.1:2003
+  127.0.0.1:2001
+  127.0.0.1:2002
+  Generating new nodes instances
+  a6a2f654-b0c4-47e6-97ad-827dfacac062: node is ready
+  2f1a48b8-b142-421a-a5cd-2ed3291f7caa: node is ready
+  2170eb35-04bf-428d-83b4-41dda6ef4caa: node is ready
+  New simulation started on 2020/08/24 18:18:18
+  Simulation duration finished
+  Nodes will be terminated....
+  2f1a48b8-b142-421a-a5cd-2ed3291f7caa: node is terminating...
+  2f1a48b8-b142-421a-a5cd-2ed3291f7caa: node has been terminated
+  a6a2f654-b0c4-47e6-97ad-827dfacac062: node is terminating...
+  a6a2f654-b0c4-47e6-97ad-827dfacac062: node has been terminated
+  2170eb35-04bf-428d-83b4-41dda6ef4caa: node is terminating...
+  2170eb35-04bf-428d-83b4-41dda6ef4caa: node has been terminated
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  94e2fc37-ad6d-4a1c-b440-d453ab8064e6
+  ba2b114f-a7bf-48cb-a83f-35c30384f884
+  3c07b0ac-53c6-48a1-8a33-335210ecd59e
+  Nodes Addresses are:
+  127.0.0.1:2001
+  127.0.0.1:2002
+  127.0.0.1:2003
+  Generating new nodes instances
+  ba2b114f-a7bf-48cb-a83f-35c30384f884: node is ready
+  3c07b0ac-53c6-48a1-8a33-335210ecd59e: node is ready
+  94e2fc37-ad6d-4a1c-b440-d453ab8064e6: node is ready
+  New simulation started on 2020/08/24 18:19:11
+  Simulation duration finished
+  Nodes will be terminated....
+  3c07b0ac-53c6-48a1-8a33-335210ecd59e: node is terminating...
+  3c07b0ac-53c6-48a1-8a33-335210ecd59e: node has been terminated
+  ba2b114f-a7bf-48cb-a83f-35c30384f884: node is terminating...
+  ba2b114f-a7bf-48cb-a83f-35c30384f884: node has been terminated
+  94e2fc37-ad6d-4a1c-b440-d453ab8064e6: node is terminating...
+  94e2fc37-ad6d-4a1c-b440-d453ab8064e6: node has been terminated
+  Generating IDs for 3 node..
+  Generating full Addresses for 3 node..
+  Nodes IDs are:
+  1c532864-bd93-4282-baee-4a6f67cb54d5
+  97b92903-a16b-49d5-922e-81b6f2540fe6
+  64a773a5-95a7-4f3f-8dab-7029c85f9ded
+  Nodes Addresses are:
+  127.0.0.1:2001
+  127.0.0.1:2003
+  127.0.0.1:2002
+  Generating new nodes instances
+  97b92903-a16b-49d5-922e-81b6f2540fe6: node is ready
+  64a773a5-95a7-4f3f-8dab-7029c85f9ded: node is ready
+  1c532864-bd93-4282-baee-4a6f67cb54d5: node is ready
+  New simulation started on 2020/08/24 18:21:43
+  Simulation duration finished
+  Nodes will be terminated....
+  64a773a5-95a7-4f3f-8dab-7029c85f9ded: node is terminating...
+  64a773a5-95a7-4f3f-8dab-7029c85f9ded: node has been terminated
+  97b92903-a16b-49d5-922e-81b6f2540fe6: node is terminating...
+  97b92903-a16b-49d5-922e-81b6f2540fe6: node has been terminated
+  1c532864-bd93-4282-baee-4a6f67cb54d5: node is terminating...
+  1c532864-bd93-4282-baee-4a6f67cb54d5: node has been terminated
   

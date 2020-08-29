@@ -1,11 +1,12 @@
 package Simulator;
 
+import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.*;
 
 import Node.BaseNode;
-import javafx.util.Pair;
+import io.prometheus.client.exporter.HTTPServer;
 import org.apache.log4j.Logger;
 import underlay.Local.LocalUnderlay;
 import underlay.MiddleLayer;
@@ -14,8 +15,8 @@ import underlay.UDP.UDPUnderlay;
 import underlay.Underlay;
 import underlay.UnderlayFactory;
 import underlay.javaRMI.JavaRMIUnderlay;
+import java.util.AbstractMap.SimpleEntry;
 import underlay.packets.Event;
-
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.concurrent.CountDownLatch;
@@ -26,11 +27,11 @@ public class Simulator<T extends BaseNode> implements BaseNode{
     private final int START_PORT = 2000;
     private boolean isLocal;
     private ArrayList<UUID> allID;
-    private HashMap<UUID, Pair<String, Integer>> allFullAddresses;
+    private HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses;
     private HashMap<UUID, Boolean> isReady;
     private T factory;
     public static Logger log = Logger.getLogger(Simulator.class.getName());
-    private HashMap<Pair<String, Integer>, MiddleLayer> allMiddleLayers;
+    private HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers;
 
     private CountDownLatch count;
 
@@ -39,6 +40,11 @@ public class Simulator<T extends BaseNode> implements BaseNode{
 
     @Override
     public void onStart() {
+        try {
+            HTTPServer server = new HTTPServer(this.START_PORT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         log.info("New simulation started on " +  dtf.format(now));
@@ -107,7 +113,7 @@ public class Simulator<T extends BaseNode> implements BaseNode{
 
         // generate new IDs and addresses
         this.allID = generateIDs(N);
-        this.allFullAddresses = generateFullAddressed(N, this.START_PORT);
+        this.allFullAddresses = generateFullAddressed(N, this.START_PORT + 1);
 
         //logging
         log.info("Nodes IDs are:");
@@ -116,7 +122,7 @@ public class Simulator<T extends BaseNode> implements BaseNode{
 
         // logging
         log.info("Nodes Addresses are:");
-        for(Pair<String, Integer> address : this.allFullAddresses.values())
+        for(SimpleEntry<String, Integer> address : this.allFullAddresses.values())
             log.info(address.getKey() + ":" + address.getValue());
 
         count = new CountDownLatch(N);
@@ -145,11 +151,11 @@ public class Simulator<T extends BaseNode> implements BaseNode{
     }
 
 
-    private HashMap<UUID, Pair<String, Integer>> generateFullAddressed(int N, int start_port){
+    private HashMap<UUID, SimpleEntry<String, Integer>> generateFullAddressed(int N, int start_port){
         //logging
         log.info("Generating full Addresses for " + N + " node..");
 
-        HashMap<UUID, Pair<String, Integer>> tmp = new HashMap<>();
+        HashMap<UUID, SimpleEntry<String, Integer>> tmp = new HashMap<>();
 
         String address = "localhost";
 
@@ -163,7 +169,7 @@ public class Simulator<T extends BaseNode> implements BaseNode{
 
         System.out.println(address);
         for(int i = 0;i < N;i++)
-            tmp.put(allID.get(i), new Pair<>(address, start_port + i));
+            tmp.put(allID.get(i), new SimpleEntry<>(address, start_port + i));
 
         return tmp;
     }
@@ -175,7 +181,7 @@ public class Simulator<T extends BaseNode> implements BaseNode{
      */
     private void generateNodesInstances(int N, String networkType) {
 
-        this.allMiddleLayers = new HashMap<Pair<String, Integer>, MiddleLayer>();
+        this.allMiddleLayers = new HashMap<SimpleEntry<String, Integer>, MiddleLayer>();
         //logging
         log.debug("Generating new nodes instances");
 
@@ -188,7 +194,7 @@ public class Simulator<T extends BaseNode> implements BaseNode{
             this.allMiddleLayers.put(this.allFullAddresses.get(id), middleLayer);
         }
         Underlay underlay = UnderlayFactory.getMockUnderlay(this.allMiddleLayers);
-        for(Map.Entry<Pair<String, Integer>, MiddleLayer> node : this.allMiddleLayers.entrySet())
+        for(Map.Entry<SimpleEntry<String, Integer>, MiddleLayer> node : this.allMiddleLayers.entrySet())
         {
             MiddleLayer middleLayer = node.getValue();
             int port = node.getKey().getValue();
@@ -222,7 +228,7 @@ public class Simulator<T extends BaseNode> implements BaseNode{
         log.info(nodeID + ": node is terminating...");
 
         isReady.put(nodeID, false);
-        Pair<String, Integer> fullAddress = allFullAddresses.get(nodeID);
+        SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(nodeID);
         try{
             MiddleLayer middleLayer = this.allMiddleLayers.get(fullAddress);
             new Thread(){

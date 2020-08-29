@@ -2,11 +2,11 @@ package underlay.Local;
 
 import Node.NodeThread;
 import Simulator.*;
-import javafx.util.Pair;
 import org.apache.log4j.Logger;
 import underlay.MiddleLayer;
 import underlay.packets.Event;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -22,24 +22,24 @@ import underlay.packets.Request;
 
 public class LocalUnderlay extends Underlay{
 
-    private final HashMap<Pair<String, Integer>, MiddleLayer> allMiddleLayers;
+    private final HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers;
     ReadWriteLock lock = new ReentrantReadWriteLock();
 
     public LocalUnderlay(){
-        this(new HashMap<Pair<String, Integer>, MiddleLayer>());
+        this(new HashMap<SimpleEntry<String, Integer>, MiddleLayer>());
     }
     /**
      * Initialize a new network layer based on the full addresses of the node in the cluster and their instances.
      * Note that these node IDs are final
      * @param allMiddleLayers hashmaps that maps the full addresses to their midlayers
      */
-    public LocalUnderlay(HashMap<Pair<String, Integer>, MiddleLayer> allMiddleLayers) {
+    public LocalUnderlay(HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers) {
         this.allMiddleLayers = allMiddleLayers;
     }
 
     @Override
     public boolean terminate(String address, int port) {
-        this.allMiddleLayers.remove(new Pair<>(address, port));
+        this.allMiddleLayers.remove(new SimpleEntry<>(address, port));
         return true;
     }
 
@@ -57,12 +57,12 @@ public class LocalUnderlay extends Underlay{
      */
     @Override
     public boolean sendMessage(String address, int port, Request request) {
-        if(!allMiddleLayers.containsKey(new Pair<>(address, port))){
+        if(!allMiddleLayers.containsKey(new SimpleEntry<>(address, port))){
             log.error(address + ": Node is not found");
             return false;
         }
         try {
-            MiddleLayer destinationMidLayer = allMiddleLayers.get(new Pair<>(address, port));
+            MiddleLayer destinationMidLayer = allMiddleLayers.get(new SimpleEntry<>(address, port));
 
             // handle the request in a separated thread
             Thread handlerThread = new Thread(new LocalHandler(request, destinationMidLayer));
@@ -84,7 +84,7 @@ public class LocalUnderlay extends Underlay{
 //    @Override
 //    public void dispatchRequest(Request request) {
 //        try {
-//            Pair<String, Integer> destinationFullAddress = allFUllAdresses.get(request.getDestinationID());
+//            SimpleEntry<String, Integer> destinationFullAddress = allFUllAdresses.get(request.getDestinationID());
 //            MiddleLayer destinationMidLayer = allMiddleLayers.get(destinationFullAddress);
 //            return destinationMidLayer.receive(request);
 //        }
@@ -135,7 +135,7 @@ public class LocalUnderlay extends Underlay{
      */
     public boolean addInstance(String address, int port, MiddleLayer middleLayer)
     {
-        allMiddleLayers.put(new Pair<>(address, port), middleLayer);
+        allMiddleLayers.put(new SimpleEntry<>(address, port), middleLayer);
         return true;
     }
 }

@@ -1,3 +1,3 @@
 tcp : "underlay.TCP.TCPUnderlay"
 udp : "underlay.UDP.UDPUnderlay"
-javaRMI : "underlay.javaRMI.javaRMIUnderlay"
+javaRMI : "underlay.javaRMI.JavaRMIUnderlay"
