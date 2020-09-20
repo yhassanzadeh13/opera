@@ -93,8 +93,10 @@ public class UDPUnderlay extends Underlay {
             udpSocket.close();
             // Close the listener thread.
             listenerThread.join();
+            this.log.debug("[TCPUnderlay] node " + address + ":" + port + " is begin terminated");
         } catch (InterruptedException e) {
             System.err.println("[UDPUnderlay] Could not terminate.");
+            this.log.error("[UDPUnderlay] Could not terminate node " + address + ":" + port);
             e.printStackTrace();
             return false;
         }

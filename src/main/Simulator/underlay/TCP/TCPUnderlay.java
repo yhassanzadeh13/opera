@@ -1,6 +1,7 @@
 package underlay.TCP;
 
 import Simulator.Simulator;
+import org.apache.log4j.Logger;
 import underlay.MiddleLayer;
 import underlay.Underlay;
 import underlay.packets.Request;
@@ -68,7 +69,6 @@ public class TCPUnderlay extends Underlay {
             requestStream.writeObject(request);
         } catch(IOException e) {
             System.err.println("[TCPUnderlay] Could not send the request.");
-            e.printStackTrace();
             return false;
         }
         // Close the connection & streams.
@@ -77,7 +77,6 @@ public class TCPUnderlay extends Underlay {
             remote.close();
         } catch (IOException e) {
             System.err.println("[TCPUnderlay] Could not close the outgoing connection.");
-            e.printStackTrace();
         }
         return true;
     }
@@ -93,6 +92,7 @@ public class TCPUnderlay extends Underlay {
             serverSocket.close();
             // Terminate the listener thread.
             listenerThread.join();
+            this.log.debug("[TCPUnderlay] node " + address + ":" + port + " is begin terminated");
         } catch (Exception e) {
             System.err.println("[TCPUnderlay] Could not terminate.");
             e.printStackTrace();

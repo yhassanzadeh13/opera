@@ -8,8 +8,8 @@ import java.util.UUID;
 public class Main {
 
     public static void main(String[] args) {
-        myNode dummyNode = new myNode(null, null);
-        Simulator<myNode> simulation = new Simulator<myNode>(dummyNode, 3, "mockNetwork");
-        simulation.start(3000);
+        myNode fixtureNode = new myNode();
+        Simulator<myNode> simulation = new Simulator<myNode>(fixtureNode, 5, "mockNetwork");
+        simulation.start(10000);
     }
 }

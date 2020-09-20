@@ -1,5 +1,6 @@
 package SimulatorExamples.HelloServers;
 
+import Metrics.SimulatorHistogram;
 import Node.BaseNode;
 import underlay.packets.Event;
 
@@ -10,7 +11,7 @@ public class SendHello implements Event, Serializable {
 
 
     String msg;
-    UUID origionalID;
+    UUID originalID;
     UUID targetID;
 
     @Override
@@ -18,18 +19,19 @@ public class SendHello implements Event, Serializable {
         return msg;
     }
 
-    public SendHello(String msg, UUID origionalID, UUID targetID) {
+    public SendHello(String msg, UUID originalID, UUID targetID) {
         this.msg = msg;
-        this.origionalID = origionalID;
+        this.originalID = originalID;
         this.targetID = targetID;
+        SimulatorHistogram.observe("packetSize", originalID, msg.length());
     }
 
     public void setMsg(String msg) {
         this.msg = msg;
     }
 
-    public void setOrigionalID(UUID origionalID) {
-        this.origionalID = origionalID;
+    public void setOriginalID(UUID originalID) {
+        this.originalID = originalID;
     }
 
     public void setTargetID(UUID targetID) {
@@ -40,8 +42,8 @@ public class SendHello implements Event, Serializable {
         return msg;
     }
 
-    public UUID getOrigionalID() {
-        return origionalID;
+    public UUID getOriginalID() {
+        return originalID;
     }
 
     public UUID getTargetID() {
@@ -50,7 +52,7 @@ public class SendHello implements Event, Serializable {
 
     @Override
     public boolean actionPerformed(BaseNode hostNode) {
-        System.out.println(origionalID + " says to " + targetID + " " + msg);
+        System.out.println(originalID + " says to " + targetID + " " + msg);
         myNode node = (myNode) hostNode;
         if(this.msg.equals("Hello"))
             node.sendNewMessage("Thank You");

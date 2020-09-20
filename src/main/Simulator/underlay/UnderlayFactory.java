@@ -25,8 +25,8 @@ public class UnderlayFactory {
     private static String yamlFile = "./src/main/Simulator/underlay/underlayTypes.yaml";
 
 
-    public static Underlay getMockUnderlay(HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers){
-        Underlay underlay = new LocalUnderlay(allMiddleLayers);
+    public static LocalUnderlay getMockUnderlay(HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers, HashMap<SimpleEntry<String, Integer>, Boolean> isReady){
+        LocalUnderlay underlay = new LocalUnderlay(allMiddleLayers, isReady);
         underlay.initialize(-1, null);
         return underlay;
     }

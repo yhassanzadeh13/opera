@@ -1,5 +1,6 @@
 package underlay;
 
+import Simulator.Simulator;
 import org.apache.log4j.Logger;
 import underlay.javaRMI.JavaRMIUnderlay;
 import underlay.packets.Request;
@@ -18,7 +19,7 @@ public abstract class Underlay {
     private int port;
     private String address;
     private String fullAddress;
-    protected Logger log;
+    protected static final Logger log  = Logger.getLogger(Simulator.class.getName());
 
 
     public int getPort() {
@@ -51,7 +52,6 @@ public abstract class Underlay {
     public final boolean initialize(int port, MiddleLayer middleLayer) {
         this.port = port;
         this.middleLayer = middleLayer;
-        this.log = Logger.getLogger(this.getClass().getName());
         try {
             address = Inet4Address.getLocalHost().getHostAddress();
         } catch(UnknownHostException e) {
@@ -86,5 +86,10 @@ public abstract class Underlay {
      * @return true iff the termination was successful.
      */
     public abstract boolean terminate(String address, int port);
+
+//    /**
+//     * Add a new node to the cluster
+//     */
+//    public abstract boolean addNode(String address, int port);
 
 }

@@ -5,6 +5,12 @@ import io.prometheus.client.Gauge;
 
 import java.util.UUID;
 
+/**
+ * This class provides a prometheus-based Gauge for extracting metrics
+ * For every registered metric, the metric will be collected for each node separately
+ * Gauges can be incremented and decremented.
+ */
+
 public abstract class SimulatorGauge extends SimulatorMetric {
 
     public static boolean inc(String name, UUID id, double v){
@@ -41,6 +47,11 @@ public abstract class SimulatorGauge extends SimulatorMetric {
         return metric.labels(id.toString()).get();
     }
 
+    /**
+     * Return prometheus metric for a specific name
+     * @param name
+     * @return
+     */
     public static Gauge getMetric(String name){
         if(!collectors.containsKey(name)){
             Simulator.getLogger().error("[SimulatorGauge] could not find a metric with name " + name);
@@ -55,6 +66,11 @@ public abstract class SimulatorGauge extends SimulatorMetric {
         return (Gauge) collectors.get(name);
     }
 
+    /**
+     * Register a new metric with a specific name
+     * @param name
+     * @return True in case of success
+     */
     public static boolean register(String name){
         if(!collectors.containsKey(name)){
             collectors.put(name, Gauge.build().namespace(NAMESPACE).name(name).help(HELP_MSG).labelNames(LABEL_NAME).register());

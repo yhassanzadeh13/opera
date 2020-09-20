@@ -23,23 +23,22 @@ import underlay.packets.Request;
 public class LocalUnderlay extends Underlay{
 
     private final HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers;
+    private HashMap<SimpleEntry<String, Integer>, Boolean> isReady;
     ReadWriteLock lock = new ReentrantReadWriteLock();
 
-    public LocalUnderlay(){
-        this(new HashMap<SimpleEntry<String, Integer>, MiddleLayer>());
-    }
     /**
      * Initialize a new network layer based on the full addresses of the node in the cluster and their instances.
      * Note that these node IDs are final
      * @param allMiddleLayers hashmaps that maps the full addresses to their midlayers
      */
-    public LocalUnderlay(HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers) {
+    public LocalUnderlay(HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers, HashMap<SimpleEntry<String, Integer>, Boolean> isReady) {
         this.allMiddleLayers = allMiddleLayers;
+        this.isReady = isReady;
     }
 
     @Override
     public boolean terminate(String address, int port) {
-        this.allMiddleLayers.remove(new SimpleEntry<>(address, port));
+        this.isReady.put(new SimpleEntry<>(address, port), false);
         return true;
     }
 
@@ -57,12 +56,17 @@ public class LocalUnderlay extends Underlay{
      */
     @Override
     public boolean sendMessage(String address, int port, Request request) {
-        if(!allMiddleLayers.containsKey(new SimpleEntry<>(address, port))){
-            log.error(address + ": Node is not found");
+        SimpleEntry fullAddress = new SimpleEntry<>(address, port);
+        if(!isReady.get(fullAddress)){
+            log.debug("[LocalUnderlay] " + fullAddress + ": Node is not ready");
+            return false;
+        }
+        if(!allMiddleLayers.containsKey(fullAddress)){
+            log.error("[LocalUnderlay] " + address + ": Node is not found");
             return false;
         }
         try {
-            MiddleLayer destinationMidLayer = allMiddleLayers.get(new SimpleEntry<>(address, port));
+            MiddleLayer destinationMidLayer = allMiddleLayers.get(fullAddress);
 
             // handle the request in a separated thread
             Thread handlerThread = new Thread(new LocalHandler(request, destinationMidLayer));
@@ -70,8 +74,7 @@ public class LocalUnderlay extends Underlay{
             return true;
         }catch (NullPointerException e)
         {
-            log.error("Middle layer instance not found ");
-            log.error(e.getMessage());
+            log.error("[LocalUnderlay] Middle layer instance not found ");
             return false;
         }
     }

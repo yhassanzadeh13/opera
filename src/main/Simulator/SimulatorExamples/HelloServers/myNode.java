@@ -1,27 +1,30 @@
 
 package SimulatorExamples.HelloServers;
 
-import Metrics.SimulatorCounter;
 import Metrics.SimulatorHistogram;
 import Node.BaseNode;
-import Simulator.Simulator;
 import underlay.MiddleLayer;
 import underlay.packets.Event;
+import Utils.SharedVariable;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
 public class myNode implements BaseNode {
-
-
+    private static final String MESSAGE_COUNT = "MessageCnt";
     private UUID selfID;
     private ArrayList<UUID> allID;
     private MiddleLayer network;
 
+    myNode(){}
+
     myNode(UUID selfID, MiddleLayer network){
         this.selfID = selfID;
         this.network = network;
+
+        //Register metrics
+        SimulatorHistogram.register("packetSize", new double[]{1.0, 2.0, 3.0, 5.0, 10.0, 15.0, 20.0});
     }
 
 
@@ -29,16 +32,21 @@ public class myNode implements BaseNode {
     public void onCreate(ArrayList<UUID> allID) {
         this.allID = allID;
         network.ready();
+        SharedVariable.write(MESSAGE_COUNT, 0);
     }
 
     @Override
     public void onStart() {
-
         this.sendNewMessage("Hello");
     }
 
     public void sendNewMessage(String msg)
     {
+        while(true){
+            int cur = (int) SharedVariable.read(MESSAGE_COUNT);
+            boolean success = SharedVariable.write(MESSAGE_COUNT, cur + 1);
+            if(success)break;
+        }
         if(allID.isEmpty())
             return;
         Random rand = new Random();

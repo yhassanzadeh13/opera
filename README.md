@@ -11,14 +11,39 @@ distributed-simulator is an offline thread-based simulator for distributed syste
 ## install <a name="install"></a>
 Under the master branch, you will find a Maven project which you can clone and use directly. <br>
 Alternatively, You can load the Simulator package to your own project, and 
-include the `log4j` dependencies. <br>
+include the `log4j`, `YAML`, and `promotheus` dependencies. <br>
 
 ```
 <dependencies>
+        <!-- log4j -->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
+        </dependency>
+        <!-- YAML -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.21</version>
+        </dependency>
+        <!-- The client -->
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient</artifactId>
+            <version>0.9.0</version>
+        </dependency>
+        <!-- Hotspot JVM metrics-->
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_hotspot</artifactId>
+            <version>0.9.0</version>
+        </dependency>
+        <!-- Exposition HTTPServer-->
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_httpserver</artifactId>
+            <version>0.9.0</version>
         </dependency>
     </dependencies>
 ```
@@ -26,29 +51,30 @@ include the `log4j` dependencies. <br>
 ### Setup
  load the Simulator package to your project
 ### Node Class
-Your special `Node` class should implement `BaseNode` interface from the Simulator package. Every node is supposed to have a unique `UUID` ID.
+Your `Node` class should implement `BaseNode` interface from the Simulator package. Every node is supposed to have a unique `UUID` ID.
  which will be generated and be passed to the node by the `Simulator`. <br> 
- Five methods needs to be overridden
-  - `onCreat` to initialize the node setup. All the nodes `onCreat` methods will be called before any node start processing. 
+ Five methods needs to be implemented
+  - `onCreat` to initialize the node setup. All nodes' `onCreat` method will be called before any other node start processing. 
   Once the node finishes its setup it should declare itself as ready by calling `Simulator.Ready(nodeId)` 
   - `onStart` to start the node's initial process. After all te nodes in the cluster are ready. the node `onStart` method will be called by the `Simulator` 
   - `onStop` this method will be called by the simulator once the node terminate. This method can be used for garbage collection.
   - `onNewMessage` the node will receive all the event requests through this class. Every event request will be received in a separated thread.
-  - `newInstance` this method serves as a node factory method. For a given `UUID`, it should return a new node instance.
+  - `newInstance` this method serves as a node factory method. For a given `UUID`, and a network layer `MiddleLayer`, it should return a new node instance.
   
 ### Event Class
 All the event classes in the network should implement the `Event` interface from the `Simulator` package.
-Two methods methods be overridden
+Two methods should be impelemented
   - `actionPerformed` receive an instance from the host node that will perform the event and will be used to activate the event by the user.
   - `logMessage` should return a message of the event state. It is used for the logging purpose.
   
 ### Interaction with the simulator
 The simulator provides a simulated network underlay for the sake of the nodes' communication. <br>
-Four main static methods are provided.
-  - `Simulator.Ready` for the node to declare itself as ready after if finished its setup.
-  - `Simulator.Submit`can be used to send a message from one node to another. It receives the sender `UUID`, the target `UUID` and an event. 
-  - `Simulator.Done` can be used for the node to terminate itself. The simulator will delete this node from the network and call the node `onStop` method.
-  - `Simulator.getLogger` can be used to log a new message.
+Through the network layer 'MiddleLayer', provided on the signature of the 'newInstance' method in the `BaseNode` interface, four basic methods are provided.
+  - `network.ready` for the node to declare itself as ready after if finished its setup.
+  - `network.send`can be used to send a message from one node to another. It receives the target `UUID` and an event. 
+  - `network.done` can be used for the node to terminate itself. The simulator will delete this node from the network and call the node `onStop` method.
+
+Simulator static logger can also be accessed using `Simulator.getLogger()`
   
 ### Start new simulation
 Consider you have a `myNode` class and you want to run a simulation of **100** nodes. <br>
@@ -56,12 +82,30 @@ you need to create a new `Simulator` instance and pass a dummy factory node and 
 To start the simulation call `.start()` method and pass the simulation duration is millisecond.
 
 ```
-Simulator<myNode> simulation = new Simulator<myNode>(new myNode(UUID.randomUUID()), 100);
+Simulator<myNode> simulation = new Simulator<myNode>(new myNode(Null), 100);
 simulation.start(10000);
 ```
 
-The output log of the simulation in the `log.out` file under you project directory.  
+The output log of the simulation in the `log.out` file under you project's directory.  
   
+### Extracting and registering Prometheus metrics
+The simulator provides three metric types under the `Metric` package-- `SimulatorCounter`, `SimulatorGauge`, and `SimulatorHistogram` <br>
+In order to register a new metric, call the static `register` method, and provide the metric name
+```
+SimulatorCounter.register("MetricName")
+```
+For every metric type, update static methods are provided. They can be called by providing
+the metric name, and the node UUID.<br>
+For every node, the simulator provides three basic metrics-- packets delay, number of sent messages, number of received messages.<br>
+prometheus is available in `Homebrew` for Unix systems
+```
+brew install prometheus
+``` 
+In order to run prometheus configured with the simulator, use the provided `prometheus.yml` config file
+```
+sudo prometheus --config.file=prometheus.yml
+```
+
 ## Simulator Examples <a name="examples"></a>
 
 Two simulator examples are provided under the `SimulatorExamples` package.  
@@ -80,6 +124,7 @@ It demonstrate a battle between the servers.
 It let the opponent node knows the results by sending `BattleResult` event.
 - When a node reaches a zero power level, it dies and send a goodbye message. 
 The simulation continues until either the simulation duration finishes or a winner (a single node) is declared.
+- Prometheus metrics for the fight duration, health level, and number of fights are provided for each node.
 
 ## Documentation <a name="doc"></a>
 the JavaDoc Documentation can be found under the `doc` directory under the project directory.

@@ -4,11 +4,26 @@ import Simulator.Simulator;
 import io.prometheus.client.Counter;
 import java.util.UUID;
 
+/**
+ * This class provides a prometheus-based counter for extracting metrics
+ * For every registered metric, the metric will be collected for each node separately
+ * Counters can be incremented but never decremented.
+ */
+
 public abstract class SimulatorCounter extends SimulatorMetric{
 
+    /**
+     * increment a metric
+     * @param name name of the metric
+     * @param id the node id on which the metric will be regi
+     * @param v value
+     * @return True in case of success
+     */
     public static boolean inc(String name, UUID id, double v){
         Counter metric = getMetric(name);
-        if(metric == null)return false;
+        if(metric == null){
+            return false;
+        }
         metric.labels(id.toString()).inc(v);
         return true;
     }
@@ -23,6 +38,11 @@ public abstract class SimulatorCounter extends SimulatorMetric{
         return metric.labels(id.toString()).get();
     }
 
+    /**
+     * Return prometheus metric for a specific name
+     * @param name
+     * @return
+     */
     public static Counter getMetric(String name){
         if(!collectors.containsKey(name)){
             Simulator.getLogger().error("[SimulatorCounter] could not find a metric with name " + name);
@@ -37,6 +57,11 @@ public abstract class SimulatorCounter extends SimulatorMetric{
         return (Counter) collectors.get(name);
     }
 
+    /**
+     * Register a new metric with a specific name
+     * @param name
+     * @return True in case of success
+     */
     public static boolean register(String name){
         if(!collectors.containsKey(name)){
             collectors.put(name, Counter.build().namespace(NAMESPACE).name(name).help(HELP_MSG).labelNames(LABEL_NAME).register());
