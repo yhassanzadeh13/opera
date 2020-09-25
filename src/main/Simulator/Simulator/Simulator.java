@@ -5,28 +5,28 @@ import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.*;
 
+import Metrics.SimulatorHistogram;
 import Node.BaseNode;
-import Utils.Distribution.BaseDistribution;
-import Utils.Distribution.UniformDistribution;
+import Underlay.Local.LocalUnderlay;
+import Utils.Generator.BaseGenerator;
 import Utils.SimpleEntryComparable;
 import io.prometheus.client.exporter.HTTPServer;
 import org.apache.log4j.Logger;
-import underlay.MiddleLayer;
-import underlay.Underlay;
-import underlay.UnderlayFactory;
+import Underlay.MiddleLayer;
+import Underlay.Underlay;
+import Underlay.UnderlayFactory;
 import java.util.AbstractMap.SimpleEntry;
-import underlay.packets.Event;
+import Underlay.packets.Event;
 
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.concurrent.CountDownLatch;
 
 public class Simulator<T extends BaseNode> implements BaseNode{
-
-    private final static String MOCK_NETWORK = "mockNetwork";
-
     //Simulator config
+    private final static String MOCK_NETWORK = "mockNetwork";
     private final int START_PORT = 2000;
+
     private boolean isLocal;
     private ArrayList<UUID> allID;
     private HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses;
@@ -39,12 +39,35 @@ public class Simulator<T extends BaseNode> implements BaseNode{
     private CountDownLatch count;
     private String networkType;
     private static Random rand = new Random();
+    private static UUID SimulatorID = UUID.randomUUID();
+    private HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
 
-    @Override
-    public void onCreate(ArrayList<UUID> allID) { }
 
-    @Override
-    public void onStart() {
+    // TODO: currently the communication is assumed to be on a single machine.
+    /**
+     * Initializes a newly created simulator based on a factory node and the number of nodes in
+     * the simulator.
+     * @param factory a dummy factory instance of special node class.
+     * @param N the number of nodes.
+     */
+    public Simulator(T factory, int N, String networkType)
+    {
+        this(factory, N, networkType, true);
+    }
+
+    /**
+     * Constructors to be added later when the online simulation feature is added.
+     * @param factory
+     * @param N
+     * @param isLocal
+     */
+    private Simulator(T factory, int N, String networkType, boolean isLocal)
+    {
+        this.factory = factory;
+        this.isLocal = isLocal;
+        this.networkType = networkType;
+
+        // prepare the prometheus server
         try {
             // initialize prometheus HTTP server
             HTTPServer server = new HTTPServer(this.START_PORT);
@@ -52,6 +75,34 @@ public class Simulator<T extends BaseNode> implements BaseNode{
             e.printStackTrace();
         }
 
+        isReady = new HashMap<SimpleEntry<String, Integer>, Boolean>();
+        // generate new IDs and addresses
+        this.allID = generateIDs(N);
+        this.allFullAddresses = generateFullAddressed(N, this.START_PORT + 1);
+
+        // logging nodes ID
+        log.info("Nodes IDs are:");
+        for(UUID id : this.allID)
+            log.info(id);
+
+        // logging nodes full addresses
+        log.info("Nodes Addresses are:");
+        for(SimpleEntry<String, Integer> address : this.allFullAddresses.values())
+            log.info(address.getKey() + ":" + address.getValue());
+
+        // CountDownLatch for awaiting the start of the simulation until all nodes are ready
+        count = new CountDownLatch(N);
+        if(isLocal)
+        {
+            this.generateNodesInstances(networkType);
+        }
+    }
+
+    @Override
+    public void onCreate(ArrayList<UUID> allID) { }
+
+    @Override
+    public void onStart() {
         // logging
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
@@ -96,54 +147,6 @@ public class Simulator<T extends BaseNode> implements BaseNode{
 
 
     /**
-     * Initializes a newly created simulator based on a factory node and the number of nodes in
-     * the simulator.
-     * @param factory a dummy factory instance of special node class.
-     * @param N the number of nodes.
-     */
-    public Simulator(T factory, int N, String networkType)
-    {
-        this(factory, N, networkType, true);
-    }
-
-    /**
-     * Constructors to be added later when the online simulation feature is added.
-     * @param factory
-     * @param N
-     * @param isLocal
-     */
-    private Simulator(T factory, int N, String networkType, boolean isLocal)
-    {
-        this.factory = factory;
-        this.isLocal = isLocal;
-        this.networkType = networkType;
-
-        isReady = new HashMap<SimpleEntry<String, Integer>, Boolean>();
-
-        // generate new IDs and addresses
-        this.allID = generateIDs(N);
-        this.allFullAddresses = generateFullAddressed(N, this.START_PORT + 1);
-
-        // logging nodes ID
-        log.info("Nodes IDs are:");
-        for(UUID id : this.allID)
-            log.info(id);
-
-        // logging nodes full addresses
-        log.info("Nodes Addresses are:");
-        for(SimpleEntry<String, Integer> address : this.allFullAddresses.values())
-            log.info(address.getKey() + ":" + address.getValue());
-
-        // CountDownLatch for awaiting the start of the simulation until all nodes are ready
-        count = new CountDownLatch(N);
-        if(isLocal)
-        {
-            this.generateNodesInstances(N, networkType);
-        }
-    }
-
-
-    /**
      * Generate new random UUID for the nodes
      * @param N number of nodes
      * @return ArrayList of random N ids
@@ -182,9 +185,8 @@ public class Simulator<T extends BaseNode> implements BaseNode{
 
     /**
      * Generate new instances for the nodes and add them to the network
-     * @param N number of nodes
      */
-    private void generateNodesInstances(int N, String networkType) {
+    private void generateNodesInstances(String networkType) {
 
         this.allMiddleLayers = new HashMap<SimpleEntry<String, Integer>, MiddleLayer>();
         //logging
@@ -194,23 +196,24 @@ public class Simulator<T extends BaseNode> implements BaseNode{
         for(UUID id : allID)
         {
             isReady.put(this.allFullAddresses.get(id), false);
-            MiddleLayer middleLayer = new MiddleLayer(id, this.allFullAddresses, this);
+            MiddleLayer middleLayer = new MiddleLayer(id, this.allFullAddresses, isReady, this);
             BaseNode node = factory.newInstance(id, middleLayer);
             middleLayer.setOverlay(node);
             this.allMiddleLayers.put(this.allFullAddresses.get(id), middleLayer);
         }
 
         // generate new underlays and assign them to the nodes middles layers.
-        // in case of the mock network, use the same underlay for all nodes.
-        Underlay localUnderlay = UnderlayFactory.getMockUnderlay(this.allMiddleLayers, this.isReady);
         for(Map.Entry<SimpleEntry<String, Integer>, MiddleLayer> node : this.allMiddleLayers.entrySet())
         {
             MiddleLayer middleLayer = node.getValue();
+            String address = node.getKey().getKey();
             int port = node.getKey().getValue();
             if(!networkType.equals(MOCK_NETWORK))
                 middleLayer.setUnderlay(UnderlayFactory.NewUnderlay(networkType, port, middleLayer));
             else{
-                middleLayer.setUnderlay(localUnderlay);
+                LocalUnderlay underlay = UnderlayFactory.getMockUnderlay(address, port, middleLayer, allLocalUnderlay);
+                middleLayer.setUnderlay(underlay);
+                allLocalUnderlay.put(node.getKey(), underlay);
             }
             // call the node onCreat method of the nodes
             middleLayer.create(this.allID);
@@ -280,10 +283,19 @@ public class Simulator<T extends BaseNode> implements BaseNode{
      * Used to start the simulation.
      * It calls the onStart method for all nodes to start the simulation.
      */
-    public void start(int duration)
+    public void constantSimulation(int duration)
     {
         this.onStart();
-        churnSimulation(duration, new UniformDistribution(2000, 3000), new UniformDistribution(2000, 3000));
+        System.out.println("Simulation started");
+        getLogger().info("Simulation started");
+
+        try{
+            Thread.sleep(duration);
+        }
+        catch (Exception e){
+         e.printStackTrace();
+        }
+
         log.info("Simulation duration finished");
         System.out.println("Simulation duration finished");
 
@@ -298,23 +310,44 @@ public class Simulator<T extends BaseNode> implements BaseNode{
      * @param session session length
      */
 
-    private void churnSimulation(long duration, BaseDistribution arrival, BaseDistribution session){
-        long time = System.currentTimeMillis();
+    public void churnSimulation(long duration, BaseGenerator arrival, BaseGenerator session){
+        final String SESSION_METRIC = "SessionLength";
+        final String ARRIVAL_METRIC = "InterArrival";
+
+        // initialize all nodes
+        this.onStart();
+        System.out.println("Simulation started");
+        getLogger().info("Simulation started");
+
+        // register a prometheus histogram for session length
+        double[] labels = new double[10];
+        for(int i = 1;i<=10;i++){
+            labels[10 - i] = (double) (session.mx - session.mn) / i;
+        }
+        SimulatorHistogram.register(SESSION_METRIC, labels);
+
+        // register a prometheus histogram for inter arrival time
+        for(int i = 1;i<=10;i++){
+            labels[10 - i] = (double) (arrival.mx - arrival.mn) / i;
+        }
+        SimulatorHistogram.register(ARRIVAL_METRIC, labels);
 
         // hold the current online nodes, with their termination time stamp.
         this.onlineNodes = new PriorityQueue<>();
 
         // assign initial terminate time stamp for all nodes
+        long time = System.currentTimeMillis();
         for(UUID id : this.allID){
             if(isReady.get(this.allFullAddresses.get(id))){
                 int ex = session.next();
                 log.info("[Simulator] new session for node " + getAddress(id)  + ": " + ex + " ms");
                 onlineNodes.add(new SimpleEntryComparable<>(time + ex, id));
+                SimulatorHistogram.observe(SESSION_METRIC, id, ex);
             }
         }
-
         // hold next arrival time
         long nxtArrival = System.currentTimeMillis() + arrival.next();
+        SimulatorHistogram.observe(ARRIVAL_METRIC, SimulatorID, nxtArrival);
 
         while(System.currentTimeMillis() - time < duration){
             if(!onlineNodes.isEmpty() && System.currentTimeMillis() > onlineNodes.peek().getKey()){
@@ -324,9 +357,9 @@ public class Simulator<T extends BaseNode> implements BaseNode{
                 log.info("[Simulator] Deactivating node " + getAddress(id));
                 this.Done(id);
             }
-            if(System.currentTimeMillis() >= nxtArrival){
+            if(System.currentTimeMillis() >= nxtArrival) {
                 // pool a random node from the offline nodes (if exists) and start it in a new thread.
-                if(this.offlineNodes.isEmpty()) continue;
+                if (this.offlineNodes.isEmpty()) continue;
 
                 int ind = rand.nextInt(this.offlineNodes.size());
                 UUID id = this.offlineNodes.get(ind);
@@ -341,14 +374,22 @@ public class Simulator<T extends BaseNode> implements BaseNode{
 
                 // assign a termination time
                 int ex = session.next();
-                log.info("[Simulator] new session for node " + getAddress(id)  + ": " + ex + " ms");
+                log.info("[Simulator] new session for node " + getAddress(id) + ": " + ex + " ms");
                 this.onlineNodes.add(new SimpleEntryComparable<>(System.currentTimeMillis() + ex, id));
+                SimulatorHistogram.observe(SESSION_METRIC, id, ex);
 
                 // assign a next node arrival time
                 nxtArrival = System.currentTimeMillis() + arrival.next();
-                log.info("[Simulator] next node arrival: " +  nxtArrival);
+                log.info("[Simulator] next node arrival: " + nxtArrival);
+                SimulatorHistogram.observe(ARRIVAL_METRIC, SimulatorID, nxtArrival);
             }
         }
+
+        log.info("Simulation duration finished");
+        System.out.println("Simulation duration finished");
+
+        // stop the simulation.
+        this.onStop();
     }
 
     public String getAddress(UUID nodeID){

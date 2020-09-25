@@ -3,9 +3,8 @@ package SimulatorExamples.HelloServers;
 
 import Metrics.SimulatorHistogram;
 import Node.BaseNode;
-import underlay.MiddleLayer;
-import underlay.packets.Event;
-import Utils.SharedVariable;
+import Underlay.MiddleLayer;
+import Underlay.packets.Event;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -32,7 +31,6 @@ public class myNode implements BaseNode {
     public void onCreate(ArrayList<UUID> allID) {
         this.allID = allID;
         network.ready();
-        SharedVariable.write(MESSAGE_COUNT, 0);
     }
 
     @Override
@@ -42,11 +40,6 @@ public class myNode implements BaseNode {
 
     public void sendNewMessage(String msg)
     {
-        while(true){
-            int cur = (int) SharedVariable.read(MESSAGE_COUNT);
-            boolean success = SharedVariable.write(MESSAGE_COUNT, cur + 1);
-            if(success)break;
-        }
         if(allID.isEmpty())
             return;
         Random rand = new Random();

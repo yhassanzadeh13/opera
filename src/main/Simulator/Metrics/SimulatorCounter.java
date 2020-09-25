@@ -19,7 +19,7 @@ public abstract class SimulatorCounter extends SimulatorMetric{
      * @param v value
      * @return True in case of success
      */
-    public static boolean inc(String name, UUID id, double v){
+    public synchronized static boolean inc(String name, UUID id, double v){
         Counter metric = getMetric(name);
         if(metric == null){
             return false;
@@ -75,5 +75,4 @@ public abstract class SimulatorCounter extends SimulatorMetric{
         }
         return true;
     }
-
 }

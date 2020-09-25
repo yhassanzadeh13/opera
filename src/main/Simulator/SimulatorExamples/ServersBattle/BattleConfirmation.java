@@ -1,7 +1,7 @@
 package SimulatorExamples.ServersBattle;
 
 import Node.BaseNode;
-import underlay.packets.Event;
+import Underlay.packets.Event;
 
 import java.util.UUID;
 

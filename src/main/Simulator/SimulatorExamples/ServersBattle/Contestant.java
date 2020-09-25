@@ -4,8 +4,8 @@ import Metrics.SimulatorCounter;
 import Metrics.SimulatorGauge;
 import Metrics.SimulatorHistogram;
 import Node.BaseNode;
-import underlay.MiddleLayer;
-import underlay.packets.Event;
+import Underlay.MiddleLayer;
+import Underlay.packets.Event;
 import Simulator.Simulator;
 
 import java.util.ArrayList;

@@ -68,7 +68,7 @@ Two methods should be impelemented
   - `logMessage` should return a message of the event state. It is used for the logging purpose.
   
 ### Interaction with the simulator
-The simulator provides a simulated network underlay for the sake of the nodes' communication. <br>
+The simulator provides a simulated network Underlay for the sake of the nodes' communication. <br>
 Through the network layer 'MiddleLayer', provided on the signature of the 'newInstance' method in the `BaseNode` interface, four basic methods are provided.
   - `network.ready` for the node to declare itself as ready after if finished its setup.
   - `network.send`can be used to send a message from one node to another. It receives the target `UUID` and an event. 
@@ -78,12 +78,19 @@ Simulator static logger can also be accessed using `Simulator.getLogger()`
   
 ### Start new simulation
 Consider you have a `myNode` class and you want to run a simulation of **100** nodes. <br>
-you need to create a new `Simulator` instance and pass a dummy factory node and the number of nodes in the simulation. 
-To start the simulation call `.start()` method and pass the simulation duration is millisecond.
+you need to create a new `Simulator` instance and pass a fixture factory node, and the number of nodes in the simulation. 
+You can either start a constant simulation by calling `constantSimulation(duration)` or start
+a simulation with churn feature by calling `churnSimulation()` and pass the session, and 
+inter-arrival time generators from the Generator package.
 
 ```
-Simulator<myNode> simulation = new Simulator<myNode>(new myNode(Null), 100);
-simulation.start(10000);
+myNode fixtureNode = new myNode();
+Simulator<myNode> simulation = new Simulator<myNode>(fixtureNode, 5, "tcp");
+
+simulation.constantSimulation(10000);
+
+simulation.churnSimulation(10000, new UniformGenerator(1000, 3000),
+        new WeibullGenerator(1000, 3000, 1, 4));
 ```
 
 The output log of the simulation in the `log.out` file under you project's directory.  
