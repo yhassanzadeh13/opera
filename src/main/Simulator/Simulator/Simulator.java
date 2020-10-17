@@ -9,7 +9,9 @@ import Metrics.SimulatorHistogram;
 import Node.BaseNode;
 import Underlay.Local.LocalUnderlay;
 import Utils.Generator.BaseGenerator;
+import Utils.Generator.GaussianGenerator;
 import Utils.SimpleEntryComparable;
+import Utils.SimulatorUtils;
 import io.prometheus.client.exporter.HTTPServer;
 import org.apache.log4j.Logger;
 import Underlay.MiddleLayer;
@@ -41,6 +43,7 @@ public class Simulator<T extends BaseNode> implements BaseNode{
     private static Random rand = new Random();
     private static UUID SimulatorID = UUID.randomUUID();
     private HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
+    public HashMap<String, Integer> nodesSimulatedLatency = new HashMap<>();
 
 
     // TODO: currently the communication is assumed to be on a single machine.
@@ -400,6 +403,33 @@ public class Simulator<T extends BaseNode> implements BaseNode{
     public MiddleLayer getMiddleLayer(UUID id){
         SimpleEntry<String, Integer> address = this.allFullAddresses.get(id);
         return this.allMiddleLayers.get(address);
+    }
+
+    /**
+     * get the simulated delay based on the normal distribution extracted from the AWS.
+     * @param nodeA first node
+     * @param nodeB second node
+     * @return
+     */
+    public int getSimulatedLatency(UUID nodeA, UUID nodeB, boolean bidirectional){
+        if(bidirectional && nodeA.compareTo(nodeB) < 0){
+            UUID tmp = nodeA;
+            nodeA = nodeB;
+            nodeB = tmp;
+        }
+        String hash = SimulatorUtils.hashPairOfNodes(nodeA, nodeB);
+        if(!this.nodesSimulatedLatency.containsKey(hash)){
+            final int MEAN = 159;
+            final int STD = 96;
+            GaussianGenerator generator = new GaussianGenerator(MEAN, STD);
+            this.nodesSimulatedLatency.put(hash, generator.next());
+        }
+        return this.nodesSimulatedLatency.get(hash);
+    }
+
+    /** get all nodes ID **/
+    public ArrayList<UUID> getAllID(){
+        return this.allID;
     }
 
 }

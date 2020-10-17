@@ -9,16 +9,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2e18d7c0-531b-4739-af52-31b896ac8f1a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/Simulator/Metrics/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/Simulator/SimulatorExamples/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/Simulator/Underlay/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TestJunit/Utils/FixtureEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TestJunit/Utils/FixtureNode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TestJunit/Utils/SimulatedLatency.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/distributed-simulator.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/Simulator/Utils/Generator/GaussianGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/Simulator/Utils/SimulatorUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log.out" beforeDir="false" afterPath="$PROJECT_DIR$/log.out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/Simulator/Simulator/Simulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Simulator/Simulator/Simulator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Simulator/Underlay/UnderlayFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Simulator/Underlay/UnderlayFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Simulator/Underlay/underlayTypes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Simulator/Underlay/underlayTypes.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Simulator/Utils/Distribution/BaseDistribution.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Simulator/Utils/Distribution/ExponentialDistribution.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Simulator/Utils/Distribution/UniformDistribution.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Simulator/Underlay/MiddleLayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Simulator/Underlay/MiddleLayer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,11 +50,21 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/TestJunit" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
   </component>
-  <component name="RunManager" selected="JUnit.Utils.Distribution in distributed-simulator">
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="Utils.Generator" />
+      <recent name="Utils" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/TestJunit" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Simulator">
     <configuration name="Simulator" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="SimulatorExamples.HelloServers.Main" />
       <module name="distributed-simulator" />
@@ -60,13 +72,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -75,6 +89,22 @@
       <module name="distributed-simulator" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SimulatedLatency.GaussianDelay" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="distributed-simulator" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Utils.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Utils" />
+      <option name="MAIN_CLASS_NAME" value="Utils.SimulatedLatency" />
+      <option name="METHOD_NAME" value="GaussianDelay" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -97,9 +127,11 @@
       <item itemvalue="Application.Simulator" />
       <item itemvalue="JUnit.All in distributed-simulator" />
       <item itemvalue="JUnit.Utils.Distribution in distributed-simulator" />
+      <item itemvalue="JUnit.SimulatedLatency.GaussianDelay" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SimulatedLatency.GaussianDelay" />
         <item itemvalue="JUnit.Utils.Distribution in distributed-simulator" />
         <item itemvalue="JUnit.All in distributed-simulator" />
       </list>
@@ -117,6 +149,7 @@
       <workItem from="1600981005792" duration="122000" />
       <workItem from="1600982618783" duration="350000" />
       <workItem from="1600993223805" duration="1982000" />
+      <workItem from="1602962262025" duration="352000" />
     </task>
     <servers />
   </component>
@@ -166,10 +199,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="184" y="112" width="1071" height="700" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600981065178">
+    <state x="184" y="112" width="1071" height="724" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1602962342786">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="184" y="112" width="1071" height="700" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1600981065178" />
+    <state x="184" y="112" width="1071" height="724" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1602962342786" />
     <state x="457" y="259" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1600981062080">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -206,10 +239,10 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="358" y="218" key="MultipleFileMergeDialog/0.0.1440.900@0.0.1440.900" timestamp="1600982600173" />
-    <state x="208" y="31" key="SettingsEditor" timestamp="1600982705701">
+    <state x="208" y="31" key="SettingsEditor" timestamp="1602962337111">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="208" y="31" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1600982705701" />
+    <state x="208" y="31" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1602962337111" />
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1600995096909">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
