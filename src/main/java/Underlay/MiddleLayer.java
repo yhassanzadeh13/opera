@@ -95,6 +95,13 @@ public class MiddleLayer {
         String destinationAddress = fullAddress.getKey();
         Integer port = fullAddress.getValue();
 
+        // sleep for the simulated duration
+        try{
+            Thread.sleep(masterNode.getSimulatedLatency(nodeID, destinationID, true));
+        }catch (Exception e){
+            Simulator.getLogger().error("[MiddleLayer] Thread failed to sleep for the simulated delay");
+        }
+
         // Bounce the request up.
         boolean success =  underlay.sendMessage(destinationAddress, port, request);
 
