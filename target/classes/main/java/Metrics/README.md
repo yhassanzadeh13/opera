@@ -1,4 +1,4 @@
-# Simulator Metrics
+# Simulator.Simulator Metrics
 
 This package includes three essential metrics types
 implemented using [Prometheus](https://prometheus.io/).
