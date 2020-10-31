@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    #Run on all branches, uncomment this to only run on master
+    branches:
+     - Nazir/Pipeline
+  pull_request:
+    branches:
+      - master
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    - name: clean
+      run: mvn clean
+
+    # compile
+    - name: compile project
+      run: mvn compile
+
+    # run tests
+    - name: run tests
+      run: mvn test
+
+#  sonar:
+#    name: Test - SonarCloud Scan
+#    runs-on: ubuntu-18.04
+#
+#    steps:
+#      - uses: actions/checkout@v1
+#      - name: Set up JDK 11
+#        uses: actions/setup-java@v1
+#        with:
+#          java-version: 11.0.4
+#      - name: SonarCloud Scan
+#        run: mvn -B clean verify -Psonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

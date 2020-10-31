@@ -10,7 +10,7 @@ distributed-simulator is an offline thread-based simulator for distributed syste
 
 ## install <a name="install"></a>
 Under the master branch, you will find a Maven project which you can clone and use directly. <br>
-Alternatively, You can load the Simulator package to your own project, and 
+Alternatively, You can load the Simulator.Simulator package to your own project, and 
 include the `log4j`, `YAML`, and `promotheus` dependencies. <br>
 
 ```
@@ -49,20 +49,20 @@ include the `log4j`, `YAML`, and `promotheus` dependencies. <br>
 ```
 ## Usage <a name="basic-usage"></a>
 ### Setup
- load the Simulator package to your project
+ load the Simulator.Simulator package to your project
 ### Node Class
-Your `Node` class should implement `BaseNode` interface from the Simulator package. Every node is supposed to have a unique `UUID` ID.
- which will be generated and be passed to the node by the `Simulator`. <br> 
+Your `Node` class should implement `BaseNode` interface from the Simulator.Simulator package. Every node is supposed to have a unique `UUID` ID.
+ which will be generated and be passed to the node by the `Simulator.Simulator`. <br> 
  Five methods needs to be implemented
   - `onCreat` to initialize the node setup. All nodes' `onCreat` method will be called before any other node start processing. 
-  Once the node finishes its setup it should declare itself as ready by calling `Simulator.Ready(nodeId)` 
-  - `onStart` to start the node's initial process. After all te nodes in the cluster are ready. the node `onStart` method will be called by the `Simulator` 
+  Once the node finishes its setup it should declare itself as ready by calling `Simulator.Simulator.Ready(nodeId)` 
+  - `onStart` to start the node's initial process. After all te nodes in the cluster are ready. the node `onStart` method will be called by the `Simulator.Simulator` 
   - `onStop` this method will be called by the simulator once the node terminate. This method can be used for garbage collection.
   - `onNewMessage` the node will receive all the event requests through this class. Every event request will be received in a separated thread.
   - `newInstance` this method serves as a node factory method. For a given `UUID`, and a network layer `MiddleLayer`, it should return a new node instance.
   
 ### Event Class
-All the event classes in the network should implement the `Event` interface from the `Simulator` package.
+All the event classes in the network should implement the `Event` interface from the `Simulator.Simulator` package.
 Two methods should be impelemented
   - `actionPerformed` receive an instance from the host node that will perform the event and will be used to activate the event by the user.
   - `logMessage` should return a message of the event state. It is used for the logging purpose.
@@ -74,18 +74,18 @@ Through the network layer 'MiddleLayer', provided on the signature of the 'newIn
   - `network.send`can be used to send a message from one node to another. It receives the target `UUID` and an event. 
   - `network.done` can be used for the node to terminate itself. The simulator will delete this node from the network and call the node `onStop` method.
 
-Simulator static logger can also be accessed using `Simulator.getLogger()`
+Simulator.Simulator static logger can also be accessed using `Simulator.Simulator.getLogger()`
   
 ### Start new simulation
 Consider you have a `myNode` class and you want to run a simulation of **100** nodes. <br>
-you need to create a new `Simulator` instance and pass a fixture factory node, and the number of nodes in the simulation. 
+you need to create a new `Simulator.Simulator` instance and pass a fixture factory node, and the number of nodes in the simulation. 
 You can either start a constant simulation by calling `constantSimulation(duration)` or start
 a simulation with churn feature by calling `churnSimulation()` and pass the session, and 
 inter-arrival time generators from the Generator package.
 
 ```
 myNode fixtureNode = new myNode();
-Simulator<myNode> simulation = new Simulator<myNode>(fixtureNode, 5, "tcp");
+Simulator.Simulator<myNode> simulation = new Simulator.Simulator<myNode>(fixtureNode, 5, "tcp");
 
 simulation.constantSimulation(10000);
 
@@ -113,7 +113,7 @@ In order to run prometheus configured with the simulator, use the provided `prom
 sudo prometheus --config.file=prometheus.yml
 ```
 
-## Simulator Examples <a name="examples"></a>
+## Simulator.Simulator Examples <a name="examples"></a>
 
 Two simulator examples are provided under the `SimulatorExamples` package.  
 

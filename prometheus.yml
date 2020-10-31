@@ -27,7 +27,7 @@ scrape_configs:
 
     static_configs:
     - targets: ['localhost:9090']
-  - job_name: 'Simulator'
+  - job_name: 'Simulator.Simulator'
 
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
