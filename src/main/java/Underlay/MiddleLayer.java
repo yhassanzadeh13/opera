@@ -10,6 +10,8 @@ import Underlay.packets.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+
+import Utils.SimulatorUtils;
 import org.apache.log4j.Logger;
 /**
  * Represents a mediator between the overlay and the underlay. The requests coming from the underlay are directed
@@ -18,11 +20,11 @@ import org.apache.log4j.Logger;
  * to the overlay.
  */
 public class MiddleLayer {
-
-
-    private final String DELAY_METRIC = "Delay";
+    //TODO add bucket size to the default metrics
     private final String SENT_BUCKET_SIZE_METRIC = "SentBucketSize";
     private final String RECEIVED_BUCKET_SIZE_METRIC = "ReceivedBucketSize";
+
+    private final String DELAY_METRIC = "Delay";
     private final String SENT_MSG_CNT_METRIC = "Sent_Messages";
     private final String RECEIVED_MSG_CNT_METRIC = "Received_Messages";
     private static final Logger log = Logger.getLogger(MiddleLayer.class.getName());
@@ -37,10 +39,10 @@ public class MiddleLayer {
     private Simulator masterNode;
 
     private String sentBucketHash(UUID id){
-        return nodeID.toString() + "->" + id.toString();
+        return  SimulatorUtils.hashPairOfNodes(nodeID, id);
     }
     private String receivedBucketHash(UUID id){
-        return id.toString() + "->" + nodeID.toString();
+        return  SimulatorUtils.hashPairOfNodes(id, nodeID);
     }
 
     public void setUnderlay(Underlay underlay){
@@ -62,8 +64,6 @@ public class MiddleLayer {
     public  MiddleLayer(UUID nodeID, HashMap<UUID, SimpleEntry<String, Integer>> allFUllAddresses, HashMap<SimpleEntry<String, Integer>, Boolean> isReady, Simulator masterNode) {
         //register metrics
         SimulatorHistogram.register(DELAY_METRIC);
-//        SimulatorHistogram.register(SENT_BUCKET_SIZE_METRIC);
-//        SimulatorHistogram.register(RECEIVED_BUCKET_SIZE_METRIC);
         SimulatorCounter.register(SENT_MSG_CNT_METRIC);
         SimulatorCounter.register(RECEIVED_MSG_CNT_METRIC);
 

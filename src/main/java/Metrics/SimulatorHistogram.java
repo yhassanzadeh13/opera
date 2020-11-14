@@ -72,7 +72,6 @@ public abstract class SimulatorHistogram extends SimulatorMetric{
         }
         catch (Exception e){
             Simulator.getLogger().error("[SimulatorHistogram] timer with name " + name + " and ID " + timerID + " is not initialized");
-            System.err.println("[SimulatorHistogram] timer with name " + name + " and ID " + timerID + " is not initialized");;
             return false;
         }
     }

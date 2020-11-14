@@ -70,12 +70,7 @@ public class Simulator<T extends BaseNode> implements BaseNode{
         this.networkType = networkType;
 
         // prepare the prometheus server
-        try {
-            // initialize prometheus HTTP server
-            HTTPServer server = new HTTPServer(this.START_PORT);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SimulatorUtils.ConfigurePrometheus("admin", "admin");
 
         isReady = new HashMap<SimpleEntry<String, Integer>, Boolean>();
         // generate new IDs and addresses
