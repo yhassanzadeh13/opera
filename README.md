@@ -20,16 +20,16 @@ Additionally, the simulator requires Docker to be installed on your machine. <br
 Docker is available for free on its [official website](https://docs.docker.com/get-docker/)
 ## Usage <a name="basic-usage"></a>
 - [Simulator setup](#setup)
-- [Integrating node class](#install)
-- [Integrating communication events](#basic-usage)
-- [Interaction with the simulator](#basic-usage)
-- [Starting the simulation](#basic-usage)
-- [Registering Prometheus metrics](#examples)
-- [Visualizing metrics using Grafana]()
-- [Supporting a new communication protocol](#doc)
-### Simulator Setup
+- [Integrating node class](#node)
+- [Integrating communication events](#event)
+- [Interaction with the simulator](#interact)
+- [Starting the simulation](#start)
+- [Registering Prometheus metrics](#prometheus)
+- [Visualizing metrics using Grafana](#grafana)
+- [Supporting a new communication protocol](#protocol)
+### Simulator Setup <a name="setup"></a>
  load the Simulator.Simulator package to your project.
-### Integrating node class
+### Integrating node class <a name="node"></a>
 Your node class should implement `BaseNode` interface from the Simulator.Simulator package. Every node is supposed to have a unique `UUID` ID.
  which will be generated and be passed to the node by the `Simulator.Simulator`. <br> 
  Five methods needs to be overridden:
@@ -41,7 +41,7 @@ Your node class should implement `BaseNode` interface from the Simulator.Simulat
   - `onNewMessage`: the node will receive all the event requests through this class. Every event request will be received in a separated thread.
   - `newInstance`: this method serves as a node factory method. For a given `UUID`, and a network layer `MiddleLayer`, it should return a new node instance.
   
-### Integrating communication events
+### Integrating communication events <a name="event"></a>
 All the event classes in the network should implement the `Event` interface from the `Simulator.Simulator` package.
  You will need these events to send messages between nodes through the Simulator 
 Two methods should be implemented.
@@ -49,7 +49,7 @@ Two methods should be implemented.
   Once the destination node receive the event, it can activate the action by calling `event.actionPerformed(this)`
   - `logMessage`: should return a message of the event state. It is used for the logging purpose.
   
-### Interaction with the simulator
+### Interaction with the simulator <a name="interaction"></a>
 The simulator provides a simulated network underlay for the sake of the nodes' communication. 
 It provides the following methods:
   - `network.ready`: for the node to declare itself as ready after it finishes its setup.
@@ -58,7 +58,7 @@ It provides the following methods:
 
 Simulator.Simulator static logger can also be accessed using `Simulator.Simulator.getLogger()`
   
-### Starting the simulation
+### Starting the simulation <a name="start"></a>
 Consider you have a `myNode` class, and you want to run a simulation of **100** nodes. <br>
 you need to create a new `Simulator` instance and pass a fixture factory node, and the number of nodes in the simulation. 
 Subsequently, you can either start a constant simulation using `constantSimulation(duration)` or start
@@ -78,7 +78,7 @@ simulation.churnSimulation(10000, new UniformGenerator(100, 500),
 Supported communication protocols are: **tcp**, **javaRMI**, **udp**, and **mockNetwork** <br>
 The output log of the simulation will be generated in a `log.out` file under your project's directory.  
   
-### Registering Prometheus metrics
+### Registering Prometheus metrics <a name="prometheus"></a>
 The simulator provides three metric types under the `Metric` package-- `SimulatorCounter`, `SimulatorGauge`, and `SimulatorHistogram` <br>
 the static `register` method can be used to register a new metric:
 ```
@@ -87,7 +87,7 @@ SimulatorCounter.register("MetricName")
 The Simulator provides basic default metrics such as 
 packets delay, number of sent messages, number of received messages, session length, inter-arrival time.<br>
 
-### Visualizing Simulator metrics in Grafana
+### Visualizing Simulator metrics in Grafana <a name="grafana"></a>
 The Simulator uses a Docker container for Prometheus and configures it automatically with Grafana.
 You can directly access Prometheus on `localhost:9090`, and Grafana on `localhost:3030`. 
 
@@ -105,11 +105,11 @@ You can add multiple panels to a dashboard, and save it.
 
 **Example of a sample dashboard**
 ![SAMPLE METRIC](./src/main/resources/images/dashboard_sample.png?raw=true)
+
+### Supporting a new communication protocol <a name="protocol"></a>
 Create a new communication protocol and extend the `Underlay` superclass. 
 Additionally, add your protocol name, and class name in the `underlayTypes.yml` file.
 Supported communication protocols are: **tcp**, **javaRMI**, **udp**, and **mockNetwork** <br>
-### Supporting a new communication protocol
-
 
 ## Simulation Examples <a name="examples"></a>
 Two simulation examples are provided under the `SimulatorExamples` package.  
