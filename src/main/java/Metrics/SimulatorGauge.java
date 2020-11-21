@@ -50,7 +50,7 @@ public abstract class SimulatorGauge extends SimulatorMetric {
     /**
      * Return prometheus metric for a specific name
      * @param name
-     * @return
+     * @return the requested metric
      */
     public static Gauge getMetric(String name){
         if(!collectors.containsKey(name)){

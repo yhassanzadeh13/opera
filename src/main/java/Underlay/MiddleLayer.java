@@ -163,7 +163,6 @@ public class MiddleLayer {
     /**
      * start the node in a new thread.
      * This method will be called once the simulator send a start event to the node
-     * @return true iff the node started successfully.
      */
     public void start()
     {

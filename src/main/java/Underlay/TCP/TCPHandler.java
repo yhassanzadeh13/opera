@@ -33,8 +33,7 @@ public class TCPHandler implements Runnable {
             requestStream = new ObjectInputStream(incomingConnection.getInputStream());
             responseStream = new ObjectOutputStream(incomingConnection.getOutputStream());
         } catch (IOException e) {
-            System.err.println("[TCPHandler] Could not acquire the streams from the connection.");
-            e.printStackTrace();
+            Simulator.getLogger().error("[TCPHandler] Could not acquire the streams from the connection.");
             return;
         }
         // Read the request from the connection.

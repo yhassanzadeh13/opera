@@ -280,6 +280,7 @@ public class Simulator<T extends BaseNode> implements BaseNode{
     /**
      * Used to start the simulation.
      * It calls the onStart method for all nodes to start the simulation.
+     * @param duration duration of the simulation
      */
     public void constantSimulation(int duration)
     {
@@ -404,7 +405,8 @@ public class Simulator<T extends BaseNode> implements BaseNode{
      * get the simulated delay based on the normal distribution extracted from the AWS.
      * @param nodeA first node
      * @param nodeB second node
-     * @return
+     * @param bidirectional True, if simulated latency from A to B is the same as from B to A
+     * @return new simulated latency
      */
     public int getSimulatedLatency(UUID nodeA, UUID nodeB, boolean bidirectional){
         if(bidirectional && nodeA.compareTo(nodeB) < 0){
@@ -422,7 +424,10 @@ public class Simulator<T extends BaseNode> implements BaseNode{
         return this.nodesSimulatedLatency.get(hash);
     }
 
-    /** get all nodes ID **/
+    /**
+     * get all nodes ID
+     * @return nodes' UUIDs
+     * **/
     public ArrayList<UUID> getAllID(){
         return this.allID;
     }
