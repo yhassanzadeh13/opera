@@ -47,10 +47,10 @@ public class Simulator<T extends BaseNode> implements BaseNode{
 
     // TODO: currently the communication is assumed to be on a single machine.
     /**
-     * Initializes a newly created simulator based on a factory node and the number of nodes in
-     * the simulator.
+     * Initializes a a new simulation
      * @param factory a dummy factory instance of special node class.
      * @param N the number of nodes.
+     * @param networkType the type of simulated communication protocol. Supported communication protocols are: **tcp**, **javaRMI**, **udp**, and **mockNetwork**
      */
     public Simulator(T factory, int N, String networkType)
     {
@@ -58,10 +58,11 @@ public class Simulator<T extends BaseNode> implements BaseNode{
     }
 
     /**
-     * Constructors to be added later when the online simulation feature is added.
-     * @param factory
-     * @param N
-     * @param isLocal
+     * Initializes a a new simulation
+     * @param factory a dummy factory instance of special node class.
+     * @param N the number of nodes.
+     * @param networkType the type of simulated communication protocol. Supported communication protocols are: **tcp**, **javaRMI**, **udp**, and **mockNetwork*
+     * @param isLocal True if the simulated network will be on a single machine.
      */
     private Simulator(T factory, int N, String networkType, boolean isLocal)
     {
@@ -319,13 +320,13 @@ public class Simulator<T extends BaseNode> implements BaseNode{
         // register a prometheus histogram for session length
         double[] labels = new double[10];
         for(int i = 1;i<=10;i++){
-            labels[10 - i] = (double) (session.mx - session.mn) / i;
+            labels[10 - i] = session.mn + (double) (session.mx - session.mn) / i + 0.001;
         }
         SimulatorHistogram.register(SESSION_METRIC, labels);
 
         // register a prometheus histogram for inter arrival time
         for(int i = 1;i<=10;i++){
-            labels[10 - i] = (double) (arrival.mx - arrival.mn) / i;
+            labels[10 - i] = arrival.mn + (double) (arrival.mx - arrival.mn) / i + 0.001;
         }
         SimulatorHistogram.register(ARRIVAL_METRIC, labels);
 

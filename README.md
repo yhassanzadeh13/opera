@@ -23,10 +23,10 @@ Docker is available for free on its [official website](https://docs.docker.com/g
 - [Integrating node class](#install)
 - [Integrating communication events](#basic-usage)
 - [Interaction with the simulator](#basic-usage)
-- [Start the simulation](#basic-usage)
+- [Starting the simulation](#basic-usage)
 - [Registering Prometheus metrics](#examples)
 - [Visualizing metrics using Grafana]()
-- [Supporting a new underlay](#doc)
+- [Supporting a new communication protocol](#doc)
 ### Simulator Setup
  load the Simulator.Simulator package to your project.
 ### Integrating node class
@@ -58,11 +58,11 @@ It provides the following methods:
 
 Simulator.Simulator static logger can also be accessed using `Simulator.Simulator.getLogger()`
   
-### Start the simulation
+### Starting the simulation
 Consider you have a `myNode` class, and you want to run a simulation of **100** nodes. <br>
 you need to create a new `Simulator` instance and pass a fixture factory node, and the number of nodes in the simulation. 
 Subsequently, you can either start a constant simulation using `constantSimulation(duration)` or start
-a simulation with churn feature using `churnSimulation(Long sessionLength, BaseGenerator sessionLength, BaseGenerator InterArrivalTime)`.
+a simulation with churn feature using `churnSimulation(Long simulationTime, BaseGenerator InterArrivalTime, BaseGenerator sessionLength)`.
  <br> Various types of distributions can be accessed from the Generator package.
 
 ```
@@ -71,10 +71,11 @@ Simulator<myNode> simulation = new Simulator<myNode>(fixtureNode, 5, "tcp");
 
 simulation.constantSimulation(10000);
 
-simulation.churnSimulation(10000, new UniformGenerator(1000, 3000),
+simulation.churnSimulation(10000, new UniformGenerator(100, 500),
         new WeibullGenerator(1000, 3000, 1, 4));
 ```
-
+<br>
+Supported communication protocols are: **tcp**, **javaRMI**, **udp**, and **mockNetwork** <br>
 The output log of the simulation will be generated in a `log.out` file under your project's directory.  
   
 ### Registering Prometheus metrics
@@ -93,11 +94,24 @@ You can directly access Prometheus on `localhost:9090`, and Grafana on `localhos
 #### Example of visualizing the default metrics
 Access Grafana on `localhost:3030`. The default username and password is `admin`.
 Create a new dashboard, and add a new panel. 
+Enter your metric in Matrics field. In order to obtain metrics for a specific
+node, specify the corresponding UUID for that node. From Visualization, specify
+the type of visualization that you want to obtain. 
 
- 
+**Example of obtaining the session length metric for a specific node**
+![SAMPLE METRIC](./src/main/resources/images/metric_sample.png?raw=true)
+<br> <br> <br>
+You can add multiple panels to a dashboard, and save it.
+
+**Example of a sample dashboard**
+![SAMPLE METRIC](./src/main/resources/images/dashboard_sample.png?raw=true)
+Create a new communication protocol and extend the `Underlay` superclass. 
+Additionally, add your protocol name, and class name in the `underlayTypes.yml` file.
+Supported communication protocols are: **tcp**, **javaRMI**, **udp**, and **mockNetwork** <br>
+### Supporting a new communication protocol
+
 
 ## Simulation Examples <a name="examples"></a>
-
 Two simulation examples are provided under the `SimulatorExamples` package.  
 
 ### HelloServers
