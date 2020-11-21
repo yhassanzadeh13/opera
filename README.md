@@ -1,5 +1,5 @@
-# distributed-simulator
-distributed-simulator is an offline simulator for distributed systems. 
+# Overview
+The Distributed Systems Simulator is an offline simulator for distributed systems. 
 The Simulator provides an integratable and easy-to-use interface for running, and testing
 your distributed system on various underlays, as well as extracting grafana metrics. 
 
