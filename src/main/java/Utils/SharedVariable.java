@@ -10,24 +10,43 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class SharedVariable {
     // for each node ID, hold an array list of all the variables' queues ordered by the variables IDs
-    private static final ConcurrentHashMap<UUID, ConcurrentHashMap<Integer, ArrayDeque<SimpleEntryComparable<UUID, Object>>>> nodeQueues = new ConcurrentHashMap();
+    private final ConcurrentHashMap<UUID, ConcurrentHashMap<Integer, ArrayDeque<SimpleEntryComparable<UUID, Object>>>> nodeQueues;
     // for each variable ID, hold the cluster of that variable
-    private static final ArrayList<ArrayList<UUID>> clusters = new ArrayList<>();
+    private final ArrayList<ArrayList<UUID>> clusters;
     // for each new variable, assign a new id for it
-    private static ConcurrentHashMap<String, Integer> variablesIDs = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Integer> variablesIDs;
     // for each variable, keep the lock holder
-    private static ArrayList<UUID> lockHolders = new ArrayList<>();
+    private ArrayList<UUID> lockHolders;
     // for every variable, hold a latch that tell us if a node is currently writing
-    private static ArrayList<ReentrantLock> lock = new ArrayList<>();
-    private static UUID fixtureOwner = UUID.randomUUID();
+    private ArrayList<ReentrantLock> lock;
+    private UUID fixtureOwner;
 
+    // singleton instance
+    private static SharedVariable instance = null;
+
+    private SharedVariable(){
+        nodeQueues = new ConcurrentHashMap<>();
+        clusters = new ArrayList<>();
+        variablesIDs = new ConcurrentHashMap<>();
+        lockHolders = new ArrayList<>();
+        lock = new ArrayList<>();
+        fixtureOwner = UUID.randomUUID();
+
+    }
+
+    public static SharedVariable getInstance(){
+        if(SharedVariable.instance == null){
+            instance = new SharedVariable();
+        }
+        return SharedVariable.instance;
+    }
     /**
      * Register a new variable in the DSM
      * @param name
      * @param allID the IDs of the nodes that should have access to this variable
      * @return
      */
-    public static boolean register(String name, ArrayList<UUID> allID){
+    public boolean register(String name, ArrayList<UUID> allID){
         if(variablesIDs.containsKey(name)){
             Simulator.getLogger().debug("[SharedVariable] a variable with name " + name + " is already registered");
             return false;
@@ -57,7 +76,7 @@ public class SharedVariable {
      * @param name
      * @return
      */
-    public static synchronized boolean requestLock(UUID nodeID, String name){
+    public synchronized boolean requestLock(UUID nodeID, String name){
         int variableID = variablesIDs.get(name);
         lock.get(variableID).lock();
         if(getOwner(name).equals(fixtureOwner) || getOwner(name).equals(nodeID)){
@@ -77,7 +96,7 @@ public class SharedVariable {
      * @param variable
      * @return Ture in case of success, False otherwise.
      */
-    public synchronized static boolean write(UUID senderID, String name, Object variable){
+    public synchronized boolean write(UUID senderID, String name, Object variable){
         if(!variablesIDs.containsKey(name)) {
             Simulator.getLogger().debug("[SharedVariable] Write: no variable with name " + name + " is registered");
             return false;
@@ -103,7 +122,7 @@ public class SharedVariable {
      * @param name
      * @return
      */
-    public static AbstractMap.SimpleEntry<UUID, Object> read(UUID nodeID, String name) throws NullPointerException{
+    public AbstractMap.SimpleEntry<UUID, Object> read(UUID nodeID, String name) throws NullPointerException{
         if(!variablesIDs.containsKey(name)){
             Simulator.getLogger().error("[SharedVariable] Read: no variable with name " + name + " is registered");
             new ClassNotFoundException("[SharedVariable] Read: no variable with name " + name + " is registered");
@@ -128,7 +147,7 @@ public class SharedVariable {
      * @param name
      * @return
      */
-    public static UUID getOwner(String name){
+    public UUID getOwner(String name){
         int variableID = variablesIDs.get(name);
         lock.get(variableID).lock();
         UUID owner =  lockHolders.get(variableID);
@@ -136,7 +155,7 @@ public class SharedVariable {
         return owner;
     }
 
-    public static boolean isEmpty(UUID nodeID, String name){
+    public boolean isEmpty(UUID nodeID, String name){
         if(!variablesIDs.containsKey(name)){
             Simulator.getLogger().error("[SharedVariable] Read: no variable with name " + name + " is registered");
             new ClassNotFoundException("[SharedVariable] Read: no variable with name " + name + " is registered");
@@ -151,7 +170,7 @@ public class SharedVariable {
         return nodeQueues.get(nodeID).get(variableID).isEmpty();
     }
 
-    public static void releaseLock(UUID nodeID, String name){
+    public void releaseLock(UUID nodeID, String name){
         if(getOwner(name).equals(nodeID)){
             int variableID = variablesIDs.get(name);
             lockHolders.set(variableID, fixtureOwner);

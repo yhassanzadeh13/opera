@@ -43,7 +43,7 @@ public class SimulatorUtils {
             Map<String, Object> simulator_job = (Map<String, Object>) scrape_configs.get(0);
             List<Object> static_configs = (List<Object>) simulator_job.get("static_configs");
             Map<String, Object> targets = (Map<String, Object>) static_configs.get(0);
-            targets.put("targets", Arrays.asList(localAddress));
+            targets.put("targets", Arrays.asList(localAddress + ":" + EXPOSER_PORT));
 
             // write again on the file
             objectMapper.writeValue(new File("dockprom/prometheus/prometheus.yml"), config);
