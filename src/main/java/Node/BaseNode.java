@@ -48,6 +48,7 @@ public interface BaseNode{
      * This method serves as a factory for new node instances.
      * It is supposed to return a new instance of the special node class
      * @param selfID the ID of the new node
+     * @param network communication network for the new node
      * @return a new instance of the special node class
      */
     BaseNode newInstance(UUID selfID, MiddleLayer network);

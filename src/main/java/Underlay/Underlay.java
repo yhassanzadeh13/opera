@@ -35,8 +35,6 @@ public abstract class Underlay {
 
     /**
      * Dispatches a request to the middle layer
-     * @param request the request.
-     * @return emitted response.
      */
     public void dispatchRequest(Request request) {
         middleLayer.receive(request);
@@ -45,6 +43,7 @@ public abstract class Underlay {
     /**
      * Initializes the underlay.
      * @param port the port that the underlay should be bound to.
+     * @param middleLayer
      * @return true iff the initialization was successful.
      */
 

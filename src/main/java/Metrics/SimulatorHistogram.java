@@ -72,13 +72,12 @@ public abstract class SimulatorHistogram extends SimulatorMetric{
         }
         catch (Exception e){
             Simulator.getLogger().error("[SimulatorHistogram] timer with name " + name + " and ID " + timerID + " is not initialized");
-            System.err.println("[SimulatorHistogram] timer with name " + name + " and ID " + timerID + " is not initialized");;
             return false;
         }
     }
 
     public static boolean register(String name){
-        return register(name, new double[]{0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 0.75, 1.0, 2.5, 5.0, 7.5, 10.0});
+        return register(name, new double[]{0.005, 0.01, 0.05, 0.1, 0.15, 0.25, 0.5, 0.75, 1.0, 2.5, 5.0, 7.5, 10.1});
     }
 
     /**
