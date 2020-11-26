@@ -21,7 +21,7 @@ public class DeliverTransactionsEvent implements Event{
 
     LightChainNode node = (LightChainNode) hostNode;
 
-    // TODO: continue this part
+    node.deliverTransactions(this.transactions);
 
     return true;
   }

@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import Utils.SimulatorUtils;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 /**
  * Represents a mediator between the overlay and the underlay. The requests coming from the underlay are directed
@@ -66,6 +67,8 @@ public class MiddleLayer {
         SimulatorHistogram.register(DELAY_METRIC);
         SimulatorCounter.register(SENT_MSG_CNT_METRIC);
         SimulatorCounter.register(RECEIVED_MSG_CNT_METRIC);
+
+          this.log.setLevel(Level.OFF);
 
         this.nodeID = nodeID;
         this.allFUllAddresses = allFUllAddresses;

@@ -13,6 +13,7 @@ import Utils.Generator.GaussianGenerator;
 import Utils.SimpleEntryComparable;
 import Utils.SimulatorUtils;
 import io.prometheus.client.exporter.HTTPServer;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import Underlay.MiddleLayer;
 import Underlay.UnderlayFactory;
@@ -78,6 +79,8 @@ public class Simulator<T extends BaseNode> implements BaseNode{
         this.allID = generateIDs(N);
         this.allFullAddresses = generateFullAddressed(N, this.START_PORT + 1);
 
+        // TODO: remove this
+        this.log.setLevel(Level.OFF);
         // logging nodes ID
         log.info("Nodes IDs are:");
         for(UUID id : this.allID)

@@ -17,7 +17,7 @@ public class ValidateTransactionEvent implements Event {
   public boolean actionPerformed(BaseNode hostNode) {
 
     LightChainNode node = (LightChainNode) hostNode;
-    node.validate(this.transaction);
+    node.validateTransaction(this.transaction);
 
     return true;
   }
