@@ -19,12 +19,6 @@ public class ConfirmTransactionEvent implements Event {
 
     LightChainNode node = (LightChainNode) hostNode;
 
-    if(!node.isRegistry()) try {
-      throw new Exception("Submit Transaction Event is submitted to a node other than registry");
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
     node.confirmTransactionValidation(this.transactionUUID);
 
     return true;

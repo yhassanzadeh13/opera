@@ -20,6 +20,13 @@ public class CollectTransactionsEvent implements Event {
   public boolean actionPerformed(BaseNode hostNode) {
 
     LightChainNode node = (LightChainNode) hostNode;
+
+    if(!node.isRegistry()) try {
+      throw new Exception("Collect Transaction Event is submitted to a node other than registry");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
     node.collectTransactions(this.requester, this.requiredNumber);
 
     return true;

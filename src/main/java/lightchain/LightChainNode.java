@@ -1,5 +1,7 @@
 package lightchain;
 
+import Metrics.SimulatorGauge;
+import Metrics.SimulatorHistogram;
 import Node.BaseNode;
 import Underlay.MiddleLayer;
 import Underlay.packets.Event;
@@ -7,11 +9,19 @@ import lightchain.events.*;
 import org.apache.log4j.Logger;
 
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class LightChainNode implements BaseNode {
 
+  final int transactionInsertions = 120;
+  final int blockIterations = 60;
+  final int numValidators = 1;
+  final int txMin = 1;
+  final int transactionInsertionDelay = 1000; // (ms)
+  final int blockInsertionDelay = 2000; // (ms)
+  final int updateWaitTime = 500; // (ms)
   /**
    * A LightChainNode represents a single node of the LightChain protocol. Given the limitations of the Simulator, for
    * this implementation we define two types of LightChain Nodes. A regular LightChainNode, and a registry node.
@@ -34,16 +44,9 @@ public class LightChainNode implements BaseNode {
   private Map<UUID, Integer> blockValidationCount;
   private Block latestBlock;
   private List<Transaction> requestedTransactions;
-  private boolean blockFlag;
-
-  final int transactionInsertions = 50;
-  final int blockIterations = 50;
-  final int numValidators = 1;
-  final int txMin = 1;
-  final int transactionInsertionDelay = 1000; // (ms)
-  final int blockInsertionDelay = 1000; // (ms)
-  final int updateWaitTime = 500; // (ms)
-
+  private CountDownLatch blockLatch;
+  private CountDownLatch transactionLatch;
+  private Integer maximumHeight;
   // only for registry node
   private List<Transaction> availableTransactions;
   private List<Block> insertedBlocks;
@@ -52,7 +55,8 @@ public class LightChainNode implements BaseNode {
 
   /**
    * Constructor of LightChain Node
-   * @param uuid ID of the node
+   *
+   * @param uuid    ID of the node
    * @param network used to communicate with other nodes
    */
   public LightChainNode(UUID uuid, MiddleLayer network) {
@@ -61,6 +65,7 @@ public class LightChainNode implements BaseNode {
     this.transactions = new HashMap<>();
     this.blocks = new HashMap<>();
     this.transactionValidationCount = new HashMap<>();
+    this.blockValidationCount = new HashMap<>();
     this.logger = Logger.getLogger(LightChainNode.class.getName());
 
     // for registry nodes
@@ -68,6 +73,7 @@ public class LightChainNode implements BaseNode {
     this.blockLock = new ReentrantReadWriteLock();
     this.availableTransactions = new ArrayList<>();
     this.insertedBlocks = new ArrayList<>();
+    this.maximumHeight = 0;
   }
 
   public LightChainNode() {
@@ -80,6 +86,7 @@ public class LightChainNode implements BaseNode {
    * node checks in the beginning if its UUID matches the UUID of the 0-index element of allID. If it matches then it
    * sets isRegistry variable to true, or false otherwise. If the node is the registry node, the it appends the genesis
    * block to its the list of blocks.
+   *
    * @param allID the IDs of type UUID for all the nodes in the cluster
    */
   @Override
@@ -90,23 +97,29 @@ public class LightChainNode implements BaseNode {
     this.allID = allID;
 
     // ensure that number of validators is small than number of nodes
-    if(numValidators > this.allID.size() - 1) try {
-      throw new Exception("Number of validators must be smaller than number of nodes. NumValidators= " + numValidators +
-              ", numNodes= " + (this.allID.size() - 1));
+    if (numValidators > this.allID.size() - 1) try {
+      throw new Exception("Number of validators must be smaller than number of nodes. NumValidators= " + numValidators + ", numNodes= " + (this.allID.size() - 1));
     } catch (Exception e) {
       e.printStackTrace();
     }
 
-    if(this.uuid.equals(this.allID.get(0)))
-      this.isRegistry = true;
-    else
-      this.isRegistry = false;
+    if (this.uuid.equals(this.allID.get(0))) this.isRegistry = true;
+    else this.isRegistry = false;
 
-    if(this.isRegistry) {
+    if (this.isRegistry) {
+
+      SimulatorGauge.register("transaction_count");
+      SimulatorHistogram.register("block_height");
+
+      new Thread(() -> {
+        monitorBlockHeight();
+      }).start();
+
       logger.info("[Registry] The Registry node is " + this.uuid);
       this.appendBlock(new Block(UUID.randomUUID(), 0, this.uuid, UUID.randomUUID(), new ArrayList<>(), new ArrayList<>()));
       logger.info("[Registry] Genesis Block has been appended");
     }
+
 
     network.ready();
   }
@@ -119,12 +132,20 @@ public class LightChainNode implements BaseNode {
 
     System.out.println("Starting node " + this.uuid);
 
-    if(this.isRegistry) {
+    if (this.isRegistry) {
       return;
     }
 
     logger.info("Node " + this.uuid + " has started.");
-    this.startTransactionInsertions();
+
+    new Thread(() -> {
+      startTransactionInsertions();
+    }).start();
+
+    new Thread(() -> {
+      startBlockInsertion();
+    }).start();
+
   }
 
   /**
@@ -137,8 +158,9 @@ public class LightChainNode implements BaseNode {
 
   /**
    * Performs the action of the message by passing an instance of this LightChain Node
+   *
    * @param originID the ID of the sender node
-   * @param msg the content of the message
+   * @param msg      the content of the message
    */
   @Override
   public void onNewMessage(UUID originID, Event msg) {
@@ -146,8 +168,7 @@ public class LightChainNode implements BaseNode {
   }
 
   /**
-   *
-   * @param selfID the ID of the new node
+   * @param selfID  the ID of the new node
    * @param network communication network for the new node
    * @return a new instance of LightChainNode
    */
@@ -162,7 +183,7 @@ public class LightChainNode implements BaseNode {
    * validators of the transaction, the it asynchronously asks the validators to validate the transactions. Once the
    * transaction is validated by all validators, this will be detected at the ConfirmTransactionValidation function
    * above and that function will take care of inserting the transaction.
-   *
+   * <p>
    * TODO: This function is supposed to run either on a differen thread from the block insertion, or incorporate the
    * block insertion within it somehow
    */
@@ -170,7 +191,7 @@ public class LightChainNode implements BaseNode {
 
     logger.info("Transaction insertion for node " + this.uuid + "started");
 
-    for(int i = 0 ; i < this.transactionInsertions ; ++i) {
+    for (int i = 0; i < this.transactionInsertions; ++i) {
 
       logger.info("Node " + this.uuid + " inserting transaction number " + (i + 1));
 
@@ -201,7 +222,6 @@ public class LightChainNode implements BaseNode {
         e.printStackTrace();
       }
     }
-    network.done();
   }
 
   /**
@@ -210,9 +230,7 @@ public class LightChainNode implements BaseNode {
    */
   public void startBlockInsertion() {
 
-    for(int i = 0 ; i < this.blockIterations ; ++i) {
-
-      this.requestLatestBlock();
+    for (int i = 0; i < this.blockIterations; ++i) {
 
       try {
         Thread.sleep(this.blockInsertionDelay);
@@ -220,24 +238,31 @@ public class LightChainNode implements BaseNode {
         e.printStackTrace();
       }
 
-      List<Transaction> collectedTransaction = this.collectTransactions(this.uuid, this.txMin);
+      logger.info("Block collection attempt " + (i + 1) + " for node " + this.uuid);
+
+      this.requestTransactions();
+      this.requestLatestBlock();
+
+      List<Transaction> collectedTransaction = this.requestedTransactions;
+
       List<UUID> transactionIDs = new ArrayList<>();
       for (Transaction tx : collectedTransaction)
         transactionIDs.add(tx.getID());
 
-      if(collectedTransaction.isEmpty()) {
+      if (collectedTransaction.isEmpty()) {
         logger.info("Transaction collection Attempt" + (i + 1) + " failed for node " + this.uuid);
         continue;
       }
 
+      logger.info("Getting Block validators for node " + this.uuid);
       List<UUID> validators = getValidators();
 
-      Block block = new Block(UUID.randomUUID(), this.latestBlock.getHeight() + 1, this.uuid, this.latestBlock.getID(),
-              validators, transactionIDs);
+      Block block = new Block(UUID.randomUUID(), this.latestBlock.getHeight() + 1, this.uuid, this.latestBlock.getID(), validators, transactionIDs);
 
       this.blockValidationCount.put(block.getID(), 0);
       this.blocks.put(block.getID(), block);
 
+      logger.info("Requesting block validations at node " + this.uuid);
       for (UUID validator : validators) {
         // send an asynchronous validation request
         network.send(validator, new ValidateBlockEvent(block));
@@ -251,6 +276,7 @@ public class LightChainNode implements BaseNode {
    * that is being verified and it increases its counter. Once the counter of a transaction is equal to the number of
    * validators, this means the transaction has been validated and is ready to be inserted. So this function attempts
    * to insert the transaction into the network by sending a submit transaction event to the registry node.
+   *
    * @param transactionUUID
    */
   public void confirmTransactionValidation(UUID transactionUUID) {
@@ -266,7 +292,7 @@ public class LightChainNode implements BaseNode {
     Integer prevCount = transactionValidationCount.get(transactionUUID);
     transactionValidationCount.put(transactionUUID, prevCount + 1);
 
-    if(prevCount + 1 == this.numValidators) {
+    if (prevCount + 1 == this.numValidators) {
       logger.info("Node " + this.uuid + " Inserting its transaction " + transactionUUID);
       this.network.send(this.getRegistryID(), new SubmitTransactionEvent(this.transactions.get(transactionUUID)));
     }
@@ -274,7 +300,7 @@ public class LightChainNode implements BaseNode {
 
   public void confirmBlockValidation(UUID blockUUID) {
 
-  if (!blockValidationCount.containsKey(blockUUID)) try {
+    if (!blockValidationCount.containsKey(blockUUID)) try {
       throw new Exception("Confirming a non-existing transaction");
     } catch (Exception e) {
       e.printStackTrace();
@@ -283,7 +309,7 @@ public class LightChainNode implements BaseNode {
     Integer prevCount = blockValidationCount.get(blockUUID);
     blockValidationCount.put(blockUUID, prevCount + 1);
 
-    if(prevCount + 1 == this.numValidators) {
+    if (prevCount + 1 == this.numValidators) {
       logger.info("Node " + this.uuid + " Inserting its block " + blockUUID);
       this.network.send(this.getRegistryID(), new SubmitBlockEvent(this.blocks.get(blockUUID)));
     }
@@ -300,7 +326,8 @@ public class LightChainNode implements BaseNode {
   /**
    * This function is invokes when another node requests a validation from this node. It essentially accepts
    * the validation without any conditions and immediately replies with its confirmation
-   * TODO: with is algorithm, a node can be chosen to be its own validator, fix this to prevent this case.
+   f* TODO: with is algorithm, a node can be chosen to be its own validator, fix this to prevent this case.
+   *
    * @param transaction
    */
   public void validateTransaction(Transaction transaction) {
@@ -316,6 +343,7 @@ public class LightChainNode implements BaseNode {
   /**
    * This function randomly chooses validators of a certain transaction using the Reservoir Sampling Algorithm
    * see https://www.geeksforgeeks.org/reservoir-sampling/
+   *
    * @return a list of UUID's of randomly chosen nodes from the network
    */
   public List<UUID> getValidators() {
@@ -324,15 +352,14 @@ public class LightChainNode implements BaseNode {
 
     // add the first numValidators nodes
     List<Integer> randomIndexes = new ArrayList<>();
-    for(int i = 1 ; i <= this.numValidators ; ++i) {
+    for (int i = 1; i <= this.numValidators; ++i) {
       randomIndexes.add(i);
     }
 
     Random rand = new Random();
-    for(int i = this.numValidators + 1 ; i < this.allID.size() ; ++i) {
+    for (int i = this.numValidators + 1; i < this.allID.size(); ++i) {
       int j = rand.nextInt(i + 1);
-      if(j < this.numValidators)
-        randomIndexes.set(j, i);
+      if (j < this.numValidators) randomIndexes.set(j, i);
     }
 
     List<UUID> validators = new ArrayList<>();
@@ -353,12 +380,13 @@ public class LightChainNode implements BaseNode {
   /**
    * this function is called by the registry node through an event in order to supply this node with the latest block
    * upon its an asynchronous request that was carried out earlier.
+   *
    * @param block
    */
   public void updateLatestBlock(Block block) {
     logger.info("Latest Block " + block.getID() + " updated for node " + this.uuid);
     this.latestBlock = block;
-    this.blockFlag = true;
+    this.blockLatch.countDown();
   }
 
   /**
@@ -382,21 +410,16 @@ public class LightChainNode implements BaseNode {
 
     logger.info("Node " + this.uuid + " requesting latest block");
 
+    blockLatch = new CountDownLatch(1);
     network.send(this.getRegistryID(), new GetLatestBlockEvent(this.uuid));
-    this.blockFlag = false;
 
     logger.info("Node" + this.uuid + " waiting for latest block");
 
-    // TODO: currently, to mimic the synchronous behaviour, we use a delay between the request and the response
-    // Attempts to use a flag which set to false before sending the request, and is set to true when the request is sent
-    // is somehow causing the program to get stuck in the commented loop below. We must investigate this behaviour to
-    // find its root cause.
-
-    this.updateWait();
-
-//    while(!this.blockFlag) {
-//
-//    }
+    try {
+      blockLatch.await();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     logger.info("Node + " + this.uuid + ": latest block received");
   }
@@ -406,15 +429,22 @@ public class LightChainNode implements BaseNode {
    */
   public void requestTransactions() {
 
-    this.requestedTransactions = null;
+    this.transactionLatch = new CountDownLatch(1);
+
     network.send(this.getRegistryID(), new CollectTransactionsEvent(this.uuid, this.txMin));
 
-    this.updateWait();
+    try {
+      transactionLatch.await();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
   }
 
   public void deliverTransactions(List<Transaction> requestedTransactions) {
     logger.info("Requested Transactions received by node " + this.uuid);
     this.requestedTransactions = requestedTransactions;
+    this.transactionLatch.countDown();
   }
 
 
@@ -426,12 +456,14 @@ public class LightChainNode implements BaseNode {
    * This function is invoked from a node to insert a transaction after it has been validated.
    * It simply appends the transaction to the list of available transactions for collection. It also provides locking
    * to ensure the correctness of adding and removing transactions.
+   *
    * @param transaction transaction to be inserted into the network
    */
   public void addTransaction(Transaction transaction) {
 
+    SimulatorGauge.inc("transaction_count", this.uuid);
 
-    if(!this.isRegistry) try {
+    if (!this.isRegistry) try {
       throw new Exception("Add Transaction is called from a non-registry node");
     } catch (Exception e) {
       e.printStackTrace();
@@ -451,41 +483,49 @@ public class LightChainNode implements BaseNode {
   /**
    * This function is called from a node that is attempting to collect transaction to create a block. It takes a set
    * of transactions and returns a list of then.
-   * @param requester ID of node requesting transactions
+   *
+   * @param requester      ID of node requesting transactions
    * @param requiredNumber the required number of transactions
    * @return a list of transactions matching the number required
    */
   public List<Transaction> collectTransactions(UUID requester, Integer requiredNumber) {
 
-    if(!this.isRegistry) try {
-      throw new Exception("Add Transaction is called from a non-registry node");
+    if (!this.isRegistry) try {
+      throw new Exception("Collect Transaction is called from a non-registry node");
     } catch (Exception e) {
       e.printStackTrace();
     }
 
-    this.transactionLock.readLock().lock();
+    this.transactionLock.writeLock().lock();
 
     List<Transaction> requestedTransactions = new ArrayList<>();
     // a failed collection attempts
-    if(this.availableTransactions.size() < requiredNumber) {
+    if (this.availableTransactions.size() < requiredNumber) {
+
+      logger.info("[Registry] number of available transactions is less than requested by node " + requester + ", required number: " + requiredNumber + ", available number: " + this.availableTransactions.size());
+
+      this.transactionLock.writeLock().unlock();
 
       network.send(requester, new DeliverTransactionsEvent(requestedTransactions));
 
-      this.transactionLock.readLock().unlock();
       return requestedTransactions;
     }
 
-    for(int i = 0 ; i < this.availableTransactions.size() ; ++i) {
+    for (int i = 0; i < this.availableTransactions.size(); ++i) {
       requestedTransactions.add(this.availableTransactions.get(i));
     }
 
     List<Transaction> temporary = new ArrayList<>();
-    for(int i = requiredNumber ; i < this.availableTransactions.size() ; ++i) {
+    for (int i = requiredNumber; i < this.availableTransactions.size(); ++i) {
       temporary.add(this.availableTransactions.get(i));
     }
     this.availableTransactions = temporary;
 
-    this.transactionLock.readLock().unlock();
+    this.transactionLock.writeLock().unlock();
+
+    SimulatorGauge.dec("transaction_count", this.uuid, requiredNumber);
+
+    network.send(requester, new DeliverTransactionsEvent(requestedTransactions));
 
     return null;
   }
@@ -493,11 +533,12 @@ public class LightChainNode implements BaseNode {
   /**
    * This functios is invoked by a node that is inserting a block after it has been validated to the registry. It also
    * provides a lock to ensure the correctness of the write operations on the ledger.
+   *
    * @param block block to be appended to the ledger
    */
   public void appendBlock(Block block) {
 
-    if(!this.isRegistry) try {
+    if (!this.isRegistry) try {
       throw new Exception("Add Transaction is called from a non-registry node");
     } catch (Exception e) {
       e.printStackTrace();
@@ -507,18 +548,24 @@ public class LightChainNode implements BaseNode {
 
     this.blockLock.writeLock().lock();
     this.insertedBlocks.add(block);
+
+    this.maximumHeight = Math.max(this.maximumHeight, block.getHeight());
+
+    logger.info("[Registry] maximum height found so far is " + this.maximumHeight);
+    logger.info("[Registry] currently " + this.insertedBlocks.size() + " blocks are inserted totally");
     this.blockLock.writeLock().unlock();
   }
 
   /**
    * This function is invoked as a result of a node requesting the latest block from the registry.
+   *
    * @param requester of the node requesting the latest block so that its request can be delivered
    * @return the latest block on the ledger
    */
   public Block getLatestBlock(UUID requester) {
 
 
-    if(!this.isRegistry) try {
+    if (!this.isRegistry) try {
       throw new Exception("Add Transaction is called from a non-registry node");
     } catch (Exception e) {
       e.printStackTrace();
@@ -537,6 +584,22 @@ public class LightChainNode implements BaseNode {
     this.network.send(requester, new DeliverLatestBlockEvent(latestBlock));
 
     return latestBlock;
+  }
+
+  /**
+   * This function runs on a separate thread and records the maximum block height every second
+   */
+  public void monitorBlockHeight() {
+
+    while (true) {
+      try {
+        Thread.sleep(1000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+
+      SimulatorHistogram.observe("block_height", this.uuid, this.maximumHeight);
+    }
   }
 
 }
