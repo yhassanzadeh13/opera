@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.prometheus.client.exporter.HTTPServer;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.*;
@@ -68,6 +65,7 @@ public class SimulatorUtils {
       System.out.println("Please enter your password");
       String userPassword = scanner.nextLine();
 
+
       // ADMIN_USER=admin ADMIN_PASSWORD=admin docker-compose up -d
       Runtime run = Runtime.getRuntime();
       String cmd = "echo \"" + userPassword + "\" | sudo -S ADMIN_USER=" + admin + " ADMIN_PASSWORD=" + password + " docker-compose up -d";
@@ -97,7 +95,6 @@ public class SimulatorUtils {
     } catch (Exception e) {
       e.printStackTrace();
     }
-
-
   }
+
 }

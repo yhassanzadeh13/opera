@@ -15,8 +15,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class LightChainNode implements BaseNode {
 
-  final int transactionInsertions = 120;
-  final int blockIterations = 60;
+  final int transactionInsertions = 80;
+  final int blockIterations = 30;
   final int numValidators = 1;
   final int txMin = 1;
   final int transactionInsertionDelay = 1000; // (ms)
@@ -108,8 +108,15 @@ public class LightChainNode implements BaseNode {
 
     if (this.isRegistry) {
 
+      double[] linespace = new double[this.allID.size() * this.blockIterations];
+
+      for(int i = 0 ; i < linespace.length ; i++) {
+        linespace[i] = i;
+      }
+
       SimulatorGauge.register("transaction_count");
-      SimulatorHistogram.register("block_height");
+      SimulatorGauge.register("block_height_per_time");
+      SimulatorHistogram.register("block_height_histogram", linespace);
 
       new Thread(() -> {
         monitorBlockHeight();
@@ -120,7 +127,6 @@ public class LightChainNode implements BaseNode {
       logger.info("[Registry] Genesis Block has been appended");
     }
 
-
     network.ready();
   }
 
@@ -130,12 +136,9 @@ public class LightChainNode implements BaseNode {
   @Override
   public void onStart() {
 
-    System.out.println("Starting node " + this.uuid);
-
     if (this.isRegistry) {
       return;
     }
-
     logger.info("Node " + this.uuid + " has started.");
 
     new Thread(() -> {
@@ -145,7 +148,6 @@ public class LightChainNode implements BaseNode {
     new Thread(() -> {
       startBlockInsertion();
     }).start();
-
   }
 
   /**
@@ -326,7 +328,7 @@ public class LightChainNode implements BaseNode {
   /**
    * This function is invokes when another node requests a validation from this node. It essentially accepts
    * the validation without any conditions and immediately replies with its confirmation
-   f* TODO: with is algorithm, a node can be chosen to be its own validator, fix this to prevent this case.
+   * f* TODO: with is algorithm, a node can be chosen to be its own validator, fix this to prevent this case.
    *
    * @param transaction
    */
@@ -545,11 +547,12 @@ public class LightChainNode implements BaseNode {
     }
 
     logger.info("[Registry] New Block appended to Ledger");
-
     this.blockLock.writeLock().lock();
-    this.insertedBlocks.add(block);
 
+    this.insertedBlocks.add(block);
     this.maximumHeight = Math.max(this.maximumHeight, block.getHeight());
+
+    SimulatorHistogram.observe("block_height_histogram", this.uuid, block.getHeight());
 
     logger.info("[Registry] maximum height found so far is " + this.maximumHeight);
     logger.info("[Registry] currently " + this.insertedBlocks.size() + " blocks are inserted totally");
@@ -598,7 +601,7 @@ public class LightChainNode implements BaseNode {
         e.printStackTrace();
       }
 
-      SimulatorHistogram.observe("block_height", this.uuid, this.maximumHeight);
+      SimulatorGauge.set("block_height_per_time", this.uuid, this.maximumHeight);
     }
   }
 
