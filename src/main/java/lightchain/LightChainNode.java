@@ -15,8 +15,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class LightChainNode implements BaseNode {
 
-  final int transactionInsertions = 80;
-  final int blockIterations = 30;
+  final int transactionInsertions = 100;
+  final int blockIterations = 50;
   final int numValidators = 1;
   final int txMin = 1;
   final int transactionInsertionDelay = 1000; // (ms)
@@ -47,11 +47,14 @@ public class LightChainNode implements BaseNode {
   private CountDownLatch blockLatch;
   private CountDownLatch transactionLatch;
   private Integer maximumHeight;
+  private Integer totalTransactionCount;
   // only for registry node
   private List<Transaction> availableTransactions;
   private List<Block> insertedBlocks;
   private ReadWriteLock transactionLock;
   private ReadWriteLock blockLock;
+  private ReadWriteLock transactionValidationLock;
+  private ReadWriteLock blockValidationLock;
 
   /**
    * Constructor of LightChain Node
@@ -66,6 +69,8 @@ public class LightChainNode implements BaseNode {
     this.blocks = new HashMap<>();
     this.transactionValidationCount = new HashMap<>();
     this.blockValidationCount = new HashMap<>();
+    this.transactionValidationLock = new ReentrantReadWriteLock();
+    this.blockValidationLock = new ReentrantReadWriteLock();
     this.logger = Logger.getLogger(LightChainNode.class.getName());
 
     // for registry nodes
@@ -74,6 +79,7 @@ public class LightChainNode implements BaseNode {
     this.availableTransactions = new ArrayList<>();
     this.insertedBlocks = new ArrayList<>();
     this.maximumHeight = 0;
+    this.totalTransactionCount = 0;
   }
 
   public LightChainNode() {
@@ -224,6 +230,15 @@ public class LightChainNode implements BaseNode {
         e.printStackTrace();
       }
     }
+
+    int count = 0;
+    for(UUID key : this.transactionValidationCount.keySet()) {
+
+      if(this.transactionValidationCount.get(key) != this.numValidators)
+        count += 1;
+    }
+
+    logger.info("Reporting from node " + this.uuid + " " + count + " un-fully validated transactions");
   }
 
   /**
@@ -291,8 +306,10 @@ public class LightChainNode implements BaseNode {
 
     logger.info("Transaction " + transactionUUID + " owned by " + this.uuid + " received a confirmation");
 
+    this.transactionValidationLock.writeLock().lock();
     Integer prevCount = transactionValidationCount.get(transactionUUID);
     transactionValidationCount.put(transactionUUID, prevCount + 1);
+    this.transactionValidationLock.writeLock().unlock();
 
     if (prevCount + 1 == this.numValidators) {
       logger.info("Node " + this.uuid + " Inserting its transaction " + transactionUUID);
@@ -308,8 +325,10 @@ public class LightChainNode implements BaseNode {
       e.printStackTrace();
     }
 
+    this.blockValidationLock.writeLock().lock();
     Integer prevCount = blockValidationCount.get(blockUUID);
     blockValidationCount.put(blockUUID, prevCount + 1);
+    this.blockValidationLock.writeLock().unlock();
 
     if (prevCount + 1 == this.numValidators) {
       logger.info("Node " + this.uuid + " Inserting its block " + blockUUID);
@@ -473,13 +492,14 @@ public class LightChainNode implements BaseNode {
 
     logger.info("[Registry] new transaction inserted into network.");
 
-    this.transactionLock.writeLock().lock();
+  //  this.transactionLock.writeLock().lock();
 
     this.availableTransactions.add(transaction);
+    this.totalTransactionCount += 1;
+    logger.info("[Registry] currently " + this.availableTransactions.size() + " transactions are available");
+    logger.info("[Registry] total number of transactions inserted so far " + this.totalTransactionCount);
 
-    logger.info("[Registry] currently " + this.availableTransactions.size() + " transactions are inserted in total");
-
-    this.transactionLock.writeLock().unlock();
+  //  this.transactionLock.writeLock().unlock();
   }
 
   /**
@@ -498,7 +518,7 @@ public class LightChainNode implements BaseNode {
       e.printStackTrace();
     }
 
-    this.transactionLock.writeLock().lock();
+ //   this.transactionLock.writeLock().lock();
 
     List<Transaction> requestedTransactions = new ArrayList<>();
     // a failed collection attempts
@@ -506,7 +526,7 @@ public class LightChainNode implements BaseNode {
 
       logger.info("[Registry] number of available transactions is less than requested by node " + requester + ", required number: " + requiredNumber + ", available number: " + this.availableTransactions.size());
 
-      this.transactionLock.writeLock().unlock();
+  //    this.transactionLock.writeLock().unlock();
 
       network.send(requester, new DeliverTransactionsEvent(requestedTransactions));
 
@@ -523,7 +543,7 @@ public class LightChainNode implements BaseNode {
     }
     this.availableTransactions = temporary;
 
-    this.transactionLock.writeLock().unlock();
+  //  this.transactionLock.writeLock().unlock();
 
     SimulatorGauge.dec("transaction_count", this.uuid, requiredNumber);
 
@@ -547,7 +567,7 @@ public class LightChainNode implements BaseNode {
     }
 
     logger.info("[Registry] New Block appended to Ledger");
-    this.blockLock.writeLock().lock();
+  //  this.blockLock.writeLock().lock();
 
     this.insertedBlocks.add(block);
     this.maximumHeight = Math.max(this.maximumHeight, block.getHeight());
@@ -556,7 +576,8 @@ public class LightChainNode implements BaseNode {
 
     logger.info("[Registry] maximum height found so far is " + this.maximumHeight);
     logger.info("[Registry] currently " + this.insertedBlocks.size() + " blocks are inserted totally");
-    this.blockLock.writeLock().unlock();
+
+   // this.blockLock.writeLock().unlock();
   }
 
   /**
@@ -578,15 +599,31 @@ public class LightChainNode implements BaseNode {
 
     Block latestBlock;
 
-    this.blockLock.readLock().lock();
+    // this.blockLock.readLock().lock();
     latestBlock = this.insertedBlocks.get(this.insertedBlocks.size() - 1);
+    long hash = latestBlock.getID().hashCode();
+    int height = latestBlock.getHeight();
+    Block chosenBlock = latestBlock;
+    for(int i = this.insertedBlocks.size() - 1 ; i >= 0 ; --i) {
+
+      if(this.insertedBlocks.get(i).getHeight() != height)
+        break;
+
+      long blockHash = this.insertedBlocks.get(i).getID().hashCode();
+
+      if (blockHash < hash) {
+        hash = blockHash;
+        chosenBlock = this.insertedBlocks.get(i);
+      }
+    }
     logger.info("[Registry] " + this.insertedBlocks.size() + " blocks found");
-    this.blockLock.readLock().unlock();
+
+    // this.blockLock.readLock().unlock();
 
     logger.info("[Registry] Sending Latest Block " + latestBlock.getID() + " to node " + requester);
     this.network.send(requester, new DeliverLatestBlockEvent(latestBlock));
 
-    return latestBlock;
+    return chosenBlock;
   }
 
   /**

@@ -6,7 +6,7 @@ public class Simulation {
 
   public static void main(String args[]) {
 
-    int numNodes = 7;
+    int numNodes = 31;
 
     LightChainNode fixtureNode = new LightChainNode();
     Simulator<LightChainNode> simulator = new Simulator<>(fixtureNode, numNodes, "mockNetwork");
