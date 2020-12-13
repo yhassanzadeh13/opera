@@ -33,4 +33,8 @@ public class Block implements Serializable {
   public Integer getHeight() {
     return this.height;
   }
+
+  public UUID getPrev() {
+    return this.prevBlock;
+  }
 }

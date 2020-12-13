@@ -51,6 +51,8 @@ public class LightChainNode implements BaseNode {
   // only for registry node
   private List<Transaction> availableTransactions;
   private List<Block> insertedBlocks;
+  private Map<Integer, Integer> heightToUniquePrevCount;
+  private Map<Integer, Map<UUID, Integer>> heightToUniquePrev;
   private ReadWriteLock transactionLock;
   private ReadWriteLock blockLock;
   private ReadWriteLock transactionValidationLock;
@@ -78,6 +80,8 @@ public class LightChainNode implements BaseNode {
     this.blockLock = new ReentrantReadWriteLock();
     this.availableTransactions = new ArrayList<>();
     this.insertedBlocks = new ArrayList<>();
+    this.heightToUniquePrev = new HashMap<>();
+    this.heightToUniquePrevCount = new HashMap<>();
     this.maximumHeight = 0;
     this.totalTransactionCount = 0;
   }
@@ -123,6 +127,7 @@ public class LightChainNode implements BaseNode {
       SimulatorGauge.register("transaction_count");
       SimulatorGauge.register("block_height_per_time");
       SimulatorHistogram.register("block_height_histogram", linespace);
+      SimulatorHistogram.register("unique_blocks_per_height", linespace);
 
       new Thread(() -> {
         monitorBlockHeight();
@@ -571,6 +576,24 @@ public class LightChainNode implements BaseNode {
 
     this.insertedBlocks.add(block);
     this.maximumHeight = Math.max(this.maximumHeight, block.getHeight());
+
+    if(!this.heightToUniquePrev.containsKey(block.getHeight())) {
+      this.heightToUniquePrev.put(block.getHeight(), new HashMap<>());
+    }
+    if(!this.heightToUniquePrev.get(block.getHeight()).containsKey(block.getPrev())) {
+      Integer oldValue = this.heightToUniquePrevCount.get(block.getHeight());
+      if(oldValue == null)
+        oldValue = 0;
+      this.heightToUniquePrevCount.put(block.getHeight(), oldValue + 1);
+
+      SimulatorHistogram.observe("unique_blocks_per_height", this.uuid, block.getHeight());
+    }
+
+    Integer old = this.heightToUniquePrev.get(block.getHeight()).get(block.getPrev());
+    if (old == null)
+      old = 0;
+    this.heightToUniquePrev.get(block.getHeight()).put(block.getPrev(), old + 1);
+
 
     SimulatorHistogram.observe("block_height_histogram", this.uuid, block.getHeight());
 
