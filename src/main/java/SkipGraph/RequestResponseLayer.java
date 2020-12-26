@@ -60,7 +60,7 @@ public class RequestResponseLayer implements BaseNode {
     }
 
     /**
-     * Triggered by a ResponseEvent, when a response is received.
+     * Triggered by a ResponseEvent when a response is received.
      * @param response the response received.
      */
     public synchronized void receiveResponse(Response response) {
@@ -70,7 +70,7 @@ public class RequestResponseLayer implements BaseNode {
     }
 
     /**
-     * Triggered by a RequestEvent, when a request is received.
+     * Triggered by a RequestEvent when a request is received.
      * @param origin the UUID of the request sender (i.e., client)
      * @param request the request.
      */
@@ -86,20 +86,28 @@ public class RequestResponseLayer implements BaseNode {
     public void onNewMessage(UUID originID, Event msg) {
         UUID selfId = overlay.getID();
         // Dispatch the ResponseEvent and RequestEvent.
-        if(msg instanceof ResponseEvent && network != null) {
+        if(msg instanceof ResponseEvent) {
             Response resp = ((ResponseEvent) msg).response;
             System.out.println(selfId + " received a response from " + originID + " with flow id: " + resp.flowId);
             receiveResponse(resp);
-        } else if(msg instanceof RequestEvent && network != null) {
+        } else if(msg instanceof RequestEvent) {
             Request req = ((RequestEvent) msg).request;
             System.out.println(selfId + " received a request from " + originID + " with flow id: " + req.flowId);
             receiveRequest(originID, req);
+        } else {
+            // Delegate the handling of other events to the overlay.
+            overlay.onNewMessage(originID, msg);
         }
     }
 
     @Override
     public BaseNode newInstance(UUID selfID, MiddleLayer network) {
         return new RequestResponseLayer(selfID, network);
+    }
+
+    public void ready() {
+        // Delegate to the underlay.
+        network.ready();
     }
 
     @Override
