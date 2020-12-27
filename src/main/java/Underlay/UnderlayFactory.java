@@ -19,8 +19,6 @@ public class UnderlayFactory {
     // hashmap to hold the underlay types to underlay class names
     private static HashMap<String, String> underlayClassName;
 
-    private static String yamlFile = "./src/main/Simulator.Simulator/underlay/underlayTypes.yml";
-
 
     public static LocalUnderlay getMockUnderlay(String address, int port, MiddleLayer middleLayer, HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay){
         LocalUnderlay underlay = new LocalUnderlay(address, port, allLocalUnderlay);
@@ -67,6 +65,7 @@ public class UnderlayFactory {
      */
     private static HashMap<String, String> readYAML()
     {
+        String yamlFile = "src/main/java/Underlay/underlayTypes.yml";
         try {
             // obtain underlay class name from the yaml file
             Yaml yaml = new Yaml();
