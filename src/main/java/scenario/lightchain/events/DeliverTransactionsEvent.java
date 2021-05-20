@@ -1,10 +1,9 @@
-package lightchain.events;
+package scenario.lightchain.events;
 
 import Node.BaseNode;
 import Underlay.packets.Event;
-import lightchain.Block;
-import lightchain.LightChainNode;
-import lightchain.Transaction;
+import scenario.lightchain.LightChainNode;
+import scenario.lightchain.Transaction;
 
 import java.util.List;
 

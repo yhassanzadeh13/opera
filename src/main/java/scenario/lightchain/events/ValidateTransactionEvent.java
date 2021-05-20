@@ -1,9 +1,9 @@
-package lightchain.events;
+package scenario.lightchain.events;
 
 import Node.BaseNode;
 import Underlay.packets.Event;
-import lightchain.LightChainNode;
-import lightchain.Transaction;
+import scenario.lightchain.LightChainNode;
+import scenario.lightchain.Transaction;
 
 public class ValidateTransactionEvent implements Event {
 
