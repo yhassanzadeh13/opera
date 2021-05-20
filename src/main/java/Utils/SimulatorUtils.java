@@ -26,7 +26,7 @@ public class SimulatorUtils {
    * @param admin    the user name of the admin
    * @param password the corresponding password
    */
-  public static void ConfigurePrometheus(String admin, String password) {
+  public static void ConfigurePrometheus() {
     int EXPOSER_PORT = 2000;
     try {
 
@@ -61,17 +61,8 @@ public class SimulatorUtils {
       // write again on the file
       objectMapper.writeValue(new File("./dockprom/prometheus/prometheus.yml"), config);
 
-      Scanner scanner = new Scanner(System.in);
-      System.out.println("Please enter your password");
-      String userPassword = scanner.nextLine();
-
-
-      // ADMIN_USER=admin ADMIN_PASSWORD=admin docker-compose up -d
-      Runtime run = Runtime.getRuntime();
-      String cmd = "echo \"" + userPassword + "\" | sudo -S ADMIN_USER=" + admin + " ADMIN_PASSWORD=" + password + " docker-compose up -d";
-      // System.out.println(cmd);
       // run the docker
-
+      String cmd = "docker-compose up -d";
       ProcessBuilder builder = new ProcessBuilder();
       builder.directory(new File("./dockprom"));
       builder.command("sh", "-c", cmd);
@@ -96,5 +87,4 @@ public class SimulatorUtils {
       e.printStackTrace();
     }
   }
-
 }

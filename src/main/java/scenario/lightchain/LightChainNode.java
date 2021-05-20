@@ -1,11 +1,11 @@
-package lightchain;
+package scenario.lightchain;
 
 import Metrics.SimulatorGauge;
 import Metrics.SimulatorHistogram;
 import Node.BaseNode;
 import Underlay.MiddleLayer;
 import Underlay.packets.Event;
-import lightchain.events.*;
+import scenario.lightchain.events.*;
 import org.apache.log4j.Logger;
 
 import java.util.*;

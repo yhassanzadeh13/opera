@@ -1,4 +1,4 @@
-package lightchain;
+package scenario.lightchain;
 
 import Simulator.Simulator;
 
