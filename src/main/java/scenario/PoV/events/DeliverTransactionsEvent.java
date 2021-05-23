@@ -1,9 +1,9 @@
-package scenario.lightchain.events;
+package scenario.PoV.events;
 
 import Node.BaseNode;
 import Underlay.packets.Event;
-import scenario.lightchain.LightChainNode;
-import scenario.lightchain.Transaction;
+import scenario.PoV.LightChainNode;
+import scenario.PoV.Transaction;
 
 import java.util.List;
 

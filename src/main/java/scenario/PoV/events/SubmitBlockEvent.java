@@ -1,9 +1,9 @@
-package scenario.lightchain.events;
+package scenario.PoV.events;
 
 import Node.BaseNode;
 import Underlay.packets.Event;
-import scenario.lightchain.Block;
-import scenario.lightchain.LightChainNode;
+import scenario.PoV.Block;
+import scenario.PoV.LightChainNode;
 
 public class SubmitBlockEvent implements Event {
 
