@@ -6,6 +6,7 @@
 *.out
 /data/
 
-target/
+*.class
 
+target/
 *.iml
