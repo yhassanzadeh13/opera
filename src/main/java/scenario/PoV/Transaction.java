@@ -1,4 +1,4 @@
-package scenario.lightchain;
+package scenario.PoV;
 
 
 import java.io.Serializable;

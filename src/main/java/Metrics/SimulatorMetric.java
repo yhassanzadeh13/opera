@@ -15,11 +15,8 @@ public class SimulatorMetric {
     }
     protected static final HashMap<String, Collector> collectors = new HashMap<>();
     protected static final HashMap<String, TYPE> collectorsTypes = new HashMap<>();
-    protected static final String NAMESPACE = "Simulator";
-    protected static final String LABEL_NAME = "UUID";
-    protected static final String HELP_MSG = "Simulator.Simulator metrics";
-
-
-
+    protected static final String NAMESPACE = "simulator";
+    protected static final String LABEL_NAME = "uuid";
+    protected static final String HELP_MSG = "opera native metric";
 
 }
