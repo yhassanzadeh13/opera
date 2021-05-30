@@ -11,7 +11,7 @@ public class NodeFactory {
     int ind;
 
     public NodeFactory(){
-        nodeMap = new HashMap<BaseNode, Integer>();
+        nodeMap = new LinkedHashMap<BaseNode, Integer>(); // to keep the order
         numNodes = 0;
         ind = 0;
     }

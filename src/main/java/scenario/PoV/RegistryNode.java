@@ -6,22 +6,15 @@ import Node.BaseNode;
 import Underlay.MiddleLayer;
 import Underlay.packets.Event;
 import org.apache.log4j.Logger;
-import scenario.PoV.events.*;
+import scenario.PoV.events.DeliverLatestBlockEvent;
+import scenario.PoV.events.DeliverTransactionsEvent;
 
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class RegistryNode implements BaseNode {
 
-    final int transactionInsertions = 100;
     final int blockIterations = 50;
     final int numValidators = 1;
-    final int txMin = 1;
-    final int transactionInsertionDelay = 1000; // (ms)
-    final int blockInsertionDelay = 2000; // (ms)
-    final int updateWaitTime = 500; // (ms)
     /**
      * The registry node represents the underlying skip graph overlay of the LightChainNode, where it keeps the
      * list of inserted transactions and blocks, and receive requests
@@ -32,14 +25,6 @@ public class RegistryNode implements BaseNode {
     private UUID uuid;
     private MiddleLayer network;
     private Logger logger;
-    private Map<UUID, Transaction> transactions;
-    private Map<UUID, Block> blocks;
-    private Map<UUID, Integer> transactionValidationCount;
-    private Map<UUID, Integer> blockValidationCount;
-    private Block latestBlock;
-    private List<Transaction> requestedTransactions;
-    private CountDownLatch blockLatch;
-    private CountDownLatch transactionLatch;
     private Integer maximumHeight;
     private Integer totalTransactionCount;
     // only for registry node
@@ -47,10 +32,6 @@ public class RegistryNode implements BaseNode {
     private List<Block> insertedBlocks;
     private Map<Integer, Integer> heightToUniquePrevCount;
     private Map<Integer, Map<UUID, Integer>> heightToUniquePrev;
-    private ReadWriteLock transactionLock;
-    private ReadWriteLock blockLock;
-    private ReadWriteLock transactionValidationLock;
-    private ReadWriteLock blockValidationLock;
 
     /**
      * Constructor of LightChain Node
@@ -61,17 +42,9 @@ public class RegistryNode implements BaseNode {
     public RegistryNode(UUID uuid, MiddleLayer network) {
         this.uuid = uuid;
         this.network = network;
-        this.transactions = new HashMap<>();
-        this.blocks = new HashMap<>();
-        this.transactionValidationCount = new HashMap<>();
-        this.blockValidationCount = new HashMap<>();
-        this.transactionValidationLock = new ReentrantReadWriteLock();
-        this.blockValidationLock = new ReentrantReadWriteLock();
         this.logger = Logger.getLogger(LightChainNode.class.getName());
 
         // for registry nodes
-        this.transactionLock = new ReentrantReadWriteLock();
-        this.blockLock = new ReentrantReadWriteLock();
         this.availableTransactions = new ArrayList<>();
         this.insertedBlocks = new ArrayList<>();
         this.heightToUniquePrev = new HashMap<>();
@@ -167,181 +140,6 @@ public class RegistryNode implements BaseNode {
         return new RegistryNode(selfID, network);
     }
 
-    /**
-     * This function is invoked on the start of the node and it attempts to iterate and insert the required number of
-     * transactions into the network. First, the node request an update of its view of the latest block Then, it gets the
-     * validators of the transaction, the it asynchronously asks the validators to validate the transactions. Once the
-     * transaction is validated by all validators, this will be detected at the ConfirmTransactionValidation function
-     * above and that function will take care of inserting the transaction.
-     * <p>
-     * TODO: This function is supposed to run either on a differen thread from the block insertion, or incorporate the
-     * block insertion within it somehow
-     */
-    public void startTransactionInsertions() {
-
-        logger.info("Transaction insertion for node " + this.uuid + "started");
-
-        for (int i = 0; i < this.transactionInsertions; ++i) {
-
-            logger.info("Node " + this.uuid + " inserting transaction number " + (i + 1));
-
-            // update the latest block
-            this.requestLatestBlock();
-
-            logger.info("Latest block is updated for node " + this.uuid);
-
-            // get the validators
-            List<UUID> validators = this.getValidators();
-            // create the transaction
-            Transaction tx = new Transaction(UUID.randomUUID(), this.uuid, this.latestBlock, validators);
-            // initialize the counter of the transaction and store the transaction for insertion later
-            this.transactionValidationCount.put(tx.getID(), 0);
-            this.transactions.put(tx.getID(), tx);
-
-
-            logger.info("Node " + this.uuid + " is requesting validators");
-            for (UUID validator : validators) {
-                // send an asynchronous validation request
-                network.send(validator, new ValidateTransactionEvent(tx));
-            }
-
-            // wait for some time in between insertions
-            try {
-                Thread.sleep(this.transactionInsertionDelay);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        int count = 0;
-        for (UUID key : this.transactionValidationCount.keySet()) {
-
-            if (this.transactionValidationCount.get(key) != this.numValidators)
-                count += 1;
-        }
-
-        logger.info("Reporting from node " + this.uuid + " " + count + " un-fully validated transactions");
-    }
-
-    /**
-     * This function handles the collection of transactions and casting them into blocks and then inserting these blocks
-     * to the registry
-     */
-    public void startBlockInsertion() {
-
-        for (int i = 0; i < this.blockIterations; ++i) {
-
-            try {
-                Thread.sleep(this.blockInsertionDelay);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            logger.info("Block collection attempt " + (i + 1) + " for node " + this.uuid);
-
-            this.requestTransactions();
-            this.requestLatestBlock();
-
-            List<Transaction> collectedTransaction = this.requestedTransactions;
-
-            List<UUID> transactionIDs = new ArrayList<>();
-            for (Transaction tx : collectedTransaction)
-                transactionIDs.add(tx.getID());
-
-            if (collectedTransaction.isEmpty()) {
-                logger.info("Transaction collection Attempt" + (i + 1) + " failed for node " + this.uuid);
-                continue;
-            }
-
-            logger.info("Getting Block validators for node " + this.uuid);
-            List<UUID> validators = getValidators();
-
-            Block block = new Block(UUID.randomUUID(), this.latestBlock.getHeight() + 1, this.uuid, this.latestBlock.getID(), validators, transactionIDs);
-
-            this.blockValidationCount.put(block.getID(), 0);
-            this.blocks.put(block.getID(), block);
-
-            logger.info("Requesting block validations at node " + this.uuid);
-            for (UUID validator : validators) {
-                // send an asynchronous validation request
-                network.send(validator, new ValidateBlockEvent(block));
-            }
-        }
-    }
-
-    /**
-     * This function is invoked when a validator wants to confirm their validation of a transaction. The LightChain node
-     * maintains a map with a counter for every transaction it creates. This function receives the UUID of the transaction
-     * that is being verified and it increases its counter. Once the counter of a transaction is equal to the number of
-     * validators, this means the transaction has been validated and is ready to be inserted. So this function attempts
-     * to insert the transaction into the network by sending a submit transaction event to the registry node.
-     *
-     * @param transactionUUID
-     */
-    public void confirmTransactionValidation(UUID transactionUUID) {
-
-        if (!transactionValidationCount.containsKey(transactionUUID)) try {
-            throw new Exception("Confirming a non-existing transaction");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        logger.info("Transaction " + transactionUUID + " owned by " + this.uuid + " received a confirmation");
-
-        this.transactionValidationLock.writeLock().lock();
-        Integer prevCount = transactionValidationCount.get(transactionUUID);
-        transactionValidationCount.put(transactionUUID, prevCount + 1);
-        this.transactionValidationLock.writeLock().unlock();
-
-        if (prevCount + 1 == this.numValidators) {
-            logger.info("Node " + this.uuid + " Inserting its transaction " + transactionUUID);
-            this.network.send(this.getRegistryID(), new SubmitTransactionEvent(this.transactions.get(transactionUUID)));
-        }
-    }
-
-    public void confirmBlockValidation(UUID blockUUID) {
-
-        if (!blockValidationCount.containsKey(blockUUID)) try {
-            throw new Exception("Confirming a non-existing transaction");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        this.blockValidationLock.writeLock().lock();
-        Integer prevCount = blockValidationCount.get(blockUUID);
-        blockValidationCount.put(blockUUID, prevCount + 1);
-        this.blockValidationLock.writeLock().unlock();
-
-        if (prevCount + 1 == this.numValidators) {
-            logger.info("Node " + this.uuid + " Inserting its block " + blockUUID);
-            this.network.send(this.getRegistryID(), new SubmitBlockEvent(this.blocks.get(blockUUID)));
-        }
-    }
-
-    /**
-     * @return the UUID of the registry node
-     */
-    public UUID getRegistryID() {
-        return this.allID.get(0);
-    }
-
-
-    /**
-     * This function is invokes when another node requests a validation from this node. It essentially accepts
-     * the validation without any conditions and immediately replies with its confirmation
-     * f* TODO: with is algorithm, a node can be chosen to be its own validator, fix this to prevent this case.
-     *
-     * @param transaction
-     */
-    public void validateTransaction(Transaction transaction) {
-
-        network.send(transaction.getOwner(), new ConfirmTransactionEvent(transaction.getID()));
-    }
-
-    public void validateBlock(Block block) {
-
-        network.send(block.getOwner(), new ConfirmBlockEvent(block.getID()));
-    }
 
     /**
      * This function randomly chooses validators of a certain transaction using the Reservoir Sampling Algorithm
@@ -379,77 +177,6 @@ public class RegistryNode implements BaseNode {
     public boolean isRegistry() {
         return true;
     }
-
-    /**
-     * this function is called by the registry node through an event in order to supply this node with the latest block
-     * upon its an asynchronous request that was carried out earlier.
-     *
-     * @param block
-     */
-    public void updateLatestBlock(Block block) {
-        logger.info("Latest Block " + block.getID() + " updated for node " + this.uuid);
-        this.latestBlock = block;
-        this.blockLatch.countDown();
-    }
-
-    /**
-     * This function causes the thread to sleep for a fixed time between sending a request and awaiting its response in
-     * order to give time for the response to arrive.
-     */
-    public void updateWait() {
-        try {
-            Thread.sleep(this.updateWaitTime);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * This function is called by this node to request the latest block from the registry node asynchronously, the it
-     * sleeps the thread for a while to give time for the registry node to send the latest block. This is necessary given
-     * that the simulator only support asynchronous events.
-     */
-    public void requestLatestBlock() {
-
-        logger.info("Node " + this.uuid + " requesting latest block");
-
-        blockLatch = new CountDownLatch(1);
-        network.send(this.getRegistryID(), new GetLatestBlockEvent(this.uuid));
-
-        logger.info("Node" + this.uuid + " waiting for latest block");
-
-        try {
-            blockLatch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        logger.info("Node + " + this.uuid + ": latest block received");
-    }
-
-    /**
-     * This function is called to request a collection of transactions from the registry node.
-     */
-    public void requestTransactions() {
-
-        this.transactionLatch = new CountDownLatch(1);
-
-        network.send(this.getRegistryID(), new CollectTransactionsEvent(this.uuid, this.txMin));
-
-        try {
-            transactionLatch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void deliverTransactions(List<Transaction> requestedTransactions) {
-        logger.info("Requested Transactions received by node " + this.uuid);
-        this.requestedTransactions = requestedTransactions;
-        this.transactionLatch.countDown();
-    }
-
 
   /*
   These functions below belong solely to the registry node.

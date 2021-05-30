@@ -12,6 +12,7 @@ public class Simulation {
     RegistryNode registryNode = new RegistryNode();
 
     NodeFactory factory = new NodeFactory();
+    // putting the registry node first, since the first node created is determined as registry
     factory.put(registryNode, 1);
     factory.put(fixtureNode, 21);
 

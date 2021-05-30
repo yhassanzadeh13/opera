@@ -1,12 +1,10 @@
 package scenario.PoV;
 
-import Metrics.SimulatorGauge;
-import Metrics.SimulatorHistogram;
 import Node.BaseNode;
 import Underlay.MiddleLayer;
 import Underlay.packets.Event;
-import scenario.PoV.events.*;
 import org.apache.log4j.Logger;
+import scenario.PoV.events.*;
 
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
@@ -428,21 +426,5 @@ public class LightChainNode implements BaseNode {
     this.transactionLatch.countDown();
   }
 
-
-  /**
-   * This function runs on a separate thread and records the maximum block height every second
-   */
-  public void monitorBlockHeight() {
-
-    while (true) {
-      try {
-        Thread.sleep(1000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-
-      SimulatorGauge.set("block_height_per_time", this.uuid, this.maximumHeight);
-    }
-  }
 
 }
