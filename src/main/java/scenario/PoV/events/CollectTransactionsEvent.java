@@ -3,6 +3,7 @@ package scenario.PoV.events;
 import Node.BaseNode;
 import Underlay.packets.Event;
 import scenario.PoV.LightChainNode;
+import scenario.PoV.RegistryNode;
 
 import java.util.UUID;
 
@@ -19,10 +20,11 @@ public class CollectTransactionsEvent implements Event {
   @Override
   public boolean actionPerformed(BaseNode hostNode) {
 
-    LightChainNode node = (LightChainNode) hostNode;
+    RegistryNode node = null;
 
-    if(!node.isRegistry()) try {
-      throw new Exception("Collect Transaction Event is submitted to a node other than registry");
+    /// not sure if this is necessary right now TODO: TEST THIS
+     try {
+       node = (RegistryNode) hostNode;
     } catch (Exception e) {
       e.printStackTrace();
     }

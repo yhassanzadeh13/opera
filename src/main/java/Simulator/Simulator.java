@@ -2,6 +2,7 @@ package Simulator;
 
 import Metrics.SimulatorHistogram;
 import Node.BaseNode;
+import Node.NodeFactory;
 import Underlay.Local.LocalUnderlay;
 import Underlay.MiddleLayer;
 import Underlay.UnderlayFactory;
@@ -32,39 +33,35 @@ public class Simulator<T extends BaseNode> implements BaseNode {
     private final ArrayList<UUID> allID;
     private final HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses;
     private final HashMap<SimpleEntry<String, Integer>, Boolean> isReady;
-    private final T factory;
     private HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers;
     private PriorityQueue<SimpleEntryComparable<Long, UUID>> onlineNodes = new PriorityQueue<>();
     private final ArrayList<UUID> offlineNodes = new ArrayList<>();
     private final CountDownLatch count;
     private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
 
+    private final NodeFactory nodeFactory;
+
 
     // TODO: currently the communication is assumed to be on a single machine.
 
-    /**
-     * Initializes a a new simulation
-     *
-     * @param factory     a dummy factory instance of special node class.
-     * @param N           the number of nodes.
-     * @param networkType the type of simulated communication protocol. Supported communication protocols are: **tcp**, **javaRMI**, **udp**, and **mockNetwork**
-     */
-    public Simulator(T factory, int N, String networkType) {
-        this(factory, N, networkType, true);
+
+    public Simulator(NodeFactory nodeFactory, String networkType){
+        this(nodeFactory, networkType, true);
     }
+
 
     /**
      * Initializes a a new simulation
      *
-     * @param factory     a dummy factory instance of special node class.
-     * @param N           the number of nodes.
+     * @param nodeFactory     a nodeFactory instance which supports multiple node types
      * @param networkType the type of simulated communication protocol. Supported communication protocols are: **tcp**, **javaRMI**, **udp**, and **mockNetwork*
      * @param isLocal     True if the simulated network will be on a single machine.
      */
-    private Simulator(T factory, int N, String networkType, boolean isLocal) {
-        this.factory = factory;
+    private Simulator(NodeFactory nodeFactory, String networkType, boolean isLocal) {
+        this.nodeFactory = nodeFactory;
         this.isLocal = isLocal;
         this.isReady = new HashMap<>();
+        int N = nodeFactory.size();
         this.allID = generateIDs(N);
         this.allFullAddresses = generateFullAddressed(N, this.START_PORT + 1);
 
@@ -131,7 +128,7 @@ public class Simulator<T extends BaseNode> implements BaseNode {
         for (UUID id : allID) {
             isReady.put(this.allFullAddresses.get(id), false);
             MiddleLayer middleLayer = new MiddleLayer(id, this.allFullAddresses, isReady, this);
-            BaseNode node = factory.newInstance(id, middleLayer);
+            BaseNode node = nodeFactory.newInstance(id, middleLayer);
             middleLayer.setOverlay(node);
             this.allMiddleLayers.put(this.allFullAddresses.get(id), middleLayer);
         }
@@ -146,6 +143,7 @@ public class Simulator<T extends BaseNode> implements BaseNode {
             else {
                 LocalUnderlay underlay = UnderlayFactory.getMockUnderlay(address, port, middleLayer, allLocalUnderlay);
                 middleLayer.setUnderlay(underlay);
+
                 allLocalUnderlay.put(node.getKey(), underlay);
             }
             // call the node onCreat method of the nodes

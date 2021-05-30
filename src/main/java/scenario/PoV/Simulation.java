@@ -1,16 +1,21 @@
 package scenario.PoV;
 
+import Node.BaseNode;
+import Node.NodeFactory;
 import Simulator.Simulator;
 
 public class Simulation {
 
   public static void main(String args[]) {
 
-    int numNodes = 21;
-
     LightChainNode fixtureNode = new LightChainNode();
-    Simulator<LightChainNode> simulator = new Simulator<>(fixtureNode, numNodes, "mockNetwork");
+    RegistryNode registryNode = new RegistryNode();
 
+    NodeFactory factory = new NodeFactory();
+    factory.put(registryNode, 1);
+    factory.put(fixtureNode, 21);
+
+    Simulator<BaseNode> simulator = new Simulator<>(factory, "mockNetwork");
     simulator.constantSimulation(1000000);
   }
 
