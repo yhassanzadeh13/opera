@@ -6,7 +6,6 @@ import Underlay.UDP.UDPUnderlay;
 import Underlay.javaRMI.JavaRMIUnderlay;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.Test;
-
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.*;
@@ -22,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class UnderlayTest {
     static final int THREAD_CNT = 50;
     static final int START_PORT = 2000;
-    static final int SLEEP_DURATION = 1000;
+    static final int SLEEP_DURATION = 10000;
 
     static JDKRandomGenerator rand = new JDKRandomGenerator();
     CountDownLatch count;
