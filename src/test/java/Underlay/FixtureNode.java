@@ -1,5 +1,6 @@
 package Underlay;
 
+import Metrics.MetricsCollector;
 import Node.BaseNode;
 import Underlay.packets.Event;
 
@@ -39,7 +40,7 @@ public class FixtureNode implements BaseNode {
     }
 
     @Override
-    public BaseNode newInstance(UUID ID, MiddleLayer network) {
+    public BaseNode newInstance(UUID ID, MiddleLayer network, MetricsCollector metrics) {
         return null;
     }
 
