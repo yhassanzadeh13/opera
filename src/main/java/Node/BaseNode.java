@@ -1,6 +1,7 @@
 package Node;
 
 
+import Metrics.MetricsCollector;
 import Underlay.MiddleLayer;
 import Underlay.packets.Event;
 
@@ -48,9 +49,10 @@ public interface BaseNode{
      * This method serves as a factory for new node instances.
      * It is supposed to return a new instance of the special node class
      * @param selfID the ID of the new node
-     * @param network communication network for the new node
-     * @return a new instance of the special node class
+     * @param network communication network for the new node.
+     * @param metrics metrics collector for the node.
+     * @return a new instance of the special node class.
      */
-    BaseNode newInstance(UUID selfID, MiddleLayer network);
+    BaseNode newInstance(UUID selfID, MiddleLayer network, MetricsCollector metrics);
 
 }
