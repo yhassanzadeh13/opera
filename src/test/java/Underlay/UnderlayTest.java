@@ -5,8 +5,8 @@ import Underlay.TCP.TCPUnderlay;
 import Underlay.UDP.UDPUnderlay;
 import Underlay.javaRMI.JavaRMIUnderlay;
 import org.apache.commons.math3.random.JDKRandomGenerator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.*;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class UnderlayTest {
     static final int THREAD_CNT = 50;
     static final int START_PORT = 2000;
-    static final int SLEEP_DURATION = 1000;
+    static final int SLEEP_DURATION = 10000;
 
     static JDKRandomGenerator rand = new JDKRandomGenerator();
     CountDownLatch count;
@@ -36,7 +36,6 @@ public class UnderlayTest {
 
     @Test
     void A_testTCP(){
-        initialize();
         // generate middle layers
         for(int i = 0; i < THREAD_CNT; i++){
             UUID id = allID.get(i);
@@ -58,7 +57,6 @@ public class UnderlayTest {
 
     @Test
     void B_testUDP(){
-        initialize();
         // generate middle layers
         for(int i = 0; i < THREAD_CNT; i++){
             UUID id = allID.get(i);
@@ -80,7 +78,6 @@ public class UnderlayTest {
 
     @Test
     void C_testRMI(){
-        initialize();
         // generate middle layers
         for(int i = 0; i < THREAD_CNT; i++){
             UUID id = allID.get(i);
@@ -102,7 +99,6 @@ public class UnderlayTest {
 
     @Test
     void testLocal(){
-        initialize();
         HashMap<AbstractMap.SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
         // generate middle layers
         for(int i = 0; i < THREAD_CNT; i++){
@@ -121,6 +117,7 @@ public class UnderlayTest {
         assure();
     }
 
+    @BeforeEach
     void initialize(){
         instances.clear();
         allID.clear();
@@ -164,7 +161,7 @@ public class UnderlayTest {
 
         // check that all nodes received threadCount - 1 messages
         for(FixtureNode node : instances){
-            assertEquals(THREAD_CNT - 1, node.receivedMessages);
+            assertEquals(THREAD_CNT - 1, node.receivedMessages.get());
         }
     }
 

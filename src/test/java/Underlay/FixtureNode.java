@@ -5,12 +5,13 @@ import Underlay.packets.Event;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class FixtureNode implements BaseNode {
     private UUID selfID;
     private ArrayList<UUID> allID;
     private MiddleLayer network;
-    public int receivedMessages = 0;
+    public AtomicInteger receivedMessages = new AtomicInteger(0);
 
     FixtureNode(){}
 
@@ -44,6 +45,6 @@ public class FixtureNode implements BaseNode {
 
     @Override
     public void onNewMessage(UUID originID, Event msg){
-        this.receivedMessages++;
+        this.receivedMessages.incrementAndGet();
     }
 }

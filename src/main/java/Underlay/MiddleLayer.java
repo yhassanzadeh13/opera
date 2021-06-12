@@ -64,11 +64,13 @@ public class MiddleLayer {
 
     public  MiddleLayer(UUID nodeID, HashMap<UUID, SimpleEntry<String, Integer>> allFUllAddresses, HashMap<SimpleEntry<String, Integer>, Boolean> isReady, Simulator masterNode) {
         //register metrics
-        SimulatorHistogram.register(DELAY_METRIC);
-        SimulatorCounter.register(SENT_MSG_CNT_METRIC);
-        SimulatorCounter.register(RECEIVED_MSG_CNT_METRIC);
+        if (masterNode != null) {
+            SimulatorHistogram.register(DELAY_METRIC);
+            SimulatorCounter.register(SENT_MSG_CNT_METRIC);
+            SimulatorCounter.register(RECEIVED_MSG_CNT_METRIC);
+        }
 
-          this.log.setLevel(Level.OFF);
+        this.log.setLevel(Level.OFF);
 
         this.nodeID = nodeID;
         this.allFUllAddresses = allFUllAddresses;
@@ -90,8 +92,11 @@ public class MiddleLayer {
             return false;
         }
         // update metrics
-        SimulatorCounter.inc(SENT_MSG_CNT_METRIC, nodeID);
-        SimulatorHistogram.startTimer(DELAY_METRIC, nodeID, sentBucketHash(destinationID));
+        if (this.masterNode != null) {
+            SimulatorCounter.inc(SENT_MSG_CNT_METRIC, nodeID);
+            SimulatorHistogram.startTimer(DELAY_METRIC, nodeID, sentBucketHash(destinationID));
+        }
+
 
         // wrap the event by request class
         Request request = new Request(event, this.nodeID, destinationID);
@@ -100,7 +105,13 @@ public class MiddleLayer {
 
         // sleep for the simulated duration
         try{
-            Thread.sleep(masterNode.getSimulatedLatency(nodeID, destinationID, true));
+            int sleepTime;
+            if (masterNode == null) {
+                sleepTime = (int) Math.random() * 200;
+            }else {
+                sleepTime = masterNode.getSimulatedLatency(nodeID, destinationID, true);
+            }
+            Thread.sleep(sleepTime);
         }catch (Exception e){
             Simulator.getLogger().error("[MiddleLayer] Thread failed to sleep for the simulated delay");
         }
@@ -128,8 +139,11 @@ public class MiddleLayer {
             return;
         }
         // update metrics
-        SimulatorCounter.inc(RECEIVED_MSG_CNT_METRIC, nodeID);
-        SimulatorHistogram.observeDuration(DELAY_METRIC, receivedBucketHash(request.getOrginalID()));
+        if (this.masterNode != null) {
+            SimulatorCounter.inc(RECEIVED_MSG_CNT_METRIC, nodeID);
+            SimulatorHistogram.observeDuration(DELAY_METRIC, receivedBucketHash(request.getOrginalID()));
+
+        }
 
         // logging
         log.info("[MiddleLayer] " + this.getAddress(nodeID) + " : node received an event " + request.getEvent().logMessage());
