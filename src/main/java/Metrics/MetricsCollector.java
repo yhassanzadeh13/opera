@@ -1,2 +1,7 @@
-package Metrics;public interface MetricsCollector {
+package Metrics;
+
+public interface MetricsCollector {
+    HistogramCollector getHistogramCollector();
+    GaugeCollector getGaugeCollector();
+    CounterCollector getCounterCollector();
 }
