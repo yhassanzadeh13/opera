@@ -5,7 +5,7 @@ public class SimulatorCollector implements MetricsCollector {
     private final SimulatorGauge mGauge;
     private final SimulatorHistogram mHistogram;
 
-    SimulatorCollector() {
+    public SimulatorCollector() {
         this.mCounter = new SimulatorCounter();
         this.mGauge = new SimulatorGauge();
         this.mHistogram = new SimulatorHistogram();
