@@ -1,11 +1,10 @@
-
 package SimulatorExamples.HelloServers;
 
+import Metrics.MetricsCollector;
 import Metrics.SimulatorHistogram;
 import Node.BaseNode;
 import Underlay.MiddleLayer;
 import Underlay.packets.Event;
-
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -16,15 +15,17 @@ public class myNode implements BaseNode {
     private UUID selfID;
     private ArrayList<UUID> allID;
     private MiddleLayer network;
+    private MetricsCollector mMetricsCollector;
 
-    myNode(){}
+    myNode() {}
 
-    myNode(UUID selfID, MiddleLayer network){
+    myNode(UUID selfID, MiddleLayer network, MetricsCollector metricsCollector) {
         this.selfID = selfID;
         this.network = network;
 
         //Register metrics
-        SimulatorHistogram.register("packetSize", new double[]{1.0, 2.0, 3.0, 5.0, 10.0, 15.0, 20.0});
+        this.mMetricsCollector = metricsCollector;
+        mMetricsCollector.getHistogramCollector().register("packetSize", new double[]{1.0, 2.0, 3.0, 5.0, 10.0, 15.0, 20.0});
     }
 
 
@@ -39,9 +40,8 @@ public class myNode implements BaseNode {
         this.sendNewMessage("Hello");
     }
 
-    public void sendNewMessage(String msg)
-    {
-        if(allID.isEmpty())
+    public void sendNewMessage(String msg) {
+        if (allID.isEmpty())
             return;
         Random rand = new Random();
         int ind = rand.nextInt(allID.size());
@@ -54,16 +54,17 @@ public class myNode implements BaseNode {
     }
 
     @Override
-    public BaseNode newInstance(UUID ID, MiddleLayer network) {
-        return new myNode(ID, network);
+    public void onNewMessage(UUID originID, Event msg) {
+        try {
+            Random rand = new Random();
+            Thread.sleep(rand.nextInt(1000));
+        }
+        catch (InterruptedException e) {}
+        msg.actionPerformed(this);
     }
 
     @Override
-    public void onNewMessage(UUID originID, Event msg){
-        try{
-            Random rand = new Random();
-            Thread.sleep(rand.nextInt(1000));
-        }catch (InterruptedException e){}
-        msg.actionPerformed(this);
+    public BaseNode newInstance(UUID ID, MiddleLayer network, MetricsCollector metricsCollector) {
+        return new myNode(ID, network, metricsCollector);
     }
 }
