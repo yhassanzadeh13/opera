@@ -159,7 +159,11 @@ public class MiddleLayer {
             else
                 this.stop(event.getAddress(), event.getPort());
         }
-        else overlay.onNewMessage(request.getOrginalID(), request.getEvent());
+        else {
+            this.mMetricsCollector.getHistogramCollector().observe("packetSize", request.getOrginalID(), request.getEvent().size());
+            overlay.onNewMessage(request.getOrginalID(), request.getEvent());
+        }
+
     }
 
     private String receivedBucketHash(UUID id) {
