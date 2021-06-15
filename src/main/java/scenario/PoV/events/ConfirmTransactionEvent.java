@@ -25,6 +25,12 @@ public class ConfirmTransactionEvent implements Event {
   }
 
   @Override
+  public int size() {
+    // TODO: return number of encoded bytes
+    return 1;
+  }
+
+  @Override
   public String logMessage() {
     return null;
   }

@@ -38,6 +38,7 @@ public class CollectTransactionsEvent implements Event {
 
   @Override
   public int size() {
-    return 0;
+    // TODO: return number of encoded bytes
+    return 1;
   }
 }

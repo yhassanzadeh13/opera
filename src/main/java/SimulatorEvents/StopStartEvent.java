@@ -40,8 +40,8 @@ public class StopStartEvent implements Event {
 
     @Override
     public int size() {
-        // no payload for this event
-        return 0;
+        // TODO: return number of encoded bytes
+        return 1;
     }
 
     public boolean getState(){

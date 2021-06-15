@@ -58,8 +58,9 @@ public class SendHello implements Event, Serializable {
     }
 
     @Override
-    public int size(){
-        return msg.length();
+    public int size() {
+        // TODO: return number of encoded bytes
+        return 1;
     }
 
 }
