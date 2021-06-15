@@ -16,17 +16,17 @@ class SimulatorCounterTest{
     static final int ITERATIONS = 50;
     static JDKRandomGenerator rand = new JDKRandomGenerator();
     CountDownLatch count;
-    MetricsCollector mMetricsCollector;
+    private static MetricsCollector mMetricsCollector;
 
 
     @BeforeAll
-    void setup(){
+    static void setup() {
         mMetricsCollector = new SimulatorCollector();
     }
 
     @Test
     void valueTest(){
-        assertTrue(this.mMetricsCollector.Counter().register("testCounter"));
+        assertTrue(mMetricsCollector.Counter().register("testCounter"));
         ArrayList<UUID> allID = new ArrayList<>();
         while(allID.size() != THREAD_CNT)allID.add(UUID.randomUUID());
         count = new CountDownLatch(THREAD_CNT);
@@ -37,9 +37,9 @@ class SimulatorCounterTest{
         for(int i = 0;i<ITERATIONS;i++) {
             int v = rand.nextInt(1000);
             tot += v;
-            this.mMetricsCollector.Counter().inc("testCounter", id, v);
+            mMetricsCollector.Counter().inc("testCounter", id, v);
         }
-        assertEquals(tot, this.mMetricsCollector.Counter().get("testCounter", id));
+        assertEquals(tot, mMetricsCollector.Counter().get("testCounter", id));
 
         for(UUID nodeID : allID){
             new Thread(){
@@ -59,14 +59,14 @@ class SimulatorCounterTest{
 
         tot = 0;
         for(UUID nodeID : allID){
-            tot += this.mMetricsCollector.Counter().get("testCounter", nodeID);
+            tot += mMetricsCollector.Counter().get("testCounter", nodeID);
         }
         assertEquals(ITERATIONS * THREAD_CNT, tot);
     }
 
     void threadtestCounter(UUID nodeID, int iterations){
         while (iterations-- > 0) {
-            assertTrue(this.mMetricsCollector.Counter().inc("testCounter", nodeID));
+            assertTrue(mMetricsCollector.Counter().inc("testCounter", nodeID));
         }
         count.countDown();
     }
