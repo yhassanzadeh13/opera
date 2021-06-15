@@ -1,7 +1,6 @@
 package SimulatorExamples.HelloServers;
 
 import Metrics.MetricsCollector;
-import Metrics.SimulatorHistogram;
 import Node.BaseNode;
 import Underlay.MiddleLayer;
 import Underlay.packets.Event;
@@ -25,7 +24,7 @@ public class myNode implements BaseNode {
 
         //Register metrics
         this.mMetricsCollector = metricsCollector;
-        mMetricsCollector.getHistogramCollector().register("packetSize", new double[]{1.0, 2.0, 3.0, 5.0, 10.0, 15.0, 20.0});
+        mMetricsCollector.Histogram().register("packetSize", new double[]{1.0, 2.0, 3.0, 5.0, 10.0, 15.0, 20.0});
     }
 
 

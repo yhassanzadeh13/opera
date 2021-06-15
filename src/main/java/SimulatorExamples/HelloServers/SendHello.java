@@ -62,5 +62,4 @@ public class SendHello implements Event, Serializable {
         // TODO: return number of encoded bytes
         return 1;
     }
-
 }

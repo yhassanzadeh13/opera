@@ -57,9 +57,9 @@ public class MiddleLayer {
         this.mOrchestrator = orchestrator;
         this.mMetricsCollector = metricsCollector;
 
-        metricsCollector.getHistogramCollector().register(DELAY_METRIC);
-        metricsCollector.getCounterCollector().register(SENT_MSG_CNT_METRIC);
-        metricsCollector.getCounterCollector().register(RECEIVED_MSG_CNT_METRIC);
+        metricsCollector.Histogram().register(DELAY_METRIC);
+        metricsCollector.Counter().register(SENT_MSG_CNT_METRIC);
+        metricsCollector.Counter().register(RECEIVED_MSG_CNT_METRIC);
     }
 
     public Underlay getUnderlay() {
@@ -94,8 +94,8 @@ public class MiddleLayer {
         }
 
         // update metrics
-        this.mMetricsCollector.getCounterCollector().inc(SENT_MSG_CNT_METRIC, nodeID);
-        this.mMetricsCollector.getHistogramCollector().startTimer(DELAY_METRIC, nodeID, sentBucketHash(destinationID));
+        this.mMetricsCollector.Counter().inc(SENT_MSG_CNT_METRIC, nodeID);
+        this.mMetricsCollector.Histogram().startTimer(DELAY_METRIC, nodeID, sentBucketHash(destinationID));
 
 
         // wrap the event by request class
@@ -144,8 +144,8 @@ public class MiddleLayer {
             return;
         }
         // update metrics
-        this.mMetricsCollector.getCounterCollector().inc(RECEIVED_MSG_CNT_METRIC, nodeID);
-        this.mMetricsCollector.getHistogramCollector().observeDuration(DELAY_METRIC, receivedBucketHash(request.getOrginalID()));
+        this.mMetricsCollector.Counter().inc(RECEIVED_MSG_CNT_METRIC, nodeID);
+        this.mMetricsCollector.Histogram().observeDuration(DELAY_METRIC, receivedBucketHash(request.getOrginalID()));
 
 
         // logging
@@ -160,7 +160,7 @@ public class MiddleLayer {
                 this.stop(event.getAddress(), event.getPort());
         }
         else {
-            this.mMetricsCollector.getHistogramCollector().observe("packetSize", request.getOrginalID(), request.getEvent().size());
+            this.mMetricsCollector.Histogram().observe("packetSize", request.getOrginalID(), request.getEvent().size());
             overlay.onNewMessage(request.getOrginalID(), request.getEvent());
         }
 

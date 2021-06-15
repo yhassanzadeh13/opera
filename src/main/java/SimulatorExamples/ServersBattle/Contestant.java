@@ -34,9 +34,9 @@ public class Contestant implements BaseNode {
         this.metrics = metrics;
 
         //Register metrics
-        this.metrics.getGaugeCollector().register(HEALTHLEVEL);
-        this.metrics.getCounterCollector().register(FIGHTCOUNT);
-        this.metrics.getHistogramCollector().register(FIGHTDURATION, new double[]{500.0, 1000.0, 1500.0, 2000.0, 2500.0});
+        this.metrics.Gauge().register(HEALTHLEVEL);
+        this.metrics.Counter().register(FIGHTCOUNT);
+        this.metrics.Histogram().register(FIGHTDURATION, new double[]{500.0, 1000.0, 1500.0, 2000.0, 2500.0});
     }
 
     public UUID getId() {
@@ -170,10 +170,10 @@ public class Contestant implements BaseNode {
             network.send(opponent, new BattleResult(this.selfId, opponent, false, res * -1));
 
             // update metrics
-            this.metrics.getCounterCollector().inc(FIGHTCOUNT, this.selfId);
-            this.metrics.getCounterCollector().inc(FIGHTCOUNT, opponent);
-            this.metrics.getHistogramCollector().observe(FIGHTDURATION, this.selfId, duration);
-            this.metrics.getHistogramCollector().observe(FIGHTDURATION, opponent, duration);
+            this.metrics.Counter().inc(FIGHTCOUNT, this.selfId);
+            this.metrics.Counter().inc(FIGHTCOUNT, opponent);
+            this.metrics.Histogram().observe(FIGHTDURATION, this.selfId, duration);
+            this.metrics.Histogram().observe(FIGHTDURATION, opponent, duration);
             updateHealth(res);
         }
     }
@@ -182,17 +182,17 @@ public class Contestant implements BaseNode {
         switch (result) {
             case -1:
                 this.healthLevel -= 10;
-                this.metrics.getGaugeCollector().dec(HEALTHLEVEL, this.selfId, 10);
+                this.metrics.Gauge().dec(HEALTHLEVEL, this.selfId, 10);
                 Simulator.getLogger().info(this.selfId + " losses 10 points");
                 break;
             case 0:
                 this.healthLevel += 1;
-                this.metrics.getGaugeCollector().inc(HEALTHLEVEL, this.selfId, 1);
+                this.metrics.Gauge().inc(HEALTHLEVEL, this.selfId, 1);
                 Simulator.getLogger().info(this.selfId + " gains 1 point");
                 break;
             case 1:
                 this.healthLevel += 5;
-                this.metrics.getGaugeCollector().inc(HEALTHLEVEL, this.selfId, 5);
+                this.metrics.Gauge().inc(HEALTHLEVEL, this.selfId, 5);
                 Simulator.getLogger().info(this.selfId + " gains 5 points");
                 break;
         }

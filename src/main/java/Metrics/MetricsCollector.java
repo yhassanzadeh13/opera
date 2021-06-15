@@ -1,7 +1,7 @@
 package Metrics;
 
 public interface MetricsCollector {
-    HistogramCollector getHistogramCollector();
-    GaugeCollector getGaugeCollector();
-    CounterCollector getCounterCollector();
+    HistogramCollector Histogram();
+    GaugeCollector Gauge();
+    CounterCollector Counter();
 }

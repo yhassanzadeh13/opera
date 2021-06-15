@@ -321,13 +321,13 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
         for (int i = 1; i <= 10; i++) {
             labels[10 - i] = session.mn + (double) (session.mx - session.mn) / i + 0.001;
         }
-        this.mMetricsCollector.getHistogramCollector().register(SESSION_METRIC, labels);
+        this.mMetricsCollector.Histogram().register(SESSION_METRIC, labels);
 
         // register a prometheus histogram for inter arrival time
         for (int i = 1; i <= 10; i++) {
             labels[10 - i] = arrival.mn + (double) (arrival.mx - arrival.mn) / i + 0.001;
         }
-        this.mMetricsCollector.getHistogramCollector().register(ARRIVAL_METRIC, labels);
+        this.mMetricsCollector.Histogram().register(ARRIVAL_METRIC, labels);
 
         // hold the current online nodes, with their termination time stamp.
         this.onlineNodes = new PriorityQueue<>();
@@ -339,12 +339,12 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
                 int ex = session.next();
                 log.info("[Simulator.Simulator] new session for node " + getAddress(id) + ": " + ex + " ms");
                 onlineNodes.add(new SimpleEntryComparable<>(time + ex, id));
-                this.mMetricsCollector.getHistogramCollector().observe(SESSION_METRIC, id, ex);
+                this.mMetricsCollector.Histogram().observe(SESSION_METRIC, id, ex);
             }
         }
         // hold next arrival time
         long nxtArrival = System.currentTimeMillis() + arrival.next();
-        this.mMetricsCollector.getHistogramCollector().observe(ARRIVAL_METRIC, SimulatorID, nxtArrival);
+        this.mMetricsCollector.Histogram().observe(ARRIVAL_METRIC, SimulatorID, nxtArrival);
 
         while (System.currentTimeMillis() - time < duration) {
             if (!onlineNodes.isEmpty() && System.currentTimeMillis() > onlineNodes.peek().getKey()) {
@@ -373,12 +373,12 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
                 int ex = session.next();
                 log.info("[Simulator.Simulator] new session for node " + getAddress(id) + ": " + ex + " ms");
                 this.onlineNodes.add(new SimpleEntryComparable<>(System.currentTimeMillis() + ex, id));
-                this.mMetricsCollector.getHistogramCollector().observe(SESSION_METRIC, id, ex);
+                this.mMetricsCollector.Histogram().observe(SESSION_METRIC, id, ex);
 
                 // assign a next node arrival time
                 nxtArrival = System.currentTimeMillis() + arrival.next();
                 log.info("[Simulator.Simulator] next node arrival: " + nxtArrival);
-                this.mMetricsCollector.getHistogramCollector().observe(ARRIVAL_METRIC, SimulatorID, nxtArrival);
+                this.mMetricsCollector.Histogram().observe(ARRIVAL_METRIC, SimulatorID, nxtArrival);
             }
         }
 

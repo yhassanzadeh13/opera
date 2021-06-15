@@ -1,8 +1,6 @@
 package scenario.PoV;
 
 import Metrics.MetricsCollector;
-import Metrics.SimulatorGauge;
-import Metrics.SimulatorHistogram;
 import Node.BaseNode;
 import Underlay.MiddleLayer;
 import Underlay.packets.Event;
@@ -127,10 +125,10 @@ public class LightChainNode implements BaseNode {
                 linespace[i] = i;
             }
 
-            this.mMetricsCollector.getGaugeCollector().register("transaction_count");
-            this.mMetricsCollector.getGaugeCollector().register("block_height_per_time");
-            this.mMetricsCollector.getHistogramCollector().register("block_height_histogram", linespace);
-            this.mMetricsCollector.getHistogramCollector().register("unique_blocks_per_height", linespace);
+            this.mMetricsCollector.Gauge().register("transaction_count");
+            this.mMetricsCollector.Gauge().register("block_height_per_time");
+            this.mMetricsCollector.Histogram().register("block_height_histogram", linespace);
+            this.mMetricsCollector.Histogram().register("unique_blocks_per_height", linespace);
 
             new Thread(() -> {
                 monitorBlockHeight();
@@ -206,7 +204,7 @@ public class LightChainNode implements BaseNode {
                 e.printStackTrace();
             }
 
-          this.mMetricsCollector.getGaugeCollector().set("block_height_per_time", this.uuid, this.maximumHeight);
+          this.mMetricsCollector.Gauge().set("block_height_per_time", this.uuid, this.maximumHeight);
         }
     }
 
@@ -240,7 +238,7 @@ public class LightChainNode implements BaseNode {
                 oldValue = 0;
             this.heightToUniquePrevCount.put(block.getHeight(), oldValue + 1);
 
-          this.mMetricsCollector.getHistogramCollector().observe("unique_blocks_per_height", this.uuid, block.getHeight());
+          this.mMetricsCollector.Histogram().observe("unique_blocks_per_height", this.uuid, block.getHeight());
         }
 
         Integer old = this.heightToUniquePrev.get(block.getHeight()).get(block.getPrev());
@@ -249,7 +247,7 @@ public class LightChainNode implements BaseNode {
         this.heightToUniquePrev.get(block.getHeight()).put(block.getPrev(), old + 1);
 
 
-        this.mMetricsCollector.getHistogramCollector().observe("block_height_histogram", this.uuid, block.getHeight());
+        this.mMetricsCollector.Histogram().observe("block_height_histogram", this.uuid, block.getHeight());
 
         logger.info("[Registry] maximum height found so far is " + this.maximumHeight);
         logger.info("[Registry] currently " + this.insertedBlocks.size() + " blocks are inserted totally");
@@ -560,7 +558,7 @@ public class LightChainNode implements BaseNode {
      */
     public void addTransaction(Transaction transaction) {
 
-      this.mMetricsCollector.getGaugeCollector().inc("transaction_count", this.uuid);
+      this.mMetricsCollector.Gauge().inc("transaction_count", this.uuid);
 
         if (!this.isRegistry) try {
             throw new Exception("Add Transaction is called from a non-registry node");
@@ -625,7 +623,7 @@ public class LightChainNode implements BaseNode {
 
         //  this.transactionLock.writeLock().unlock();
 
-      this.mMetricsCollector.getGaugeCollector().dec("transaction_count", this.uuid, requiredNumber);
+      this.mMetricsCollector.Gauge().dec("transaction_count", this.uuid, requiredNumber);
 
         network.send(requester, new DeliverTransactionsEvent(requestedTransactions));
 

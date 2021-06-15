@@ -12,17 +12,17 @@ public class SimulatorCollector implements MetricsCollector {
     }
 
     @Override
-    public HistogramCollector getHistogramCollector() {
+    public HistogramCollector Histogram() {
         return this.mHistogram;
     }
 
     @Override
-    public GaugeCollector getGaugeCollector() {
+    public GaugeCollector Gauge() {
         return this.mGauge;
     }
 
     @Override
-    public CounterCollector getCounterCollector() {
+    public CounterCollector Counter() {
         return this.mCounter;
     }
 }
