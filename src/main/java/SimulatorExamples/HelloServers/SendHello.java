@@ -1,7 +1,5 @@
 package SimulatorExamples.HelloServers;
 
-import Metrics.MetricsCollector;
-import Metrics.SimulatorHistogram;
 import Node.BaseNode;
 import Underlay.packets.Event;
 
