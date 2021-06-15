@@ -7,7 +7,6 @@ import scenario.PoV.LightChainNode;
 import java.util.UUID;
 
 public class CollectTransactionsEvent implements Event {
-
   private UUID requester;
   private Integer requiredNumber;
 
@@ -35,5 +34,10 @@ public class CollectTransactionsEvent implements Event {
   @Override
   public String logMessage() {
     return null;
+  }
+
+  @Override
+  public int size() {
+    return 0;
   }
 }
