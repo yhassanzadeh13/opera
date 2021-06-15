@@ -46,7 +46,7 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
      * @param N           the number of nodes.
      * @param networkType the type of simulated communication protocol. Supported communication protocols are: **tcp**, **javaRMI**, **udp**, and **mockNetwork*
      */
-    private Simulator(T factory, int N, String networkType) {
+    public Simulator(T factory, int N, String networkType) {
         this.factory = factory;
         this.isReady = new HashMap<>();
         this.allID = generateIDs(N);
