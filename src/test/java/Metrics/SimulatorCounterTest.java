@@ -1,6 +1,7 @@
 package Metrics;
 
 import org.apache.commons.math3.random.JDKRandomGenerator;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,10 +16,17 @@ class SimulatorCounterTest{
     static final int ITERATIONS = 50;
     static JDKRandomGenerator rand = new JDKRandomGenerator();
     CountDownLatch count;
+    MetricsCollector mMetricsCollector;
+
+
+    @BeforeAll
+    void setup(){
+        mMetricsCollector = new SimulatorCollector();
+    }
 
     @Test
     void valueTest(){
-        assertTrue(SimulatorCounter.register("testCounter"));
+        assertTrue(this.mMetricsCollector.Counter().register("testCounter"));
         ArrayList<UUID> allID = new ArrayList<>();
         while(allID.size() != THREAD_CNT)allID.add(UUID.randomUUID());
         count = new CountDownLatch(THREAD_CNT);
@@ -29,9 +37,9 @@ class SimulatorCounterTest{
         for(int i = 0;i<ITERATIONS;i++) {
             int v = rand.nextInt(1000);
             tot += v;
-            SimulatorCounter.inc("testCounter", id, v);
+            this.mMetricsCollector.Counter().inc("testCounter", id, v);
         }
-        assertEquals(tot, SimulatorCounter.get("testCounter", id));
+        assertEquals(tot, this.mMetricsCollector.Counter().get("testCounter", id));
 
         for(UUID nodeID : allID){
             new Thread(){
@@ -51,14 +59,14 @@ class SimulatorCounterTest{
 
         tot = 0;
         for(UUID nodeID : allID){
-            tot += SimulatorCounter.get("testCounter", nodeID);
+            tot += this.mMetricsCollector.Counter().get("testCounter", nodeID);
         }
         assertEquals(ITERATIONS * THREAD_CNT, tot);
     }
 
     void threadtestCounter(UUID nodeID, int iterations){
         while (iterations-- > 0) {
-            assertTrue(SimulatorCounter.inc("testCounter", nodeID));
+            assertTrue(this.mMetricsCollector.Counter().inc("testCounter", nodeID));
         }
         count.countDown();
     }
