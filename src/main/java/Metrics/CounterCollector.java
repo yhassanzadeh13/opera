@@ -11,7 +11,5 @@ public interface CounterCollector {
 
     double get(String name, UUID id);
 
-    Counter getMetric(String name);
-
     boolean register(String name);
 }
