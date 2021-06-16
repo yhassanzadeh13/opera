@@ -104,12 +104,12 @@ public class MiddleLayer {
         Integer port = fullAddress.getValue();
 
         // sleep for the simulated duration
+        int sleepTime = this.mOrchestrator.getSimulatedLatency(nodeID, destinationID, true);
         try {
-            int sleepTime = this.mOrchestrator.getSimulatedLatency(nodeID, destinationID, true);
             Thread.sleep(sleepTime);
         }
         catch (Exception e) {
-            Simulator.getLogger().error("[MiddleLayer] Thread failed to sleep for the simulated delay");
+            Simulator.getLogger().error("[MiddleLayer] Thread failed to sleep for the simulated delay, sleep time:" + sleepTime);
         }
 
         // Bounce the request up.
