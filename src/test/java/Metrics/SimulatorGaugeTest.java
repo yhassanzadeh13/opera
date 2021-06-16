@@ -2,6 +2,7 @@ package Metrics;
 
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -17,11 +18,11 @@ class SimulatorGaugeTest {
     static final double EPS = 0.01;
     static JDKRandomGenerator rand = new JDKRandomGenerator();
     CountDownLatch count;
-    private static MetricsCollector mMetricsCollector;
+    private MetricsCollector mMetricsCollector;
 
 
-    @BeforeAll
-    static void setup() {
+    @BeforeEach
+    void setup() {
         mMetricsCollector = new SimulatorCollector();
     }
 

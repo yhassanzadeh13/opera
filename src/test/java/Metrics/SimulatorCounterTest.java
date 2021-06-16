@@ -17,11 +17,11 @@ class SimulatorCounterTest{
     static final int ITERATIONS = 50;
     static JDKRandomGenerator rand = new JDKRandomGenerator();
     CountDownLatch count;
-    private static MetricsCollector mMetricsCollector;
+    private MetricsCollector mMetricsCollector;
 
 
     @BeforeEach
-    public static void setup() {
+    public void setup() {
         mMetricsCollector = new SimulatorCollector();
     }
 
