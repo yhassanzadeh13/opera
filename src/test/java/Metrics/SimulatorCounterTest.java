@@ -2,6 +2,7 @@ package Metrics;
 
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -19,8 +20,8 @@ class SimulatorCounterTest{
     private static MetricsCollector mMetricsCollector;
 
 
-    @BeforeAll
-    static void setup() {
+    @BeforeEach
+    public static void setup() {
         mMetricsCollector = new SimulatorCollector();
     }
 
