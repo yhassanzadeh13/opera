@@ -120,6 +120,7 @@ public class SimulatorHistogram extends SimulatorMetric implements HistogramColl
             Simulator.getLogger().info("[SimulatorHistogram] Collector with name " + name + " was registered");
         }
         else {
+            // TODO: should throw an exception.
             if (collectorsTypes.get(name) != TYPE.HISTOGRAM) {
                 System.err.println("[SimulatorHistogram] Collector name is already registered with a different type " + collectorsTypes.get(name));
                 Simulator.getLogger().error("[SimulatorHistogram] Collector name is already registered with a different type " + collectorsTypes.get(name));
