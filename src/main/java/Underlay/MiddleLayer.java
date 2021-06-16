@@ -160,7 +160,7 @@ public class MiddleLayer {
                 this.stop(event.getAddress(), event.getPort());
         }
         else {
-            this.mMetricsCollector.Histogram().observe("packetSize", request.getOrginalID(), request.getEvent().size());
+            this.mMetricsCollector.Histogram().observe(Metrics.Metrics.PACKET_SIZE, request.getOrginalID(), request.getEvent().size());
             overlay.onNewMessage(request.getOrginalID(), request.getEvent());
         }
 

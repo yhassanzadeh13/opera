@@ -24,7 +24,7 @@ public class myNode implements BaseNode {
 
         //Register metrics
         this.mMetricsCollector = metricsCollector;
-        mMetricsCollector.Histogram().register("packetSize", new double[]{1.0, 2.0, 3.0, 5.0, 10.0, 15.0, 20.0});
+        mMetricsCollector.Histogram().register(Metrics.Metrics.PACKET_SIZE, new double[]{1.0, 2.0, 3.0, 5.0, 10.0, 15.0, 20.0});
     }
 
 
