@@ -35,13 +35,11 @@ public class SimulatorHistogram extends SimulatorMetric implements HistogramColl
     @Override
     public Histogram getMetric(String name) {
         if (!collectors.containsKey(name)) {
-            Simulator.getLogger().error("[SimulatorHistogram] could not find a metric with name " + name);
-            System.err.println("[SimulatorHistogram] could not find a metric with name " + name);
+            Simulator.getLogger().fatal("could not find a metric with name " + name);
             return null;
         }
         if (collectorsTypes.get(name) != TYPE.HISTOGRAM) {
-            Simulator.getLogger().error("[SimulatorHistogram] metric registered with the name " + name + " is not a Histogram");
-            System.err.println("[SimulatorHistogram] metric registered with the name " + name + " is not a Histogram");
+            Simulator.getLogger().fatal("metric registered with the name " + name + " is not a Histogram");
             return null;
         }
         return (Histogram) collectors.get(name);
@@ -99,6 +97,25 @@ public class SimulatorHistogram extends SimulatorMetric implements HistogramColl
             return false;
         }
     }
+
+
+    /**
+     * Silently observes the duration of the already started timer with a specific name and timer ID.
+     * In case timer has not already been started, it simply returns without logging any error.
+     *
+     * @param name
+     * @param timerID
+     * @return
+     */
+    @Override
+    public void tryObserveDuration(String name, String timerID) {
+        if (timersByName.get(name) == null || timersByName.get(name).get(timerID) == null) {
+            return;
+        }
+        timersByName.get(name).get(timerID).getFirst().observeDuration();
+        timersByName.get(name).get(timerID).removeFirst();
+    }
+
 
     @Override
     public boolean register(String name) {
