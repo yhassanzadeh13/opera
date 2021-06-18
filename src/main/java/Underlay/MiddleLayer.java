@@ -57,9 +57,10 @@ public class MiddleLayer {
         this.mOrchestrator = orchestrator;
         this.mMetricsCollector = metricsCollector;
 
-        metricsCollector.Histogram().register(DELAY_METRIC);
-        metricsCollector.Counter().register(SENT_MSG_CNT_METRIC);
-        metricsCollector.Counter().register(RECEIVED_MSG_CNT_METRIC);
+        this.mMetricsCollector.Histogram().register(DELAY_METRIC);
+        this.mMetricsCollector.Counter().register(SENT_MSG_CNT_METRIC);
+        this.mMetricsCollector.Counter().register(RECEIVED_MSG_CNT_METRIC);
+        this.mMetricsCollector.Histogram().register(Metrics.Metrics.PACKET_SIZE, new double[]{1.0, 2.0, 3.0, 5.0, 10.0, 15.0, 20.0});
     }
 
     public Underlay getUnderlay() {
@@ -145,7 +146,7 @@ public class MiddleLayer {
         }
         // update metrics
         this.mMetricsCollector.Counter().inc(RECEIVED_MSG_CNT_METRIC, nodeID);
-        this.mMetricsCollector.Histogram().observeDuration(DELAY_METRIC, receivedBucketHash(request.getOrginalID()));
+        this.mMetricsCollector.Histogram().tryObserveDuration(DELAY_METRIC, receivedBucketHash(request.getOrginalID()));
 
 
         // logging
