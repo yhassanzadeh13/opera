@@ -9,8 +9,7 @@ import java.util.UUID;
  * For every registered metric, the metric will be collected for each node separately
  * Counters can be incremented but never decremented.
  */
-
-public abstract class SimulatorCounter extends SimulatorMetric{
+public class SimulatorCounter extends SimulatorMetric implements CounterCollector{
 
     /**
      * increment a metric
@@ -19,7 +18,7 @@ public abstract class SimulatorCounter extends SimulatorMetric{
      * @param v value
      * @return True in case of success
      */
-    public synchronized static boolean inc(String name, UUID id, double v){
+    public synchronized boolean inc(String name, UUID id, double v){
         Counter metric = getMetric(name);
         if(metric == null){
             return false;
@@ -28,11 +27,11 @@ public abstract class SimulatorCounter extends SimulatorMetric{
         return true;
     }
 
-    public static boolean inc(String name, UUID id){
+    public boolean inc(String name, UUID id){
         return inc(name, id, 1.0);
     }
 
-    public static double get(String name, UUID id){
+    public double get(String name, UUID id){
         Counter metric = getMetric(name);
         if(metric == null)return 0;
         return metric.labels(id.toString()).get();
@@ -43,7 +42,7 @@ public abstract class SimulatorCounter extends SimulatorMetric{
      * @param name
      * @return
      */
-    public static Counter getMetric(String name){
+    public Counter getMetric(String name){
         if(!collectors.containsKey(name)){
             Simulator.getLogger().error("[SimulatorCounter] could not find a metric with name " + name);
             System.err.println("[SimulatorCounter] could not find a metric with name " + name);
@@ -62,7 +61,7 @@ public abstract class SimulatorCounter extends SimulatorMetric{
      * @param name
      * @return True in case of success
      */
-    public static boolean register(String name){
+    public boolean register(String name){
         if(!collectors.containsKey(name)){
             collectors.put(name, Counter.build().namespace(NAMESPACE).name(name).help(HELP_MSG).labelNames(LABEL_NAME).register());
             collectorsTypes.put(name, TYPE.COUNTER);

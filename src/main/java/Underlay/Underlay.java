@@ -46,7 +46,6 @@ public abstract class Underlay {
      * @param middleLayer
      * @return true iff the initialization was successful.
      */
-
     public final boolean initialize(int port, MiddleLayer middleLayer) {
         this.port = port;
         this.middleLayer = middleLayer;
@@ -84,10 +83,5 @@ public abstract class Underlay {
      * @return true iff the termination was successful.
      */
     public abstract boolean terminate(String address, int port);
-
-//    /**
-//     * Add a new node to the cluster
-//     */
-//    public abstract boolean addNode(String address, int port);
-
+    
 }

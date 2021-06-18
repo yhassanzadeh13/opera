@@ -22,9 +22,6 @@ public class SimulatorUtils {
   /**
    * Configure the simulator with prometheus and grafana by running the docker provided under dockprom
    * By default, it uses 2000 as a metrics exposer port.
-   *
-   * @param admin    the user name of the admin
-   * @param password the corresponding password
    */
   public static void ConfigurePrometheus() {
     int EXPOSER_PORT = 2000;

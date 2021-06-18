@@ -47,4 +47,10 @@ public class BattleResult implements Event {
             return this.opponent + " defeated " + this.host;
         else return this.host + " draw with " + this.opponent;
     }
+
+    @Override
+    public int size() {
+        // TODO: return number of encoded bytes
+        return 1;
+    }
 }

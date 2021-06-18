@@ -6,7 +6,6 @@ import Underlay.packets.Event;
 import java.util.UUID;
 
 public class BattleInvitation implements Event {
-
     UUID host, opponent;
     int duration;
 
@@ -26,5 +25,11 @@ public class BattleInvitation implements Event {
     @Override
     public String logMessage() {
         return this.host + " Invitation is pending " + this.opponent + " Confirmation";
+    }
+
+    @Override
+    public int size() {
+        // TODO: return number of encoded bytes
+        return 1;
     }
 }
