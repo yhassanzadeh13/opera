@@ -89,7 +89,7 @@ public class UnderlayTest {
     void assure() {
         // start all instances
         for (FixtureNode node : instances) {
-            new Thread(() -> node.onStart()).start();
+            new Thread(node::onStart).start();
         }
         try {
             Thread.sleep(SLEEP_DURATION);
