@@ -44,6 +44,7 @@ public class TCPHandler implements Runnable {
         } catch (IOException | ClassNotFoundException e) {
             Simulator.getLogger().error("[TCPHandler] Could not read the request.");
             Simulator.getLogger().error(e.getMessage());
+            e.printStackTrace();
             return;
         }
         // Close the connection & streams.
