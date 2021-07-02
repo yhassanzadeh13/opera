@@ -68,13 +68,6 @@ public class TCPUnderlay extends Underlay {
             System.err.println("[TCPUnderlay] Could not send the request.");
             return false;
         }
-        // Close the connection & streams.
-        try {
-            requestStream.close();
-            remote.close();
-        } catch (IOException e) {
-            System.err.println("[TCPUnderlay] Could not close the outgoing connection.");
-        }
         return true;
     }
 
