@@ -25,7 +25,6 @@ public class UnderlayTest {
     static final int PORT_RANGE = 10000;
     static final int SLEEP_DURATION = 1000;
     static JDKRandomGenerator rand = new JDKRandomGenerator();
-    Map<Integer, Integer> map = Collections.synchronizedMap(new HashMap<>());
 
     private final ConcurrentHashMap<Integer, Integer> usedPorts = new ConcurrentHashMap();
     private static final HashMap<AbstractMap.SimpleEntry<String, Integer>, Underlay> allUnderlays = new HashMap<>();
