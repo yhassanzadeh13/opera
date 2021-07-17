@@ -77,7 +77,6 @@ public class TCPUnderlay extends Underlay {
         }
         // Send the request.
         try {
-            requestStream = new ObjectOutputStream(remote.getOutputStream());
             requestStream.writeObject(request);
         } catch(IOException e) {
             System.err.println("[TCPUnderlay] Could not send the request.");
