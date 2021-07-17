@@ -6,6 +6,7 @@ import Node.BaseNode;
 import Underlay.Local.LocalUnderlay;
 import Underlay.MiddleLayer;
 import Underlay.UnderlayFactory;
+import Underlay.UnderlayType;
 import Underlay.packets.Event;
 import Utils.Generator.BaseGenerator;
 import Utils.Generator.GaussianGenerator;
@@ -23,7 +24,6 @@ import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
 public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
-    private final static String MOCK_NETWORK = "mockNetwork";
     private static final Random rand = new Random();
     private static final UUID SimulatorID = UUID.randomUUID();
     public static Logger log = Logger.getLogger(Simulator.class.getName());
@@ -46,7 +46,7 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
      * @param N           the number of nodes.
      * @param networkType the type of simulated communication protocol. Supported communication protocols are: **tcp**, **javaRMI**, **udp**, and **mockNetwork*
      */
-    public Simulator(T factory, int N, String networkType) {
+    public Simulator(T factory, int N, UnderlayType networkType) {
         this.factory = factory;
         this.isReady = new HashMap<>();
         this.allID = generateIDs(N);
@@ -110,7 +110,7 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
     /**
      * Generate new instances for the nodes and add them to the network
      */
-    private void generateNodesInstances(String networkType) {
+    private void generateNodesInstances(UnderlayType networkType) {
         this.allMiddleLayers = new HashMap<>();
         log.debug("[Simulator.Simulator] Generating new nodes instances");
 
@@ -128,7 +128,7 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
             MiddleLayer middleLayer = node.getValue();
             String address = node.getKey().getKey();
             int port = node.getKey().getValue();
-            if (!networkType.equals(MOCK_NETWORK))
+            if (networkType != UnderlayType.MOCK_NETWORK)
                 middleLayer.setUnderlay(UnderlayFactory.NewUnderlay(networkType, port, middleLayer));
             else {
                 LocalUnderlay underlay = UnderlayFactory.getMockUnderlay(address, port, middleLayer, allLocalUnderlay);
