@@ -22,15 +22,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class UnderlayTest {
     static final int THREAD_CNT = 50;
     static final int START_PORT = 2000;
-    static final int PORT_RANGE = 10000;
+    static final int PORT_RANGE = 1000;
     static final int SLEEP_DURATION = 1000;
     static JDKRandomGenerator rand = new JDKRandomGenerator();
 
-    private final ConcurrentHashMap<Integer, Integer> usedPorts = new ConcurrentHashMap();
+    private static final ConcurrentHashMap<Integer, Integer> usedPorts = new ConcurrentHashMap();
     private static final HashMap<AbstractMap.SimpleEntry<String, Integer>, Underlay> allUnderlays = new HashMap<>();
 
 
-    ArrayList<FixtureNode> initialize(String underlayName) {
+    ArrayList<FixtureNode> initialize(UnderlayType underlayName) {
         ArrayList<FixtureNode> instances = new ArrayList<>();
         ArrayList<UUID> allID = new ArrayList<>();
         HashMap<UUID, AbstractMap.SimpleEntry<String, Integer>> allFullAddresses = new HashMap<>();
@@ -70,17 +70,14 @@ public class UnderlayTest {
                 MiddleLayer middleLayer = new MiddleLayer(id, allFullAddresses, isReady, new NoopOrchestrator(), new NoopCollector());
                 FixtureNode node = new FixtureNode(id, allID, middleLayer);
                 middleLayer.setOverlay(node);
-
                 Underlay underlay = UnderlayFactory.NewUnderlay(underlayName, port, middleLayer);
                 middleLayer.setUnderlay(underlay);
                 instances.add(node);
                 allUnderlays.put(new AbstractMap.SimpleEntry<>(address, port), underlay);
             }
         } catch (Exception e) {
-            for (Integer port:
-            this.usedPorts.values()) {
-                System.out.println("PORT = "+ port);
-            }
+            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
 
 
@@ -90,7 +87,7 @@ public class UnderlayTest {
     @Test
     void A_testTCP() {
         // generate middle layers
-        ArrayList<FixtureNode> TCPNodes = initialize("tcp");
+        ArrayList<FixtureNode> TCPNodes = initialize(UnderlayType.TCP_PROTOCOL);
         assure(TCPNodes);
 
     }
@@ -122,14 +119,14 @@ public class UnderlayTest {
     @Test
     void B_testUDP() {
         // generate middle layers
-        ArrayList<FixtureNode> UDPNodes = initialize("udp");
+        ArrayList<FixtureNode> UDPNodes = initialize(UnderlayType.UDP_PROTOCOL);
         assure(UDPNodes);
     }
 
     @Test
     void C_testRMI() {
         // generate middle layers
-        ArrayList<FixtureNode> javaRMINodes = initialize("javaRMI");
+        ArrayList<FixtureNode> javaRMINodes = initialize(UnderlayType.JAVA_RMI);
         assure(javaRMINodes);
     }
 

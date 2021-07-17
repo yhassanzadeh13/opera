@@ -27,11 +27,9 @@ public class TCPHandler implements Runnable {
     @Override
     public void run() {
         ObjectInputStream requestStream;
-        ObjectOutputStream responseStream;
         // Construct the streams from the connection.
         try {
             requestStream = new ObjectInputStream(incomingConnection.getInputStream());
-            responseStream = new ObjectOutputStream(incomingConnection.getOutputStream());
         } catch (IOException e) {
             Simulator.getLogger().error("[TCPHandler] Could not acquire the streams from the connection.");
             return;
@@ -46,15 +44,6 @@ public class TCPHandler implements Runnable {
             Simulator.getLogger().error(e.getMessage());
             e.printStackTrace();
             return;
-        }
-        // Close the connection & streams.
-        try {
-            requestStream.close();
-            responseStream.close();
-            incomingConnection.close();
-        } catch (IOException e) {
-            System.err.println("[TCPHandler] Could not close the incoming connection.");
-            e.printStackTrace();
         }
     }
 }
