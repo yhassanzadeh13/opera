@@ -13,7 +13,6 @@ public class Main {
         MyNode fixtureNode = new MyNode();
         Simulator<MyNode> simulation = new Simulator<MyNode>(fixtureNode, N, "mockNetwork");
         fixtureNode.setSimulation(simulation);
-        System.out.println(fixtureNode.allID);
         simulation.constantSimulation(10000);
 
 
