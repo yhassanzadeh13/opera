@@ -1,2 +1,2 @@
 lint:
-	@mvn checkstyle:checkst
+	@mvn checkstyle:checkstyle
