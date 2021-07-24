@@ -1,0 +1,2 @@
+lint:
+	@mvn checkstyle:checkstyle
