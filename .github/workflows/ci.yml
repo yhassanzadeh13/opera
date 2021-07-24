@@ -4,7 +4,7 @@ on:
   push:
     #Run on all branches, uncomment this to only run on master
     branches:
-     - Nazir/Pipeline
+     - master
   pull_request:
     branches:
       - master
