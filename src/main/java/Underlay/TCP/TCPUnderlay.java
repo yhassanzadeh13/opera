@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * TCP underlay implementation.
@@ -18,6 +20,8 @@ public class TCPUnderlay extends Underlay {
     private Thread listenerThread;
     // The local TCP socket that can accept incoming TCP connections.
     private ServerSocket serverSocket;
+    private HashSet<Socket> socketCache = new HashSet<>();
+    private HashMap<String, ObjectOutputStream> streamCache = new HashMap<>();
 
     /**
      * Creates a TCP socket at the given port and starts listening it.
@@ -53,27 +57,30 @@ public class TCPUnderlay extends Underlay {
     public boolean sendMessage(String address, int port, Request request) {
         Socket remote;
         ObjectOutputStream requestStream;
-        // Connect to the remote TCP server.
-        try {
-            remote = new Socket(address, port);
-        } catch (IOException e) {
-            Simulator.getLogger().error("[TCPUnderlay] Could not connect to the address: " + address + ":" + port);
-            return false;
+
+        String fullAddress = address + ":" + port;
+        requestStream = streamCache.getOrDefault(fullAddress, null);
+
+        if(requestStream == null) {
+            // Connect to the remote TCP server.
+            try {
+                remote = new Socket(address, port);
+                remote.setKeepAlive(true);
+
+                socketCache.add(remote);
+                requestStream = new ObjectOutputStream(remote.getOutputStream());
+                streamCache.put(fullAddress, requestStream);
+            } catch (IOException e) {
+                Simulator.getLogger().error(e.getMessage());
+                return false;
+            }
         }
         // Send the request.
         try {
-            requestStream = new ObjectOutputStream(remote.getOutputStream());
             requestStream.writeObject(request);
         } catch(IOException e) {
             System.err.println("[TCPUnderlay] Could not send the request.");
             return false;
-        }
-        // Close the connection & streams.
-        try {
-            requestStream.close();
-            remote.close();
-        } catch (IOException e) {
-            System.err.println("[TCPUnderlay] Could not close the outgoing connection.");
         }
         return true;
     }
@@ -85,11 +92,18 @@ public class TCPUnderlay extends Underlay {
     @Override
     public boolean terminate(String address, int port) {
         try {
+            // Terminating cached sockets and streams
+            for(ObjectOutputStream o: this.streamCache.values()){
+                o.close();
+            }
+            for(Socket s: this.socketCache){
+                s.close();
+            }
             // Unbind from the local port.
             serverSocket.close();
             // Terminate the listener thread.
             listenerThread.join();
-            this.log.debug("[TCPUnderlay] node " + address + ":" + port + " is begin terminated");
+            log.debug("[TCPUnderlay] node " + address + ":" + port + " is begin terminated");
         } catch (Exception e) {
             System.err.println("[TCPUnderlay] Could not terminate.");
             e.printStackTrace();

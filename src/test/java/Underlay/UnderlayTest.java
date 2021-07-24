@@ -1,20 +1,16 @@
 package Underlay;
 
-import Metrics.MetricsCollector;
-import Metrics.SimulatorCollector;
+import Metrics.NoopCollector;
 import Underlay.Local.LocalUnderlay;
-import Underlay.TCP.TCPUnderlay;
-import Underlay.UDP.UDPUnderlay;
-import Underlay.javaRMI.JavaRMIUnderlay;
 import Utils.NoopOrchestrator;
 import org.apache.commons.math3.random.JDKRandomGenerator;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,24 +22,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class UnderlayTest {
     static final int THREAD_CNT = 50;
     static final int START_PORT = 2000;
+    static final int PORT_RANGE = 1000;
     static final int SLEEP_DURATION = 1000;
-    static final double EPS = 0.01;
     static JDKRandomGenerator rand = new JDKRandomGenerator();
-    CountDownLatch count;
-    ArrayList<FixtureNode> instances = new ArrayList<>();
-    ArrayList<UUID> allID = new ArrayList<>();
-    private MetricsCollector mMetricsCollector;
-    private final HashMap<UUID, AbstractMap.SimpleEntry<String, Integer>> allFullAddresses = new HashMap<>();
-    private final HashMap<AbstractMap.SimpleEntry<String, Integer>, Underlay> allUnderlays = new HashMap<>();
-    private final HashMap<AbstractMap.SimpleEntry<String, Integer>, Boolean> isReady = new HashMap<>();
 
-    @BeforeEach
-    void initialize() {
-        instances.clear();
-        allID.clear();
-        allUnderlays.clear();
-        isReady.clear();
-        mMetricsCollector = new SimulatorCollector();
+    private static final ConcurrentHashMap<Integer, Integer> usedPorts = new ConcurrentHashMap();
+    private static final HashMap<AbstractMap.SimpleEntry<String, Integer>, Underlay> allUnderlays = new HashMap<>();
+
+
+    ArrayList<FixtureNode> initialize(UnderlayType underlayName) {
+        ArrayList<FixtureNode> instances = new ArrayList<>();
+        ArrayList<UUID> allID = new ArrayList<>();
+        HashMap<UUID, AbstractMap.SimpleEntry<String, Integer>> allFullAddresses = new HashMap<>();
+        HashMap<AbstractMap.SimpleEntry<String, Integer>, Boolean> isReady = new HashMap<>();
 
         // generate IDs
         for (int i = 0; i < THREAD_CNT; i++) {
@@ -54,39 +45,54 @@ public class UnderlayTest {
         try {
             String address = Inet4Address.getLocalHost().getHostAddress();
             for (int i = 0; i < THREAD_CNT; i++) {
-                allFullAddresses.put(allID.get(i), new AbstractMap.SimpleEntry<>(address, START_PORT + i));
-                isReady.put(new AbstractMap.SimpleEntry<>(address, START_PORT + i), true);
+                int port;
+
+                do{
+                    port = rand.nextInt(PORT_RANGE) + START_PORT;
+                }while(usedPorts.containsKey(port));
+                usedPorts.putIfAbsent(port, 1);
+
+
+                allFullAddresses.put(allID.get(i), new AbstractMap.SimpleEntry<>(address, port));
+                isReady.put(new AbstractMap.SimpleEntry<>(address, port), true);
             }
 
         }
         catch (UnknownHostException e) {
             e.printStackTrace();
         }
+        try {
+            for (int i = 0; i < THREAD_CNT; i++) {
+                UUID id = allID.get(i);
+                String address = allFullAddresses.get(id).getKey();
+                int port = allFullAddresses.get(id).getValue();
 
+                MiddleLayer middleLayer = new MiddleLayer(id, allFullAddresses, isReady, new NoopOrchestrator(), new NoopCollector());
+                FixtureNode node = new FixtureNode(id, allID, middleLayer);
+                middleLayer.setOverlay(node);
+                Underlay underlay = UnderlayFactory.NewUnderlay(underlayName, port, middleLayer);
+                middleLayer.setUnderlay(underlay);
+                instances.add(node);
+                allUnderlays.put(new AbstractMap.SimpleEntry<>(address, port), underlay);
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+
+        return instances;
     }
 
     @Test
     void A_testTCP() {
         // generate middle layers
-        for (int i = 0; i < THREAD_CNT; i++) {
-            UUID id = allID.get(i);
-            String address = allFullAddresses.get(id).getKey();
-            int port = allFullAddresses.get(id).getValue();
+        ArrayList<FixtureNode> TCPNodes = initialize(UnderlayType.TCP_PROTOCOL);
+        assure(TCPNodes);
 
-            MiddleLayer middleLayer = new MiddleLayer(id, allFullAddresses, isReady, new NoopOrchestrator(), mMetricsCollector);
-            FixtureNode node = new FixtureNode(id, allID, middleLayer);
-            middleLayer.setOverlay(node);
-            TCPUnderlay underlay = new TCPUnderlay();
-            underlay.initialize(port, middleLayer);
-            middleLayer.setUnderlay(underlay);
-            instances.add(node);
-            allUnderlays.put(new AbstractMap.SimpleEntry<>(address, port), underlay);
-        }
-        assure();
-        terminate();
     }
 
-    void assure() {
+    void assure(ArrayList<FixtureNode> instances) {
         // start all instances
         for (FixtureNode node : instances) {
             new Thread(node::onStart).start();
@@ -104,7 +110,8 @@ public class UnderlayTest {
         }
     }
 
-    void terminate() {
+    @AfterAll
+    static void terminate() {
         for (Map.Entry<AbstractMap.SimpleEntry<String, Integer>, Underlay> entry : allUnderlays.entrySet())
             entry.getValue().terminate(entry.getKey().getKey(), entry.getKey().getValue());
     }
@@ -112,63 +119,67 @@ public class UnderlayTest {
     @Test
     void B_testUDP() {
         // generate middle layers
-        for (int i = 0; i < THREAD_CNT; i++) {
-            UUID id = allID.get(i);
-            String address = allFullAddresses.get(id).getKey();
-            int port = allFullAddresses.get(id).getValue();
-
-            MiddleLayer middleLayer = new MiddleLayer(id, allFullAddresses, isReady, new NoopOrchestrator(), mMetricsCollector);
-            FixtureNode node = new FixtureNode(id, allID, middleLayer);
-            middleLayer.setOverlay(node);
-            UDPUnderlay underlay = new UDPUnderlay();
-            underlay.initialize(port, middleLayer);
-            middleLayer.setUnderlay(underlay);
-            instances.add(node);
-            allUnderlays.put(new AbstractMap.SimpleEntry<>(address, port), underlay);
-        }
-
-        assure();
-        terminate();
+        ArrayList<FixtureNode> UDPNodes = initialize(UnderlayType.UDP_PROTOCOL);
+        assure(UDPNodes);
     }
 
     @Test
     void C_testRMI() {
         // generate middle layers
-        for (int i = 0; i < THREAD_CNT; i++) {
-            UUID id = allID.get(i);
-            String address = allFullAddresses.get(id).getKey();
-            int port = allFullAddresses.get(id).getValue();
-
-            MiddleLayer middleLayer = new MiddleLayer(id, allFullAddresses, isReady, new NoopOrchestrator(), mMetricsCollector);
-            FixtureNode node = new FixtureNode(id, allID, middleLayer);
-            middleLayer.setOverlay(node);
-            JavaRMIUnderlay underlay = new JavaRMIUnderlay();
-            underlay.initialize(port, middleLayer);
-            middleLayer.setUnderlay(underlay);
-            instances.add(node);
-            allUnderlays.put(new AbstractMap.SimpleEntry<>(address, port), underlay);
-        }
-        assure();
-        terminate();
+        ArrayList<FixtureNode> javaRMINodes = initialize(UnderlayType.JAVA_RMI);
+        assure(javaRMINodes);
     }
 
     @Test
     void testLocal() {
         HashMap<AbstractMap.SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
         // generate middle layers
+        ArrayList<FixtureNode> instances = new ArrayList<>();
+        ArrayList<UUID> allID = new ArrayList<>();
+        HashMap<UUID, AbstractMap.SimpleEntry<String, Integer>> allFullAddresses = new HashMap<>();
+        HashMap<AbstractMap.SimpleEntry<String, Integer>, Boolean> isReady = new HashMap<>();
+
+        // generate IDs
+        for (int i = 0; i < THREAD_CNT; i++) {
+            allID.add(UUID.randomUUID());
+        }
+
+        // generate full addresses
+        try {
+            String address = Inet4Address.getLocalHost().getHostAddress();
+            for (int i = 0; i < THREAD_CNT; i++) {
+                int startingPort;
+                do{
+                    startingPort = rand.nextInt(PORT_RANGE) + START_PORT;
+                }while(usedPorts.containsKey(startingPort));
+                usedPorts.put(startingPort, 1);
+
+                allFullAddresses.put(allID.get(i), new AbstractMap.SimpleEntry<>(address, startingPort));
+                isReady.put(new AbstractMap.SimpleEntry<>(address, startingPort), true);
+            }
+
+        }
+        catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+
         for (int i = 0; i < THREAD_CNT; i++) {
             UUID id = allID.get(i);
             String address = allFullAddresses.get(id).getKey();
             int port = allFullAddresses.get(id).getValue();
-            MiddleLayer middleLayer = new MiddleLayer(id, allFullAddresses, isReady, new NoopOrchestrator(), mMetricsCollector);
+
+            MiddleLayer middleLayer = new MiddleLayer(id, allFullAddresses, isReady, new NoopOrchestrator(), new NoopCollector());
             FixtureNode node = new FixtureNode(id, allID, middleLayer);
             middleLayer.setOverlay(node);
+
             LocalUnderlay underlay = new LocalUnderlay(address, port, allLocalUnderlay);
             underlay.initialize(port, middleLayer);
+
             middleLayer.setUnderlay(underlay);
             instances.add(node);
             allLocalUnderlay.put(new AbstractMap.SimpleEntry<>(address, port), underlay);
         }
-        assure();
+
+        assure(instances);
     }
 }

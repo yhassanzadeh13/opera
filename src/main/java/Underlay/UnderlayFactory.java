@@ -34,14 +34,14 @@ public class UnderlayFactory {
      * @return new underlay instance according to the given type
      */
 
-    public static Underlay NewUnderlay(String underlayName, int port, MiddleLayer middleLayer) {
+    public static Underlay NewUnderlay(UnderlayType underlayName, int port, MiddleLayer middleLayer) {
         // obtain underlay class name from the yaml file
         if (underlayClassName == null)
             underlayClassName = readYAML();
 
         // create new instance of underlay according to the class name
         try {
-            String className = underlayClassName.get(underlayName);
+            String className = underlayClassName.get(underlayName.label);
             Underlay underLay = (Underlay) Class.forName(className).getConstructor().newInstance();
             underLay.initialize(port, middleLayer);
             return underLay;
