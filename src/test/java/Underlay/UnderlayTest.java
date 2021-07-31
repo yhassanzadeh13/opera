@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UnderlayTest {
     static final int THREAD_CNT = 50;
-    static final int SLEEP_DURATION = 1000;
+    static final int SLEEP_DURATION = 10000; // 10 seconds
     private static final ConcurrentHashMap<Integer, Integer> usedPorts = new ConcurrentHashMap();
     private static final HashMap<AbstractMap.SimpleEntry<String, Integer>, Underlay> allUnderlays = new HashMap<>();
     static JDKRandomGenerator rand = new JDKRandomGenerator();
@@ -123,7 +123,7 @@ public class UnderlayTest {
         try {
             String address = Inet4Address.getLocalHost().getHostAddress();
             for (int i = 0; i < THREAD_CNT; i++) {
-                
+
                 allFullAddresses.put(allID.get(i), new AbstractMap.SimpleEntry<>(address, i));
                 isReady.put(new AbstractMap.SimpleEntry<>(address, i), true);
             }
