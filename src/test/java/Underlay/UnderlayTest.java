@@ -22,11 +22,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class UnderlayTest {
     static final int THREAD_CNT = 50;
     static final int SLEEP_DURATION = 1000;
-    static JDKRandomGenerator rand = new JDKRandomGenerator();
-
     private static final ConcurrentHashMap<Integer, Integer> usedPorts = new ConcurrentHashMap();
     private static final HashMap<AbstractMap.SimpleEntry<String, Integer>, Underlay> allUnderlays = new HashMap<>();
+    static JDKRandomGenerator rand = new JDKRandomGenerator();
 
+    @AfterAll
+    static void terminate() {
+        for (Map.Entry<AbstractMap.SimpleEntry<String, Integer>, Underlay> entry : allUnderlays.entrySet())
+            entry.getValue().terminate(entry.getKey().getKey(), entry.getKey().getValue());
+    }
 
     ArrayList<FixtureNode> initialize(UnderlayType underlayName) {
         ArrayList<FixtureNode> instances = new ArrayList<>();
@@ -48,10 +52,10 @@ public class UnderlayTest {
                 middleLayer.setOverlay(node);
                 Underlay underlay = UnderlayFactory.NewUnderlay(underlayName, 0, middleLayer);
                 int port = underlay.getPort();
-                allFullAddresses.put(id, new AbstractMap.SimpleEntry<>(Inet4Address.getLocalHost().getHostAddress(), port));
+                allFullAddresses.put(id, new AbstractMap.SimpleEntry<>(underlay.getAddress(), port));
                 middleLayer.setUnderlay(underlay);
                 instances.add(node);
-                allUnderlays.put(new AbstractMap.SimpleEntry<>(Inet4Address.getLocalHost().getHostAddress(), port), underlay);
+                allUnderlays.put(new AbstractMap.SimpleEntry<>(underlay.getAddress(), port), underlay);
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -77,8 +81,7 @@ public class UnderlayTest {
         }
         try {
             Thread.sleep(SLEEP_DURATION);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -86,12 +89,6 @@ public class UnderlayTest {
         for (FixtureNode node : instances) {
             assertEquals(THREAD_CNT - 1, node.receivedMessages.get());
         }
-    }
-
-    @AfterAll
-    static void terminate() {
-        for (Map.Entry<AbstractMap.SimpleEntry<String, Integer>, Underlay> entry : allUnderlays.entrySet())
-            entry.getValue().terminate(entry.getKey().getKey(), entry.getKey().getValue());
     }
 
     @Test
@@ -132,8 +129,7 @@ public class UnderlayTest {
                 isReady.put(new AbstractMap.SimpleEntry<>(address, startingPort), true);
             }
 
-        }
-        catch (UnknownHostException e) {
+        } catch (UnknownHostException e) {
             e.printStackTrace();
         }
 

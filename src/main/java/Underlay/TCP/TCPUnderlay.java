@@ -119,6 +119,7 @@ public class TCPUnderlay extends Underlay {
 
     @Override
     public String getAddress() {
-        return serverSocket.getInetAddress().getHostAddress();
+        // return serverSocket.getInetAddress().getHostAddress();
+        return "localhost";
     }
 }

@@ -31,7 +31,8 @@ public class UDPUnderlay extends Underlay {
 
     @Override
     public String getAddress() {
-        return udpSocket.getInetAddress().getHostAddress();
+        // return udpSocket.getInetAddress().getHostAddress();
+        return "localhost";
     }
 
     /**
