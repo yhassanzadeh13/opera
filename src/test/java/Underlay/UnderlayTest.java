@@ -123,10 +123,9 @@ public class UnderlayTest {
         try {
             String address = Inet4Address.getLocalHost().getHostAddress();
             for (int i = 0; i < THREAD_CNT; i++) {
-                int startingPort = 0;
-
-                allFullAddresses.put(allID.get(i), new AbstractMap.SimpleEntry<>(address, startingPort));
-                isReady.put(new AbstractMap.SimpleEntry<>(address, startingPort), true);
+                
+                allFullAddresses.put(allID.get(i), new AbstractMap.SimpleEntry<>(address, i));
+                isReady.put(new AbstractMap.SimpleEntry<>(address, i), true);
             }
 
         } catch (UnknownHostException e) {
