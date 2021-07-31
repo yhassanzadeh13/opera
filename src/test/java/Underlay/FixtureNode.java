@@ -9,9 +9,9 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class FixtureNode implements BaseNode {
-    private UUID selfID;
-    private ArrayList<UUID> allID;
-    private MiddleLayer network;
+    private final UUID selfID;
+    private final ArrayList<UUID> allID;
+    private final MiddleLayer network;
     public AtomicInteger receivedMessages = new AtomicInteger(0);
 
     FixtureNode(UUID selfID, ArrayList<UUID> allID, MiddleLayer network){

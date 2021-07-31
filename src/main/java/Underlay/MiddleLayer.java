@@ -89,10 +89,10 @@ public class MiddleLayer {
     public boolean send(UUID destinationID, Event event) {
         // check the readiness of the destination node
         SimpleEntry<String, Integer> fullAddress = allFUllAddresses.get(destinationID);
-        if (!isReady.get(fullAddress)) {
-            log.debug("[LocalUnderlay] " + fullAddress + ": Node is not ready");
-            return false;
-        }
+//        if (!isReady.get(fullAddress)) {
+//            log.debug("[LocalUnderlay] " + fullAddress + ": Node is not ready");
+//            return false;
+//        }
 
         // update metrics
         this.mMetricsCollector.Counter().inc(SENT_MSG_CNT_METRIC, nodeID);
@@ -140,10 +140,10 @@ public class MiddleLayer {
     public void receive(Request request) {
         // check the readiness of the overlay
         SimpleEntry<String, Integer> fullAddress = allFUllAddresses.get(nodeID);
-        if (!isReady.get(fullAddress)) {
-            log.debug("[LocalUnderlay] " + fullAddress + ": Node is not ready");
-            return;
-        }
+//        if (!isReady.get(fullAddress)) {
+//            log.debug("[LocalUnderlay] " + fullAddress + ": Node is not ready");
+//            return;
+//        }
         // update metrics
         this.mMetricsCollector.Counter().inc(RECEIVED_MSG_CNT_METRIC, nodeID);
         this.mMetricsCollector.Histogram().tryObserveDuration(DELAY_METRIC, receivedBucketHash(request.getOrginalID()));

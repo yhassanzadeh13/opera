@@ -21,8 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UnderlayTest {
     static final int THREAD_CNT = 50;
-    static final int START_PORT = 2000;
-    static final int PORT_RANGE = 1000;
     static final int SLEEP_DURATION = 1000;
     static JDKRandomGenerator rand = new JDKRandomGenerator();
 
@@ -40,40 +38,20 @@ public class UnderlayTest {
         for (int i = 0; i < THREAD_CNT; i++) {
             allID.add(UUID.randomUUID());
         }
-
-        // generate full addresses
-        try {
-            String address = Inet4Address.getLocalHost().getHostAddress();
-            for (int i = 0; i < THREAD_CNT; i++) {
-                int port;
-
-                do{
-                    port = rand.nextInt(PORT_RANGE) + START_PORT;
-                }while(usedPorts.containsKey(port));
-                usedPorts.putIfAbsent(port, 1);
-
-
-                allFullAddresses.put(allID.get(i), new AbstractMap.SimpleEntry<>(address, port));
-                isReady.put(new AbstractMap.SimpleEntry<>(address, port), true);
-            }
-
-        }
-        catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+        
         try {
             for (int i = 0; i < THREAD_CNT; i++) {
                 UUID id = allID.get(i);
-                String address = allFullAddresses.get(id).getKey();
-                int port = allFullAddresses.get(id).getValue();
 
                 MiddleLayer middleLayer = new MiddleLayer(id, allFullAddresses, isReady, new NoopOrchestrator(), new NoopCollector());
                 FixtureNode node = new FixtureNode(id, allID, middleLayer);
                 middleLayer.setOverlay(node);
-                Underlay underlay = UnderlayFactory.NewUnderlay(underlayName, port, middleLayer);
+                Underlay underlay = UnderlayFactory.NewUnderlay(underlayName, 0, middleLayer);
+                int port = underlay.getPort();
+                allFullAddresses.put(id, new AbstractMap.SimpleEntry<>(Inet4Address.getLocalHost().getHostAddress(), port));
                 middleLayer.setUnderlay(underlay);
                 instances.add(node);
-                allUnderlays.put(new AbstractMap.SimpleEntry<>(address, port), underlay);
+                allUnderlays.put(new AbstractMap.SimpleEntry<>(Inet4Address.getLocalHost().getHostAddress(), port), underlay);
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -148,11 +126,7 @@ public class UnderlayTest {
         try {
             String address = Inet4Address.getLocalHost().getHostAddress();
             for (int i = 0; i < THREAD_CNT; i++) {
-                int startingPort;
-                do{
-                    startingPort = rand.nextInt(PORT_RANGE) + START_PORT;
-                }while(usedPorts.containsKey(startingPort));
-                usedPorts.put(startingPort, 1);
+                int startingPort = 0;
 
                 allFullAddresses.put(allID.get(i), new AbstractMap.SimpleEntry<>(address, startingPort));
                 isReady.put(new AbstractMap.SimpleEntry<>(address, startingPort), true);
