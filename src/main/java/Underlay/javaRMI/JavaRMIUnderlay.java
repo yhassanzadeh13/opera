@@ -35,6 +35,16 @@ public class JavaRMIUnderlay extends Underlay {
         return remote;
     }
 
+    @Override
+    public int getPort() {
+        return 0;
+    }
+
+    @Override
+    public String getAddress() {
+        return null;
+    }
+
     /**
      * Constructs a `JavaRMIHost` instance and binds it to the given port.
      * @param port the port that the underlay should be bound to.

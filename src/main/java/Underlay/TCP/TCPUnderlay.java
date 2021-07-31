@@ -116,4 +116,9 @@ public class TCPUnderlay extends Underlay {
     public int getPort() {
         return serverSocket.getLocalPort();
     }
+
+    @Override
+    public String getAddress() {
+        return serverSocket.getInetAddress().getHostAddress();
+    }
 }

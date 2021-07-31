@@ -24,6 +24,16 @@ public class UDPUnderlay extends Underlay {
     // The local UDP socket that can accept incoming UDP connections.
     private DatagramSocket udpSocket;
 
+    @Override
+    public int getPort() {
+        return udpSocket.getLocalPort();
+    }
+
+    @Override
+    public String getAddress() {
+        return udpSocket.getInetAddress().getHostAddress();
+    }
+
     /**
      * Creates a UDP socket at the given port and starts listening it.
      * @param port the port that the underlay should be bound to.
