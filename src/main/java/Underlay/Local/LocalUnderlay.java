@@ -36,12 +36,12 @@ public class LocalUnderlay extends Underlay {
 
     @Override
     public int getPort() {
-        return 0;
+        return this.port;
     }
 
     @Override
     public String getAddress() {
-        return null;
+        return this.selfAddress;
     }
 
     @Override
