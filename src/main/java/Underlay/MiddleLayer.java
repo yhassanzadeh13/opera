@@ -23,15 +23,12 @@ import java.util.UUID;
  * to the overlay.
  */
 public class MiddleLayer {
-    private static final Logger log = Logger.getLogger(MiddleLayer.class.getName());
+    private static final Logger log = Logger.getLogger(MiddleLayer.class.getName()); // todo: logger should be passed down
     //TODO add bucket size to the default metrics
-    private final String SENT_BUCKET_SIZE_METRIC = "SentBucketSize";
-    private final String RECEIVED_BUCKET_SIZE_METRIC = "ReceivedBucketSize";
     private final String DELAY_METRIC = "Delay";
     private final String SENT_MSG_CNT_METRIC = "Sent_Messages";
     private final String RECEIVED_MSG_CNT_METRIC = "Received_Messages";
     private final HashMap<UUID, SimpleEntry<String, Integer>> allFUllAddresses;
-    private final HashMap<SimpleEntry<String, Integer>, Boolean> isReady;
     private final UUID nodeID;
     // TODO : make the communication between the nodes and the simulator (the master node) through the network
     private final Orchestrator mOrchestrator;
@@ -41,17 +38,16 @@ public class MiddleLayer {
 
     public MiddleLayer(UUID nodeID,
                        HashMap<UUID, SimpleEntry<String, Integer>> allFUllAddresses,
-                       HashMap<SimpleEntry<String, Integer>, Boolean> isReady,
+                       HashMap<SimpleEntry<String, Integer>, Boolean> isReady, // TODO: isReady canb e removed.
                        Orchestrator orchestrator,
                        MetricsCollector metricsCollector) {
-        //register metrics
+
         if (orchestrator == null) {
             log.fatal("cannot initialize simulator with a null runtime");
         }
 
         this.nodeID = nodeID;
         this.allFUllAddresses = allFUllAddresses;
-        this.isReady = isReady;
         this.mOrchestrator = orchestrator;
         this.mMetricsCollector = metricsCollector;
 
@@ -87,10 +83,6 @@ public class MiddleLayer {
     public boolean send(UUID destinationID, Event event) {
         // check the readiness of the destination node
         SimpleEntry<String, Integer> fullAddress = allFUllAddresses.get(destinationID);
-//        if (!isReady.get(fullAddress)) {
-//            log.debug("[LocalUnderlay] " + fullAddress + ": Node is not ready");
-//            return false;
-//        }
 
         // update metrics
         this.mMetricsCollector.Counter().inc(SENT_MSG_CNT_METRIC, nodeID);
@@ -113,8 +105,7 @@ public class MiddleLayer {
 
         // Bounce the request up.
         boolean success = underlay.sendMessage(destinationAddress, port, request);
-
-        // logging
+        
         if (success)
             log.info("[MiddleLayer] " + this.getAddress(nodeID) + " : node sent an event " + event.logMessage());
         else
@@ -138,16 +129,11 @@ public class MiddleLayer {
     public void receive(Request request) {
         // check the readiness of the overlay
         SimpleEntry<String, Integer> fullAddress = allFUllAddresses.get(nodeID);
-//        if (!isReady.get(fullAddress)) {
-//            log.debug("[LocalUnderlay] " + fullAddress + ": Node is not ready");
-//            return;
-//        }
-        // update metrics
+
         this.mMetricsCollector.Counter().inc(RECEIVED_MSG_CNT_METRIC, nodeID);
         this.mMetricsCollector.Histogram().tryObserveDuration(DELAY_METRIC, receivedBucketHash(request.getOrginalID()));
 
 
-        // logging
         log.info("[MiddleLayer] " + this.getAddress(nodeID) + " : node received an event " + request.getEvent().logMessage());
 
         // check if the event is start, stop event and handle it directly
@@ -204,7 +190,6 @@ public class MiddleLayer {
      * declare the node as Ready (called by the overlay)
      */
     public void ready() {
-        //logging
         log.info("[MiddleLayer] node " + getAddress(nodeID) + " is ready");
         this.mOrchestrator.Ready(this.nodeID);
     }
@@ -213,13 +198,11 @@ public class MiddleLayer {
      * request node termination (called by the overlay)
      */
     public void done() {
-        //logging
         log.info("[MiddleLayer] node " + getAddress(nodeID) + " requests termination");
         this.mOrchestrator.Done(this.nodeID);
     }
 
     public void initUnderLay() {
-        //logging
         log.info("[MiddleLayer] initializing the underlay for node " + getAddress(nodeID));
 
         int port = this.allFUllAddresses.get(this.nodeID).getValue();
