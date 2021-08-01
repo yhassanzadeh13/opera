@@ -1,6 +1,8 @@
 package Metrics;
 
 import org.apache.commons.math3.random.JDKRandomGenerator;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -9,16 +11,23 @@ import java.util.concurrent.CountDownLatch;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SimulatorGaugeTest {
+class SimulatorCounterTest{
+
     static final int THREAD_CNT = 50;
-    static final int ITERATIONS = 2000;
+    static final int ITERATIONS = 50;
     static JDKRandomGenerator rand = new JDKRandomGenerator();
     CountDownLatch count;
-    static final double EPS = 0.01;
+    private MetricsCollector mMetricsCollector;
+
+
+    @BeforeEach
+    public void setup() {
+        mMetricsCollector = new SimulatorCollector();
+    }
 
     @Test
     void valueTest(){
-        assertTrue(SimulatorGauge.register("TestGauge"));
+        assertTrue(mMetricsCollector.Counter().register("testCounter"));
         ArrayList<UUID> allID = new ArrayList<>();
         while(allID.size() != THREAD_CNT)allID.add(UUID.randomUUID());
         count = new CountDownLatch(THREAD_CNT);
@@ -29,15 +38,15 @@ class SimulatorGaugeTest {
         for(int i = 0;i<ITERATIONS;i++) {
             int v = rand.nextInt(1000);
             tot += v;
-            SimulatorGauge.inc("TestGauge", id, v);
+            mMetricsCollector.Counter().inc("testCounter", id, v);
         }
-        assertEquals(tot, SimulatorGauge.get("TestGauge", id));
+        assertEquals(tot, mMetricsCollector.Counter().get("testCounter", id));
 
         for(UUID nodeID : allID){
             new Thread(){
                 @Override
                 public void run() {
-                    threadTest(nodeID, ITERATIONS);
+                    threadtestCounter(nodeID, ITERATIONS);
                 }
             }.start();
         }
@@ -51,19 +60,15 @@ class SimulatorGaugeTest {
 
         tot = 0;
         for(UUID nodeID : allID){
-            tot += SimulatorGauge.get("TestGauge", nodeID);
+            tot += mMetricsCollector.Counter().get("testCounter", nodeID);
         }
-        assertTrue(Math.abs(tot / (ITERATIONS * THREAD_CNT)) <= EPS);
+        assertEquals(ITERATIONS * THREAD_CNT, tot);
     }
 
-    void threadTest(UUID nodeID, int iterations){
+    void threadtestCounter(UUID nodeID, int iterations){
         while (iterations-- > 0) {
-            if(rand.nextBoolean())
-                assertTrue(SimulatorGauge.inc("TestGauge", nodeID));
-            else
-                assertTrue(SimulatorGauge.dec("TestGauge", nodeID));
+            assertTrue(mMetricsCollector.Counter().inc("testCounter", nodeID));
         }
         count.countDown();
     }
-
 }

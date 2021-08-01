@@ -4,7 +4,6 @@ import Node.BaseNode;
 import Underlay.packets.Event;
 
 public class StopStartEvent implements Event {
-
     private String address;
     private int port;
     private boolean start;
@@ -37,6 +36,12 @@ public class StopStartEvent implements Event {
     public String logMessage() {
         if(start)return "[" + this.getFullAddress() + "] node has started";
         else return "[" + this.getFullAddress() + "] node has been terminated";
+    }
+
+    @Override
+    public int size() {
+        // TODO: return number of encoded bytes
+        return 1;
     }
 
     public boolean getState(){

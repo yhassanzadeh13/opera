@@ -27,4 +27,11 @@ public interface Event extends Serializable{
      * @return a string that represents the log message of the event.
      */
     String logMessage();
+
+    /**
+     *
+     * @return size returns length of payload event in bytes.
+     */
+    // TODO: size does not implement as number of bytes
+    int size();
 }

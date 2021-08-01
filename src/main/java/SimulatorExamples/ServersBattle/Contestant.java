@@ -1,8 +1,6 @@
 package SimulatorExamples.ServersBattle;
 
-import Metrics.SimulatorCounter;
-import Metrics.SimulatorGauge;
-import Metrics.SimulatorHistogram;
+import Metrics.MetricsCollector;
 import Node.BaseNode;
 import Simulator.Simulator;
 import Underlay.MiddleLayer;
@@ -16,42 +14,40 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Contestant implements BaseNode {
 
-    private UUID selfId;
-    private ArrayList<UUID> allID;
-    public boolean isFighting;
-    public boolean isWaiting;
-    private int healthLevel;
-    ReentrantLock lock = new ReentrantLock();
-    MiddleLayer network;
-
     static final String FIGHTCOUNT = "FightCount";
     static final String FIGHTDURATION = "FightDuration";
     static final String HEALTHLEVEL = "HealthLevel";
+    public boolean isFighting;
+    public boolean isWaiting;
+    ReentrantLock lock = new ReentrantLock();
+    MiddleLayer network;
+    private UUID selfId;
+    private ArrayList<UUID> allID;
+    private int healthLevel;
+    private MetricsCollector metrics;
 
-    Contestant(){}
-    Contestant(UUID selfId, MiddleLayer network)
-    {
+    Contestant() {}
+
+    Contestant(UUID selfId, MiddleLayer network, MetricsCollector metrics) {
         this.selfId = selfId;
         this.network = network;
+        this.metrics = metrics;
 
         //Register metrics
-        SimulatorGauge.register(HEALTHLEVEL);
-        SimulatorHistogram.register(FIGHTDURATION, new double[]{500.0, 1000.0, 1500.0, 2000.0, 2500.0});
-        SimulatorCounter.register(FIGHTCOUNT);
+        this.metrics.Gauge().register(HEALTHLEVEL);
+        this.metrics.Counter().register(FIGHTCOUNT);
+        this.metrics.Histogram().register(FIGHTDURATION, new double[]{500.0, 1000.0, 1500.0, 2000.0, 2500.0});
     }
 
-    public UUID getId()
-    {
+    public UUID getId() {
         return this.selfId;
     }
 
-    boolean isFighting()
-    {
+    boolean isFighting() {
         return this.isFighting;
     }
 
-    int getHealthLevel()
-    {
+    int getHealthLevel() {
         return this.healthLevel;
     }
 
@@ -83,12 +79,13 @@ public class Contestant implements BaseNode {
     }
 
     @Override
-    public BaseNode newInstance(UUID selfID, MiddleLayer network) {return new Contestant(selfID, network);}
+    public BaseNode newInstance(UUID selfID, MiddleLayer network, MetricsCollector metrics) {
+        return new Contestant(selfID, network, metrics);
+    }
 
-    public synchronized void sendNewFightInvitation()
-    {
-        if(this.allID.size() <=  1){
-            if(!this.allID.isEmpty() && allID.get(0).equals(this.selfId)){
+    public synchronized void sendNewFightInvitation() {
+        if (this.allID.size() <= 1) {
+            if (!this.allID.isEmpty() && allID.get(0).equals(this.selfId)) {
                 Simulator.getLogger().info("Contestant " + this.selfId + " is the winner");
                 System.out.println("Congrats. Contestant " + this.selfId + " is the winner");
             }
@@ -99,36 +96,33 @@ public class Contestant implements BaseNode {
         this.isWaiting = false;
         Collections.shuffle(this.allID);
         int ind = 0;
-        while(!this.isWaiting && !this.isFighting)
-        {
+        while (!this.isWaiting && !this.isFighting) {
             UUID targetId = this.allID.get(ind);
-            if(!this.selfId.equals(targetId)) {
-                if(!network.send(targetId, new BattleInvitation(this.selfId, targetId, duration)))
+            if (!this.selfId.equals(targetId)) {
+                if (!network.send(targetId, new BattleInvitation(this.selfId, targetId, duration)))
                     this.allID.remove(targetId);
                 else {
                     this.isWaiting = true;
 
-                    try{
+                    try {
                         Thread.sleep(100);
                     }
-                    catch (Exception e)
-                    {
+                    catch (Exception e) {
                         Simulator.getLogger().error(e.getMessage());
                     }
                 }
             }
-            if(this.allID.size() <=  1){
-                if(!this.allID.isEmpty() && allID.get(0).equals(this.selfId))
+            if (this.allID.size() <= 1) {
+                if (!this.allID.isEmpty() && allID.get(0).equals(this.selfId))
                     Simulator.getLogger().info("Contestant " + this.selfId + " is the winner");
                 return;
             }
             ind += 1;
-            if(ind == allID.size())
-            {
-                try{
+            if (ind == allID.size()) {
+                try {
                     Thread.sleep(500);
-                }catch (Exception e)
-                {
+                }
+                catch (Exception e) {
                     Simulator.getLogger().error("Thread cannot sleep" + e.getMessage());
                 }
                 ind = 0;
@@ -136,10 +130,9 @@ public class Contestant implements BaseNode {
         }
     }
 
-    public void onNewFightInvitation(UUID host, int duration)
-    {
-        if(!this.isFighting) {
-            if(network.send(host, new BattleConfirmation(host, this.selfId, true, duration, this.healthLevel)))
+    public void onNewFightInvitation(UUID host, int duration) {
+        if (!this.isFighting) {
+            if (network.send(host, new BattleConfirmation(host, this.selfId, true, duration, this.healthLevel)))
                 this.isFighting = true;
             else
                 Simulator.getLogger().debug(this.selfId + "could not reach " + host);
@@ -149,11 +142,11 @@ public class Contestant implements BaseNode {
 
     }
 
-    public synchronized void hostFight(UUID opponent, int opponentLevel, int duration){
-        if(this.isFighting)
+    public synchronized void hostFight(UUID opponent, int opponentLevel, int duration) {
+        if (this.isFighting)
             network.send(opponent, new BattleResult(this.selfId, opponent, true));
 
-        else if (opponentLevel > 0 && this.healthLevel > 0){
+        else if (opponentLevel > 0 && this.healthLevel > 0) {
             lock.lock();
             try {
                 this.isFighting = true;
@@ -171,45 +164,47 @@ public class Contestant implements BaseNode {
             }
 
             int res = 0;
-            if(this.healthLevel > opponentLevel) res = 1;
-            else if(this.healthLevel < opponentLevel) res = -1;
-            System.out.println("New fighting is happening between contestant with level " + opponentLevel + " and contestant with level " +  this.healthLevel);
+            if (this.healthLevel > opponentLevel) res = 1;
+            else if (this.healthLevel < opponentLevel) res = -1;
+            System.out.println("New fighting is happening between contestant with level " + opponentLevel + " and contestant with level " + this.healthLevel);
             network.send(opponent, new BattleResult(this.selfId, opponent, false, res * -1));
+
             // update metrics
-            SimulatorCounter.inc(FIGHTCOUNT, this.selfId);
-            SimulatorCounter.inc(FIGHTCOUNT, opponent);
-            SimulatorHistogram.observe(FIGHTDURATION, this.selfId, duration);
-            SimulatorHistogram.observe(FIGHTDURATION, opponent, duration);
+            this.metrics.Counter().inc(FIGHTCOUNT, this.selfId);
+            this.metrics.Counter().inc(FIGHTCOUNT, opponent);
+            this.metrics.Histogram().observe(FIGHTDURATION, this.selfId, duration);
+            this.metrics.Histogram().observe(FIGHTDURATION, opponent, duration);
             updateHealth(res);
         }
     }
 
-    public synchronized void updateHealth(int result)
-    {
-        switch (result){
+    public synchronized void updateHealth(int result) {
+        switch (result) {
             case -1:
                 this.healthLevel -= 10;
-                SimulatorGauge.dec(HEALTHLEVEL, this.selfId, 10);
+                this.metrics.Gauge().dec(HEALTHLEVEL, this.selfId, 10);
                 Simulator.getLogger().info(this.selfId + " losses 10 points");
                 break;
             case 0:
                 this.healthLevel += 1;
-                SimulatorGauge.inc(HEALTHLEVEL, this.selfId, 1);
+                this.metrics.Gauge().inc(HEALTHLEVEL, this.selfId, 1);
                 Simulator.getLogger().info(this.selfId + " gains 1 point");
                 break;
             case 1:
                 this.healthLevel += 5;
-                SimulatorGauge.inc(HEALTHLEVEL, this.selfId, 5);
+                this.metrics.Gauge().inc(HEALTHLEVEL, this.selfId, 5);
                 Simulator.getLogger().info(this.selfId + " gains 5 points");
                 break;
         }
-        if(this.healthLevel <= 0)
-            {network.done(); return;}
+        if (this.healthLevel <= 0) {
+            network.done();
+            return;
+        }
 
         this.isFighting = false;
         this.isWaiting = false;
-        if(this.allID.size() <=  1){
-            if(!this.allID.isEmpty() && allID.get(0).equals(this.selfId)){
+        if (this.allID.size() <= 1) {
+            if (!this.allID.isEmpty() && allID.get(0).equals(this.selfId)) {
                 Simulator.getLogger().info("Contestant " + this.selfId + " is the winner");
                 System.out.println("Congrats. Contestant " + this.selfId + " is the winner");
             }

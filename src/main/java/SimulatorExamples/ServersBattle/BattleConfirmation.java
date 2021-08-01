@@ -42,4 +42,10 @@ public class BattleConfirmation implements Event{
             return this.opponent + " declines " + this.host + " Invitation";
     }
 
+    @Override
+    public int size() {
+        // TODO: return number of encoded bytes
+        return 1;
+    }
+
 }

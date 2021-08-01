@@ -4,8 +4,12 @@ import Simulator.Simulator;
 import Underlay.Underlay;
 import Underlay.packets.Request;
 
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.server.ExportException;
 
 /**
  * Java RMI connection underlay implementation.
@@ -14,6 +18,7 @@ public class JavaRMIUnderlay extends Underlay {
 
     // Java RMI instance running at the host machine.
     JavaRMIHost host;
+    private int port;
 
     /**
      * Connects to the Java RMI adapter of a remote server.
@@ -30,9 +35,20 @@ public class JavaRMIUnderlay extends Underlay {
             remote = (JavaRMIService) Naming.lookup("//" + fullAddress + "/node");
         } catch (Exception e) {
             System.err.println("[JavaRMIUnderlay] Could not connect to the remote RMI server!");
+            e.printStackTrace();
             return null;
         }
         return remote;
+    }
+
+    @Override
+    public int getPort() {
+        return this.port;
+    }
+
+    @Override
+    public String getAddress() {
+        return "localhost";
     }
 
     /**
@@ -42,15 +58,27 @@ public class JavaRMIUnderlay extends Underlay {
      */
     @Override
     protected boolean initUnderlay(int port) {
+        if (port == 0){
+            port++; // default port on RMI cannot be 0
+        }
+
         try {
             host = new JavaRMIHost(this);
             // Bind this RMI adapter to the given port.
             LocateRegistry.createRegistry(port).rebind("node", host);
+
+        } catch (ExportException e) {
+            port = (port + 1) % 60000; // tries another port in this range.
+            return initUnderlay(port);
+
         } catch (Exception e) {
             System.err.println("[JavaRMIUnderlay] Error while initializing at port " + port);
             e.printStackTrace();
             return false;
+
         }
+
+        this.port = port;
         return true;
     }
 

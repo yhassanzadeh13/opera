@@ -132,3 +132,9 @@ The simulation continues until either the simulation duration finishes, or a win
 
 ## Documentation <a name="doc"></a>
 the JavaDoc Documentation can be found under the `doc` directory under the project directory.
+
+## Running tests
+
+- All tests:`mvn test`
+- Tests in class: `mvn test -Dtest="Underlay.UnderlayTest" `
+- Specific test: `mvn test -Dtest="Underlay.UnderlayTest.A_testTCP" `

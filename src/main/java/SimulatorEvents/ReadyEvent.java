@@ -6,7 +6,6 @@ import Underlay.packets.Event;
 import java.util.UUID;
 
 public class ReadyEvent implements Event {
-
     private UUID nodeID;
     private String fullAddress;
 
@@ -19,6 +18,12 @@ public class ReadyEvent implements Event {
     {
         this.nodeID = nodeID;
         this.fullAddress = fullAddress;
+    }
+
+    @Override
+    public int size() {
+        // TODO: return number of encoded bytes
+        return 1;
     }
 
     @Override

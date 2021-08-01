@@ -14,23 +14,15 @@ import java.net.UnknownHostException;
 public abstract class Underlay {
 
     private MiddleLayer middleLayer;
-
-    private int port;
-    private String address;
-    private String fullAddress;
     protected static final Logger log  = Logger.getLogger(Simulator.class.getName());
 
 
-    public int getPort() {
-        return port;
-    }
+    public abstract int getPort();
 
-    public String getAddress() {
-        return address;
-    }
+    public abstract String getAddress();
 
     public String getFullAddress() {
-        return fullAddress;
+        return getAddress() + ":" + getPort();
     }
 
     /**
@@ -46,19 +38,8 @@ public abstract class Underlay {
      * @param middleLayer
      * @return true iff the initialization was successful.
      */
-
     public final boolean initialize(int port, MiddleLayer middleLayer) {
-        this.port = port;
         this.middleLayer = middleLayer;
-        try {
-            address = Inet4Address.getLocalHost().getHostAddress();
-        } catch(UnknownHostException e) {
-
-            log.error("[Underlay] Could not acquire the local host name during initialization.");
-            log.error(e.getMessage());
-            return false;
-        }
-        fullAddress = address + ":" + port;
         return initUnderlay(port);
     }
 
@@ -84,10 +65,5 @@ public abstract class Underlay {
      * @return true iff the termination was successful.
      */
     public abstract boolean terminate(String address, int port);
-
-//    /**
-//     * Add a new node to the cluster
-//     */
-//    public abstract boolean addNode(String address, int port);
-
+    
 }
