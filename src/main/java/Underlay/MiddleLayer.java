@@ -49,8 +49,6 @@ public class MiddleLayer {
             log.fatal("cannot initialize simulator with a null runtime");
         }
 
-        log.setLevel(Level.OFF);
-
         this.nodeID = nodeID;
         this.allFUllAddresses = allFUllAddresses;
         this.isReady = isReady;
