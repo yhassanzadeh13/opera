@@ -1,56 +1,58 @@
-package SimulatorExamples.ServersBattle;
-
-import Node.BaseNode;
-import Underlay.packets.Event;
+package simulatorexamples.serversbattle;
 
 import java.util.UUID;
+import node.BaseNode;
+import underlay.packets.Event;
+
 
 public class BattleResult implements Event {
 
-    int result;
-    boolean aborted;
-    UUID host, opponent;
+  int result;
+  boolean aborted;
+  UUID host;
+  UUID opponent;
 
 
-    public BattleResult(UUID host, UUID opponent, boolean aborted) {
-        this(host, opponent, aborted, 0);
+  public BattleResult(UUID host, UUID opponent, boolean aborted) {
+    this(host, opponent, aborted, 0);
+  }
+
+  public BattleResult(UUID host, UUID opponent, boolean aborted, int result) {
+    this.result = result;
+    this.host = host;
+    this.aborted = aborted;
+    this.opponent = opponent;
+  }
+
+  @Override
+  public boolean actionPerformed(BaseNode hostNode) {
+    Contestant node = (Contestant) hostNode;
+    if (aborted) {
+      node.isFighting = false;
+      node.sendNewFightInvitation();
+    } else {
+      node.updateHealth(result);
     }
 
-    public BattleResult(UUID host, UUID opponent, boolean aborted, int result) {
-        this.result = result;
-        this.host = host;
-        this.aborted = aborted;
-        this.opponent = opponent;
-    }
+    return true;
+  }
 
-    @Override
-    public boolean actionPerformed(BaseNode hostNode) {
-        Contestant node = (Contestant) hostNode;
-        if(aborted){
-            node.isFighting = false;
-            node.sendNewFightInvitation();
-        }
-        else{
-            node.updateHealth(result);
-        }
-
-        return true;
+  @Override
+  public String logMessage() {
+    if (aborted) {
+      return this.host + " aborted the game";
+    } else if (result == 1) {
+      return this.host + " defeated " + this.opponent;
+    } else if (result == -1) {
+      return this.opponent + " defeated " + this.host;
+    } else {
+      return this.host + " draw with " + this.opponent;
     }
+  }
 
-    @Override
-    public String logMessage() {
-        if (aborted)
-            return this.host + " aborted the game";
-        else if(result == 1)
-            return this.host + " defeated " + this.opponent;
-        else if(result == -1)
-            return this.opponent + " defeated " + this.host;
-        else return this.host + " draw with " + this.opponent;
-    }
-
-    @Override
-    public int size() {
-        // TODO: return number of encoded bytes
-        return 1;
-    }
+  @Override
+  public int size() {
+    // TODO: return number of encoded bytes
+    return 1;
+  }
 }

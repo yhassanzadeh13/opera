@@ -534,7 +534,7 @@ var i,
 	sortInput,
 	hasDuplicate,
 
-	// Local document vars
+	// local document vars
 	setDocument,
 	document,
 	docElem,

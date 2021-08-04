@@ -1,4 +1,4 @@
-## Simulator.Simulator Examples <a name="examples"></a>
+## simulator.simulator Examples <a name="examples"></a>
 
 Two simulator examples are provided under the `SimulatorExamples` package.  
 

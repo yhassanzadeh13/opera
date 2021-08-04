@@ -1,65 +1,66 @@
-package SimulatorExamples.HelloServers;
-
-import Node.BaseNode;
-import Underlay.packets.Event;
+package simulatorexamples.helloservers;
 
 import java.io.Serializable;
 import java.util.UUID;
+import node.BaseNode;
+import underlay.packets.Event;
+
 
 public class SendHello implements Event, Serializable {
-    String msg;
-    UUID originalID;
-    UUID targetID;
+  String msg;
+  UUID originalId;
+  UUID targetId;
 
-    public SendHello(String msg, UUID originalID, UUID targetID) {
-        this.msg = msg;
-        this.originalID = originalID;
-        this.targetID = targetID;
-    }
+  public SendHello(String msg, UUID originalId, UUID targetId) {
+    this.msg = msg;
+    this.originalId = originalId;
+    this.targetId = targetId;
+  }
 
-    public String getMsg() {
-        return msg;
-    }
+  public String getMsg() {
+    return msg;
+  }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
+  public void setMsg(String msg) {
+    this.msg = msg;
+  }
 
-    public UUID getOriginalID() {
-        return originalID;
-    }
+  public UUID getOriginalId() {
+    return originalId;
+  }
 
-    public void setOriginalID(UUID originalID) {
-        this.originalID = originalID;
-    }
+  public void setOriginalId(UUID originalId) {
+    this.originalId = originalId;
+  }
 
-    public UUID getTargetID() {
-        return targetID;
-    }
+  public UUID getTargetId() {
+    return targetId;
+  }
 
-    public void setTargetID(UUID targetID) {
-        this.targetID = targetID;
-    }
+  public void setTargetId(UUID targetId) {
+    this.targetId = targetId;
+  }
 
-    @Override
-    public boolean actionPerformed(BaseNode hostNode) {
-        System.out.println(originalID + " says to " + targetID + " " + msg);
-        myNode node = (myNode) hostNode;
-        if (this.msg.equals("Hello"))
-            node.sendNewMessage("Thank You");
-        else
-            node.sendNewMessage("Hello");
-        return true;
+  @Override
+  public boolean actionPerformed(BaseNode hostNode) {
+    System.out.println(originalId + " says to " + targetId + " " + msg);
+    MyNode node = (MyNode) hostNode;
+    if (this.msg.equals("Hello")) {
+      node.sendNewMessage("Thank You");
+    } else {
+      node.sendNewMessage("Hello");
     }
+    return true;
+  }
 
-    @Override
-    public String logMessage() {
-        return msg;
-    }
+  @Override
+  public String logMessage() {
+    return msg;
+  }
 
-    @Override
-    public int size() {
-        // TODO: return number of encoded bytes
-        return 1;
-    }
+  @Override
+  public int size() {
+    // TODO: return number of encoded bytes
+    return 1;
+  }
 }

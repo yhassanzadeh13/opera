@@ -1,15 +1,14 @@
-package SimulatorExamples.HelloServers;
+package simulatorexamples.helloservers;
 
-import Simulator.Simulator;
-import Underlay.UnderlayType;
-import Utils.Generator.UniformGenerator;
-import Utils.Generator.WeibullGenerator;
+import simulator.Simulator;
+import underlay.UnderlayType;
+import utils.generator.UniformGenerator;
 
 public class Main {
 
-    public static void main(String[] args) {
-        myNode fixtureNode = new myNode();
-        Simulator<myNode> simulation = new Simulator<myNode>(fixtureNode, 5, UnderlayType.MOCK_NETWORK);
-        simulation.churnSimulation(100000, new UniformGenerator(500, 1000), new UniformGenerator(2000, 3000));
-    }
+  public static void main(String[] args) {
+    MyNode fixtureNode = new MyNode();
+    Simulator<MyNode> simulation = new Simulator<MyNode>(fixtureNode, 5, UnderlayType.MOCK_NETWORK);
+    simulation.churnSimulation(100000, new UniformGenerator(500, 1000), new UniformGenerator(2000, 3000));
+  }
 }

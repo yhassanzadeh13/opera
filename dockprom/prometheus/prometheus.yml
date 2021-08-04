@@ -7,12 +7,12 @@ global:
 rule_files:
 - "alert.rules"
 scrape_configs:
-- job_name: "Simulator"
+- job_name: "simulator"
   metrics_path: ""
   scrape_interval: "5s"
   static_configs:
   - targets:
-    - "192.168.1.4:2000"
+    - "192.168.1.33:2000"
 - job_name: "prometheus"
   scrape_interval: "10s"
   static_configs:

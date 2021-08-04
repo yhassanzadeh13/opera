@@ -123,7 +123,7 @@ implements <a href="../../Node/BaseNode.html" title="interface in Node">BaseNode
 <tr class="altColor" id="i0">
 <td class="colFirst"><code><a href="../../Node/BaseNode.html" title="interface in Node">BaseNode</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newInstance(java.util.UUID,Underlay.MiddleLayer)">newInstance</a></span>&#8203;(java.util.UUID&nbsp;ID,
-<a href="../../Underlay/MiddleLayer.html" title="class in Underlay">MiddleLayer</a>&nbsp;network)</code></th>
+<a href="../../Underlay/MiddleLayer.html" title="class in underlay">MiddleLayer</a>&nbsp;network)</code></th>
 <td class="colLast">
 <div class="block">This method serves as a factory for new node instances.</div>
 </td>
@@ -132,13 +132,14 @@ implements <a href="../../Node/BaseNode.html" title="interface in Node">BaseNode
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onCreate(java.util.ArrayList)">onCreate</a></span>&#8203;(java.util.ArrayList&lt;java.util.UUID&gt;&nbsp;allID)</code></th>
 <td class="colLast">
-<div class="block">Activated by the Simulator.Simulator on the creation of a new node and is used to initialize the node parameters</div>
+<div class="block">Activated by the simulator.Simulator on the creation of a new node and is used to initialize the node
+    parameters</div>
 </td>
 </tr>
 <tr class="altColor" id="i2">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onNewMessage(java.util.UUID,Underlay.packets.Event)">onNewMessage</a></span>&#8203;(java.util.UUID&nbsp;originID,
-<a href="../../Underlay/packets/Event.html" title="interface in Underlay.packets">Event</a>&nbsp;msg)</code></th>
+<a href="../../Underlay/packets/Event.html" title="interface in underlay.packets">Event</a>&nbsp;msg)</code></th>
 <td class="colLast">
 <div class="block">A channel for a node to receive a new event from other nodes.</div>
 </td>
@@ -147,14 +148,14 @@ implements <a href="../../Node/BaseNode.html" title="interface in Node">BaseNode
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onStart()">onStart</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Activated by the Simulator.Simulator after all the nodes in the cluster become ready</div>
+<div class="block">Activated by the simulator.Simulator after all the nodes in the cluster become ready</div>
 </td>
 </tr>
 <tr class="altColor" id="i4">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#onStop()">onStop</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Activated by the Simulator.Simulator just before the node shuts down.</div>
+<div class="block">Activated by the simulator.Simulator just before the node shuts down.</div>
 </td>
 </tr>
 <tr class="rowColor" id="i5">
@@ -189,7 +190,8 @@ implements <a href="../../Node/BaseNode.html" title="interface in Node">BaseNode
 <h3><a id="onCreate(java.util.ArrayList)">onCreate</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">onCreate</span>&#8203;(<span class="arguments">java.util.ArrayList&lt;java.util.UUID&gt;&nbsp;allID)</span></div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../Node/BaseNode.html#onCreate(java.util.ArrayList)">BaseNode</a></code></span></div>
-<div class="block">Activated by the Simulator.Simulator on the creation of a new node and is used to initialize the node parameters</div>
+<div class="block">Activated by the simulator.Simulator on the creation of a new node and is used to initialize the node
+    parameters</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../Node/BaseNode.html#onCreate(java.util.ArrayList)">onCreate</a></code>&nbsp;in interface&nbsp;<code><a href="../../Node/BaseNode.html" title="interface in Node">BaseNode</a></code></dd>
@@ -203,7 +205,7 @@ implements <a href="../../Node/BaseNode.html" title="interface in Node">BaseNode
 <h3><a id="onStart()">onStart</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">onStart</span>()</div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../Node/BaseNode.html#onStart()">BaseNode</a></code></span></div>
-<div class="block">Activated by the Simulator.Simulator after all the nodes in the cluster become ready</div>
+<div class="block">Activated by the simulator.Simulator after all the nodes in the cluster become ready</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../Node/BaseNode.html#onStart()">onStart</a></code>&nbsp;in interface&nbsp;<code><a href="../../Node/BaseNode.html" title="interface in Node">BaseNode</a></code></dd>
@@ -221,7 +223,7 @@ implements <a href="../../Node/BaseNode.html" title="interface in Node">BaseNode
 <h3><a id="onStop()">onStop</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">onStop</span>()</div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../Node/BaseNode.html#onStop()">BaseNode</a></code></span></div>
-<div class="block">Activated by the Simulator.Simulator just before the node shuts down.</div>
+<div class="block">Activated by the simulator.Simulator just before the node shuts down.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../Node/BaseNode.html#onStop()">onStop</a></code>&nbsp;in interface&nbsp;<code><a href="../../Node/BaseNode.html" title="interface in Node">BaseNode</a></code></dd>
@@ -232,7 +234,7 @@ implements <a href="../../Node/BaseNode.html" title="interface in Node">BaseNode
 <section class="detail">
 <h3><a id="newInstance(java.util.UUID,Underlay.MiddleLayer)">newInstance</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="../../Node/BaseNode.html" title="interface in Node">BaseNode</a></span>&nbsp;<span class="memberName">newInstance</span>&#8203;(<span class="arguments">java.util.UUID&nbsp;ID,
-<a href="../../Underlay/MiddleLayer.html" title="class in Underlay">MiddleLayer</a>&nbsp;network)</span></div>
+<a href="../../Underlay/MiddleLayer.html" title="class in underlay">MiddleLayer</a>&nbsp;network)</span></div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../Node/BaseNode.html#newInstance(java.util.UUID,Underlay.MiddleLayer)">BaseNode</a></code></span></div>
 <div class="block">This method serves as a factory for new node instances.
  It is supposed to return a new instance of the special node class</div>
@@ -251,7 +253,7 @@ implements <a href="../../Node/BaseNode.html" title="interface in Node">BaseNode
 <section class="detail">
 <h3><a id="onNewMessage(java.util.UUID,Underlay.packets.Event)">onNewMessage</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">onNewMessage</span>&#8203;(<span class="arguments">java.util.UUID&nbsp;originID,
-<a href="../../Underlay/packets/Event.html" title="interface in Underlay.packets">Event</a>&nbsp;msg)</span></div>
+<a href="../../Underlay/packets/Event.html" title="interface in underlay.packets">Event</a>&nbsp;msg)</span></div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../Node/BaseNode.html#onNewMessage(java.util.UUID,Underlay.packets.Event)">BaseNode</a></code></span></div>
 <div class="block">A channel for a node to receive a new event from other nodes.
  The node will receive all the message through this method.</div>

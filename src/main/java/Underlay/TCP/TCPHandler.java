@@ -1,49 +1,48 @@
-package Underlay.TCP;
-
-import Simulator.Simulator;
-import Underlay.packets.Request;
+package underlay.tcp;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
+import simulator.Simulator;
+import underlay.packets.Request;
+
 
 /**
- * Represents a thread that handles an incoming TCP request and emits a response.
+ * Represents a thread that handles an incoming tcp request and emits a response.
  */
-public class TCPHandler implements Runnable {
+public class TcpHandler implements Runnable {
 
-    // TCP stream. We use this two-way stream to read the request and send back the response.
-    private final Socket incomingConnection;
-    // TCP underlay.
-    private final TCPUnderlay underlay;
+  // tcp stream. We use this two-way stream to read the request and send back the response.
+  private final Socket incomingConnection;
+  // tcp underlay.
+  private final TcpUnderlay underlay;
 
-    public TCPHandler(Socket incomingConnection, TCPUnderlay underlay) {
-        this.incomingConnection = incomingConnection;
-        this.underlay = underlay;
+  public TcpHandler(Socket incomingConnection, TcpUnderlay underlay) {
+    this.incomingConnection = incomingConnection;
+    this.underlay = underlay;
+  }
+
+  // TODO send back an error response when necessary.
+  @Override
+  public void run() {
+    ObjectInputStream requestStream;
+    // Construct the streams from the connection.
+    try {
+      requestStream = new ObjectInputStream(incomingConnection.getInputStream());
+    } catch (IOException e) {
+      Simulator.getLogger().error("[TCPHandler] Could not acquire the streams from the connection.");
+      return;
     }
-
-    // TODO send back an error response when necessary.
-    @Override
-    public void run() {
-        ObjectInputStream requestStream;
-        // Construct the streams from the connection.
-        try {
-            requestStream = new ObjectInputStream(incomingConnection.getInputStream());
-        } catch (IOException e) {
-            Simulator.getLogger().error("[TCPHandler] Could not acquire the streams from the connection.");
-            return;
-        }
-        // Read the request from the connection.
-        Request request;
-        try {
-            request = (Request) requestStream.readObject();
-            underlay.dispatchRequest(request);
-        } catch (IOException | ClassNotFoundException e) {
-            Simulator.getLogger().error("[TCPHandler] Could not read the request.");
-            Simulator.getLogger().error(e.getMessage());
-            e.printStackTrace();
-            return;
-        }
+    // Read the request from the connection.
+    Request request;
+    try {
+      request = (Request) requestStream.readObject();
+      underlay.dispatchRequest(request);
+    } catch (IOException | ClassNotFoundException e) {
+      Simulator.getLogger().error("[TCPHandler] Could not read the request.");
+      Simulator.getLogger().error(e.getMessage());
+      e.printStackTrace();
+      return;
     }
+  }
 }

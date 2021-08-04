@@ -1,49 +1,49 @@
-package Utils;
-
-import Metrics.MetricsCollector;
-import Node.BaseNode;
-import Underlay.MiddleLayer;
-import Underlay.packets.Event;
+package utils;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import metrics.MetricsCollector;
+import node.BaseNode;
+import underlay.MiddleLayer;
+import underlay.packets.Event;
 
 public class FixtureNode implements BaseNode {
-    private UUID selfID;
-    private ArrayList<UUID> allID;
-    private MiddleLayer network;
-    public int receivedMessages = 0;
+  private UUID selfId;
+  private ArrayList<UUID> allId;
+  private MiddleLayer network;
+  public int receivedMessages = 0;
 
-    FixtureNode(){}
+  FixtureNode() {
+  }
 
-    FixtureNode(UUID selfID, MiddleLayer network){
-        this.selfID = selfID;
-        this.network = network;
-    }
+  FixtureNode(UUID selfId, MiddleLayer network) {
+    this.selfId = selfId;
+    this.network = network;
+  }
 
 
-    @Override
-    public void onCreate(ArrayList<UUID> allID) {
-        this.allID = allID;
-        network.ready();
-    }
+  @Override
+  public void onCreate(ArrayList<UUID> allId) {
+    this.allId = allId;
+    network.ready();
+  }
 
-    @Override
-    public void onStart() {
+  @Override
+  public void onStart() {
 
-    }
+  }
 
-    @Override
-    public void onStop() {
-    }
+  @Override
+  public void onStop() {
+  }
 
-    @Override
-    public BaseNode newInstance(UUID ID, MiddleLayer network, MetricsCollector metricsCollector) {
-        return new FixtureNode(ID, network);
-    }
+  @Override
+  public BaseNode newInstance(UUID selfId, MiddleLayer network, MetricsCollector metricsCollector) {
+    return new FixtureNode(selfId, network);
+  }
 
-    @Override
-    public void onNewMessage(UUID originID, Event msg){
+  @Override
+  public void onNewMessage(UUID originId, Event msg) {
 
-    }
+  }
 }

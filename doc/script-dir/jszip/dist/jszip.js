@@ -10207,7 +10207,7 @@ var bl_order =
  */
 
 /* ===========================================================================
- * Local data. These are initialized only once.
+ * local data. These are initialized only once.
  */
 
 // We pre-fill arrays with 0 to avoid uninitialized gaps

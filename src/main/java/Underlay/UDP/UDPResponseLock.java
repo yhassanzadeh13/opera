@@ -1,4 +1,4 @@
-//package underlay.UDP;
+//package underlay.udp;
 //
 ///**
 // * Used to synchronize the sender thread with the receiver thread at the host. The sender thread (i.e. UDPUnderlay) will

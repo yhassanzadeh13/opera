@@ -1,8 +1,8 @@
-package Utils;
-
-import Simulator.Orchestrator;
+package utils;
 
 import java.util.UUID;
+import simulator.Orchestrator;
+
 
 /**
  * NoopOrchestrator implements an orchestrator for testing.
@@ -10,18 +10,18 @@ import java.util.UUID;
  */
 public class NoopOrchestrator implements Orchestrator {
 
-    @Override
-    public void Ready(UUID nodeId) {
+  @Override
+  public void ready(UUID nodeId) {
 
-    }
+  }
 
-    @Override
-    public void Done(UUID nodeId) {
+  @Override
+  public void done(UUID nodeId) {
 
-    }
+  }
 
-    @Override
-    public int getSimulatedLatency(UUID nodeA, UUID nodeB, boolean bidirectional) {
-        return 0;
-    }
+  @Override
+  public int getSimulatedLatency(UUID nodeA, UUID nodeB, boolean bidirectional) {
+    return 0;
+  }
 }

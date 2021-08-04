@@ -1,17 +1,16 @@
-package Utils;
+package utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.prometheus.client.exporter.HTTPServer;
-
 import java.io.*;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.*;
 
 /**
- * static class for providing various utils related to the simulator
+ * static class for providing various utils related to the simulator.
  */
 public class SimulatorUtils {
 
@@ -23,8 +22,8 @@ public class SimulatorUtils {
    * Configure the simulator with prometheus and grafana by running the docker provided under dockprom
    * By default, it uses 2000 as a metrics exposer port.
    */
-  public static void ConfigurePrometheus() {
-    int EXPOSER_PORT = 2000;
+  public static void configurePrometheus() {
+    int exposerPort = 2000;
     try {
 
       String localAddress = InetAddress.getLocalHost().getHostAddress();
@@ -53,7 +52,7 @@ public class SimulatorUtils {
       Map<String, Object> simulator_job = (Map<String, Object>) scrape_configs.get(0);
       List<Object> static_configs = (List<Object>) simulator_job.get("static_configs");
       Map<String, Object> targets = (Map<String, Object>) static_configs.get(0);
-      targets.put("targets", Arrays.asList(localAddress + ":" + EXPOSER_PORT));
+      targets.put("targets", Arrays.asList(localAddress + ":" + exposerPort));
 
       // write again on the file
       objectMapper.writeValue(new File("./dockprom/prometheus/prometheus.yml"), config);
@@ -75,7 +74,7 @@ public class SimulatorUtils {
       // prepare the prometheus connection
       try {
         // initialize prometheus HTTP server
-        HTTPServer server = new HTTPServer(EXPOSER_PORT);
+        HTTPServer server = new HTTPServer(exposerPort);
       } catch (IOException e) {
         e.printStackTrace();
       }
