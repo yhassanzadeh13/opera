@@ -1,13 +1,14 @@
 package scenario.pov.events;
 
-import underlay.packets.Event;
 import java.util.UUID;
 import node.BaseNode;
 import scenario.pov.LightChainNode;
+import underlay.packets.Event;
+
 
 
 /**
- *
+ * It checks validation of block event in a node.
  */
 public class ConfirmBlockEvent implements Event {
 

@@ -1,6 +1,5 @@
 package underlay;
 
-import utils.SimulatorUtils;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +12,7 @@ import simulator.Simulator;
 import simulatorevents.StopStartEvent;
 import underlay.packets.Event;
 import underlay.packets.Request;
-
+import utils.SimulatorUtils;
 
 /**
  * Represents a mediator between the overlay and the underlay. The requests coming from the underlay are directed
@@ -35,6 +34,15 @@ public class MiddleLayer {
   private Underlay underlay;
   private BaseNode overlay;
 
+  /**
+   * Constructor of MiddleLayer.
+   *
+   * @param nodeId Id of the node
+   * @param allFullAddresses Hashmap of the all addresses
+   * @param isReady Hashmap of whether nodes are ready or not
+   * @param orchestrator Orchestrator for the middle layer
+   * @param metricsCollector Metrics collector for the middle layer
+   */
   public MiddleLayer(UUID nodeId,
                      HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses,
                      HashMap<SimpleEntry<String, Integer>, Boolean> isReady, // TODO: isReady can be removed.
@@ -199,6 +207,9 @@ public class MiddleLayer {
     this.orchestrator.done(this.nodeId);
   }
 
+  /**
+   * Underlay initializer.
+   */
   public void initUnderLay() {
     log.info("[MiddleLayer] initializing the underlay for node " + getAddress(nodeId));
 

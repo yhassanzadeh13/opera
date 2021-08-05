@@ -1,16 +1,17 @@
 package node;
 
-import underlay.MiddleLayer;
-import underlay.packets.Event;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import metrics.MetricsCollector;
+import underlay.MiddleLayer;
+import underlay.packets.Event;
+
 
 /**
+ * A Node object which can do tasks that a basenode can do.
  *
- *
- * @param <T>
+ * @param <T> variable type of the factory
  */
 public class NodeThread<T extends BaseNode> extends Thread {
 
@@ -21,12 +22,13 @@ public class NodeThread<T extends BaseNode> extends Thread {
   MetricsCollector metrics;
 
   /**
+   * Constructs a new factory instance using the given parameters.
    *
-   * @param factory
-   * @param selfId
-   * @param allId
-   * @param middleLayer
-   * @param metrics
+   * @param factory Consists of middlelayer, IDs and metric collector
+   * @param selfId Id of the node
+   * @param allId List of Id's of all the nodes
+   * @param middleLayer layer of the modes
+   * @param metrics is a metric collector.
    */
   public NodeThread(T factory, UUID selfId, ArrayList<UUID> allId, MiddleLayer middleLayer, MetricsCollector metrics) {
     this.selfId = selfId;

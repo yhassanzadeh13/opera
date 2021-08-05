@@ -1,12 +1,13 @@
 package scenario.pov.events;
 
-import underlay.packets.Event;
 import java.util.UUID;
 import node.BaseNode;
 import scenario.pov.LightChainNode;
+import underlay.packets.Event;
+
 
 /**
- *
+ * Checks validation of transaction event.
  */
 public class ConfirmTransactionEvent implements Event {
 

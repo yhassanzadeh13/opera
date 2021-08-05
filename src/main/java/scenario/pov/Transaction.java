@@ -5,6 +5,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Transaction is a serializable object which consist of uuid, owner, validators, and prevBlock.
+ */
 public class Transaction implements Serializable {
 
   private UUID uuid;
@@ -14,6 +17,14 @@ public class Transaction implements Serializable {
 
   private Block prevBlock;
 
+  /**
+   * Constructor of Transaction.
+   *
+   * @param uuid Unique ID of the transaction.
+   * @param owner Unique ID of the owner of the transaction.
+   * @param prevBlock Unique ID of the previous Block.
+   * @param validators list of unique ID of the validators of the transaction.
+   */
   public Transaction(UUID uuid, UUID owner, Block prevBlock, List<UUID> validators) {
 
     this.uuid = uuid;

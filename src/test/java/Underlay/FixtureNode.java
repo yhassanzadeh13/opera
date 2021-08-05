@@ -7,7 +7,9 @@ import metrics.MetricsCollector;
 import node.BaseNode;
 import underlay.packets.Event;
 
-
+/**
+ * A basic BaseNode to check whether Underlays coded correctly or not.
+ */
 public class FixtureNode implements BaseNode {
   private final UUID selfId;
   private final ArrayList<UUID> allId;

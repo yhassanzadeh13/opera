@@ -5,7 +5,7 @@ import io.prometheus.client.Histogram;
 import java.util.UUID;
 
 /**
- *
+ * Noop Collector is a no operation metric collector.
  */
 public class NoopCollector implements MetricsCollector {
   class NoopHistogram implements HistogramCollector {

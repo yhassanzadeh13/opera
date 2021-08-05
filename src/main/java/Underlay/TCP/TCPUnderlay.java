@@ -48,8 +48,10 @@ public class TcpUnderlay extends Underlay {
   }
 
   /**
+   * Sends request using the port and address of the remote server and gets the response.
+   *
    * @param address address of the remote server.
-   * @param port    port of the remote serve.r
+   * @param port    port of the remote server
    * @param request the request to send.
    * @return the response emitted by the remote server.
    */

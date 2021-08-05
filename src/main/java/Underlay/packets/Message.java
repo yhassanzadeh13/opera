@@ -16,6 +16,8 @@ class Message {
   private byte[] payload;
 
   /**
+   * Constructor for the Message.
+   *
    * @param originalId the ID of the sender node
    * @param targetId   the ID of the receiver node
    * @param payload    the marshaled version of the Event

@@ -3,6 +3,9 @@ package underlay;
 import node.BaseNode;
 import underlay.packets.Event;
 
+/**
+ * A basic Event to use to check whether Underlays coded correctly.
+ */
 public class FixtureEvent implements Event {
   @Override
   public boolean actionPerformed(BaseNode hostNode) {

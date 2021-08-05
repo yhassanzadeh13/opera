@@ -1,12 +1,14 @@
 package scenario.pov.events;
 
-import underlay.packets.Event;
 import node.BaseNode;
 import scenario.pov.LightChainNode;
 import scenario.pov.Transaction;
+import underlay.packets.Event;
+
 
 /**
- *
+ * Validates the given transaction for the node.
+ * Size: Returns number of encoded bytes.
  */
 public class ValidateTransactionEvent implements Event {
 

@@ -1,15 +1,30 @@
 package scenario.pov;
 
-import underlay.MiddleLayer;
-import underlay.packets.Event;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import metrics.MetricsCollector;
 import node.BaseNode;
 import org.apache.log4j.Logger;
-import scenario.pov.events.*;
+import scenario.pov.events.CollectTransactionsEvent;
+import scenario.pov.events.ConfirmBlockEvent;
+import scenario.pov.events.ConfirmTransactionEvent;
+import scenario.pov.events.DeliverLatestBlockEvent;
+import scenario.pov.events.DeliverTransactionsEvent;
+import scenario.pov.events.GetLatestBlockEvent;
+import scenario.pov.events.SubmitBlockEvent;
+import scenario.pov.events.SubmitTransactionEvent;
+import scenario.pov.events.ValidateBlockEvent;
+import scenario.pov.events.ValidateTransactionEvent;
+import underlay.MiddleLayer;
+import underlay.packets.Event;
+
 
 /**
  * A LightChainNode represents a single node of the LightChain protocol.
@@ -386,7 +401,7 @@ public class LightChainNode implements BaseNode {
    * validators, this means the transaction has been validated and is ready to be inserted. So this function attempts
    * to insert the transaction into the network by sending a submit transaction event to the registry node.
    *
-   * @param transactionUuid
+   * @param transactionUuid unique Id of the trasaction.
    */
   public void confirmTransactionValidation(UUID transactionUuid) {
 
@@ -410,13 +425,19 @@ public class LightChainNode implements BaseNode {
     }
   }
 
-  /**
-   * @return the UUID of the registry node
+  /** getter of registery node's ID.
+   *
+   * @return the UUID of the registry node.
    */
   public UUID getRegistryId() {
     return this.allId.get(0);
   }
 
+  /**
+   * Confirms validation of the block with its UUID.
+   *
+   * @param blockUuid UUID of the block.
+   */
   public void confirmBlockValidation(UUID blockUuid) {
 
     if (!blockValidationCount.containsKey(blockUuid)) {
@@ -442,7 +463,7 @@ public class LightChainNode implements BaseNode {
    * the validation without any conditions and immediately replies with its confirmation
    * f* TODO: with is algorithm, a node can be chosen to be its own validator, fix this to prevent this case.
    *
-   * @param transaction
+   * @param transaction a transaction object to validate.
    */
   public void validateTransaction(Transaction transaction) {
 
@@ -487,6 +508,8 @@ public class LightChainNode implements BaseNode {
   }
 
   /**
+   * Checker whether the node is a registry node or not.
+   *
    * @return true if this node is a registry node, false otherwise
    */
   public boolean isRegistry() {
@@ -497,7 +520,7 @@ public class LightChainNode implements BaseNode {
    * this function is called by the registry node through an event in order to supply this node with the latest block
    * upon its asynchronous request that was carried out earlier.
    *
-   * @param block
+   * @param block block to update the node
    */
   public void updateLatestBlock(Block block) {
     logger.info("Latest Block " + block.getId() + " updated for node " + this.uuid);
@@ -562,6 +585,11 @@ public class LightChainNode implements BaseNode {
 
   }
 
+  /**
+   * Delivers requested transactions to the node.
+   *
+   * @param requestedTransactions List of requested transactions.
+   */
   public void deliverTransactions(List<Transaction> requestedTransactions) {
     logger.info("Requested Transactions received by node " + this.uuid);
     this.requestedTransactions = requestedTransactions;

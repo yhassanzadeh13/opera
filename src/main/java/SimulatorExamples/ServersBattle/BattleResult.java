@@ -4,7 +4,9 @@ import java.util.UUID;
 import node.BaseNode;
 import underlay.packets.Event;
 
-
+/**
+ * BattleResult is an event to declare the result of the battle between two nodes.
+ */
 public class BattleResult implements Event {
 
   int result;
@@ -17,6 +19,14 @@ public class BattleResult implements Event {
     this(host, opponent, aborted, 0);
   }
 
+  /**
+   * Constructor of BattleResult.
+   *
+   * @param host Id of the host node
+   * @param opponent Id of the opponent node
+   * @param aborted shows whether battle is aborted or not
+   * @param result Result of the battle
+   */
   public BattleResult(UUID host, UUID opponent, boolean aborted, int result) {
     this.result = result;
     this.host = host;

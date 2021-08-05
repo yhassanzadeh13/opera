@@ -1,12 +1,14 @@
 package scenario.pov.events;
 
-import underlay.packets.Event;
 import node.BaseNode;
 import scenario.pov.Block;
 import scenario.pov.LightChainNode;
+import underlay.packets.Event;
+
 
 /**
- *
+ * Validates the given block for the node.
+ * Size: Returns number of encoded bytes.
  */
 public class ValidateBlockEvent implements Event {
 

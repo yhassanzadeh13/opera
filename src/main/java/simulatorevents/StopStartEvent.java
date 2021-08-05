@@ -3,6 +3,9 @@ package simulatorevents;
 import node.BaseNode;
 import underlay.packets.Event;
 
+/**
+ * StopStartEvent is an event can be used to call onstart or onstop method of the node.
+ */
 public class StopStartEvent implements Event {
   private String address;
   private int port;

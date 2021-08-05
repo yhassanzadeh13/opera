@@ -4,13 +4,15 @@ import java.util.UUID;
 import node.BaseNode;
 import underlay.packets.Event;
 
-
+/**
+ * Ready Event is an event which can be used to declare a node is ready.
+ */
 public class ReadyEvent implements Event {
   private UUID nodeId;
   private String fullAddress;
 
   /**
-   * create new ready event. Used by the node to declare itself as ready
+   * create new ready event.
    *
    * @param nodeId      UUID of the node
    * @param fullAddress full address of the node

@@ -1,8 +1,9 @@
 package metrics;
 
-import simulator.Simulator;
 import io.prometheus.client.Gauge;
 import java.util.UUID;
+import simulator.Simulator;
+
 
 /**
  * This class provides a prometheus-based gauge for extracting metrics
@@ -20,7 +21,11 @@ public class SimulatorGauge extends SimulatorMetric implements GaugeCollector {
   @Override
   public boolean register(String name) {
     if (!collectors.containsKey(name)) {
-      collectors.put(name, Gauge.build().namespace(NAMESPACE).name(name).help(HELP_MSG).labelNames(LABEL_NAME).register());
+      collectors.put(name, Gauge.build().namespace(NAMESPACE)
+            .name(name)
+            .help(HELP_MSG)
+            .labelNames(LABEL_NAME)
+            .register());
       collectorsTypes.put(name, Type.GAUGE);
     } else {
       if (collectorsTypes.get(name) != Type.GAUGE) {

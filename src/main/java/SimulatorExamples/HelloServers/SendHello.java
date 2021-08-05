@@ -5,12 +5,22 @@ import java.util.UUID;
 import node.BaseNode;
 import underlay.packets.Event;
 
-
+/**
+ * Sendhello is an event which enables node to send "Thank You" if the message is "Hello"
+ * else sends "Hello" message back to that node.
+ */
 public class SendHello implements Event, Serializable {
   String msg;
   UUID originalId;
   UUID targetId;
 
+  /**
+   *  Constructor of a Sendhello object.
+   *
+   * @param msg message to send.
+   * @param originalId Id of the sendeer node.
+   * @param targetId Id of the reciever node.
+   */
   public SendHello(String msg, UUID originalId, UUID targetId) {
     this.msg = msg;
     this.originalId = originalId;

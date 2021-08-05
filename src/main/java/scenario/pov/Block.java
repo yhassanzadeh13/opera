@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
+ * Block is a serializable object which consist of uuid, owner, validators, height, prevBlock, and transactions.
  *
  */
 public class Block implements Serializable {
@@ -16,14 +17,14 @@ public class Block implements Serializable {
   private UUID prevBlock;
   private List<UUID> transactions;
 
-  /**
+  /** Constructor of the block object.
    *
-   * @param uuid
-   * @param height
-   * @param owner
-   * @param prevBlock
-   * @param validators
-   * @param transactions
+   * @param uuid unique Id of the block.
+   * @param height height of the block.
+   * @param owner  Unique Id of the owner of the block.
+   * @param prevBlock Unique Id of the previous block.
+   * @param validators List of unique IDs of the validators.
+   * @param transactions List of unique IDs of the transactions.
    */
   public Block(UUID uuid, Integer height, UUID owner, UUID prevBlock, List<UUID> validators, List<UUID> transactions) {
     this.uuid = uuid;

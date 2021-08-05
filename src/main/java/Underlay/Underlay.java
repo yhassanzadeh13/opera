@@ -33,7 +33,7 @@ public abstract class Underlay {
    * Initializes the underlay.
    *
    * @param port        the port that the underlay should be bound to.
-   * @param middleLayer
+   * @param middleLayer middle layer for underlay.
    * @return true iff the initialization was successful.
    */
   public final boolean initialize(int port, MiddleLayer middleLayer) {

@@ -1,6 +1,10 @@
 package utils;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -72,7 +76,7 @@ class SharedVariableTest {
     try {
       count.await();
     } catch (Exception e) {
-
+      e.printStackTrace();
     }
     long sample = -1;
     for (UUID nodeId : allId) {

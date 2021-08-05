@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 import simulator.Simulator;
 import underlay.UnderlayType;
 
+/**
+ * Tests latency of simulator.
+ */
 public class SimulatedLatencyTest {
 
   static final int ITERATIONS = 20000;

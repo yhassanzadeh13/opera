@@ -9,7 +9,9 @@ import org.apache.log4j.Logger;
 import org.yaml.snakeyaml.Yaml;
 import underlay.local.LocalUnderlay;
 
-
+/**
+ *UnderlayFactory is a factory which consists of Underlays.
+ */
 public class UnderlayFactory {
 
   private UnderlayFactory() {
@@ -22,6 +24,15 @@ public class UnderlayFactory {
 
   private static String yamlFile = "./src/main/java/underlay/underlayTypes.yml";
 
+  /**
+   * getter of a mock Underlay.
+   *
+   * @param address address of the underlay
+   * @param port port of the underlay
+   * @param middleLayer middle layer of the underlay
+   * @param allLocalUnderlay hashmap of all underlays
+   * @return underlay
+   */
   public static LocalUnderlay getMockUnderlay(String address,
                                               int port,
                                               MiddleLayer middleLayer,
@@ -35,8 +46,8 @@ public class UnderlayFactory {
    * get a new underlay instance.
    *
    * @param underlayName the underlay type name according to underlayTypes yaml file
-   * @param port
-   * @param middleLayer
+   * @param port port of the underlay
+   * @param middleLayer middle layer of the underlay
    * @return new underlay instance according to the given type
    */
 

@@ -1,10 +1,11 @@
 package node;
 
-import underlay.MiddleLayer;
-import underlay.packets.Event;
 import java.util.ArrayList;
 import java.util.UUID;
 import metrics.MetricsCollector;
+import underlay.MiddleLayer;
+import underlay.packets.Event;
+
 
 /**
  * The BaseNode interface is a base interface for the node class to use for the simulator.simulator.

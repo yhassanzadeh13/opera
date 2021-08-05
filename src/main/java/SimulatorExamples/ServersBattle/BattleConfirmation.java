@@ -4,7 +4,9 @@ import java.util.UUID;
 import node.BaseNode;
 import underlay.packets.Event;
 
-
+/**
+ * Is an event to confirm the battle invitations.
+ */
 public class BattleConfirmation implements Event {
 
   boolean opponentConfirmation;
@@ -17,6 +19,15 @@ public class BattleConfirmation implements Event {
     this(host, opponent, opponentConfirmation, 0, 0);
   }
 
+  /**
+   * Constructor of BattleConfirmation.
+   *
+   * @param host ID of the host node
+   * @param opponent ID of the opponent
+   * @param opponentConfirmation Shows whether opponent accepted battle or not
+   * @param duration Duration of the battle
+   * @param opponentLevel level of the opponent
+   */
   public BattleConfirmation(UUID host, UUID opponent, boolean opponentConfirmation, int duration, int opponentLevel) {
     this.opponentConfirmation = opponentConfirmation;
     this.duration = duration;

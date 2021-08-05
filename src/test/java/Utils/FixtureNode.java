@@ -7,6 +7,9 @@ import node.BaseNode;
 import underlay.MiddleLayer;
 import underlay.packets.Event;
 
+/**
+ * A basic BaseNode to check whether Utils coded correctly or not.
+ */
 public class FixtureNode implements BaseNode {
   private UUID selfId;
   private ArrayList<UUID> allId;

@@ -1,7 +1,12 @@
 package underlay.udp;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import underlay.Underlay;
 import underlay.packets.Request;
 

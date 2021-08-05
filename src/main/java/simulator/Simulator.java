@@ -1,28 +1,40 @@
 package simulator;
 
-import underlay.local.LocalUnderlay;
-import underlay.MiddleLayer;
-import underlay.UnderlayFactory;
-import underlay.UnderlayType;
-import underlay.packets.Event;
-import utils.generator.BaseGenerator;
-import utils.generator.GaussianGenerator;
-import utils.SimpleEntryComparable;
-import utils.SimulatorUtils;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import metrics.MetricsCollector;
 import metrics.SimulatorCollector;
 import node.BaseNode;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import underlay.MiddleLayer;
+import underlay.UnderlayFactory;
+import underlay.UnderlayType;
+import underlay.local.LocalUnderlay;
+import underlay.packets.Event;
+import utils.SimpleEntryComparable;
+import utils.SimulatorUtils;
+import utils.generator.BaseGenerator;
+import utils.generator.GaussianGenerator;
 
 
+/**
+ * Simulator simulates situations between nodes with actions performed between the nodes.
+ * Simulator also can create new instances for the nodes.
+ * Simulator can simulate in two ways: churn-based, time-based.
+ *
+ * @param <T> Type of the BaseNode.
+ */
 public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
   private static final Random rand = new Random();
   private static final UUID SimulatorID = UUID.randomUUID();

@@ -18,6 +18,13 @@ public class LocalUnderlay extends Underlay {
   private final String selfAddress;
   private final int port;
 
+  /**
+   * Constructor of LocalUnderlay.
+   *
+   * @param selfAddress Address of the underlay
+   * @param port port of the Underlay
+   * @param allUnderlay hashmap of all underlays
+   */
   public LocalUnderlay(String selfAddress, int port, HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allUnderlay) {
     this.selfAddress = selfAddress;
     this.port = port;
@@ -52,6 +59,8 @@ public class LocalUnderlay extends Underlay {
   }
 
   /**
+   * Sends a request to Underlay. Return true if no errors.
+   *
    * @param address address of the remote server.
    * @param port    port of the remote server.
    * @param request the request.
@@ -86,7 +95,7 @@ public class LocalUnderlay extends Underlay {
    *
    * @param address  address of the node
    * @param port     ID of the node
-   * @param underlay
+   * @param underlay underlay to add.
    * @return true if ID was found and instance was added successfully. False, otherwise.
    */
   public boolean addInstance(String address, int port, LocalUnderlay underlay) {

@@ -21,7 +21,19 @@ public class UdpHandler implements Runnable {
   // The handler which will be handling this request.
   private final UdpUnderlay underlay;
 
-  public UdpHandler(DatagramSocket udpSocket, Request request, InetAddress clientAddress, int clientPort,
+  /**
+   *  Constructor of the UdpHandler.
+   *
+   * @param udpSocket Socket of the Handler
+   * @param request Request of the handler
+   * @param clientAddress Address of the Client
+   * @param clientPort Port of the Client
+   * @param underlay Underlay for the Handler
+   */
+  public UdpHandler(DatagramSocket udpSocket,
+                    Request request,
+                    InetAddress clientAddress,
+                    int clientPort,
                     UdpUnderlay underlay) {
     this.udpSocket = udpSocket;
     this.request = request;

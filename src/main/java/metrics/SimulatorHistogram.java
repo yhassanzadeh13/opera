@@ -1,10 +1,10 @@
 package metrics;
 
-import simulator.Simulator;
 import io.prometheus.client.Histogram;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.UUID;
+import simulator.Simulator;
 
 /**
  * This class provides a prometheus-based histogram for extracting metrics.
@@ -18,10 +18,10 @@ public class SimulatorHistogram extends SimulatorMetric implements HistogramColl
   /**
    * Record a new value for the histogram with a specific name and id.
    *
-   * @param name name of the metric
-   * @param id
-   * @param v
-   * @return
+   * @param name name of the metric.
+   * @param id id of the node.
+   * @param v value to record.
+   * @return false if metric is null, true else.
    */
   @Override
   public boolean observe(String name, UUID id, double v) {
@@ -53,10 +53,10 @@ public class SimulatorHistogram extends SimulatorMetric implements HistogramColl
    * The time elapsed will be recorded under the node with the given id.
    * If two timers start with the same timer ID, the observeDuration will stop the earliest one.
    *
-   * @param name    name of the metric
-   * @param id
-   * @param timerId
-   * @return
+   * @param name    name of the metric.
+   * @param id id of the node.
+   * @param timerId id of the timer.
+   * @return false if metric is null else return true
    */
   @Override
   public boolean startTimer(String name, UUID id, String timerId) {
@@ -88,9 +88,9 @@ public class SimulatorHistogram extends SimulatorMetric implements HistogramColl
    * Observe the duration of the already started timer with a specific name and timer ID.
    * To start a timer, please use the startTimer method.
    *
-   * @param name
-   * @param timerId
-   * @return
+   * @param name name of the timer
+   * @param timerId id of the timer
+   * @return false if there is an exception else return true.
    */
   @Override
   public boolean observeDuration(String name, String timerId) {
@@ -115,9 +115,9 @@ public class SimulatorHistogram extends SimulatorMetric implements HistogramColl
    * Silently observes the duration of the already started timer with a specific name and timer ID.
    * In case timer has not already been started, it simply returns without logging any error.
    *
-   * @param name
-   * @param timerId
-   * @return
+   * @param name name of the timer
+   * @param timerId id of the timer
+   *
    */
   @Override
   public void tryObserveDuration(String name, String timerId) {
@@ -139,16 +139,18 @@ public class SimulatorHistogram extends SimulatorMetric implements HistogramColl
   /**
    * Register a new histogram with given buckets.
    *
-   * @param name
-   * @param buckets
-   * @return
+   * @param name name for the histogram.
+   * @param buckets list of buckets
+   * @return false if type of the name is different than histogram type, else return true.
    */
   @Override
   public boolean register(String name, double[] buckets) {
     if (!collectors.containsKey(name)) {
       collectors.put(
             name,
-            Histogram.build().buckets(buckets).namespace(NAMESPACE).name(name).help(HELP_MSG).labelNames(LABEL_NAME).register());
+            Histogram.build().buckets(buckets)
+                  .namespace(NAMESPACE).name(name).help(HELP_MSG)
+                  .labelNames(LABEL_NAME).register());
       collectorsTypes.put(name, Type.HISTOGRAM);
       Simulator.getLogger().info(
             "[SimulatorHistogram] Collector with name " + name + " was registered");

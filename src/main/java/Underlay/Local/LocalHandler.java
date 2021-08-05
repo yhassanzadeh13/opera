@@ -3,6 +3,9 @@ package underlay.local;
 import underlay.MiddleLayer;
 import underlay.packets.Request;
 
+/**
+ * Sends request to a middle layer.
+ */
 public class LocalHandler implements Runnable {
 
 

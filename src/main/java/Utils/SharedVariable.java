@@ -1,6 +1,10 @@
 package utils;
 
-import java.util.*;
+//import java.util.*;
+import java.util.AbstractMap;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 import simulator.Simulator;
@@ -39,6 +43,11 @@ public class SharedVariable {
 
   }
 
+  /**
+   * Getter of instance of shared variable.
+   *
+   * @return the instance of the shared variable
+   */
   public static SharedVariable getInstance() {
     if (SharedVariable.instance == null) {
       instance = new SharedVariable();
@@ -49,9 +58,9 @@ public class SharedVariable {
   /**
    * Register a new variable in the DSM.
    *
-   * @param name
+   * @param name name of the variable
    * @param allId the IDs of the nodes that should have access to this variable
-   * @return
+   * @return false if variable already registered, true otherwise
    */
   public boolean register(String name, ArrayList<UUID> allId) {
     if (variablesIds.containsKey(name)) {
@@ -80,9 +89,9 @@ public class SharedVariable {
   /**
    * Requesting the writing lock for a variable.
    *
-   * @param nodeId
-   * @param name
-   * @return
+   * @param nodeId Id of the node
+   * @param name name of the variable
+   * @return true if node equal to fixture owner or nodeID
    */
   public synchronized boolean requestLock(UUID nodeId, String name) {
     int variableId = variablesIds.get(name);
@@ -101,8 +110,8 @@ public class SharedVariable {
    * In case the name is assigned with another type, the variable will be overwritten.
    *
    * @param senderId node UUID
-   * @param name
-   * @param variable
+   * @param name name of the value
+   * @param variable variable to overwrite
    * @return Ture in case of success, False otherwise.
    */
   public synchronized boolean write(UUID senderId, String name, Object variable) {
@@ -130,8 +139,8 @@ public class SharedVariable {
    * read the value of a DSM variable.
    *
    * @param nodeId the reader node ID
-   * @param name
-   * @return
+   * @param name name of the variable
+   * @return value if there is a value for the given name null otherwise.
    */
   public AbstractMap.SimpleEntry<UUID, Object> read(UUID nodeId, String name) throws NullPointerException {
     if (!variablesIds.containsKey(name)) {
@@ -156,8 +165,8 @@ public class SharedVariable {
   /**
    * get the owner of the lock for a specific variable.
    *
-   * @param name
-   * @return
+   * @param name name of the variable
+   * @return owner of the variable
    */
   public UUID getOwner(String name) {
     int variableId = variablesIds.get(name);
@@ -167,6 +176,13 @@ public class SharedVariable {
     return owner;
   }
 
+  /**
+   * Checks whether there is a value with that variable name or not.
+   *
+   * @param nodeId Id of the node
+   * @param name name of the variable
+   * @return true if empty false otherwise
+   */
   public boolean isEmpty(UUID nodeId, String name) {
     if (!variablesIds.containsKey(name)) {
       Simulator.getLogger().error("[SharedVariable] Read: no variable with name " + name + " is registered");
@@ -182,6 +198,12 @@ public class SharedVariable {
     return nodeQueues.get(nodeId).get(variableId).isEmpty();
   }
 
+  /**
+   * releases lock for given name and ID.
+   *
+   * @param nodeId Id of the node
+   * @param name name of the variable
+   */
   public void releaseLock(UUID nodeId, String name) {
     if (getOwner(name).equals(nodeId)) {
       int variableId = variablesIds.get(name);

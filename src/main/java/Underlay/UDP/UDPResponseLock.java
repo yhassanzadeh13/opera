@@ -1,7 +1,8 @@
 //package underlay.udp;
 //
 ///**
-// * Used to synchronize the sender thread with the receiver thread at the host. The sender thread (i.e. UDPUnderlay) will
+// * Used to synchronize the sender thread with the receiver thread at the host.
+// The sender thread (i.e. UDPUnderlay) will
 // * be waiting for a response while the receiver thread (i.e. UDPListener) receives the response. Using this object, we
 // * can transfer the response from the receiver thread to the sender thread.
 // */
@@ -28,7 +29,8 @@
 //    }
 //
 //    /**
-//     * Called by the listener thread once it has received a response. Results in the waiting thread (i.e. sender thread)
+//     * Called by the listener thread once it has received a response.
+//     Results in the waiting thread (i.e. sender thread)
 //     * to stop waiting and receive the dispatched response.
 //     * @param response the response to dispatch to the sender thread.
 //     */

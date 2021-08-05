@@ -1,8 +1,9 @@
 package metrics;
 
-import simulator.Simulator;
 import io.prometheus.client.Counter;
 import java.util.UUID;
+import simulator.Simulator;
+
 
 /**
  * This class provides a prometheus-based counter for extracting metrics

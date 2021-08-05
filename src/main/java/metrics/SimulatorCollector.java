@@ -1,6 +1,7 @@
 package metrics;
 
 /**
+ * Simulator Collector is a prometheus-based metric collector which uses simulator counter, gauge and histogram.
  *
  */
 public class SimulatorCollector implements MetricsCollector {
@@ -9,7 +10,7 @@ public class SimulatorCollector implements MetricsCollector {
   private final SimulatorHistogram mhistogram;
 
   /**
-   *
+   * Simulator Collector initializer.
    */
   public SimulatorCollector() {
     this.mcounter = new SimulatorCounter();

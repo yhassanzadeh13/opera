@@ -1,12 +1,13 @@
 package scenario.pov.events;
 
-import underlay.packets.Event;
 import node.BaseNode;
 import scenario.pov.Block;
 import scenario.pov.LightChainNode;
+import underlay.packets.Event;
+
 
 /**
- *
+ * updates nodes block to the latestBlock.
  */
 public class DeliverLatestBlockEvent implements Event {
 

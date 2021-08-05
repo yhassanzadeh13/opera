@@ -11,7 +11,9 @@ import simulator.Simulator;
 import underlay.MiddleLayer;
 import underlay.packets.Event;
 
-
+/**
+ * Contestants are nodes that participate the battles. Which fight over their level.
+ */
 public class Contestant implements BaseNode {
 
   static final String FIGHTCOUNT = "FightCount";
@@ -84,6 +86,9 @@ public class Contestant implements BaseNode {
     return new Contestant(selfId, network, metrics);
   }
 
+  /**
+   * Sends new fight invitation to a random node.
+   */
   public synchronized void sendNewFightInvitation() {
     if (this.allId.size() <= 1) {
       if (!this.allId.isEmpty() && allId.get(0).equals(this.selfId)) {
@@ -130,6 +135,12 @@ public class Contestant implements BaseNode {
     }
   }
 
+  /**
+   * If a new fight invitation arrives node calls this function and accepts the invitation if node is available.
+   *
+   * @param host Id of the host node
+   * @param duration duration of the battle
+   */
   public void onNewFightInvitation(UUID host, int duration) {
     if (!this.isFighting) {
       if (network.send(host, new BattleConfirmation(host, this.selfId, true, duration, this.healthLevel))) {
@@ -142,6 +153,14 @@ public class Contestant implements BaseNode {
     }
   }
 
+  /**
+   * If hosts level is bigger than opponents health host wins
+   * if opponents level is bigger than hosts health opponent wins.
+   *
+   * @param opponent Id of the opponent
+   * @param opponentLevel Level of the opponent
+   * @param duration duration of the battle
+   */
   public synchronized void hostFight(UUID opponent, int opponentLevel, int duration) {
     if (this.isFighting) {
       network.send(opponent, new BattleResult(this.selfId, opponent, true));
@@ -179,6 +198,13 @@ public class Contestant implements BaseNode {
     }
   }
 
+  /**
+   * if loses health reduces by 10.
+   * if draw health increases by 1.
+   * if win health increases by 10.
+   *
+   * @param result result of the battle
+   */
   public synchronized void updateHealth(int result) {
     switch (result) {
       case -1:
@@ -191,7 +217,7 @@ public class Contestant implements BaseNode {
         this.metrics.gauge().inc(HEALTHLEVEL, this.selfId, 1);
         Simulator.getLogger().info(this.selfId + " gains 1 point");
         break;
-      case 1:
+      default:
         this.healthLevel += 5;
         this.metrics.gauge().inc(HEALTHLEVEL, this.selfId, 5);
         Simulator.getLogger().info(this.selfId + " gains 5 points");

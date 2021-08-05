@@ -4,7 +4,7 @@ import io.prometheus.client.Collector;
 import java.util.HashMap;
 
 /**
- *
+ * Simulator metric which consist of types and informative constant variables.
  */
 public class SimulatorMetric {
 

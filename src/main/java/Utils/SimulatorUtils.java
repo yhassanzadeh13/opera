@@ -4,10 +4,17 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.prometheus.client.exporter.HTTPServer;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * static class for providing various utils related to the simulator.
@@ -46,12 +53,12 @@ public class SimulatorUtils {
       File prometheusConfig = new File("./dockprom/prometheus/prometheus.yml");
       Map<String, Object> config = objectMapper.readValue(prometheusConfig, new TypeReference<Map<String, Object>>() {
       });
-      List<Object> scrape_configs = (List<Object>) config.get("scrape_configs");
+      List<Object> scrapeConfigs = (List<Object>) config.get("scrapeConfigs");
 
 
-      Map<String, Object> simulator_job = (Map<String, Object>) scrape_configs.get(0);
-      List<Object> static_configs = (List<Object>) simulator_job.get("static_configs");
-      Map<String, Object> targets = (Map<String, Object>) static_configs.get(0);
+      Map<String, Object> simulatorJob = (Map<String, Object>) scrapeConfigs.get(0);
+      List<Object> staticConfigs = (List<Object>) simulatorJob.get("staticConfigs");
+      Map<String, Object> targets = (Map<String, Object>) staticConfigs.get(0);
       targets.put("targets", Arrays.asList(localAddress + ":" + exposerPort));
 
       // write again on the file

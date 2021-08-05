@@ -1,12 +1,13 @@
 package scenario.pov.events;
 
-import underlay.packets.Event;
 import node.BaseNode;
 import scenario.pov.LightChainNode;
 import scenario.pov.Transaction;
+import underlay.packets.Event;
 
 /**
- *
+ * Adds a new transaction to a node.
+ * Size: Returns number of encoded bytes.
  */
 public class SubmitTransactionEvent implements Event {
 

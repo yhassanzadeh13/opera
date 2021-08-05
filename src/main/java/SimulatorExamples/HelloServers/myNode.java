@@ -1,13 +1,16 @@
 package simulatorexamples.helloservers;
 
-import underlay.MiddleLayer;
-import underlay.packets.Event;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 import metrics.MetricsCollector;
 import node.BaseNode;
+import underlay.MiddleLayer;
+import underlay.packets.Event;
 
+/**
+ * MyNode is a basenode to be fixture node for the helloservers simulation.
+ */
 public class MyNode implements BaseNode {
   private static final String MESSAGE_COUNT = "MessageCnt";
   private UUID selfId;
@@ -38,6 +41,11 @@ public class MyNode implements BaseNode {
     this.sendNewMessage("Hello");
   }
 
+  /**
+   * Sends message to a random node.
+   *
+   * @param msg msg to send
+   */
   public void sendNewMessage(String msg) {
     if (allId.isEmpty()) {
       return;
@@ -58,6 +66,7 @@ public class MyNode implements BaseNode {
       Random rand = new Random();
       Thread.sleep(rand.nextInt(1000));
     } catch (InterruptedException e) {
+      e.printStackTrace();
     }
     msg.actionPerformed(this);
   }
