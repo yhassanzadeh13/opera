@@ -1,5 +1,9 @@
 package utils;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import io.prometheus.client.exporter.HTTPServer;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -11,10 +15,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import io.prometheus.client.exporter.HTTPServer;
 
 /**
  * static class for providing various utils related to the simulator.

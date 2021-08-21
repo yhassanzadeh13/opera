@@ -46,10 +46,10 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
   private final ArrayList<UUID> offlineNodes = new ArrayList<>();
   private final CountDownLatch count;
   private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
+  private final MetricsCollector metricsCollector;
   public HashMap<String, Integer> nodesSimulatedLatency = new HashMap<>();
   private HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers;
   private PriorityQueue<SimpleEntryComparable<Long, UUID>> onlineNodes = new PriorityQueue<>();
-  private final MetricsCollector metricsCollector;
 
   /**
    * Initializes a new simulation.
@@ -67,19 +67,6 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
 
     SimulatorUtils.configurePrometheus();
 
-
-    log.setLevel(Level.DEBUG);
-
-//    // TODO: with advance logger
-//    log.info("Nodes IDs are:");
-//    for (UUID id : this.allId) {
-//      log.info(id);
-//    }
-//    log.info("Nodes Addresses are:");
-//    for (SimpleEntry<String, Integer> address : this.allFullAddresses.values()) {
-//      log.info(address.getKey() + ":" + address.getValue());
-//    }
-
     // CountDownLatch for awaiting the start of the simulation until all nodes are ready
     count = new CountDownLatch(n);
 
@@ -87,6 +74,15 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
     this.metricsCollector = new SimulatorCollector();
 
     this.generateNodesInstances(networkType);
+  }
+
+  /**
+   * getter for the simulator logger of log4j.
+   *
+   * @return the simulator logger
+   */
+  public static Logger getLogger() {
+    return log;
   }
 
   /**
@@ -295,15 +291,6 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
     log.info("Simulation duration finished");
 
     this.onStop();
-  }
-
-  /**
-   * getter for the simulator logger of log4j.
-   *
-   * @return the simulator logger
-   */
-  public static Logger getLogger() {
-    return log;
   }
 
   public String getAddress(UUID nodeId) {
