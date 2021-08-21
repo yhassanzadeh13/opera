@@ -122,7 +122,7 @@ public class LightChainNode implements BaseNode {
   @Override
   public void onCreate(ArrayList<UUID> allId) {
 
-    logger.info("Node " + this.uuid + " has been created.");
+    logger.info("node " + this.uuid + " has been created.");
 
     this.allId = allId;
 
@@ -176,7 +176,7 @@ public class LightChainNode implements BaseNode {
     if (this.isRegistry) {
       return;
     }
-    logger.info("Node " + this.uuid + " has started.");
+    logger.info("node " + this.uuid + " has started.");
 
     new Thread(this::startTransactionInsertions).start();
 
@@ -302,7 +302,7 @@ public class LightChainNode implements BaseNode {
 
     for (int i = 0; i < this.transactionInsertions; ++i) {
 
-      logger.info("Node " + this.uuid + " inserting transaction number " + (i + 1));
+      logger.info("node " + this.uuid + " inserting transaction number " + (i + 1));
 
       // update the latest block
       this.requestLatestBlock();
@@ -318,7 +318,7 @@ public class LightChainNode implements BaseNode {
       this.transactions.put(tx.getId(), tx);
 
 
-      logger.info("Node " + this.uuid + " is requesting validators");
+      logger.info("node " + this.uuid + " is requesting validators");
       for (UUID validator : validators) {
         // send an asynchronous validation request
         network.send(validator, new ValidateTransactionEvent(tx));
@@ -420,7 +420,7 @@ public class LightChainNode implements BaseNode {
     this.transactionValidationLock.writeLock().unlock();
 
     if (prevCount + 1 == this.numValidators) {
-      logger.info("Node " + this.uuid + " Inserting its transaction " + transactionUuid);
+      logger.info("node " + this.uuid + " Inserting its transaction " + transactionUuid);
       this.network.send(this.getRegistryId(), new SubmitTransactionEvent(this.transactions.get(transactionUuid)));
     }
   }
@@ -453,7 +453,7 @@ public class LightChainNode implements BaseNode {
     this.blockValidationLock.writeLock().unlock();
 
     if (prevCount + 1 == this.numValidators) {
-      logger.info("Node " + this.uuid + " Inserting its block " + blockUuid);
+      logger.info("node " + this.uuid + " Inserting its block " + blockUuid);
       this.network.send(this.getRegistryId(), new SubmitBlockEvent(this.blocks.get(blockUuid)));
     }
   }
@@ -547,12 +547,12 @@ public class LightChainNode implements BaseNode {
    */
   public void requestLatestBlock() {
 
-    logger.info("Node " + this.uuid + " requesting latest block");
+    logger.info("node " + this.uuid + " requesting latest block");
 
     blockLatch = new CountDownLatch(1);
     network.send(this.getRegistryId(), new GetLatestBlockEvent(this.uuid));
 
-    logger.info("Node" + this.uuid + " waiting for latest block");
+    logger.info("node" + this.uuid + " waiting for latest block");
 
     try {
       blockLatch.await();

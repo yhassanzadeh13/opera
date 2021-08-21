@@ -1,5 +1,6 @@
 package underlay;
 
+import events.StopStartEvent;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +10,6 @@ import node.BaseNode;
 import org.apache.log4j.Logger;
 import simulator.Orchestrator;
 import simulator.Simulator;
-import events.StopStartEvent;
 import underlay.packets.Event;
 import underlay.packets.Request;
 import utils.SimulatorUtils;
@@ -37,10 +37,10 @@ public class MiddleLayer {
   /**
    * Constructor of MiddleLayer.
    *
-   * @param nodeId Id of the node
+   * @param nodeId           Id of the node
    * @param allFullAddresses Hashmap of the all addresses
-   * @param isReady Hashmap of whether nodes are ready or not
-   * @param orchestrator Orchestrator for the middle layer
+   * @param isReady          Hashmap of whether nodes are ready or not
+   * @param orchestrator     Orchestrator for the middle layer
    * @param metricsCollector Metrics collector for the middle layer
    */
   public MiddleLayer(UUID nodeId,
@@ -62,7 +62,7 @@ public class MiddleLayer {
     this.metricsCollector.counter().register(sentMsgCntMetric);
     this.metricsCollector.counter().register(receivedMsgCntMetric);
     this.metricsCollector.histogram().register(metrics.Metrics.PACKET_SIZE,
-          new double[]{1.0, 2.0, 3.0, 5.0, 10.0, 15.0, 20.0});
+        new double[]{1.0, 2.0, 3.0, 5.0, 10.0, 15.0, 20.0});
   }
 
   public Underlay getUnderlay() {
@@ -108,7 +108,7 @@ public class MiddleLayer {
       Thread.sleep(sleepTime);
     } catch (Exception e) {
       Simulator.getLogger().error("[MiddleLayer] Thread failed to sleep for the simulated delay, sleep time:"
-            + sleepTime);
+          + sleepTime);
     }
 
     // Bounce the request up.
@@ -144,7 +144,7 @@ public class MiddleLayer {
 
 
     log.info("[MiddleLayer] " + this.getAddress(nodeId)
-          + " : node received an event " + request.getEvent().logMessage());
+        + " : node received an event " + request.getEvent().logMessage());
 
     // check if the event is start, stop event and handle it directly
     if (request.getEvent() instanceof StopStartEvent) {
@@ -156,8 +156,8 @@ public class MiddleLayer {
       }
     } else {
       this.metricsCollector.histogram().observe(metrics.Metrics.PACKET_SIZE,
-            request.getOriginalId(),
-            request.getEvent().size());
+          request.getOriginalId(),
+          request.getEvent().size());
       overlay.onNewMessage(request.getOriginalId(), request.getEvent());
     }
 

@@ -84,7 +84,7 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">simulator</a></div>
-<h1 title="Class simulator" class="title">Class simulator&lt;T extends <a href="../Node/BaseNode.html" title="interface in Node">BaseNode</a>&gt;</h1>
+<h1 title="Class simulator" class="title">Class simulator&lt;T extends <a href="../Node/BaseNode.html" title="interface in node">BaseNode</a>&gt;</h1>
 </div>
 <div class="contentContainer">
 <div class="inheritance" title="Inheritance Tree">java.lang.Object
@@ -93,12 +93,12 @@ loadScripts(document, 'script');</script>
 <section class="description">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../Node/BaseNode.html" title="interface in Node">BaseNode</a></code></dd>
+<dd><code><a href="../Node/BaseNode.html" title="interface in node">BaseNode</a></code></dd>
 </dl>
 <hr>
-<pre>public class <span class="typeNameLabel">simulator&lt;T extends <a href="../Node/BaseNode.html" title="interface in Node">BaseNode</a>&gt;</span>
+<pre>public class <span class="typeNameLabel">simulator&lt;T extends <a href="../Node/BaseNode.html" title="interface in node">BaseNode</a>&gt;</span>
 extends java.lang.Object
-implements <a href="../Node/BaseNode.html" title="interface in Node">BaseNode</a></pre>
+implements <a href="../Node/BaseNode.html" title="interface in node">BaseNode</a></pre>
 </section>
 <section class="summary">
 <ul class="blockList">
@@ -238,7 +238,7 @@ boolean&nbsp;bidirectional)</code></th>
 </td>
 </tr>
 <tr class="altColor" id="i8">
-<td class="colFirst"><code><a href="../Node/BaseNode.html" title="interface in Node">BaseNode</a></code></td>
+<td class="colFirst"><code><a href="../Node/BaseNode.html" title="interface in node">BaseNode</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newInstance(java.util.UUID,Underlay.MiddleLayer)">newInstance</a></span>&#8203;(java.util.UUID&nbsp;selfID,
 <a href="../Underlay/MiddleLayer.html" title="class in underlay">MiddleLayer</a>&nbsp;middleLayer)</code></th>
 <td class="colLast">
@@ -362,7 +362,7 @@ java.lang.String&nbsp;networkType)</span></div>
     parameters</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../Node/BaseNode.html#onCreate(java.util.ArrayList)">onCreate</a></code>&nbsp;in interface&nbsp;<code><a href="../Node/BaseNode.html" title="interface in Node">BaseNode</a></code></dd>
+<dd><code><a href="../Node/BaseNode.html#onCreate(java.util.ArrayList)">onCreate</a></code>&nbsp;in interface&nbsp;<code><a href="../Node/BaseNode.html" title="interface in node">BaseNode</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>allID</code> - the IDs of type UUID for all the nodes in the cluster</dd>
 </dl>
@@ -376,7 +376,7 @@ java.lang.String&nbsp;networkType)</span></div>
 <div class="block">Activated by the simulator.Simulator after all the nodes in the cluster become ready</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../Node/BaseNode.html#onStart()">onStart</a></code>&nbsp;in interface&nbsp;<code><a href="../Node/BaseNode.html" title="interface in Node">BaseNode</a></code></dd>
+<dd><code><a href="../Node/BaseNode.html#onStart()">onStart</a></code>&nbsp;in interface&nbsp;<code><a href="../Node/BaseNode.html" title="interface in node">BaseNode</a></code></dd>
 </dl>
 </section>
 </li>
@@ -388,7 +388,7 @@ java.lang.String&nbsp;networkType)</span></div>
 <div class="block">Activated by the simulator.Simulator just before the node shuts down.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../Node/BaseNode.html#onStop()">onStop</a></code>&nbsp;in interface&nbsp;<code><a href="../Node/BaseNode.html" title="interface in Node">BaseNode</a></code></dd>
+<dd><code><a href="../Node/BaseNode.html#onStop()">onStop</a></code>&nbsp;in interface&nbsp;<code><a href="../Node/BaseNode.html" title="interface in node">BaseNode</a></code></dd>
 </dl>
 </section>
 </li>
@@ -402,7 +402,7 @@ java.lang.String&nbsp;networkType)</span></div>
  The node will receive all the message through this method.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../Node/BaseNode.html#onNewMessage(java.util.UUID,Underlay.packets.Event)">onNewMessage</a></code>&nbsp;in interface&nbsp;<code><a href="../Node/BaseNode.html" title="interface in Node">BaseNode</a></code></dd>
+<dd><code><a href="../Node/BaseNode.html#onNewMessage(java.util.UUID,Underlay.packets.Event)">onNewMessage</a></code>&nbsp;in interface&nbsp;<code><a href="../Node/BaseNode.html" title="interface in node">BaseNode</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>originID</code> - the ID of the sender node</dd>
 <dd><code>msg</code> - the content of the message</dd>
@@ -412,14 +412,14 @@ java.lang.String&nbsp;networkType)</span></div>
 <li class="blockList">
 <section class="detail">
 <h3><a id="newInstance(java.util.UUID,Underlay.MiddleLayer)">newInstance</a></h3>
-<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="../Node/BaseNode.html" title="interface in Node">BaseNode</a></span>&nbsp;<span class="memberName">newInstance</span>&#8203;(<span class="arguments">java.util.UUID&nbsp;selfID,
+<div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="../Node/BaseNode.html" title="interface in node">BaseNode</a></span>&nbsp;<span class="memberName">newInstance</span>&#8203;(<span class="arguments">java.util.UUID&nbsp;selfID,
 <a href="../Underlay/MiddleLayer.html" title="class in underlay">MiddleLayer</a>&nbsp;middleLayer)</span></div>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../Node/BaseNode.html#newInstance(java.util.UUID,Underlay.MiddleLayer)">BaseNode</a></code></span></div>
 <div class="block">This method serves as a factory for new node instances.
  It is supposed to return a new instance of the special node class</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../Node/BaseNode.html#newInstance(java.util.UUID,Underlay.MiddleLayer)">newInstance</a></code>&nbsp;in interface&nbsp;<code><a href="../Node/BaseNode.html" title="interface in Node">BaseNode</a></code></dd>
+<dd><code><a href="../Node/BaseNode.html#newInstance(java.util.UUID,Underlay.MiddleLayer)">newInstance</a></code>&nbsp;in interface&nbsp;<code><a href="../Node/BaseNode.html" title="interface in node">BaseNode</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>selfID</code> - the ID of the new node</dd>
 <dd><code>middleLayer</code> - communication network for the new node</dd>
