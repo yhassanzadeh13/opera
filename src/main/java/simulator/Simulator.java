@@ -70,23 +70,23 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
 
     log.setLevel(Level.DEBUG);
 
-    // TODO: with advance logger
-    log.info("Nodes IDs are:");
-    for (UUID id : this.allId) {
-      log.info(id);
-    }
-    log.info("Nodes Addresses are:");
-    for (SimpleEntry<String, Integer> address : this.allFullAddresses.values()) {
-      log.info(address.getKey() + ":" + address.getValue());
-    }
+//    // TODO: with advance logger
+//    log.info("Nodes IDs are:");
+//    for (UUID id : this.allId) {
+//      log.info(id);
+//    }
+//    log.info("Nodes Addresses are:");
+//    for (SimpleEntry<String, Integer> address : this.allFullAddresses.values()) {
+//      log.info(address.getKey() + ":" + address.getValue());
+//    }
 
     // CountDownLatch for awaiting the start of the simulation until all nodes are ready
     count = new CountDownLatch(n);
-    this.generateNodesInstances(networkType);
-
 
     // initializes metrics collector
     this.metricsCollector = new SimulatorCollector();
+
+    this.generateNodesInstances(networkType);
   }
 
   /**
@@ -206,7 +206,7 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
   @Override
   public void ready(UUID nodeId) {
     this.isReady.put(this.allFullAddresses.get(nodeId), true);
-    log.info(nodeId + ": node is ready");
+    // log.info(nodeId + ": node is ready");
 
     // start the nodes directly if the simulation is running, or wait for all nodes to be ready in case otherwise.
     if (this.count.getCount() <= 0) {

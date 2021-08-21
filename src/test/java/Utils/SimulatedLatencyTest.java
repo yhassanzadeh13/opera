@@ -1,12 +1,11 @@
 package utils;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.Test;
 import simulator.Simulator;
 import underlay.UnderlayType;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests latency of simulator.
@@ -15,8 +14,8 @@ public class SimulatedLatencyTest {
 
   static final int ITERATIONS = 20000;
   static final int EPS = 10;
-  static JDKRandomGenerator rand = new JDKRandomGenerator();
   static final int NODE_CNT = 1000;
+  static JDKRandomGenerator rand = new JDKRandomGenerator();
   final int simulatorMean = 159;
   final int simulatorStd = 96;
 
@@ -51,8 +50,8 @@ public class SimulatedLatencyTest {
       int ind1 = rand.nextInt(NODE_CNT);
       int ind2 = rand.nextInt(NODE_CNT);
       int delay = simulation.getSimulatedLatency(simulation.getAllId().get(ind1),
-            simulation.getAllId().get(ind2),
-            true);
+          simulation.getAllId().get(ind2),
+          true);
       totalDelay += delay;
     }
     double mean = (double) totalDelay / ITERATIONS;
