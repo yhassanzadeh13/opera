@@ -1,4 +1,4 @@
-package simulatorexamples.serversbattle;
+package examples.serversbattle;
 
 import simulator.Simulator;
 import underlay.UnderlayType;

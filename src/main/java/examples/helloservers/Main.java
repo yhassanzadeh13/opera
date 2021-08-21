@@ -1,4 +1,4 @@
-package simulatorexamples.helloservers;
+package examples.helloservers;
 
 import simulator.Simulator;
 import underlay.UnderlayType;

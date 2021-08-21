@@ -1,4 +1,4 @@
-package simulatorexamples.helloservers;
+package examples.helloservers;
 
 import java.io.Serializable;
 import java.util.UUID;

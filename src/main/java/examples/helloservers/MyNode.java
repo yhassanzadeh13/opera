@@ -1,4 +1,4 @@
-package simulatorexamples.helloservers;
+package examples.helloservers;
 
 import java.util.ArrayList;
 import java.util.Random;

@@ -1,4 +1,4 @@
-package simulatorevents;
+package events;
 
 import java.util.UUID;
 import node.BaseNode;

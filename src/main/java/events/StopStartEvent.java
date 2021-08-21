@@ -1,4 +1,4 @@
-package simulatorevents;
+package events;
 
 import node.BaseNode;
 import underlay.packets.Event;

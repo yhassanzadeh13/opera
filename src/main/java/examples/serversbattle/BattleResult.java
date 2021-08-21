@@ -1,4 +1,4 @@
-package simulatorexamples.serversbattle;
+package examples.serversbattle;
 
 import java.util.UUID;
 import node.BaseNode;
