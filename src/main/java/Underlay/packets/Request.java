@@ -1,4 +1,4 @@
-package Underlay.packets;
+package underlay.packets;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -8,25 +8,32 @@ import java.util.UUID;
  */
 public class Request implements Serializable {
 
-    private final Event event;
-    private final UUID orginalID;
-    private final UUID destinationID;
+  private final Event event;
+  private final UUID originalId;
+  private final UUID destinationId;
 
-    public Request(Event event, UUID orginalID, UUID destinationID) {
-        this.event = event;
-        this.orginalID = orginalID;
-        this.destinationID = destinationID;
-    }
+  /**
+   * Constructor for the Request.
+   *
+   * @param event Event of the request
+   * @param originalId sender of the request
+   * @param destinationId reciever of the request
+   */
+  public Request(Event event, UUID originalId, UUID destinationId) {
+    this.event = event;
+    this.originalId = originalId;
+    this.destinationId = destinationId;
+  }
 
-    public Event getEvent() {
-        return event;
-    }
+  public Event getEvent() {
+    return event;
+  }
 
-    public UUID getOrginalID() {
-        return orginalID;
-    }
+  public UUID getOriginalId() {
+    return originalId;
+  }
 
-    public UUID getDestinationID() {
-        return destinationID;
-    }
+  public UUID getDestinationId() {
+    return destinationId;
+  }
 }
