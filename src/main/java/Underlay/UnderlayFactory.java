@@ -7,7 +7,10 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 import org.apache.log4j.Logger;
 import org.yaml.snakeyaml.Yaml;
+import underlay.javarmi.JavaRmiUnderlay;
 import underlay.local.LocalUnderlay;
+import underlay.tcp.TcpUnderlay;
+import underlay.udp.UdpUnderlay;
 
 /**
  *UnderlayFactory is a factory which consists of Underlays.
@@ -50,30 +53,33 @@ public class UnderlayFactory {
    * @param middleLayer middle layer of the underlay
    * @return new underlay instance according to the given type
    */
-
   public static Underlay newUnderlay(UnderlayType underlayName, int port, MiddleLayer middleLayer) {
-    // obtain underlay class name from the yaml file
-    if (underlayClassName == null) {
-      underlayClassName = readyaml();
-    }
+    Underlay underlay;
+    switch (underlayName){
+      case JAVA_RMI:
+        underlay = new JavaRmiUnderlay();
+        break;
 
-    // create new instance of underlay according to the class name
+      case TCP_PROTOCOL:
+        underlay = new TcpUnderlay();
+        break;
+
+      case UDP_PROTOCOL:
+        underlay = new UdpUnderlay();
+        break;
+
+      default:
+        throw new IllegalArgumentException("wrong argument name: " + underlayName);
+    }
     try {
-      String className = underlayClassName.get(underlayName.label);
-      Underlay underLay = (Underlay) Class.forName(className).getConstructor().newInstance();
-      underLay.initialize(port, middleLayer);
-      return underLay;
-    } catch (NullPointerException e) {
-      System.err.println(
-            "[UnderlayFactory] could not find underlay class name according to the given type " + underlayName);
-      e.printStackTrace();
-      return null;
+      underlay.initialize(port, middleLayer);
     } catch (Exception e) {
       System.err.println("[UnderlayFactory] could not create new underlay instance of type " + underlayName);
       e.printStackTrace();
       return null;
     }
 
+    return underlay;
   }
 
   /**

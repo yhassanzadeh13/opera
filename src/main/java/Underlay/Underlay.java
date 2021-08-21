@@ -13,7 +13,6 @@ public abstract class Underlay {
   private MiddleLayer middleLayer;
   protected static final Logger log = Logger.getLogger(Simulator.class.getName());
 
-
   public abstract int getPort();
 
   public abstract String getAddress();

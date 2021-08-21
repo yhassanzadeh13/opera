@@ -74,7 +74,6 @@ public class JavaRmiUnderlay extends Underlay {
       System.err.println("[JavaRMIUnderlay] Error while initializing at port " + port);
       e.printStackTrace();
       return false;
-
     }
 
     this.port = port;
