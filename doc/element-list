@@ -2,8 +2,8 @@ metrics
 Node
 simulator
 simulatorevents
-SimulatorExamples.HelloServers
-SimulatorExamples.ServersBattle
+simulatorexamples.helloservers
+simulatorexamples.ServersBattle
 underlay
 underlay.javarmi
 underlay.local

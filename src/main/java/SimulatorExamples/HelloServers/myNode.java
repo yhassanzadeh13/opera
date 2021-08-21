@@ -11,17 +11,17 @@ import underlay.packets.Event;
 /**
  * MyNode is a basenode to be fixture node for the helloservers simulation.
  */
-public class myNode implements BaseNode {
+public class MyNode implements BaseNode {
   private static final String MESSAGE_COUNT = "MessageCnt";
   private UUID selfId;
   private ArrayList<UUID> allId;
   private MiddleLayer network;
   private MetricsCollector metricsCollector;
 
-  myNode() {
+  MyNode() {
   }
 
-  myNode(UUID selfId, MiddleLayer network, MetricsCollector metricsCollector) {
+  MyNode(UUID selfId, MiddleLayer network, MetricsCollector metricsCollector) {
     this.selfId = selfId;
     this.network = network;
 
@@ -73,6 +73,6 @@ public class myNode implements BaseNode {
 
   @Override
   public BaseNode newInstance(UUID selfId, MiddleLayer network, MetricsCollector metricsCollector) {
-    return new simulatorexamples.helloservers.myNode(selfId, network, metricsCollector);
+    return new MyNode(selfId, network, metricsCollector);
   }
 }

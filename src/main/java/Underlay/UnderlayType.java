@@ -6,7 +6,7 @@ package underlay;
 public enum UnderlayType {
   TCP_PROTOCOL("tcp"),
   UDP_PROTOCOL("udp"),
-  JAVA_RMI("javaRmi"),
+  JAVA_RMI("underlay.javarmi"),
   MOCK_NETWORK("mockNetwork");
 
   public final String label;

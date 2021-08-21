@@ -112,7 +112,7 @@ Additionally, add your protocol name, and class name in the `underlayTypes.yml` 
 Supported communication protocols are: **tcp**, **javaRMI**, **udp**, and **mockNetwork** <br>
 
 ## Simulation Examples <a name="examples"></a>
-Two simulation examples are provided under the `SimulatorExamples` package.  
+Two simulation examples are provided under the `simulatorexamples` package.  
 
 ### HelloServers
 Simulate a basic interaction between the nodes of the servers where every 
