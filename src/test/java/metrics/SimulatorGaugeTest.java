@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
+import metrics.opera.OperaCollector;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ class SimulatorGaugeTest {
 
   @BeforeEach
   void setup() {
-    metricsCollector = new SimulatorCollector();
+    metricsCollector = new OperaCollector();
   }
 
   @Test

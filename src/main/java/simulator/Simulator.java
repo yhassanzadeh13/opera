@@ -13,9 +13,8 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import metrics.MetricsCollector;
-import metrics.SimulatorCollector;
+import metrics.opera.OperaCollector;
 import node.BaseNode;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import underlay.MiddleLayer;
 import underlay.UnderlayFactory;
@@ -71,7 +70,7 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
     count = new CountDownLatch(n);
 
     // initializes metrics collector
-    this.metricsCollector = new SimulatorCollector();
+    this.metricsCollector = new OperaCollector();
 
     this.generateNodesInstances(networkType);
   }

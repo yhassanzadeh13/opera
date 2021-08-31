@@ -1,4 +1,4 @@
-package metrics;
+package metrics.opera;
 
 import io.prometheus.client.Collector;
 import java.util.HashMap;
@@ -6,7 +6,7 @@ import java.util.HashMap;
 /**
  * Simulator metric which consist of types and informative constant variables.
  */
-public class SimulatorMetric {
+public class OperaMetric {
 
   enum Type {
     COUNTER,

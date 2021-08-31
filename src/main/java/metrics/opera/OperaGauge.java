@@ -1,7 +1,8 @@
-package metrics;
+package metrics.opera;
 
 import io.prometheus.client.Gauge;
 import java.util.UUID;
+import metrics.GaugeCollector;
 import simulator.Simulator;
 
 
@@ -10,7 +11,7 @@ import simulator.Simulator;
  * For every registered metric, the metric will be collected for each node separately
  * Gauges can be incremented and decremented.
  */
-public class SimulatorGauge extends SimulatorMetric implements GaugeCollector {
+public class OperaGauge extends OperaMetric implements GaugeCollector {
 
   /**
    * Register a new metric with a specific name.

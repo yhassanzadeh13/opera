@@ -6,13 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
-import metrics.MetricsCollector;
+import metrics.opera.OperaCollector;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-class SimulatorCounterTest {
+class OperaCounterTest {
 
   static final int THREAD_CNT = 50;
   static final int ITERATIONS = 50;
@@ -23,7 +23,7 @@ class SimulatorCounterTest {
 
   @BeforeEach
   public void setup() {
-    metricsCollector = new SimulatorCollector();
+    metricsCollector = new OperaCollector();
   }
 
   @Test

@@ -1,7 +1,8 @@
-package metrics;
+package metrics.opera;
 
 import io.prometheus.client.Counter;
 import java.util.UUID;
+import metrics.CounterCollector;
 import simulator.Simulator;
 
 
@@ -10,7 +11,7 @@ import simulator.Simulator;
  * For every registered metric, the metric will be collected for each node separately
  * Counters can be incremented but never decremented.
  */
-public class SimulatorCounter extends SimulatorMetric implements CounterCollector {
+public class OperaCounter extends OperaMetric implements CounterCollector {
 
   /**
    * increment a metric.

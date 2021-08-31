@@ -1,9 +1,10 @@
-package metrics;
+package metrics.opera;
 
 import io.prometheus.client.Histogram;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.UUID;
+import metrics.HistogramCollector;
 import simulator.Simulator;
 
 /**
@@ -11,7 +12,7 @@ import simulator.Simulator;
  * For every registered metric, the metric will be collected for each node separately
  */
 
-public class SimulatorHistogram extends SimulatorMetric implements HistogramCollector {
+public class OperaHistogram extends OperaMetric implements HistogramCollector {
 
   private static final HashMap<String, HashMap<String, ArrayDeque<Histogram.Timer>>> timersByName = new HashMap<>();
 
