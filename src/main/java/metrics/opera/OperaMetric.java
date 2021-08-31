@@ -15,10 +15,10 @@ public class OperaMetric {
     SUMMARY
   }
 
+  public static final String LABEL_UUID = "uuid";
+
   protected static final HashMap<String, Collector> collectors = new HashMap<>();
   protected static final HashMap<String, Type> collectorsTypes = new HashMap<>();
   protected static final String NAMESPACE = "simulator";
-  protected static final String LABEL_NAME = "uuid";
-  protected static final String HELP_MSG = "opera native metric";
 
 }

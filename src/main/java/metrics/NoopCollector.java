@@ -8,15 +8,13 @@ import java.util.UUID;
  * Noop Collector is a no operation metric collector.
  */
 public class NoopCollector implements MetricsCollector {
-  class NoopHistogram implements HistogramCollector {
+  static class NoopHistogram implements HistogramCollector {
 
     @Override
-    public boolean observe(String name, UUID id, double v) {
-      return false;
-    }
+    public void observe(String name, UUID id, double v) {}
 
     @Override
-    public Histogram getMetric(String name) {
+    public Histogram get(String name) {
       return null;
     }
 
@@ -31,22 +29,13 @@ public class NoopCollector implements MetricsCollector {
     }
 
     @Override
-    public void tryObserveDuration(String name, String timerId) {
-
-    }
+    public void tryObserveDuration(String name, String timerId) {}
 
     @Override
-    public boolean register(String name) {
-      return false;
-    }
-
-    @Override
-    public boolean register(String name, double[] buckets) {
-      return false;
-    }
+    public void register(String name, String namespace, String subsystem, String helpMessage, double[] buckets) throws IllegalArgumentException {}
   }
 
-  class NoopGauge implements GaugeCollector {
+  static class NoopGauge implements GaugeCollector {
 
     @Override
     public boolean register(String name) {
@@ -89,7 +78,7 @@ public class NoopCollector implements MetricsCollector {
     }
   }
 
-  class NoopCounter implements CounterCollector {
+  static class NoopCounter implements CounterCollector {
 
     @Override
     public boolean inc(String name, UUID id, double v) {

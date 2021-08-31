@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
+import metrics.Constants;
 import metrics.MetricsCollector;
 import node.BaseNode;
 import simulator.Simulator;
@@ -39,7 +40,12 @@ public class Contestant implements BaseNode {
     //Register metrics
     this.metrics.gauge().register(HEALTHLEVEL);
     this.metrics.counter().register(FIGHTCOUNT);
-    this.metrics.histogram().register(FIGHTDURATION, new double[]{500.0, 1000.0, 1500.0, 2000.0, 2500.0});
+    this.metrics.histogram().register(
+        Constants.Demo.ServersBattle.Name.FIGHT_DURATION,
+        Constants.Namespace.DEMO,
+        Constants.Demo.Subsystem.SERVER_BATTLE,
+        Constants.Demo.ServersBattle.HelpMsg.FIGHT_DURATION,
+        new double[]{500.0, 1000.0, 1500.0, 2000.0, 2500.0});
   }
 
   public UUID getId() {

@@ -13,17 +13,15 @@ import java.util.UUID;
  * register: is called to register new Histogram
  */
 public interface HistogramCollector {
-  boolean observe(String name, UUID id, double v);
+  void observe(String name, UUID id, double v);
 
-  Histogram getMetric(String name);
+  Histogram get(String name) throws IllegalArgumentException;
 
-  boolean startTimer(String name, UUID id, String timerId);
+  boolean startTimer(String name, UUID id, String timerID);
 
-  boolean observeDuration(String name, String timerId);
+  boolean observeDuration(String name, String timerID);
 
-  void tryObserveDuration(String name, String timerId);
+  void tryObserveDuration(String name, String timerID);
 
-  boolean register(String name);
-
-  boolean register(String name, double[] buckets);
+  void register(String name, String namespace, String subsystem, String helpMessage, double[] buckets) throws IllegalArgumentException;
 }
