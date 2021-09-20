@@ -4,3 +4,6 @@ test:
 	@mvn clean install
 	@mvn compile
 	@mvn test
+generate:
+	@mvn clean install
+	@mvn compile

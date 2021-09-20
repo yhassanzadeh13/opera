@@ -1,10 +1,10 @@
 package underlay;
 
-import events.StopStartEvent;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import events.StopStartEvent;
 import metrics.MetricsCollector;
 import node.BaseNode;
 import org.apache.log4j.Logger;
