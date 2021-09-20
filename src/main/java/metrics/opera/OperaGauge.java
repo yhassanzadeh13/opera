@@ -2,6 +2,7 @@ package metrics.opera;
 
 import io.prometheus.client.Gauge;
 import java.util.UUID;
+import metrics.Constants;
 import metrics.GaugeCollector;
 import simulator.Simulator;
 
@@ -12,34 +13,33 @@ import simulator.Simulator;
  * Gauges can be incremented and decremented.
  */
 public class OperaGauge extends OperaMetric implements GaugeCollector {
-
   /**
-   * Register a new metric with a specific name.
+   * Registers a gauge. This method is expected to be executed by several instances of nodes assuming a decentralized
+   * metrics registration. However, only the first invocation gets through and registers the metric. The rest will be idempotent.
+   * Since the collector is handled globally in a centralized manner behind the scene, only one successful registration is enough.
    *
-   * @param name name of the metric
-   * @return True in case of success
+   * @param name        name of gauge metric.
+   * @param namespace   namespace of gauge metric, normally refers to a distinct class of opera, e.g., middleware.
+   * @param subsystem   either the same as namespace for monolith classes, or the subclass for which we collect metrics, e.g., latency generator within middleware.
+   * @param helpMessage a hint message describing what this metric represents.
+   * @throws IllegalArgumentException when a different metric type (e.g., histogram) with the same name has already been registered.
    */
-  @Override
-  public boolean register(String name) {
+  public void register(String name, String namespace, String subsystem, String helpMessage) throws IllegalArgumentException {
     if (!collectors.containsKey(name)) {
-      collectors.put(name, Gauge.build().namespace(NAMESPACE)
-            .name(name)
-            .help(HELP_MSG)
-            .labelNames(LABEL_NAME)
-            .register());
-      collectorsTypes.put(name, Type.GAUGE);
-    } else {
-      if (collectorsTypes.get(name) != Type.GAUGE) {
-        System.err.println(
-              "[SimulatorGauge] Collector name is already registered with a different type "
-                    + collectorsTypes.get(name));
-        Simulator.getLogger().error(
-              "[SimulatorGauge] Collector name is already registered with a different type "
-                    + collectorsTypes.get(name));
-        return false;
+      if (collectorsTypes.get(name) != TYPE.GAUGE) {
+        throw new IllegalArgumentException("metrics name already taken with another type: " + name + " type: " + collectorsTypes.get(name));
       }
+      // collector already registered
+      return;
     }
-    return true;
+    collectors.put(name, Gauge.build().
+        namespace(namespace).
+        subsystem(subsystem).
+        name(name).
+        help(helpMessage).
+        labelNames(Constants.UUID).
+        register());
+    collectorsTypes.put(name, TYPE.GAUGE);
   }
 
   @Override
@@ -50,9 +50,7 @@ public class OperaGauge extends OperaMetric implements GaugeCollector {
   @Override
   public boolean inc(String name, UUID id, double v) {
     Gauge metric = getMetric(name);
-    if (metric == null) {
-      return false;
-    }
+    if (metric == null) return false;
     metric.labels(id.toString()).inc(v);
     return true;
   }
@@ -60,9 +58,7 @@ public class OperaGauge extends OperaMetric implements GaugeCollector {
   @Override
   public boolean dec(String name, UUID id, double v) {
     Gauge metric = getMetric(name);
-    if (metric == null) {
-      return false;
-    }
+    if (metric == null) return false;
     metric.labels(id.toString()).dec(v);
     return true;
   }
@@ -75,9 +71,7 @@ public class OperaGauge extends OperaMetric implements GaugeCollector {
   @Override
   public boolean set(String name, UUID id, double v) {
     Gauge metric = getMetric(name);
-    if (metric == null) {
-      return false;
-    }
+    if (metric == null) return false;
     metric.labels(id.toString()).set(v);
     return true;
   }
@@ -85,16 +79,14 @@ public class OperaGauge extends OperaMetric implements GaugeCollector {
   @Override
   public double get(String name, UUID id) {
     Gauge metric = getMetric(name);
-    if (metric == null) {
-      return 0;
-    }
+    if (metric == null) return 0;
     return metric.labels(id.toString()).get();
   }
 
   /**
-   * Return prometheus metric for a specific name.
+   * Return prometheus metric for a specific name
    *
-   * @param name name of the metric
+   * @param name
    * @return the requested metric
    */
   @Override
@@ -104,11 +96,9 @@ public class OperaGauge extends OperaMetric implements GaugeCollector {
       System.err.println("[SimulatorGauge] could not find a metric with name " + name);
       return null;
     }
-    if (collectorsTypes.get(name) != Type.GAUGE) {
-      Simulator.getLogger().error(
-            "[SimulatorGauge] metric registered with the name " + name + " is not a gauge");
-      System.err.println(
-            "[SimulatorGauge] metric registered with the name " + name + " is not a gauge");
+    if (collectorsTypes.get(name) != TYPE.GAUGE) {
+      Simulator.getLogger().error("[SimulatorGauge] metric registered with the name " + name + " is not a Gauge");
+      System.err.println("[SimulatorGauge] metric registered with the name " + name + " is not a Gauge");
       return null;
     }
     return (Gauge) collectors.get(name);

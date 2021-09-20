@@ -63,7 +63,7 @@ public class OperaCounter extends OperaMetric implements CounterCollector {
 
   /**
    * Registers a counter collector. This method is expected to be executed by several instances of nodes assuming a decentralized
-   * metrics registration. However, only the first invocation gets through and registers the metric. The rest will be gracefully returned.
+   * metrics registration. However, only the first invocation gets through and registers the metric. The rest will be idempotent.
    * Since the collector is handled globally in a centralized manner behind the scene, only one successful registration is enough.
    *
    * @param name        name of counter metric.
@@ -75,7 +75,7 @@ public class OperaCounter extends OperaMetric implements CounterCollector {
   public void register(String name, String namespace, String subsystem, String helpMessage) throws IllegalArgumentException {
     if (!collectors.containsKey(name)) {
       if (collectorsTypes.get(name) != TYPE.COUNTER) {
-        throw new IllegalArgumentException("Metrics name already taken with another type: " + name + " type: " + collectorsTypes.get(name));
+        throw new IllegalArgumentException("metrics name already taken with another type: " + name + " type: " + collectorsTypes.get(name));
       }
       // collector already registered
       return;

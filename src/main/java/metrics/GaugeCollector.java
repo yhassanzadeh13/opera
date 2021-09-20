@@ -12,7 +12,7 @@ import java.util.UUID;
  * register: is called to register new Gauge
  */
 public interface GaugeCollector {
-  boolean register(String name);
+  void register(String name, String namespace, String subsystem, String helpMessage);
 
   boolean inc(String name, UUID id);
 
