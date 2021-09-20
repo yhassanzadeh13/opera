@@ -1,9 +1,9 @@
 package metrics.opera;
 
-import io.prometheus.client.Histogram;
+import metrics.Constants;
 import metrics.HistogramCollector;
 import simulator.Simulator;
-
+import io.prometheus.client.Histogram;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
@@ -32,7 +32,7 @@ public class OperaHistogram extends OperaMetric implements HistogramCollector {
 
   @Override
   public Histogram get(String name) throws IllegalArgumentException {
-    if (!collectors.containsKey(name) || collectorsTypes.get(name) != Type.HISTOGRAM) {
+    if (!collectors.containsKey(name) || collectorsTypes.get(name) != TYPE.HISTOGRAM) {
       throw new IllegalArgumentException("Histogram name does not exist: " + name);
     }
     return (Histogram) collectors.get(name);
@@ -91,17 +91,17 @@ public class OperaHistogram extends OperaMetric implements HistogramCollector {
    * Silently observes the duration of the already started timer with a specific name and timer ID.
    * In case timer has not already been started, it simply returns without logging any error.
    *
-   * @param name name of the timer
-   * @param timerId id of the timer
-   *
+   * @param name
+   * @param timerID
+   * @return
    */
   @Override
-  public void tryObserveDuration(String name, String timerId) {
-    if (timersByName.get(name) == null || timersByName.get(name).get(timerId) == null) {
+  public void tryObserveDuration(String name, String timerID) {
+    if (timersByName.get(name) == null || timersByName.get(name).get(timerID) == null) {
       return;
     }
-    timersByName.get(name).get(timerId).getFirst().observeDuration();
-    timersByName.get(name).get(timerId).removeFirst();
+    timersByName.get(name).get(timerID).getFirst().observeDuration();
+    timersByName.get(name).get(timerID).removeFirst();
   }
 
   /**
@@ -121,7 +121,7 @@ public class OperaHistogram extends OperaMetric implements HistogramCollector {
   @Override
   public void register(String name, String namespace, String subsystem, String helpMessage, double[] buckets) throws IllegalArgumentException {
     if (collectors.containsKey(name)) {
-      if (collectorsTypes.get(name) != Type.HISTOGRAM) {
+      if (collectorsTypes.get(name) != TYPE.HISTOGRAM) {
         throw new IllegalArgumentException("Metrics name already taken with another type: " + name + " type: " + collectorsTypes.get(name));
       }
       // collector already registered
@@ -132,8 +132,8 @@ public class OperaHistogram extends OperaMetric implements HistogramCollector {
         namespace(namespace).
         name(name).
         help(helpMessage).
-        labelNames(LABEL_UUID).
+        labelNames(Constants.UUID).
         register());
-    collectorsTypes.put(name, Type.HISTOGRAM);
+    collectorsTypes.put(name, TYPE.HISTOGRAM);
   }
 }
