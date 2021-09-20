@@ -96,9 +96,10 @@ public class NoopCollector implements MetricsCollector {
     }
 
     @Override
-    public boolean register(String name) {
-      return false;
+    public void register(String name, String namespace, String subsystem, String helpMessage) {
+
     }
+
   }
 
   @Override

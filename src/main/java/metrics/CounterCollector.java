@@ -15,5 +15,5 @@ public interface CounterCollector {
 
   double get(String name, UUID id);
 
-  boolean register(String name);
+  void register(String name, String namespace, String subsystem, String helpMessage);
 }

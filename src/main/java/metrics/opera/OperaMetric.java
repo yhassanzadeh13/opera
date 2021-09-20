@@ -8,17 +8,12 @@ import java.util.HashMap;
  */
 public class OperaMetric {
 
-  enum Type {
+  protected static final HashMap<String, Collector> collectors = new HashMap<>();
+  protected static final HashMap<String, TYPE> collectorsTypes = new HashMap<>();
+  enum TYPE {
     COUNTER,
     GAUGE,
     HISTOGRAM,
     SUMMARY
   }
-
-  public static final String LABEL_UUID = "uuid";
-
-  protected static final HashMap<String, Collector> collectors = new HashMap<>();
-  protected static final HashMap<String, Type> collectorsTypes = new HashMap<>();
-  protected static final String NAMESPACE = "simulator";
-
 }
