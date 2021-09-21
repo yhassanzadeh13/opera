@@ -9,6 +9,7 @@ import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import metrics.Constants;
 import metrics.MetricsCollector;
 import node.BaseNode;
 import org.apache.log4j.Logger;
@@ -71,8 +72,6 @@ public class LightChainNode implements BaseNode {
   private List<Block> insertedBlocks;
   private Map<Integer, Integer> heightToUniquePrevCount;
   private Map<Integer, Map<UUID, Integer>> heightToUniquePrev;
-  private ReadWriteLock transactionLock;
-  private ReadWriteLock blockLock;
   private ReadWriteLock transactionValidationLock;
   private ReadWriteLock blockValidationLock;
 
@@ -95,8 +94,6 @@ public class LightChainNode implements BaseNode {
     this.metricsCollector = metrics;
 
     // for registry nodes
-    this.transactionLock = new ReentrantReadWriteLock();
-    this.blockLock = new ReentrantReadWriteLock();
     this.availableTransactions = new ArrayList<>();
     this.insertedBlocks = new ArrayList<>();
     this.heightToUniquePrev = new HashMap<>();
@@ -146,10 +143,7 @@ public class LightChainNode implements BaseNode {
         linespace[i] = i;
       }
 
-      this.metricsCollector.gauge().register("transaction_count");
-      this.metricsCollector.gauge().register("block_height_per_time");
-      this.metricsCollector.histogram().register("block_height_histogram", linespace);
-      this.metricsCollector.histogram().register("unique_blocks_per_height", linespace);
+
 
       new Thread(this::monitorBlockHeight).start();
 

@@ -1,5 +1,6 @@
 package metrics.opera;
 
+import io.prometheus.client.Collector;
 import metrics.CounterCollector;
 import simulator.Simulator;
 import io.prometheus.client.Counter;

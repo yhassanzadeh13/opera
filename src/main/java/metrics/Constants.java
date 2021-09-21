@@ -48,6 +48,22 @@ public class Constants {
   public class Demo {
     public class Subsystem {
       public static final String SERVER_BATTLE = "server_battle";
+      public static final String LightChain = "lightchain";
+    }
+
+    public class LightChain {
+      public class Name {
+        public static final String TRANSACTION_COUNT = "transaction_count";
+        public static final String CURRENT_BLOCK_HEIGHT = "block_height";
+        public static final String TOTAL_BLOCKS_COUNT = "total_finalized_blocks";
+        public static final String TOTAL_UNIQUE_BLOCKS_COUNT = "total_unique_finalized_blocks";
+      }
+      public class HelpMsg {
+        public static final String TRANSACTION_COUNT = "total number of transactions made in system";
+        public static final String CURRENT_BLOCK_HEIGHT = "last finalized block height";
+        public static final String TOTAL_BLOCKS_COUNT = "total finalized blocks";
+        public static final String TOTAL_UNIQUE_BLOCKS_COUNT = "total unique finalized blocks";
+      }
     }
 
 
