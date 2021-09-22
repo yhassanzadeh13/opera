@@ -4,7 +4,7 @@ import org.apache.commons.math3.distribution.WeibullDistribution;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 
 /**
- * Weibull Generator generates number using Weibull Distribution.
+ * Weibull generator generates number using Weibull Distribution.
  */
 public class WeibullGenerator extends BaseGenerator {
 

@@ -107,7 +107,7 @@ You can add multiple panels to a dashboard, and save it.
 ![SAMPLE METRIC](./src/main/resources/images/dashboard_sample.png?raw=true)
 
 ### Supporting a new communication protocol <a name="protocol"></a>
-Create a new communication protocol and extend the `Underlay` superclass.
+Create a new communication protocol and extend the `underlay` superclass.
 Additionally, add your protocol name, and class name in the `underlayTypes.yml` file.
 Supported communication protocols are: **tcp**, **javaRMI**, **udp**, and **mockNetwork** <br>
 
@@ -136,5 +136,5 @@ the JavaDoc Documentation can be found under the `doc` directory under the proje
 ## Running tests
 
 - All tests:`mvn test`
-- Tests in class: `mvn test -Dtest="Underlay.UnderlayTest" `
-- Specific test: `mvn test -Dtest="Underlay.UnderlayTest.A_testTCP" `
+- Tests in class: `mvn test -Dtest="underlay.UnderlayTest" `
+- Specific test: `mvn test -Dtest="underlay.UnderlayTest.A_testTCP" `

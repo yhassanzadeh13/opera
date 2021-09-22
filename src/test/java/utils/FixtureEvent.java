@@ -4,7 +4,7 @@ import node.BaseNode;
 import underlay.packets.Event;
 
 /**
- * A basic Event to use to check whether Utils coded correctly.
+ * A basic Event to use to check whether utils coded correctly.
  */
 public class FixtureEvent implements Event {
   @Override

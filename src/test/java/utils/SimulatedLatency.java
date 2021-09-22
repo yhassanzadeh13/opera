@@ -1,6 +1,7 @@
-package Utils;
+package utils;
 
-import Simulator.Simulator;
+import underlay.UnderlayType;
+import simulator.Simulator;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.Test;
 
@@ -21,12 +22,12 @@ public class SimulatedLatency {
     @Test
     void GaussianDelay(){
         FixtureNode fixtureNode = new FixtureNode();
-        Simulator<FixtureNode> simulation = new Simulator<FixtureNode>(fixtureNode, NODE_CNT, "mockNetwork");
+        Simulator<FixtureNode> simulation = new Simulator<FixtureNode>(fixtureNode, NODE_CNT, UnderlayType.MOCK_NETWORK);
 
         // generate delay for each pair of nodes
         for(int i = 0; i < NODE_CNT; i++){
             for(int j = i + 1; j < NODE_CNT; j++){
-                delay[i][j] = simulation.getSimulatedLatency(simulation.getAllID().get(i), simulation.getAllID().get(j), true);
+                delay[i][j] = simulation.getSimulatedLatency(simulation.getAllId().get(i), simulation.getAllId().get(j), true);
             }
 
 
@@ -35,8 +36,8 @@ public class SimulatedLatency {
         // assure that the delay is bidirectional by generating delay for each pair of nodes
         for(int i = 0; i < NODE_CNT; i++){
             for(int j = 0; j < i; j++){
-                int delay1 = simulation.getSimulatedLatency(simulation.getAllID().get(i), simulation.getAllID().get(j), true);
-                int delay2 = simulation.getSimulatedLatency(simulation.getAllID().get(j), simulation.getAllID().get(i), true);
+                int delay1 = simulation.getSimulatedLatency(simulation.getAllId().get(i), simulation.getAllId().get(j), true);
+                int delay2 = simulation.getSimulatedLatency(simulation.getAllId().get(j), simulation.getAllId().get(i), true);
                 assertEquals(delay1, delay2);
             }
         }
@@ -46,7 +47,7 @@ public class SimulatedLatency {
         for(int i = 0; i < ITERATIONS; i++){
             int ind1 = rand.nextInt(NODE_CNT);
             int ind2 = rand.nextInt(NODE_CNT);
-            int delay = simulation.getSimulatedLatency(simulation.getAllID().get(ind1), simulation.getAllID().get(ind2), true);
+            int delay = simulation.getSimulatedLatency(simulation.getAllId().get(ind1), simulation.getAllId().get(ind2), true);
             total_delay += delay;
         }
         double mean = (double) total_delay / ITERATIONS;

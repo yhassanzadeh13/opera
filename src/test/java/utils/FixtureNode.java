@@ -8,7 +8,7 @@ import underlay.MiddleLayer;
 import underlay.packets.Event;
 
 /**
- * A basic BaseNode to check whether Utils coded correctly or not.
+ * A basic BaseNode to check whether utils coded correctly or not.
  */
 public class FixtureNode implements BaseNode {
   private UUID selfId;

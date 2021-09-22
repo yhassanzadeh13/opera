@@ -15,7 +15,6 @@ import java.util.concurrent.CountDownLatch;
 import metrics.MetricsCollector;
 import metrics.SimulatorCollector;
 import node.BaseNode;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import underlay.MiddleLayer;
 import underlay.UnderlayFactory;

@@ -22,7 +22,7 @@ public class LocalUnderlay extends Underlay {
    * Constructor of LocalUnderlay.
    *
    * @param selfAddress Address of the underlay
-   * @param port port of the Underlay
+   * @param port port of the underlay
    * @param allUnderlay hashmap of all underlays
    */
   public LocalUnderlay(String selfAddress, int port, HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allUnderlay) {
@@ -59,7 +59,7 @@ public class LocalUnderlay extends Underlay {
   }
 
   /**
-   * Sends a request to Underlay. Return true if no errors.
+   * Sends a request to underlay. Return true if no errors.
    *
    * @param address address of the remote server.
    * @param port    port of the remote server.
