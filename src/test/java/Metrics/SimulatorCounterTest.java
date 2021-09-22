@@ -1,65 +1,76 @@
-package Metrics;
+package metrics;
 
-import org.apache.commons.math3.random.JDKRandomGenerator;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
+import metrics.MetricsCollector;
+import org.apache.commons.math3.random.JDKRandomGenerator;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 
-class SimulatorCounterTest{
+class SimulatorCounterTest {
 
-    static final int THREAD_CNT = 50;
-    static final int ITERATIONS = 50;
-    static JDKRandomGenerator rand = new JDKRandomGenerator();
-    CountDownLatch count;
+  static final int THREAD_CNT = 50;
+  static final int ITERATIONS = 50;
+  static JDKRandomGenerator rand = new JDKRandomGenerator();
+  CountDownLatch count;
+  private MetricsCollector metricsCollector;
 
-    @Test
-    void valueTest(){
-        assertTrue(SimulatorCounter.register("testCounter"));
-        ArrayList<UUID> allID = new ArrayList<>();
-        while(allID.size() != THREAD_CNT)allID.add(UUID.randomUUID());
-        count = new CountDownLatch(THREAD_CNT);
 
-        // increment single entry
-        UUID id = UUID.randomUUID();
-        long tot = 0;
-        for(int i = 0;i<ITERATIONS;i++) {
-            int v = rand.nextInt(1000);
-            tot += v;
-            SimulatorCounter.inc("testCounter", id, v);
+  @BeforeEach
+  public void setup() {
+    metricsCollector = new SimulatorCollector();
+  }
+
+  @Test
+  void valueTest() {
+    assertTrue(metricsCollector.counter().register("testCounter"));
+    ArrayList<UUID> allId = new ArrayList<>();
+    while (allId.size() != THREAD_CNT) {
+      allId.add(UUID.randomUUID());
+    }
+    count = new CountDownLatch(THREAD_CNT);
+
+    // increment single entry
+    UUID id = UUID.randomUUID();
+    long tot = 0;
+    for (int i = 0; i < ITERATIONS; i++) {
+      int v = rand.nextInt(1000);
+      tot += v;
+      metricsCollector.counter().inc("testCounter", id, v);
+    }
+    assertEquals(tot, metricsCollector.counter().get("testCounter", id));
+
+    for (UUID nodeId : allId) {
+      new Thread() {
+        @Override
+        public void run() {
+          threadtestCounter(nodeId, ITERATIONS);
         }
-        assertEquals(tot, SimulatorCounter.get("testCounter", id));
-
-        for(UUID nodeID : allID){
-            new Thread(){
-                @Override
-                public void run() {
-                    threadtestCounter(nodeID, ITERATIONS);
-                }
-            }.start();
-        }
-
-        try {
-            count.await();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-        tot = 0;
-        for(UUID nodeID : allID){
-            tot += SimulatorCounter.get("testCounter", nodeID);
-        }
-        assertEquals(ITERATIONS * THREAD_CNT, tot);
+      }.start();
     }
 
-    void threadtestCounter(UUID nodeID, int iterations){
-        while (iterations-- > 0) {
-            assertTrue(SimulatorCounter.inc("testCounter", nodeID));
-        }
-        count.countDown();
+    try {
+      count.await();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+
+    tot = 0;
+    for (UUID nodeId : allId) {
+      tot += metricsCollector.counter().get("testCounter", nodeId);
+    }
+    assertEquals(ITERATIONS * THREAD_CNT, tot);
+  }
+
+  void threadtestCounter(UUID nodeId, int iterations) {
+    while (iterations-- > 0) {
+      assertTrue(metricsCollector.counter().inc("testCounter", nodeId));
+    }
+    count.countDown();
+  }
 }

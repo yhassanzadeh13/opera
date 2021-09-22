@@ -1,49 +1,52 @@
-package Underlay;
-
-import Node.BaseNode;
-import Underlay.packets.Event;
+package underlay;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
+import metrics.MetricsCollector;
+import node.BaseNode;
+import underlay.packets.Event;
 
+/**
+ * A basic BaseNode to check whether Underlays coded correctly or not.
+ */
 public class FixtureNode implements BaseNode {
-    private UUID selfID;
-    private ArrayList<UUID> allID;
-    private MiddleLayer network;
-    public int receivedMessages = 0;
+  private final UUID selfId;
+  private final ArrayList<UUID> allId;
+  private final MiddleLayer network;
+  public AtomicInteger receivedMessages = new AtomicInteger(0);
 
-    FixtureNode(){}
+  FixtureNode(UUID selfId, ArrayList<UUID> allId, MiddleLayer network) {
+    this.selfId = selfId;
+    this.network = network;
+    this.allId = allId;
+  }
 
-    FixtureNode(UUID selfID, ArrayList<UUID> allID, MiddleLayer network){
-        this.selfID = selfID;
-        this.network = network;
-        this.allID = allID;
+
+  @Override
+  public void onCreate(ArrayList<UUID> allId) {
+  }
+
+  @Override
+  public void onStart() {
+    for (UUID id : allId) {
+      if (id != selfId) {
+        network.send(id, new FixtureEvent());
+      }
     }
+  }
 
+  @Override
+  public void onStop() {
+  }
 
-    @Override
-    public void onCreate(ArrayList<UUID> allID) {
-    }
+  @Override
+  public BaseNode newInstance(UUID selfId, MiddleLayer network, MetricsCollector metrics) {
+    return null;
+  }
 
-    @Override
-    public void onStart() {
-        for(UUID id : allID){
-            if(id != selfID)
-                network.send(id, new FixtureEvent());
-        }
-    }
-
-    @Override
-    public void onStop() {
-    }
-
-    @Override
-    public BaseNode newInstance(UUID ID, MiddleLayer network) {
-        return null;
-    }
-
-    @Override
-    public void onNewMessage(UUID originID, Event msg){
-        this.receivedMessages++;
-    }
+  @Override
+  public void onNewMessage(UUID originId, Event msg) {
+    this.receivedMessages.incrementAndGet();
+  }
 }
