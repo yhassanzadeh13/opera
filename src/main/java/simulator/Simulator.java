@@ -304,7 +304,6 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
    * @param arrival  inter-arrival
    * @param session  session length
    */
-
   public void churnSimulation(long duration, BaseGenerator arrival, BaseGenerator session) {
     final String sessionMetric = "SessionLength";
     final String arrivalMetric = "InterArrival";
