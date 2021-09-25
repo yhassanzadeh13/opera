@@ -1,7 +1,6 @@
 package scenario.pov;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -73,7 +72,7 @@ public class LightChainMetrics {
    * OnNewBlock is invoked whenever a node creates a new finalized block, i.e., the node is the owner of that block. It
    * increments the total number of finalized blocks in the system.
    */
-  private void OnNewBlock() {
+  private void OnNewFinalizedBlock() {
     metricsCollector.counter().inc(Constants.Demo.LightChain.Name.TOTAL_BLOCKS_COUNT, collectorID);
   }
 
@@ -87,20 +86,32 @@ public class LightChainMetrics {
   }
 
   /**
-   * 
-   * @param blockHeight
-   * @param nodeID
+   * OnBlockHeightUpdated is invoked whenever the finalized block height on a node is progressing, i.e.,
+   * by creating new finalized blocks.
+   * It keeps track of the block height update per individual node.
+   * @param blockHeight new generated finalized block height
+   * @param nodeID the node identifier that generated the finalized block.
    */
   private void OnBlockHeightUpdated(int blockHeight, UUID nodeID){
     metricsCollector.gauge().set(Constants.Demo.LightChain.Name.CURRENT_BLOCK_HEIGHT, nodeID, blockHeight);
   }
 
-  public void OnNewBlock(int blockHeight, UUID blockID, UUID nodeID) {
+  /**
+   * OnNewFinalizedBlock is invoked whenever a node creates a finalized block. It keeps track of the total blocks as well
+   * as total unique block heights finalized in the system. It also updates the telemetry view of node towards current finalized
+   * block height.
+   * @param blockHeight new finalized block height node generated.
+   * @param blockID identifier of the newly generated finalized block.
+   * @param nodeID identifier of node generating finalized block height.
+   */
+  public void OnNewFinalizedBlock(int blockHeight, UUID blockID, UUID nodeID) {
+    OnBlockHeightUpdated(blockHeight, nodeID);
+
     if (!blockInventory.containsKey(blockHeight)) {
       // there is no other block at this height yet
-      // block is unique at this heigth
+      // block is unique at this height
       blockInventory.put(blockHeight, new ArrayList<>(List.of(blockID)));
-      this.OnNewBlock();
+      this.OnNewFinalizedBlock();
       this.OnNewUniqueBlock();
 
       return;
@@ -115,7 +126,7 @@ public class LightChainMetrics {
     blockIDsAtHeight.add(blockID);
     blockInventory.put(blockHeight, blockIDsAtHeight);
     // block is not unique at this height
-    this.OnNewBlock();
+    this.OnNewFinalizedBlock();
   }
 
 }
