@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.locks.ReentrantLock;
 import metrics.Constants;
 import metrics.MetricsCollector;
 
@@ -11,6 +12,7 @@ public class LightChainMetrics {
   private static MetricsCollector metricsCollector;
   private static UUID collectorID;
   private static HashMap<Integer, List<UUID>> blockInventory;
+  private static ReentrantLock initLock = new ReentrantLock();
 
   /***
    * Initializes LightChainMetrics collector.
@@ -18,6 +20,8 @@ public class LightChainMetrics {
    *                         different nodes. Though only the first invocation goes through.
    */
   public LightChainMetrics(MetricsCollector metricsCollector) {
+    initLock.lock();
+
     if(blockInventory != null){
       // already initialized
       return;
@@ -58,6 +62,8 @@ public class LightChainMetrics {
         Constants.Demo.Subsystem.LightChain,
         Constants.Demo.LightChain.HelpMsg.CURRENT_BLOCK_HEIGHT
     );
+
+    initLock.unlock();
   }
 
   /**
