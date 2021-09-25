@@ -11,7 +11,7 @@ public class Constants {
   }
 
   public class Subsystem {
-    public static final String SIMULATOR = "simulator";
+
   }
 
   public class Network {

@@ -46,6 +46,7 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
   private final CountDownLatch count;
   private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
   private final MetricsCollector metricsCollector;
+  private final SimulatorMetricsCollector simulatorMetricsCollector;
   public HashMap<String, Integer> nodesSimulatedLatency = new HashMap<>();
   private HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers;
   private PriorityQueue<SimpleEntryComparable<Long, UUID>> onlineNodes = new PriorityQueue<>();
@@ -71,6 +72,7 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
 
     // initializes metrics collector
     this.metricsCollector = new OperaCollector();
+    this.simulatorMetricsCollector = new SimulatorMetricsCollector(this.metricsCollector);
 
     this.generateNodesInstances(networkType);
   }
