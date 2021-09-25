@@ -14,19 +14,6 @@ public class Constants {
     public static final String SIMULATOR = "simulator";
   }
 
-  public class Simulator {
-    public class Name {
-      public static final String SESSION_LENGTH = "SessionLength";
-      public static final String INTER_ARRIVAL = "InterArrival";
-    }
-
-    public class HelpMsg {
-      public static final String SESSION_LENGTH = "session length of nodes based on churn distribution";
-      public static final String INTER_ARRIVAL = "inter arrival time of nodes based on churn distribution";
-    }
-
-  }
-
   public class Network {
     public static final String MIDDLELAYER = "middlelayer";
 
