@@ -66,7 +66,7 @@ public class LightChainNode implements BaseNode {
   private CountDownLatch transactionLatch;
   private Integer maximumHeight;
   private Integer totalTransactionCount;
-  private MetricsCollector metricsCollector;
+  private LightChainMetrics lightChainMetrics;
   // only for registry node
   private List<Transaction> availableTransactions;
   private List<Block> insertedBlocks;
@@ -91,7 +91,7 @@ public class LightChainNode implements BaseNode {
     this.transactionValidationLock = new ReentrantReadWriteLock();
     this.blockValidationLock = new ReentrantReadWriteLock();
     this.logger = Logger.getLogger(LightChainNode.class.getName());
-    this.metricsCollector = metrics;
+    this.lightChainMetrics = new LightChainMetrics(metrics);
 
     // for registry nodes
     this.availableTransactions = new ArrayList<>();
@@ -143,9 +143,6 @@ public class LightChainNode implements BaseNode {
         linespace[i] = i;
       }
 
-
-
-      new Thread(this::monitorBlockHeight).start();
 
       logger.info("[Registry] The Registry node is " + this.uuid);
       this.appendBlock(
@@ -209,28 +206,12 @@ public class LightChainNode implements BaseNode {
   }
 
   /**
-   * This function runs on a separate thread and records the maximum block height every second.
-   */
-  public void monitorBlockHeight() {
-    while (true) {
-      try {
-        Thread.sleep(1000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-
-      this.metricsCollector.gauge().set("block_height_per_time", this.uuid, this.maximumHeight);
-    }
-  }
-
-  /**
    * Invoked by a node that is inserting a block after it has been validated to the registry.
    * It also provides a lock to ensure the correctness of the write operations on the ledger.
    *
    * @param block block to be appended to the ledger
    */
   public void appendBlock(Block block) {
-
     if (!this.isRegistry) {
       try {
         throw new Exception("Add Transaction is called from a non-registry node");
@@ -253,10 +234,6 @@ public class LightChainNode implements BaseNode {
         oldValue = 0;
       }
       this.heightToUniquePrevCount.put(block.getHeight(), oldValue + 1);
-
-      this.metricsCollector.histogram().observe(
-            "unique_blocks_per_height",
-            this.uuid, block.getHeight());
     }
 
     Integer old = this.heightToUniquePrev.get(block.getHeight()).get(block.getPrev());
@@ -265,15 +242,11 @@ public class LightChainNode implements BaseNode {
     }
     this.heightToUniquePrev.get(block.getHeight()).put(block.getPrev(), old + 1);
 
-
-    this.metricsCollector.histogram().observe(
-          "block_height_histogram",
-          this.uuid,
-          block.getHeight());
-
     logger.info("[Registry] maximum height found so far is " + this.maximumHeight);
     logger.info("[Registry] currently " + this.insertedBlocks.size()
           + " blocks are inserted totally");
+
+    this.lightChainMetrics.OnNewFinalizedBlock(block.getHeight(), block.getId(), block.getOwner());
 
     // this.blockLock.writeLock().unlock();
   }
@@ -598,9 +571,6 @@ public class LightChainNode implements BaseNode {
    * @param transaction transaction to be inserted into the network
    */
   public void addTransaction(Transaction transaction) {
-
-    this.metricsCollector.gauge().inc("transaction_count", this.uuid);
-
     if (!this.isRegistry) {
       try {
         throw new Exception("Add Transaction is called from a non-registry node");
@@ -616,6 +586,8 @@ public class LightChainNode implements BaseNode {
     this.totalTransactionCount += 1;
     logger.info("[Registry] currently " + this.availableTransactions.size() + " transactions are available");
     logger.info("[Registry] total number of transactions inserted so far " + this.totalTransactionCount);
+
+    this.lightChainMetrics.OnNewTransactions(1);
 
     //  this.transactionLock.writeLock().unlock();
   }
@@ -665,8 +637,6 @@ public class LightChainNode implements BaseNode {
     this.availableTransactions = temporary;
 
     //  this.transactionLock.writeLock().unlock();
-
-    this.metricsCollector.gauge().dec("transaction_count", this.uuid, requiredNumber);
 
     network.send(requester, new DeliverTransactionsEvent(requestedTransactions));
 
