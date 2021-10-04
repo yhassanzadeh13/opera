@@ -8,6 +8,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.UUID;
@@ -302,31 +303,30 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
   /**
    * Simulate churn based on inter-arrival time and session length.
    *
-   * @param duration duration of the simulator
-   * @param arrival  inter-arrival
-   * @param session  session length
+   * @param lifeTime duration of the simulation.
+   * @param interArrivalGen  inter-arrival generator, i.e., time between two consecutive arrivals in the system.
+   * @param sessionLengthGenerator  session length generator, i.e., online duration of a node in the system.
    */
-  public void churnSimulation(long duration, BaseGenerator arrival, BaseGenerator session) {
-    final String sessionMetric = "SessionLength";
-    final String arrivalMetric = "InterArrival";
-
+  public void churnSimulation(long lifeTime, BaseGenerator interArrivalGen, BaseGenerator sessionLengthGenerator) {
     // initialize all nodes
     this.onStart();
     System.out.println("Simulation started");
     getLogger().info("Simulation started");
 
+    // TODO: move these to a churn simulator unit so that one can register labels via
+    // the simulator's constructor.
     // register a prometheus histogram for session length
     double[] labels = new double[10];
     for (int i = 1; i <= 10; i++) {
-      labels[10 - i] = session.mn + (double) (session.mx - session.mn) / i + 0.001;
+      labels[10 - i] = sessionLengthGenerator.mn + (double) (sessionLengthGenerator.mx - sessionLengthGenerator.mn) / i + 0.001;
     }
-    this.metricsCollector.histogram().register(sessionMetric, labels);
+    // this.metricsCollector.histogram().register(sessionMetric, labels);
 
     // register a prometheus histogram for inter arrival time
     for (int i = 1; i <= 10; i++) {
-      labels[10 - i] = arrival.mn + (double) (arrival.mx - arrival.mn) / i + 0.001;
+      labels[10 - i] = interArrivalGen.mn + (double) (interArrivalGen.mx - interArrivalGen.mn) / i + 0.001;
     }
-    this.metricsCollector.histogram().register(arrivalMetric, labels);
+    // this.metricsCollector.histogram().register(arrivalMetric, labels);
 
     // hold the current online nodes, with their termination time stamp.
     this.onlineNodes = new PriorityQueue<>();
@@ -335,25 +335,29 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
     long time = System.currentTimeMillis();
     for (UUID id : this.allId) {
       if (isReady.get(this.allFullAddresses.get(id))) {
-        int ex = session.next();
-        log.info("[simulator.simulator] new session for node " + getAddress(id) + ": " + ex + " ms");
-        onlineNodes.add(new SimpleEntryComparable<>(time + ex, id));
-        this.metricsCollector.histogram().observe(sessionMetric, id, ex);
+        int sessionLength = sessionLengthGenerator.next();
+        log.info("[simulator.simulator] new session for node " + getAddress(id) + ": " + sessionLength + " ms");
+        onlineNodes.add(new SimpleEntryComparable<>(time + sessionLength, id));
+        this.simulatorMetricsCollector.OnNewSessionLengthGenerated(id, sessionLength);
       }
     }
     // hold next arrival time
-    long nxtArrival = System.currentTimeMillis() + arrival.next();
-    this.metricsCollector.histogram().observe(arrivalMetric, SimulatorID, nxtArrival);
+    int interArrivalTime = interArrivalGen.next();
+    this.simulatorMetricsCollector.OnNewInterArrivalGenerated(interArrivalTime);
+    long nextArrival = System.currentTimeMillis() + interArrivalTime;
 
-    while (System.currentTimeMillis() - time < duration) {
-      if (!onlineNodes.isEmpty() && System.currentTimeMillis() > onlineNodes.peek().getKey()) {
-        // terminate the node with the nearest termination time (if the time met)
-        // `done` will add the node to the offline nodes
-        UUID id = onlineNodes.poll().getValue();
-        log.info("[simulator.simulator] Deactivating node " + getAddress(id));
-        this.done(id);
+    while (System.currentTimeMillis() - time < lifeTime) {
+      if (!onlineNodes.isEmpty()) {
+        assert onlineNodes.peek() != null;
+        if (System.currentTimeMillis() > onlineNodes.peek().getKey()) {
+          // terminate the node with the nearest termination time (if the time met)
+          // `done` will add the node to the offline nodes
+          UUID id = Objects.requireNonNull(onlineNodes.poll()).getValue();
+          log.info("[simulator.simulator] Deactivating node " + getAddress(id));
+          this.done(id);
+        }
       }
-      if (System.currentTimeMillis() >= nxtArrival) {
+      if (System.currentTimeMillis() >= nextArrival) {
         // pool a random node from the offline nodes (if exists) and start it in a new thread.
         if (this.offlineNodes.isEmpty()) {
           continue;
@@ -371,15 +375,16 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
         middleLayer.create(this.allId);
 
         // assign a termination time
-        int ex = session.next();
-        log.info("[simulator.simulator] new session for node " + getAddress(id) + ": " + ex + " ms");
-        this.onlineNodes.add(new SimpleEntryComparable<>(System.currentTimeMillis() + ex, id));
-        this.metricsCollector.histogram().observe(sessionMetric, id, ex);
+        int sessionLength = sessionLengthGenerator.next();
+        this.simulatorMetricsCollector.OnNewSessionLengthGenerated(id, sessionLength);
+        log.info("[simulator.simulator] new session for node " + getAddress(id) + ": " + sessionLength + " ms");
+        this.onlineNodes.add(new SimpleEntryComparable<>(System.currentTimeMillis() + sessionLength, id));
 
         // assign a next node arrival time
-        nxtArrival = System.currentTimeMillis() + arrival.next();
-        log.info("[simulator.simulator] next node arrival: " + nxtArrival);
-        this.metricsCollector.histogram().observe(arrivalMetric, SimulatorID, nxtArrival);
+        interArrivalTime = interArrivalGen.next();
+        this.simulatorMetricsCollector.OnNewInterArrivalGenerated(interArrivalTime);
+        nextArrival = System.currentTimeMillis() + interArrivalTime;
+        log.info("[simulator.simulator] next node arrival: " + nextArrival);
       }
     }
 

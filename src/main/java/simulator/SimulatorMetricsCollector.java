@@ -43,7 +43,7 @@ public class SimulatorMetricsCollector {
 
   /**
    * Records the generated session length of the node in histogram. Session length is the online
-   * duration of a node in the system. 
+   * duration of a node in the system.
    * @param id identifier of node.
    * @param sessionLength its session length.
    */
@@ -60,6 +60,6 @@ public class SimulatorMetricsCollector {
   public void OnNewInterArrivalGenerated(int interArrival){
     // Since inter arrival time is a global parameter, we record it by the collector id which
     // is a global identifier.
-    metricsCollector.histogram().observe(Name.SESSION_LENGTH, collectorID, interArrival);
+    metricsCollector.histogram().observe(Name.INTER_ARRIVAL, collectorID, interArrival);
   }
 }
