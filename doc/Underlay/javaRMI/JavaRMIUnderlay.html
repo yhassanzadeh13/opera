@@ -75,14 +75,14 @@ loadScripts(document, 'script');</script>
 <h1 title="Class JavaRmiUnderlay" class="title">Class JavaRmiUnderlay</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance"><a href="../Underlay.html" title="class in underlay">underlay.underlay</a>
-<div class="inheritance">underlay.javarmi.JavaRmiUnderlay</div>
+<div class="inheritance"><a href="../Underlay.html" title="class in underlay">underlay.Underlay</a>
+<div class="inheritance">underlay.javaRMI.JavaRmiUnderlay</div>
 </div>
 </div>
 <section class="description">
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">JavaRmiUnderlay</span>
-<span class="extends-implements">extends <a href="../Underlay.html" title="class in underlay">underlay</a></span></div>
+<span class="extends-implements">extends <a href="../Underlay.html" title="class in underlay">Underlay1</a></span></div>
 <div class="block">Java RMI connection underlay implementation.</div>
 </section>
 <section class="summary">
@@ -92,7 +92,7 @@ loadScripts(document, 'script');</script>
 <section class="field-summary" id="field.summary">
 <h2>Field Summary</h2>
 <div class="inherited-list">
-<h3 id="fields.inherited.from.class.underlay.Underlay">Fields inherited from class&nbsp;underlay.<a href="../Underlay.html" title="class in underlay">underlay</a></h3>
+<h3 id="fields.inherited.from.class.underlay.Underlay">Fields inherited from class&nbsp;underlay.<a href="../Underlay.html" title="class in underlay">Underlay1</a></h3>
 <code><a href="../Underlay.html#log">log</a></code></div>
 </section>
 </li>
@@ -153,7 +153,7 @@ loadScripts(document, 'script');</script>
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods.inherited.from.class.underlay.Underlay">Methods inherited from class&nbsp;underlay.<a href="../Underlay.html" title="class in underlay">underlay</a></h3>
+<h3 id="methods.inherited.from.class.underlay.Underlay">Methods inherited from class&nbsp;underlay.<a href="../Underlay.html" title="class in underlay">Underlay1</a></h3>
 <code><a href="../Underlay.html#dispatchRequest(underlay.packets.Request)">dispatchRequest</a>, <a href="../Underlay.html#getFullAddress()">getFullAddress</a>, <a href="../Underlay.html#initialize(int,underlay.MiddleLayer)">initialize</a></code></div>
 <div class="inherited-list">
 <h3 id="methods.inherited.from.class.java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
@@ -202,7 +202,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getPort</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../Underlay.html#getPort()">getPort</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">underlay</a></code></dd>
+<dd><code><a href="../Underlay.html#getPort()">getPort</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">Underlay1</a></code></dd>
 </dl>
 </section>
 </li>
@@ -212,7 +212,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getAddress</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../Underlay.html#getAddress()">getAddress</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">underlay</a></code></dd>
+<dd><code><a href="../Underlay.html#getAddress()">getAddress</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">Underlay1</a></code></dd>
 </dl>
 </section>
 </li>
@@ -223,7 +223,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Constructs a `JavaRMIHost` instance and binds it to the given port.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../Underlay.html#initUnderlay(int)">initUnderlay</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">underlay</a></code></dd>
+<dd><code><a href="../Underlay.html#initUnderlay(int)">initUnderlay</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">Underlay1</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>port</code> - the port that the underlay should be bound to.</dd>
 <dt>Returns:</dt>
@@ -240,7 +240,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Invokes the appropriate RMI method on the server with the given address.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../Underlay.html#sendMessage(java.lang.String,int,underlay.packets.Request)">sendMessage</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">underlay</a></code></dd>
+<dd><code><a href="../Underlay.html#sendMessage(java.lang.String,int,underlay.packets.Request)">sendMessage</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">Underlay1</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>address</code> - address of the remote server.</dd>
 <dd><code>port</code> - port of the remote server.</dd>
@@ -258,7 +258,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Terminates the Java RMI underlay service.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../Underlay.html#terminate(java.lang.String,int)">terminate</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">underlay</a></code></dd>
+<dd><code><a href="../Underlay.html#terminate(java.lang.String,int)">terminate</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">Underlay1</a></code></dd>
 <dt>Returns:</dt>
 <dd>true iff the termination was successful.</dd>
 </dl>

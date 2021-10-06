@@ -82,7 +82,7 @@ loadScripts(document, 'script');</script>
 <section class="description">
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">LocalUnderlay</span>
-<span class="extends-implements">extends <a href="../Underlay.html" title="class in underlay">underlay</a></span></div>
+<span class="extends-implements">extends <a href="../Underlay.html" title="class in underlay">Underlay1</a></span></div>
 <div class="block">Serves as the LocalUnderlay layer of the simulator.</div>
 </section>
 <section class="summary">
@@ -92,7 +92,7 @@ loadScripts(document, 'script');</script>
 <section class="field-summary" id="field.summary">
 <h2>Field Summary</h2>
 <div class="inherited-list">
-<h3 id="fields.inherited.from.class.underlay.Underlay">Fields inherited from class&nbsp;underlay.<a href="../Underlay.html" title="class in underlay">underlay</a></h3>
+<h3 id="fields.inherited.from.class.underlay.Underlay">Fields inherited from class&nbsp;underlay.<a href="../Underlay.html" title="class in underlay">Underlay1</a></h3>
 <code><a href="../Underlay.html#log">log</a></code></div>
 </section>
 </li>
@@ -147,7 +147,7 @@ loadScripts(document, 'script');</script>
  int&nbsp;port,
  <a href="../packets/Request.html" title="class in underlay.packets">Request</a>&nbsp;request)</code></div>
 <div class="col-last even-row-color method-summary-table-tab2 method-summary-table-tab4 method-summary-table">
-<div class="block">Sends a request to underlay.</div>
+<div class="block">Sends a request to Underlay1.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table-tab2 method-summary-table-tab4 method-summary-table"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table-tab2 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#setAllUnderlay(java.util.HashMap)">setAllUnderlay</a></span>&#8203;(<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/util/HashMap.html" title="class or interface in java.util" class="external-link">HashMap</a>&lt;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/util/AbstractMap.SimpleEntry.html" title="class or interface in java.util" class="external-link">AbstractMap.SimpleEntry</a>&lt;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,&#8203;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;,&#8203;<a href="LocalUnderlay.html" title="class in underlay.local">LocalUnderlay</a>&gt;&nbsp;allUnderlay)</code></div>
@@ -162,7 +162,7 @@ loadScripts(document, 'script');</script>
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods.inherited.from.class.underlay.Underlay">Methods inherited from class&nbsp;underlay.<a href="../Underlay.html" title="class in underlay">underlay</a></h3>
+<h3 id="methods.inherited.from.class.underlay.Underlay">Methods inherited from class&nbsp;underlay.<a href="../Underlay.html" title="class in underlay">Underlay1</a></h3>
 <code><a href="../Underlay.html#dispatchRequest(underlay.packets.Request)">dispatchRequest</a>, <a href="../Underlay.html#getFullAddress()">getFullAddress</a>, <a href="../Underlay.html#initialize(int,underlay.MiddleLayer)">initialize</a></code></div>
 <div class="inherited-list">
 <h3 id="methods.inherited.from.class.java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
@@ -188,7 +188,7 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>selfAddress</code> - Address of the underlay</dd>
-<dd><code>port</code> - port of the underlay</dd>
+<dd><code>port</code> - port of the Underlay1</dd>
 <dd><code>allUnderlay</code> - hashmap of all underlays</dd>
 </dl>
 </section>
@@ -212,11 +212,11 @@ loadScripts(document, 'script');</script>
 <h3>terminate</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">terminate</span>&#8203;<span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;address,
  int&nbsp;port)</span></div>
-<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../Underlay.html#terminate(java.lang.String,int)">underlay</a></code></span></div>
+<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../Underlay.html#terminate(java.lang.String,int)">Underlay1</a></code></span></div>
 <div class="block">Terminates the node.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../Underlay.html#terminate(java.lang.String,int)">terminate</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">underlay</a></code></dd>
+<dd><code><a href="../Underlay.html#terminate(java.lang.String,int)">terminate</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">Underlay1</a></code></dd>
 <dt>Returns:</dt>
 <dd>true iff the termination was successful.</dd>
 </dl>
@@ -228,7 +228,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getPort</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../Underlay.html#getPort()">getPort</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">underlay</a></code></dd>
+<dd><code><a href="../Underlay.html#getPort()">getPort</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">Underlay1</a></code></dd>
 </dl>
 </section>
 </li>
@@ -238,7 +238,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getAddress</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../Underlay.html#getAddress()">getAddress</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">underlay</a></code></dd>
+<dd><code><a href="../Underlay.html#getAddress()">getAddress</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">Underlay1</a></code></dd>
 </dl>
 </section>
 </li>
@@ -246,11 +246,11 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="initUnderlay(int)">
 <h3>initUnderlay</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">initUnderlay</span>&#8203;<span class="parameters">(int&nbsp;port)</span></div>
-<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../Underlay.html#initUnderlay(int)">underlay</a></code></span></div>
+<div class="block"><span class="descfrm-type-label">Description copied from class:&nbsp;<code><a href="../Underlay.html#initUnderlay(int)">Underlay1</a></code></span></div>
 <div class="block">Contains the underlay-specific initialization procedures.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../Underlay.html#initUnderlay(int)">initUnderlay</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">underlay</a></code></dd>
+<dd><code><a href="../Underlay.html#initUnderlay(int)">initUnderlay</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">Underlay1</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>port</code> - the port that the underlay should be bound to.</dd>
 <dt>Returns:</dt>
@@ -264,10 +264,10 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">sendMessage</span>&#8203;<span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;address,
  int&nbsp;port,
  <a href="../packets/Request.html" title="class in underlay.packets">Request</a>&nbsp;request)</span></div>
-<div class="block">Sends a request to underlay. Return true if no errors.</div>
+<div class="block">Sends a request to Underlay1. Return true if no errors.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../Underlay.html#sendMessage(java.lang.String,int,underlay.packets.Request)">sendMessage</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">underlay</a></code></dd>
+<dd><code><a href="../Underlay.html#sendMessage(java.lang.String,int,underlay.packets.Request)">sendMessage</a></code>&nbsp;in class&nbsp;<code><a href="../Underlay.html" title="class in underlay">Underlay1</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>address</code> - address of the remote server.</dd>
 <dd><code>port</code> - port of the remote server.</dd>
