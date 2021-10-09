@@ -1,2 +1,4 @@
-package examples.serversbattle;public class ContestantMetrics {
+package examples.serversbattle;
+
+public class ContestantMetrics {
 }

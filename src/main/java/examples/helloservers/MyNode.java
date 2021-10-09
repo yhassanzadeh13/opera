@@ -18,6 +18,7 @@ public class MyNode implements BaseNode {
   private MiddleLayer network;
   private MetricsCollector metricsCollector;
 
+  // TODO: enable metrics
   MyNode() {
   }
 
