@@ -318,7 +318,8 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
     // register a prometheus histogram for session length
     double[] labels = new double[10];
     for (int i = 1; i <= 10; i++) {
-      labels[10 - i] = sessionLengthGenerator.mn + (double) (sessionLengthGenerator.mx - sessionLengthGenerator.mn) / i + 0.001;
+      labels[10 - i] = sessionLengthGenerator.mn
+          + (double) (sessionLengthGenerator.mx - sessionLengthGenerator.mn) / i + 0.001;
     }
     // this.metricsCollector.histogram().register(sessionMetric, labels);
 
@@ -338,12 +339,12 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
         int sessionLength = sessionLengthGenerator.next();
         log.info("[simulator.simulator] new session for node " + getAddress(id) + ": " + sessionLength + " ms");
         onlineNodes.add(new SimpleEntryComparable<>(time + sessionLength, id));
-        this.simulatorMetricsCollector.OnNewSessionLengthGenerated(id, sessionLength);
+        this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
       }
     }
     // hold next arrival time
     int interArrivalTime = interArrivalGen.next();
-    this.simulatorMetricsCollector.OnNewInterArrivalGenerated(interArrivalTime);
+    this.simulatorMetricsCollector.onNewInterArrivalGenerated(interArrivalTime);
     long nextArrival = System.currentTimeMillis() + interArrivalTime;
 
     while (System.currentTimeMillis() - time < lifeTime) {
@@ -376,13 +377,13 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
 
         // assign a termination time
         int sessionLength = sessionLengthGenerator.next();
-        this.simulatorMetricsCollector.OnNewSessionLengthGenerated(id, sessionLength);
+        this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
         log.info("[simulator.simulator] new session for node " + getAddress(id) + ": " + sessionLength + " ms");
         this.onlineNodes.add(new SimpleEntryComparable<>(System.currentTimeMillis() + sessionLength, id));
 
         // assign a next node arrival time
         interArrivalTime = interArrivalGen.next();
-        this.simulatorMetricsCollector.OnNewInterArrivalGenerated(interArrivalTime);
+        this.simulatorMetricsCollector.onNewInterArrivalGenerated(interArrivalTime);
         nextArrival = System.currentTimeMillis() + interArrivalTime;
         log.info("[simulator.simulator] next node arrival: " + nextArrival);
       }
