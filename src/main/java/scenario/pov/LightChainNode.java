@@ -9,7 +9,6 @@ import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import metrics.Constants;
 import metrics.MetricsCollector;
 import node.BaseNode;
 import org.apache.log4j.Logger;
@@ -246,7 +245,7 @@ public class LightChainNode implements BaseNode {
     logger.info("[Registry] currently " + this.insertedBlocks.size()
           + " blocks are inserted totally");
 
-    this.lightChainMetrics.OnNewFinalizedBlock(block.getHeight(), block.getId(), block.getOwner());
+    this.lightChainMetrics.onNewFinalizedBlock(block.getHeight(), block.getId(), block.getOwner());
 
     // this.blockLock.writeLock().unlock();
   }
@@ -587,7 +586,7 @@ public class LightChainNode implements BaseNode {
     logger.info("[Registry] currently " + this.availableTransactions.size() + " transactions are available");
     logger.info("[Registry] total number of transactions inserted so far " + this.totalTransactionCount);
 
-    this.lightChainMetrics.OnNewTransactions(1);
+    this.lightChainMetrics.onNewTransactions(1);
 
     //  this.transactionLock.writeLock().unlock();
   }
