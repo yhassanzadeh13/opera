@@ -17,11 +17,12 @@ public interface HistogramCollector {
 
   Histogram get(String name) throws IllegalArgumentException;
 
-  boolean startTimer(String name, UUID id, String timerID);
+  boolean startTimer(String name, UUID id, String timerId);
 
-  boolean observeDuration(String name, String timerID);
+  boolean observeDuration(String name, String timerId);
 
-  void tryObserveDuration(String name, String timerID);
+  void tryObserveDuration(String name, String timerId);
 
-  void register(String name, String namespace, String subsystem, String helpMessage, double[] buckets) throws IllegalArgumentException;
+  void register(String name, String namespace, String subsystem, String helpMessage, double[] buckets)
+      throws IllegalArgumentException;
 }

@@ -1,7 +1,6 @@
 package metrics;
 
 import java.util.UUID;
-import io.prometheus.client.Collector;
 
 /**
  * The CounterCollector interface is a base interface of counter collector to use for metric collector.
