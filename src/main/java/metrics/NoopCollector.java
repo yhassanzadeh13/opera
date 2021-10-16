@@ -32,14 +32,15 @@ public class NoopCollector implements MetricsCollector {
     public void tryObserveDuration(String name, String timerId) {}
 
     @Override
-    public void register(String name, String namespace, String subsystem, String helpMessage, double[] buckets) throws IllegalArgumentException {}
+    public void register(String name, String namespace, String subsystem, String helpMessage, double[] buckets)
+        throws IllegalArgumentException {}
   }
 
   static class NoopGauge implements GaugeCollector {
 
     @Override
-    public boolean register(String name) {
-      return false;
+    public void register(String name, String namespace, String subsystem, String helpMessage) {
+
     }
 
     @Override

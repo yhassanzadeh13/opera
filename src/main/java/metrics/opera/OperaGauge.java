@@ -15,14 +15,18 @@ import simulator.Simulator;
 public class OperaGauge extends OperaMetric implements GaugeCollector {
   /**
    * Registers a gauge. This method is expected to be executed by several instances of nodes assuming a decentralized
-   * metrics registration. However, only the first invocation gets through and registers the metric. The rest will be idempotent.
-   * Since the collector is handled globally in a centralized manner behind the scene, only one successful registration is enough.
+   * metrics registration. However, only the first invocation gets through and registers the metric.
+   * The rest will be idempotent.
+   * Since the collector is handled globally in a centralized manner behind the scene,
+   * only one successful registration is enough.
    *
    * @param name        name of gauge metric.
    * @param namespace   namespace of gauge metric, normally refers to a distinct class of opera, e.g., middleware.
-   * @param subsystem   either the same as namespace for monolith classes, or the subclass for which we collect metrics, e.g., latency generator within middleware.
+   * @param subsystem   either the same as namespace for monolith classes, or the subclass for which we collect metrics,
+   *                    e.g., latency generator within middleware.
    * @param helpMessage a hint message describing what this metric represents.
-   * @throws IllegalArgumentException when a different metric type (e.g., histogram) with the same name has already been registered.
+   * @throws IllegalArgumentException when a different metric type (e.g., histogram) with the same name has already
+   *                                  been registered.
    */
   public void register(String name, String namespace, String subsystem, String helpMessage) throws IllegalArgumentException {
     if (!collectors.containsKey(name)) {
