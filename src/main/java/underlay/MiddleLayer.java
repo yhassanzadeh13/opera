@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 import events.StopStartEvent;
-import metrics.Constants;
 import metrics.MetricsCollector;
 import node.BaseNode;
 import org.apache.log4j.Logger;
@@ -31,7 +30,7 @@ public class MiddleLayer {
   private final UUID nodeId;
   // TODO : make the communication between the nodes and the simulator (the master node) through the network
   private final Orchestrator orchestrator;
-  private final MetricsCollector metricsCollector;
+  private final MiddleLayerMetricsCollector metricsCollector;
   private Underlay underlay;
   private BaseNode overlay;
 
@@ -59,35 +58,7 @@ public class MiddleLayer {
     this.orchestrator = orchestrator;
     this.metricsCollector = metricsCollector;
 
-    // registers metrics
-    // TODO: add exception handling
-    // TODO: expose metrics into middleware collector.
-    this.metricsCollector.histogram().register(
-        Constants.Network.Name.DELAY,
-        Constants.Namespace.NETWORK,
-        Constants.Network.MIDDLELAYER,
-        Constants.Network.HelpMsg.DELAY,
-        Constants.Histogram.DEFAULT_HISTOGRAM);
 
-    //TODO: decouple this into sent and received bucket sizes.
-    this.metricsCollector.histogram().register(
-        Constants.Network.Name.PACKET_SIZE,
-        Constants.Namespace.NETWORK,
-        Constants.Network.MIDDLELAYER,
-        Constants.Network.HelpMsg.PACKET_SIZE,
-        Constants.Histogram.DEFAULT_HISTOGRAM);
-
-    this.metricsCollector.counter().register(
-        Constants.Network.Name.MESSAGE_SENT_TOTAL,
-        Constants.Namespace.NETWORK,
-        Constants.Network.MIDDLELAYER,
-        Constants.Network.HelpMsg.MESSAGE_SENT_TOTAL);
-
-    this.metricsCollector.counter().register(
-        Constants.Network.Name.MESSAGE_RECEIVED_TOTAL,
-        Constants.Namespace.NETWORK,
-        Constants.Network.MIDDLELAYER,
-        Constants.Network.HelpMsg.MESSAGE_RECEIVED_TOTAL);
   }
 
   public Underlay getUnderlay() {
@@ -164,7 +135,7 @@ public class MiddleLayer {
     // check the readiness of the overlay
     SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(nodeId);
 
-    this.metricsCollector.counter().inc(receivedMsgCntMetric, nodeId);
+    this.metricsCollector.onMessageReceived(nodeId);
     this.metricsCollector.histogram().tryObserveDuration(delayMetric, receivedBucketHash(request.getOriginalId()));
 
 
