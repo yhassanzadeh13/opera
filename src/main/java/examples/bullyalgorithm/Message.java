@@ -11,8 +11,8 @@ import underlay.packets.Event;
  * find the coordinator.
  */
 public class Message implements Event, Serializable {
-  public static String VictoryMessage = "Victory";
-  public static String ElectionMessage = "Election";
+  public static String VictoryMessage = "victory";
+  public static String ElectionMessage = "election";
 
   String msg;
   UUID originalId;
