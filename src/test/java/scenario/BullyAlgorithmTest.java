@@ -1,4 +1,4 @@
-package Scenario;
+package scenario;
 
 import underlay.UnderlayType;
 import metrics.MetricsCollector;
