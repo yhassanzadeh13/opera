@@ -14,13 +14,13 @@ public class Message implements Event, Serializable {
   public static String VictoryMessage = "victory";
   public static String ElectionMessage = "election";
 
-  String msg;
-  UUID originalId;
+  String payload;
+  UUID senderId;
   UUID targetId;
 
   @Override
   public String logMessage() {
-    return msg;
+    return payload;
   }
 
   @Override
@@ -32,33 +32,33 @@ public class Message implements Event, Serializable {
    * Message that transferred between nodes.
    *
    * @param msg message that sent to target node.
-   * @param originalId Sender of the message.
-   * @param targetId Reciever of the message.
+   * @param originalId sender of the message.
+   * @param targetId receiver of the message.
    */
   public Message(String msg, UUID originalId, UUID targetId) {
-    this.msg = msg;
-    this.originalId = originalId;
+    this.payload = msg;
+    this.senderId = originalId;
     this.targetId = targetId;
   }
 
-  public void setMsg(String msg) {
-    this.msg = msg;
+  public void setPayload(String payload) {
+    this.payload = payload;
   }
 
-  public void setOriginalId(UUID originalId) {
-    this.originalId = originalId;
+  public void setSenderId(UUID senderId) {
+    this.senderId = senderId;
   }
 
   public void setTargetId(UUID targetId) {
     this.targetId = targetId;
   }
 
-  public String getMsg() {
-    return msg;
+  public String getPayload() {
+    return payload;
   }
 
-  public UUID getOriginalId() {
-    return originalId;
+  public UUID getSenderId() {
+    return senderId;
   }
 
   public UUID getTargetId() {
@@ -69,10 +69,10 @@ public class Message implements Event, Serializable {
   public boolean actionPerformed(BaseNode hostNode) {
     MyNode node = (MyNode) hostNode;
     node.coordinatorId = node.getMaxId();
-    if (this.getMsg().equals(VictoryMessage)) {
-      node.setCoordinatorId(this.originalId);
+    if (this.getPayload().equals(VictoryMessage)) {
+      node.setCoordinatorId(this.senderId);
 
-    } else if (this.getMsg().equals(ElectionMessage)) {
+    } else if (this.getPayload().equals(ElectionMessage)) {
       node.sendMessage();
     }
 
