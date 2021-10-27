@@ -1,5 +1,7 @@
 package scenario.pov;
 
+import node.BaseNode;
+import node.NodeFactory;
 import simulator.Simulator;
 import underlay.UnderlayType;
 
@@ -16,8 +18,13 @@ public class Simulation {
     int duration = 1000000;
 
     LightChainNode fixtureNode = new LightChainNode();
-    Simulator<LightChainNode> simulator = new Simulator<>(fixtureNode, numNodes, UnderlayType.MOCK_NETWORK);
+    RegistryNode registryNode = new RegistryNode();
 
+    NodeFactory factory = new NodeFactory();
+    factory.put(registryNode, 1);
+    factory.put(fixtureNode, 21);
+
+    Simulator<BaseNode> simulator = new Simulator<>(factory, UnderlayType.MOCK_NETWORK);
     simulator.constantSimulation(duration);
   }
 

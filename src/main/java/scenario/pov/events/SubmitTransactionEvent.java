@@ -1,7 +1,7 @@
 package scenario.pov.events;
 
 import node.BaseNode;
-import scenario.pov.LightChainNode;
+import scenario.pov.RegistryNode;
 import scenario.pov.Transaction;
 import underlay.packets.Event;
 
@@ -20,15 +20,14 @@ public class SubmitTransactionEvent implements Event {
   @Override
   public boolean actionPerformed(BaseNode hostNode) {
 
-    LightChainNode node = (LightChainNode) hostNode;
+    RegistryNode node = null;
 
-    if (!node.isRegistry()) {
-      try {
-        throw new Exception("Submit Transaction Event is submitted to a node other than registry");
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+    try {
+      node = (RegistryNode) hostNode;
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+
     node.addTransaction(this.transaction);
 
     return true;

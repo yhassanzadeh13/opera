@@ -1,5 +1,6 @@
 package examples.serversbattle;
 
+import node.NodeFactory;
 import simulator.Simulator;
 import underlay.UnderlayType;
 
@@ -15,7 +16,9 @@ public class Main {
    */
   public static void main(String[] args) {
     Contestant fixtureNode = new Contestant();
-    Simulator<Contestant> sim = new Simulator<Contestant>(fixtureNode, 4, UnderlayType.TCP_PROTOCOL);
+    NodeFactory factory = new NodeFactory();
+    factory.put(fixtureNode, 4);
+    Simulator<Contestant> sim = new Simulator<Contestant>(factory, UnderlayType.TCP_PROTOCOL);
     sim.constantSimulation(10000);
   }
 }

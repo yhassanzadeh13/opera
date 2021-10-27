@@ -15,6 +15,7 @@ import java.util.concurrent.CountDownLatch;
 import metrics.MetricsCollector;
 import metrics.SimulatorCollector;
 import node.BaseNode;
+import node.NodeFactory;
 import org.apache.log4j.Logger;
 import underlay.MiddleLayer;
 import underlay.UnderlayFactory;
@@ -41,11 +42,11 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
   private final ArrayList<UUID> allId;
   private final HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses;
   private final HashMap<SimpleEntry<String, Integer>, Boolean> isReady;
-  private final T factory;
   private final ArrayList<UUID> offlineNodes = new ArrayList<>();
   private final CountDownLatch count;
   private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
   private final MetricsCollector metricsCollector;
+  private final NodeFactory nodeFactory;
   public HashMap<String, Integer> nodesSimulatedLatency = new HashMap<>();
   private HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers;
   private PriorityQueue<SimpleEntryComparable<Long, UUID>> onlineNodes = new PriorityQueue<>();
@@ -53,16 +54,17 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
   /**
    * Initializes a new simulation.
    *
-   * @param factory     a dummy factory instance of special node class.
-   * @param n           the number of nodes.
+   * @param nodeFactory a nodeFactory instance which supports multiple node types
    * @param networkType the type of simulated communication protocol(**tcp**, **javarmi**, **udp**, and **mockNetwork*)
    */
-  public Simulator(T factory, int n, UnderlayType networkType) {
-    this.factory = factory;
+  public Simulator(NodeFactory nodeFactory, UnderlayType networkType) {
+    this.nodeFactory = nodeFactory;
+    int n = nodeFactory.size();
     this.isReady = new HashMap<>();
     this.allId = generateIds(n);
     int startPort = 2000;
     this.allFullAddresses = generateFullAddressed(n, startPort + 1);
+
 
     SimulatorUtils.configurePrometheus();
 
@@ -128,7 +130,7 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
     for (UUID id : allId) {
       isReady.put(this.allFullAddresses.get(id), false);
       MiddleLayer middleLayer = new MiddleLayer(id, this.allFullAddresses, isReady, this, this.metricsCollector);
-      BaseNode node = factory.newInstance(id, middleLayer, this.metricsCollector);
+      BaseNode node = nodeFactory.newInstance(id, middleLayer);
       middleLayer.setOverlay(node);
       this.allMiddleLayers.put(this.allFullAddresses.get(id), middleLayer);
     }

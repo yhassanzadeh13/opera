@@ -2,13 +2,13 @@ package scenario.pov.events;
 
 import java.util.UUID;
 import node.BaseNode;
-import scenario.pov.LightChainNode;
+import scenario.pov.RegistryNode;
 import underlay.packets.Event;
 
 
 /**
  * Getter of the latest block event.
- *Size: Returns number of encoded bytes.
+ * Size: Returns number of encoded bytes.
  */
 public class GetLatestBlockEvent implements Event {
 
@@ -21,15 +21,14 @@ public class GetLatestBlockEvent implements Event {
   @Override
   public boolean actionPerformed(BaseNode hostNode) {
 
-    LightChainNode node = (LightChainNode) hostNode;
+    RegistryNode node = null;
 
-    if (!node.isRegistry()) {
-      try {
-        throw new Exception("Submit Transaction Event is submitted to a node other than registry");
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+    try {
+      node = (RegistryNode) hostNode;
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+
     node.getLatestBlock(this.requester);
 
     return true;
