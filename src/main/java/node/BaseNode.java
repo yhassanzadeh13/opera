@@ -2,7 +2,6 @@ package node;
 
 import java.util.ArrayList;
 import java.util.UUID;
-import metrics.MetricsCollector;
 import underlay.MiddleLayer;
 import underlay.packets.Event;
 
@@ -48,11 +47,10 @@ public interface BaseNode {
    * This method serves as a factory for new node instances.
    * It is supposed to return a new instance of the special node class
    *
-   * @param selfId  the ID of the new node
+   * @param selfId  the ID of the new node.
    * @param network communication network for the new node.
-   * @param metrics metrics collector for the node.
    * @return a new instance of the special node class.
    */
-  BaseNode newInstance(UUID selfId, MiddleLayer network, MetricsCollector metrics);
+  BaseNode newInstance(UUID selfId, MiddleLayer network);
 
 }

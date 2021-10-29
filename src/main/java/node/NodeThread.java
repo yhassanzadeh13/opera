@@ -28,13 +28,11 @@ public class NodeThread<T extends BaseNode> extends Thread {
    * @param selfId Id of the node
    * @param allId List of Id's of all the nodes
    * @param middleLayer layer of the modes
-   * @param metrics is a metric collector.
    */
-  public NodeThread(T factory, UUID selfId, ArrayList<UUID> allId, MiddleLayer middleLayer, MetricsCollector metrics) {
+  public NodeThread(T factory, UUID selfId, ArrayList<UUID> allId, MiddleLayer middleLayer) {
     this.selfId = selfId;
     this.allId = allId;
-    this.metrics = metrics;
-    node = factory.newInstance(selfId, middleLayer, metrics);
+    node = factory.newInstance(selfId, middleLayer);
   }
 
   @Override

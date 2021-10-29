@@ -29,8 +29,6 @@ public class GetLatestBlockEvent implements Event {
       e.printStackTrace();
     }
 
-    node.getLatestBlock(this.requester);
-
     return true;
   }
 

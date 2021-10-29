@@ -21,7 +21,7 @@ public class Main {
     MyNode fixtureNode = new MyNode();
     NodeFactory factory = new NodeFactory();
     factory.put(fixtureNode, 5);
-    Simulator<MyNode> simulation = new Simulator<MyNode>(factory, UnderlayType.MOCK_NETWORK);
+    Simulator<MyNode> simulation = new Simulator<>(factory, UnderlayType.MOCK_NETWORK);
     simulation.churnSimulation(100000, new UniformGenerator(500, 1000), new UniformGenerator(2000, 3000));
   }
 }

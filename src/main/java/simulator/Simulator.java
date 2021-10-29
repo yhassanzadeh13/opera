@@ -191,7 +191,7 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
   }
 
   @Override
-  public BaseNode newInstance(UUID selfId, MiddleLayer middleLayer, MetricsCollector metricsCollector) {
+  public BaseNode newInstance(UUID selfId, MiddleLayer middleLayer) {
     return null;
   }
 

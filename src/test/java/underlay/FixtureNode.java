@@ -5,6 +5,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import metrics.MetricsCollector;
 import node.BaseNode;
+import underlay.MiddleLayer;
 import underlay.packets.Event;
 
 /**
@@ -41,7 +42,7 @@ public class FixtureNode implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(UUID selfId, MiddleLayer network, MetricsCollector metrics) {
+  public BaseNode newInstance(UUID selfId, MiddleLayer network) {
     return null;
   }
 

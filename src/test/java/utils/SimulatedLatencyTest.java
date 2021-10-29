@@ -1,5 +1,7 @@
 package utils;
 
+import node.BaseNode;
+import node.NodeFactory;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.Test;
 import simulator.Simulator;
@@ -24,7 +26,10 @@ public class SimulatedLatencyTest {
   @Test
   void gaussianDelay() {
     FixtureNode fixtureNode = new FixtureNode();
-    Simulator<FixtureNode> simulation = new Simulator<FixtureNode>(fixtureNode, NODE_CNT, UnderlayType.MOCK_NETWORK);
+    NodeFactory nodeFactory = new NodeFactory();
+    nodeFactory.put(fixtureNode, NODE_CNT);
+
+    Simulator<BaseNode> simulation = new Simulator<BaseNode>(nodeFactory, UnderlayType.MOCK_NETWORK);
 
     // generate delay for each pair of nodes
     for (int i = 0; i < NODE_CNT; i++) {

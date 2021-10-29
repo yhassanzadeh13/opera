@@ -26,7 +26,7 @@ public class UnderlayFactory {
   }
 
   /**
-   * getter of a mock Underlay.
+   * getter of a mock underlay.
    *
    * @param address          address of the underlay
    * @param port             port of the underlay

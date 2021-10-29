@@ -31,10 +31,9 @@ public class Contestant implements BaseNode {
   Contestant() {
   }
 
-  Contestant(UUID selfId, MiddleLayer network, MetricsCollector metrics) {
+  Contestant(UUID selfId, MiddleLayer network) {
     this.selfId = selfId;
     this.network = network;
-    this.metrics = metrics;
 
     //Register metrics
     this.metrics.gauge().register(HEALTHLEVEL);
@@ -82,8 +81,8 @@ public class Contestant implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(UUID selfId, MiddleLayer network, MetricsCollector metrics) {
-    return new Contestant(selfId, network, metrics);
+  public BaseNode newInstance(UUID selfId, MiddleLayer network) {
+    return new Contestant(selfId, network);
   }
 
   /**

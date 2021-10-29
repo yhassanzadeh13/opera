@@ -1,36 +1,30 @@
 package scenario.pov;
 
-import java.util.*;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 import metrics.SimulatorGauge;
 import metrics.SimulatorHistogram;
 import node.BaseNode;
 import org.apache.log4j.Logger;
-import scenario.pov.Block;
-import scenario.pov.LightChainNode;
-import scenario.pov.Transaction;
 import scenario.pov.events.DeliverLatestBlockEvent;
 import scenario.pov.events.DeliverTransactionsEvent;
 import underlay.MiddleLayer;
 import underlay.packets.Event;
 
 /**
- *
+ * The registry node represents the underlying skip graph overlay of the RegistryNode, where it keeps the
+ * list of inserted transactions and blocks, and receive requests
+ * from different nodes to submit and retrieve transactions and blocks.
  */
 public class RegistryNode implements BaseNode {
 
   final int blockIterations = 50;
   final int numValidators = 1;
-  /**
-   * The registry node represents the underlying skip graph overlay of the RegistryNode, where it keeps the
-   * list of inserted transactions and blocks, and receive requests
-   * from different nodes to submit and retrieve transactions and blocks.
-   */
-
-  private List<UUID> allID;
+  private List<UUID> allId;
   private UUID uuid;
   private MiddleLayer network;
   private Logger logger;
@@ -41,11 +35,13 @@ public class RegistryNode implements BaseNode {
   private List<Block> insertedBlocks;
   private Map<Integer, Integer> heightToUniquePrevCount;
   private Map<Integer, Map<UUID, Integer>> heightToUniquePrev;
+  private SimulatorGauge gauge;
+  private SimulatorHistogram histogram;
 
   /**
    * Constructor of Registry Node.
    *
-   * @param uuid    ID of the node
+   * @param uuid ID of the node
    * @param network used to communicate with other nodes
    */
   public RegistryNode(UUID uuid, MiddleLayer network) {
@@ -68,45 +64,48 @@ public class RegistryNode implements BaseNode {
 
   /**
    * On the creation of a LightChain node, first the node checks if it is a registry node or not. A registry node
-   * is the node of UUID placed in index 0 of allID list. This convention is pre-defined for LightChainNode. So the
-   * node checks in the beginning if its UUID matches the UUID of the 0-index element of allID. If it matches then it
+   * is the node of UUID placed in index 0 of allId list. This convention is pre-defined for LightChainNode. So the
+   * node checks in the beginning if its UUID matches the UUID of the 0-index element of allId. If it matches then it
    * sets isRegistry variable to true, or false otherwise. If the node is the registry node, the it appends the genesis
    * block to its the list of blocks.
    *
-   * @param allID the IDs of type UUID for all the nodes in the cluster
+   * @param allId the IDs of type UUID for all the nodes in the cluster
    */
   @Override
-  public void onCreate(ArrayList<UUID> allID) {
+  public void onCreate(ArrayList<UUID> allId) {
 
     logger.info("Node " + this.uuid + " has been created.");
 
-    this.allID = allID;
+    this.allId = allId;
 
     // ensure that number of validators is small than number of nodes
-    if (numValidators > this.allID.size() - 1) {
+    if (numValidators > this.allId.size() - 1) {
       try {
-        throw new Exception("Number of validators must be smaller than number of nodes. NumValidators= " + numValidators + ", numNodes= " + (this.allID.size() - 1));
+        throw new Exception("Number of validators must be smaller than number of nodes. NumValidators= "
+              + numValidators + ", numNodes= " + (this.allId.size() - 1));
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
-    double[] linespace = new double[this.allID.size() * this.blockIterations];
+
+    double[] linespace = new double[this.allId.size() * this.blockIterations];
 
     for (int i = 0; i < linespace.length; i++) {
       linespace[i] = i;
     }
 
-    SimulatorGauge.register("transaction_count");
-    SimulatorGauge.register("block_height_per_time");
-    SimulatorHistogram.register("block_height_histogram", linespace);
-    SimulatorHistogram.register("unique_blocks_per_height", linespace);
+    gauge.register("transaction_count");
+    gauge.register("block_height_per_time");
+    histogram.register("block_height_histogram", linespace);
+    histogram.register("unique_blocks_per_height", linespace);
 
     new Thread(() -> {
       monitorBlockHeight();
     }).start();
 
     logger.info("[Registry] The Registry node is " + this.uuid);
-    this.appendBlock(new Block(UUID.randomUUID(), 0, this.uuid, UUID.randomUUID(), new ArrayList<>(), new ArrayList<>()));
+    this.appendBlock(new Block(UUID.randomUUID(), 0, this.uuid, UUID.randomUUID(),
+          new ArrayList<>(), new ArrayList<>()));
     logger.info("[Registry] Genesis Block has been appended");
 
 
@@ -114,14 +113,14 @@ public class RegistryNode implements BaseNode {
   }
 
   /**
-   * starts the LightChain Node by starting its iteration to insert transactions and mine blocks.
+   * starts the Registry Node by starting its iteration to insert transactions and mine blocks.
    */
   @Override
   public void onStart() {
   }
 
   /**
-   * Stops the LightChain Node
+   * Stops the Registry Node.
    */
   @Override
   public void onStop() {
@@ -129,25 +128,28 @@ public class RegistryNode implements BaseNode {
   }
 
   /**
-   * Performs the action of the message by passing an instance of this LightChain Node
+   * Performs the action of the message by passing an instance of this Registry Node.
    *
-   * @param originID the ID of the sender node
+   * @param originId the ID of the sender node
    * @param msg      the content of the message
    */
   @Override
-  public void onNewMessage(UUID originID, Event msg) {
+  public void onNewMessage(UUID originId, Event msg) {
     msg.actionPerformed(this);
   }
 
   /**
-   * @param selfID  the ID of the new node
+   * Returns a new registry node with given UUID and network.
+   *
+   * @param selfId  the ID of the new node
    * @param network communication network for the new node
    * @return a new instance of LightChainNode
    */
   @Override
-  public BaseNode newInstance(UUID selfID, MiddleLayer network) {
-    return new RegistryNode(selfID, network);
+  public BaseNode newInstance(UUID selfId, MiddleLayer network) {
+    return new RegistryNode(selfId, network);
   }
+
 
   /**
    * This function randomly chooses validators of a certain transaction using the Reservoir Sampling Algorithm
@@ -166,20 +168,24 @@ public class RegistryNode implements BaseNode {
     }
 
     Random rand = new Random();
-    for (int i = this.numValidators + 1; i < this.allID.size(); ++i) {
+    for (int i = this.numValidators + 1; i < this.allId.size(); ++i) {
       int j = rand.nextInt(i + 1);
-      if (j < this.numValidators) randomIndexes.set(j, i);
+      if (j < this.numValidators) {
+        randomIndexes.set(j, i);
+      }
     }
 
     List<UUID> validators = new ArrayList<>();
     for (Integer index : randomIndexes) {
-      validators.add(this.allID.get(index));
+      validators.add(this.allId.get(index));
     }
 
     return validators;
   }
 
   /**
+   * Checks whether a node is registry or not.
+   *
    * @return true if this node is a registry node, false otherwise
    */
   public boolean isRegistry() {
@@ -199,7 +205,7 @@ public class RegistryNode implements BaseNode {
    */
   public void addTransaction(Transaction transaction) {
 
-    SimulatorGauge.inc("transaction_count", this.uuid);
+    gauge.inc("transaction_count", this.uuid);
 
     logger.info("[Registry] new transaction inserted into network.");
 
@@ -228,7 +234,9 @@ public class RegistryNode implements BaseNode {
     // a failed collection attempts
     if (this.availableTransactions.size() < requiredNumber) {
 
-      logger.info("[Registry] number of available transactions is less than requested by node " + requester + ", required number: " + requiredNumber + ", available number: " + this.availableTransactions.size());
+      logger.info("[Registry] number of available transactions is less than requested by node "
+            + requester + ", required number: " + requiredNumber + ", available number: "
+            + this.availableTransactions.size());
 
       //    this.transactionLock.writeLock().unlock();
 
@@ -249,11 +257,108 @@ public class RegistryNode implements BaseNode {
 
     //  this.transactionLock.writeLock().unlock();
 
-    SimulatorGauge.dec("transaction_count", this.uuid, requiredNumber);
+    gauge.dec("transaction_count", this.uuid, requiredNumber);
 
     network.send(requester, new DeliverTransactionsEvent(requestedTransactions));
 
     return null;
+  }
+
+  /**
+   * This functios is invoked by a node that is inserting a block after it has been validated to the registry. It also
+   * provides a lock to ensure the correctness of the write operations on the ledger.
+   *
+   * @param block block to be appended to the ledger
+   */
+  public void appendBlock(Block block) {
+
+    logger.info("[Registry] New Block appended to Ledger");
+    //  this.blockLock.writeLock().lock();
+
+    this.insertedBlocks.add(block);
+    this.maximumHeight = Math.max(this.maximumHeight, block.getHeight());
+
+    if (!this.heightToUniquePrev.containsKey(block.getHeight())) {
+      this.heightToUniquePrev.put(block.getHeight(), new HashMap<>());
+    }
+    if (!this.heightToUniquePrev.get(block.getHeight()).containsKey(block.getPrev())) {
+      Integer oldValue = this.heightToUniquePrevCount.get(block.getHeight());
+      if (oldValue == null) {
+        oldValue = 0;
+      }
+      this.heightToUniquePrevCount.put(block.getHeight(), oldValue + 1);
+
+      histogram.observe("unique_blocks_per_height", this.uuid, block.getHeight());
+    }
+
+    Integer old = this.heightToUniquePrev.get(block.getHeight()).get(block.getPrev());
+    if (old == null) {
+      old = 0;
+    }
+    this.heightToUniquePrev.get(block.getHeight()).put(block.getPrev(), old + 1);
+
+
+    histogram.observe("block_height_histogram", this.uuid, block.getHeight());
+
+    logger.info("[Registry] maximum height found so far is " + this.maximumHeight);
+    logger.info("[Registry] currently " + this.insertedBlocks.size() + " blocks are inserted totally");
+
+    // this.blockLock.writeLock().unlock();
+  }
+
+  /**
+   * This function is invoked as a result of a node requesting the latest block from the registry.
+   *
+   * @param requester of the node requesting the latest block so that its request can be delivered
+   * @return the latest block on the ledger
+   */
+  public Block getLatestBlock(UUID requester) {
+
+    logger.info("[Registry] Getting Latest Block for node " + requester);
+
+    Block latestBlock;
+
+    // this.blockLock.readLock().lock();
+    latestBlock = this.insertedBlocks.get(this.insertedBlocks.size() - 1);
+    long hash = latestBlock.getId().hashCode();
+    int height = latestBlock.getHeight();
+    Block chosenBlock = latestBlock;
+    for (int i = this.insertedBlocks.size() - 1; i >= 0; --i) {
+
+      if (this.insertedBlocks.get(i).getHeight() != height) {
+        break;
+      }
+      long blockHash = this.insertedBlocks.get(i).getId().hashCode();
+
+      if (blockHash < hash) {
+        hash = blockHash;
+        chosenBlock = this.insertedBlocks.get(i);
+      }
+    }
+    logger.info("[Registry] " + this.insertedBlocks.size() + " blocks found");
+
+    // this.blockLock.readLock().unlock();
+
+    logger.info("[Registry] Sending Latest Block " + latestBlock.getId() + " to node " + requester);
+    this.network.send(requester, new DeliverLatestBlockEvent(latestBlock));
+
+    return chosenBlock;
+  }
+
+  /**
+   * This function runs on a separate thread and records the maximum block height every second.
+   */
+  public void monitorBlockHeight() {
+
+    while (true) {
+      try {
+        Thread.sleep(1000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+
+      gauge.set("block_height_per_time", this.uuid, this.maximumHeight);
+    }
   }
 
 }

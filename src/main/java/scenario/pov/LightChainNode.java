@@ -72,7 +72,7 @@ public class LightChainNode implements BaseNode {
    * @param uuid    ID of the node
    * @param network used to communicate with other nodes
    */
-  public LightChainNode(UUID uuid, MiddleLayer network, MetricsCollector metrics) {
+  public LightChainNode(UUID uuid, MiddleLayer network) {
     this.uuid = uuid;
     this.network = network;
     this.transactions = new HashMap<>();
@@ -82,7 +82,6 @@ public class LightChainNode implements BaseNode {
     this.transactionValidationLock = new ReentrantReadWriteLock();
     this.blockValidationLock = new ReentrantReadWriteLock();
     this.logger = Logger.getLogger(LightChainNode.class.getName());
-    this.metricsCollector = metrics;
 
   }
 
@@ -161,8 +160,8 @@ public class LightChainNode implements BaseNode {
    * @return a new instance of LightChainNode
    */
   @Override
-  public BaseNode newInstance(UUID selfId, MiddleLayer network, MetricsCollector metrics) {
-    return new LightChainNode(selfId, network, metrics);
+  public BaseNode newInstance(UUID selfId, MiddleLayer network) {
+    return new LightChainNode(selfId, network);
   }
 
   /**

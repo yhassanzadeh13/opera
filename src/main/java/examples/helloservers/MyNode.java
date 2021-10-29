@@ -16,17 +16,15 @@ public class MyNode implements BaseNode {
   private UUID selfId;
   private ArrayList<UUID> allId;
   private MiddleLayer network;
-  private MetricsCollector metricsCollector;
 
   MyNode() {
   }
 
-  MyNode(UUID selfId, MiddleLayer network, MetricsCollector metricsCollector) {
+  MyNode(UUID selfId, MiddleLayer network) {
     this.selfId = selfId;
     this.network = network;
 
-    //Register metrics
-    this.metricsCollector = metricsCollector;
+
   }
 
 
@@ -72,7 +70,7 @@ public class MyNode implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(UUID selfId, MiddleLayer network, MetricsCollector metricsCollector) {
-    return new MyNode(selfId, network, metricsCollector);
+  public BaseNode newInstance(UUID selfId, MiddleLayer network) {
+    return new MyNode(selfId, network);
   }
 }

@@ -2,7 +2,6 @@ package scenario.pov.events;
 
 import node.BaseNode;
 import scenario.pov.Block;
-
 import scenario.pov.RegistryNode;
 import underlay.packets.Event;
 
@@ -30,7 +29,6 @@ public class SubmitBlockEvent implements Event {
       e.printStackTrace();
     }
 
-    node.appendBlock(this.block);
     return true;
   }
 

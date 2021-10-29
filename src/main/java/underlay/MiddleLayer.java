@@ -208,7 +208,7 @@ public class MiddleLayer {
   }
 
   /**
-   * Underlay initializer.
+   * underlay initializer.
    */
   public void initUnderLay() {
     log.info("[MiddleLayer] initializing the underlay for node " + getAddress(nodeId));

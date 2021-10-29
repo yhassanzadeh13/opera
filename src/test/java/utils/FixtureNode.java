@@ -41,7 +41,7 @@ public class FixtureNode implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(UUID selfId, MiddleLayer network, MetricsCollector metricsCollector) {
+  public BaseNode newInstance(UUID selfId, MiddleLayer network) {
     return new FixtureNode(selfId, network);
   }
 
