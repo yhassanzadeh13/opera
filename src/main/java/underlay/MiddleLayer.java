@@ -56,7 +56,7 @@ public class MiddleLayer {
     this.nodeId = nodeId;
     this.allFullAddresses = allFullAddresses;
     this.orchestrator = orchestrator;
-    this.metricsCollector = metricsCollector;
+    this.metricsCollector = new MiddleLayerMetricsCollector(metricsCollector);
 
 
   }
@@ -88,11 +88,6 @@ public class MiddleLayer {
     // check the readiness of the destination node
     SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(destinationId);
 
-    // update metrics
-    this.metricsCollector.counter().inc(sentMsgCntMetric, nodeId);
-    this.metricsCollector.histogram().startTimer(delayMetric, nodeId, sentBucketHash(destinationId));
-
-
     // wrap the event by request class
     Request request = new Request(event, this.nodeId, destinationId);
     String destinationAddress = fullAddress.getKey();
@@ -116,12 +111,13 @@ public class MiddleLayer {
       log.debug("[MiddleLayer] " + this.getAddress(nodeId) + " : node could not send an event " + event.logMessage());
     }
 
+    // updates metrics
+    this.metricsCollector.onMessageSent(nodeId, destinationId);
+
     return success;
   }
 
-  private String sentBucketHash(UUID id) {
-    return SimulatorUtils.hashPairOfNodes(nodeId, id);
-  }
+
 
   public String getAddress(UUID nodeId) {
     SimpleEntry<String, Integer> address = allFullAddresses.get(nodeId);
@@ -135,8 +131,8 @@ public class MiddleLayer {
     // check the readiness of the overlay
     SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(nodeId);
 
-    this.metricsCollector.onMessageReceived(nodeId);
-    this.metricsCollector.histogram().tryObserveDuration(delayMetric, receivedBucketHash(request.getOriginalId()));
+    this.metricsCollector.onMessageReceived(nodeId, request.getOriginalId());
+
 
 
     log.info("[MiddleLayer] " + this.getAddress(nodeId)

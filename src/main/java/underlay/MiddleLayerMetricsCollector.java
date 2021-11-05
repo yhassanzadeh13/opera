@@ -4,6 +4,7 @@ import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 import metrics.Constants;
 import metrics.MetricsCollector;
+import utils.SimulatorUtils;
 
 public class MiddleLayerMetricsCollector {
   public static final String SUBSYSTEM_MIDDLELAYER = "middlelayer";
@@ -29,10 +30,10 @@ public class MiddleLayerMetricsCollector {
     // TODO: add exception handling
     // TODO: expose metrics into middleware collector.
     MiddleLayerMetricsCollector.metricsCollector.histogram().register(
-        Name.DELAY,
+        Name.PROPAGATION_DELAY,
         Constants.Namespace.NETWORK,
         SUBSYSTEM_MIDDLELAYER,
-        HelpMsg.DELAY,
+        HelpMsg.PROPAGATION_DELAY,
         Constants.Histogram.DEFAULT_HISTOGRAM);
 
     //TODO: decouple this into sent and received bucket sizes.
@@ -60,22 +61,47 @@ public class MiddleLayerMetricsCollector {
 
   /**
    * onMessageReceived is called whenever a new message received by a node.
-   * It increments number of messages received by this node.
-   * @param nodeId identifier of receiver.
+   * It increments number of messages received by this node, as well as stops the timer for propagation delay.
+   * @param receiverId identifier of receiver.
+   * @param senderId identifier of sender.
    */
-  public void onMessageReceived(UUID nodeId){
-    MiddleLayerMetricsCollector.metricsCollector.counter().inc(Name.MESSAGE_RECEIVED_TOTAL, nodeId);
+  public void onMessageReceived(UUID receiverId, UUID senderId){
+    MiddleLayerMetricsCollector.metricsCollector.counter().inc(Name.MESSAGE_RECEIVED_TOTAL, receiverId);
+    MiddleLayerMetricsCollector.metricsCollector.histogram().tryObserveDuration(Name.PROPAGATION_DELAY, delayBucketHash(senderId, receiverId));
+  }
+
+  /**
+   * onMessageSent is called whenever a new message is sent by a node.
+   * It increments the number of messages sent, as well as starts a timer for propagation delay.
+   * @param senderId identifier of sender.
+   * @param receiverId identifier of receiver.
+   */
+  public void onMessageSent(UUID senderId, UUID receiverId){
+    MiddleLayerMetricsCollector.metricsCollector.counter().inc(Name.MESSAGE_SENT_TOTAL, senderId);
+    MiddleLayerMetricsCollector.metricsCollector.histogram().
+        startTimer(Name.PROPAGATION_DELAY, senderId, delayBucketHash(senderId, receiverId));
+  }
+
+  /**
+   * Uniquely hashes the pair of (senderId, receiverId) into a hash value that is used to keep track of
+   * propagation delay.
+   * @param senderId identifier of sender.
+   * @param receiverId identifier of receiver.
+   * @return hash value of the (senderId, receiverId)
+   */
+  private String delayBucketHash(UUID senderId, UUID receiverId) {
+    return SimulatorUtils.hashPairOfNodes(senderId, receiverId);
   }
 
   private static class Name {
-    public static final String DELAY = "delay";
+    public static final String PROPAGATION_DELAY = "propagation_delay";
     public static final String MESSAGE_SENT_TOTAL = "message_sent_total";
     public static final String MESSAGE_RECEIVED_TOTAL = "message_received_total";
     public static final String PACKET_SIZE = "packet_size";
   }
 
   private static class HelpMsg {
-    public static final String DELAY = "inter-node latency";
+    public static final String PROPAGATION_DELAY = "inter-node latency";
     public static final String MESSAGE_SENT_TOTAL = "total messages sent by a node";
     public static final String MESSAGE_RECEIVED_TOTAL = "total messages received by a node";
     public static final String PACKET_SIZE = "size of exchanged packet size";
