@@ -21,7 +21,7 @@ public class MyNode implements BaseNode {
 
   public Simulator simulator;
   private UUID selfId;
-  public ArrayList<UUID> allId;
+  private ArrayList<UUID> allId;
   private MiddleLayer network;
   public UUID coordinatorId;
   private MetricsCollector metricsCollector;
@@ -54,6 +54,7 @@ public class MyNode implements BaseNode {
   public void sendMessage() {
     if (this.isMax()) {
       log.info("CoordinatorID: " + selfId);
+      this.coordinatorId = selfId;
       for (UUID targetId : allId) {
         log.info(selfId + " sends to" + targetId + " " + "Victory Message.");
         Message victoryMassage = new Message(VictoryMessage, selfId, targetId);
@@ -124,18 +125,6 @@ public class MyNode implements BaseNode {
     this.coordinatorId = uuid;
   }
 
-  /**
-   * Sets the Simulation.
-   *
-   * @param simulator to set the simulator
-   */
-  public void setSimulation(Simulator simulator) {
-    this.simulator = simulator;
-    allId = simulator.getAllId();
-    coordinatorId = Collections.max(allId);
-  }
-
-
   @Override
   public void onCreate(ArrayList<UUID> allId) {
     this.allId = allId;
@@ -155,12 +144,11 @@ public class MyNode implements BaseNode {
 
   @Override
   public void onNewMessage(UUID originId, Event msg) {
-    coordinatorId = this.getMaxId();
     try {
       Random rand = new Random();
       Thread.sleep(rand.nextInt(1000));
     } catch (InterruptedException e) {
-      log.error("Interruption");
+      e.printStackTrace();
     }
     msg.actionPerformed(this);
 

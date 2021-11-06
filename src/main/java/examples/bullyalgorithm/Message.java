@@ -68,14 +68,11 @@ public class Message implements Event, Serializable {
   @Override
   public boolean actionPerformed(BaseNode hostNode) {
     MyNode node = (MyNode) hostNode;
-    node.coordinatorId = node.getMaxId();
-    if (this.getPayload().equals(VictoryMessage)) {
+    if (this.payload.equals(VictoryMessage)) {
       node.setCoordinatorId(this.senderId);
-
-    } else if (this.getPayload().equals(ElectionMessage)) {
+    } else if (this.payload.equals(ElectionMessage)) {
       node.sendMessage();
     }
-
     return true;
   }
 

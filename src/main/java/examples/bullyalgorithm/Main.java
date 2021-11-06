@@ -15,7 +15,6 @@ public class Main {
     int n = 5;
     MyNode fixtureNode = new MyNode();
     Simulator<MyNode> simulation = new Simulator<MyNode>(fixtureNode, n, UnderlayType.MOCK_NETWORK);
-    fixtureNode.setSimulation(simulation);
     simulation.constantSimulation(10000);
 
 
