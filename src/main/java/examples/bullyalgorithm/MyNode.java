@@ -16,6 +16,8 @@ import underlay.packets.Event;
  */
 public class MyNode implements BaseNode {
   public static Logger log = Logger.getLogger(Simulator.class.getName());
+  public static String VictoryMessage = "Victory";
+  public static String ElectionMessage = "Election";
 
   public Simulator simulator;
   private UUID selfId;
@@ -54,14 +56,14 @@ public class MyNode implements BaseNode {
       log.info("CoordinatorID: " + selfId);
       for (UUID targetId : allId) {
         log.info(selfId + " sends to" + targetId + " " + "Victory Message.");
-        Message victoryMassage = new Message("Victory", selfId, targetId);
+        Message victoryMassage = new Message(VictoryMessage, selfId, targetId);
         network.send(targetId, victoryMassage);
       }
     } else {
       for (UUID targetId : allId) {
         if (targetId.compareTo(selfId) == 1) {
           log.info(selfId + " sends to" + targetId + " " + "Election Message.");
-          Message electionMassage = new Message("Election", selfId, targetId);
+          Message electionMassage = new Message(ElectionMessage, selfId, targetId);
           network.send(targetId, electionMassage);
         }
       }
