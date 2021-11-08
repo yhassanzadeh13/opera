@@ -17,7 +17,7 @@ public interface HistogramCollector {
 
   Histogram get(String name) throws IllegalArgumentException;
 
-  boolean startTimer(String name, UUID id, String timerId);
+  void startTimer(String name, UUID id, String timerId);
 
   boolean observeDuration(String name, String timerId);
 

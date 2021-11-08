@@ -19,8 +19,7 @@ public class NoopCollector implements MetricsCollector {
     }
 
     @Override
-    public boolean startTimer(String name, UUID id, String timerId) {
-      return false;
+    public void startTimer(String name, UUID id, String timerId) {
     }
 
     @Override

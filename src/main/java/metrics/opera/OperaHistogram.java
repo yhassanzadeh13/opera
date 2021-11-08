@@ -19,8 +19,8 @@ public class OperaHistogram extends OperaMetric implements HistogramCollector {
    * Record a new value for the histogram with a specific name and id.
    *
    * @param name name of the metric.
-   * @param id identifier of the node.
-   * @param v value to be recorder in histogram.
+   * @param id   identifier of the node.
+   * @param v    value to be recorder in histogram.
    */
   @Override
   public void observe(String name, UUID id, double v) throws IllegalArgumentException {
@@ -37,17 +37,17 @@ public class OperaHistogram extends OperaMetric implements HistogramCollector {
   }
 
   /**
-   * Start a time for recoding a duration and add it to the histogram with a specific name, and timer ID. The time recording finishes once
-   * the observeDuration method is called with the same name, and timer ID. The time elapsed will be recorded under the node with the given id.
+   * Start a time for recoding a duration and add it to the histogram with a specific name, and timer ID.
+   * The time recording finishes once the observeDuration method is called with the same name, and timer ID.
+   * The time elapsed will be recorded under the node with the given id.
    * In case of starting two timers with the same timer ID, the observeDuration method will stop the earliest one.
    *
-   * @param name
-   * @param id
-   * @param timerId
-   * @return
+   * @param name    name of metric.
+   * @param id      identifier of node associated with metric.
+   * @param timerId identifier of timer.
    */
   @Override
-  public boolean startTimer(String name, UUID id, String timerId) {
+  public void startTimer(String name, UUID id, String timerId) {
     Histogram metric = get(name);
 
     if (!timersByName.containsKey(name))
@@ -56,13 +56,10 @@ public class OperaHistogram extends OperaMetric implements HistogramCollector {
     if (!timersByName.get(name).containsKey(timerId)) {
       timersByName.get(name).put(timerId, new ArrayDeque<>());
     }
-    try {
-      timersByName.get(name).get(timerId).addLast(metric.labels(id.toString()).startTimer());
-    } catch (NullPointerException e) {
-      Simulator.log.error("[SimulatorHistogram] NullPointerException " + e.getMessage());
-    }
+
+    timersByName.get(name).get(timerId).addLast(metric.labels(id.toString()).startTimer());
+
     Simulator.getLogger().debug("[SimulatorHistogram] Timer of name " + name + " and id " + timerId + " has started at time " + System.currentTimeMillis());
-    return true;
   }
 
   /**
