@@ -85,13 +85,13 @@ public class OperaCounter extends OperaMetric implements CounterCollector {
       // collector already registered
       return;
     }
-    collectors.put(name, Counter.build().
-        namespace(namespace).
-        subsystem(subsystem).
-        name(name).
-        help(helpMessage).
-        labelNames(Constants.UUID).
-        register());
+    collectors.put(name, Counter.build()
+        .namespace(namespace)
+        .subsystem(subsystem)
+        .name(name)
+        .help(helpMessage)
+        .labelNames(Constants.UUID)
+        .register());
     collectorsTypes.put(name, TYPE.COUNTER);
   }
 }
