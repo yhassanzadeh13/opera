@@ -62,12 +62,15 @@ public class MiddleLayerMetricsCollector {
   /**
    * onMessageReceived is called whenever a new message received by a node.
    * It increments number of messages received by this node, as well as stops the timer for propagation delay.
+   * It also records size of the message in bytes.
    * @param receiverId identifier of receiver.
    * @param senderId identifier of sender.
+   * @param size size of message in bytes.
    */
-  public void onMessageReceived(UUID receiverId, UUID senderId){
+  public void onMessageReceived(UUID receiverId, UUID senderId, int size){
     MiddleLayerMetricsCollector.metricsCollector.counter().inc(Name.MESSAGE_RECEIVED_TOTAL, receiverId);
     MiddleLayerMetricsCollector.metricsCollector.histogram().tryObserveDuration(Name.PROPAGATION_DELAY, delayBucketHash(senderId, receiverId));
+    MiddleLayerMetricsCollector.metricsCollector.histogram().observe(Name.PACKET_SIZE, senderId, size);
   }
 
   /**

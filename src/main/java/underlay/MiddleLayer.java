@@ -118,7 +118,6 @@ public class MiddleLayer {
   }
 
 
-
   public String getAddress(UUID nodeId) {
     SimpleEntry<String, Integer> address = allFullAddresses.get(nodeId);
     return address.getKey() + ":" + address.getValue();
@@ -130,9 +129,7 @@ public class MiddleLayer {
   public void receive(Request request) {
     // check the readiness of the overlay
     SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(nodeId);
-
-    this.metricsCollector.onMessageReceived(nodeId, request.getOriginalId());
-
+    this.metricsCollector.onMessageReceived(nodeId, request.getOriginalId(), request.getEvent().size());
 
 
     log.info("[MiddleLayer] " + this.getAddress(nodeId)
@@ -147,9 +144,6 @@ public class MiddleLayer {
         this.stop(event.getAddress(), event.getPort());
       }
     } else {
-      this.metricsCollector.histogram().observe(metrics.Metrics.PACKET_SIZE,
-          request.getOriginalId(),
-          request.getEvent().size());
       overlay.onNewMessage(request.getOriginalId(), request.getEvent());
     }
 
