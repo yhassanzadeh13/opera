@@ -2,7 +2,6 @@ package examples.bullyalgorithm;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 import java.util.UUID;
 import metrics.MetricsCollector;
 import node.BaseNode;
@@ -128,7 +127,7 @@ public class MyNode implements BaseNode {
 
   @Override
   public void onCreate(ArrayList<UUID> allId) {
-    System.out.println("Node with" + selfId + "has been created \n");
+    System.out.println("Node with" + selfId + "has been created");
     this.allId = allId;
     network.ready();
   }

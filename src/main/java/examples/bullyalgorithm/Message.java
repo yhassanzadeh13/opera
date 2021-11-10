@@ -69,7 +69,7 @@ public class Message implements Event, Serializable {
   public boolean actionPerformed(BaseNode hostNode) {
     MyNode node = (MyNode) hostNode;
     if (this.payload.equals(VictoryMessage)) {
-      System.out.println("içerideyix");
+      System.out.println("Coordinator Id: " + this.senderId);
       node.setCoordinatorId(this.senderId);
     } else if (this.payload.equals(ElectionMessage)) {
       node.sendMessage();
