@@ -30,7 +30,7 @@ public class OperaHistogram extends OperaMetric implements HistogramCollector {
 
   @Override
   public Histogram get(String name) throws IllegalArgumentException {
-    if (!collectors.containsKey(name) || collectorsTypes.get(name) != TYPE.HISTOGRAM) {
+    if (!collectors.containsKey(name) || collectorsTypes.get(name) != Type.HISTOGRAM) {
       throw new IllegalArgumentException("Histogram name does not exist: " + name);
     }
     return (Histogram) collectors.get(name);
@@ -50,8 +50,9 @@ public class OperaHistogram extends OperaMetric implements HistogramCollector {
   public void startTimer(String name, UUID id, String timerId) {
     Histogram metric = get(name);
 
-    if (!timersByName.containsKey(name))
+    if (!timersByName.containsKey(name)) {
       timersByName.put(name, new HashMap<>());
+    }
 
     if (!timersByName.get(name).containsKey(timerId)) {
       timersByName.get(name).put(timerId, new ArrayDeque<>());
@@ -59,36 +60,16 @@ public class OperaHistogram extends OperaMetric implements HistogramCollector {
 
     timersByName.get(name).get(timerId).addLast(metric.labels(id.toString()).startTimer());
 
-    Simulator.getLogger().debug("[SimulatorHistogram] Timer of name " + name + " and id " + timerId + " has started at time " + System.currentTimeMillis());
-  }
-
-  /**
-   * Observe the duration of the already started timer with a specific name and timer ID. to start a timer, please use the startTimer method.
-   *
-   * @param name
-   * @param timerId
-   * @return
-   */
-  @Override
-  public boolean observeDuration(String name, String timerId) {
-    try {
-      timersByName.get(name).get(timerId).getFirst().observeDuration();
-      timersByName.get(name).get(timerId).removeFirst();
-      Simulator.getLogger().debug("[SimulatorHistogram] duration of name " + name + " and id " + timerId + " was observed at time " + System.currentTimeMillis());
-      return true;
-    } catch (Exception e) {
-      Simulator.getLogger().error("[SimulatorHistogram] timer with name " + name + " and ID " + timerId + " is not initialized");
-      return false;
-    }
+    Simulator.getLogger().debug("[SimulatorHistogram] Timer of name "
+        + name + " and id " + timerId + " has started at time " + System.currentTimeMillis());
   }
 
   /**
    * Silently observes the duration of the already started timer with a specific name and timer ID.
    * In case timer has not already been started, it simply returns without logging any error.
    *
-   * @param name
-   * @param timerId
-   * @return
+   * @param name    of the metric.
+   * @param timerId unique identifier for the timer.
    */
   @Override
   public void tryObserveDuration(String name, String timerId) {
@@ -120,21 +101,24 @@ public class OperaHistogram extends OperaMetric implements HistogramCollector {
    *                                  with the same name has already been registered.
    */
   @Override
-  public void register(String name, String namespace, String subsystem, String helpMessage, double[] buckets) throws IllegalArgumentException {
+  public void register(String name, String namespace, String subsystem, String helpMessage, double[] buckets)
+      throws IllegalArgumentException {
+
     if (collectors.containsKey(name)) {
-      if (collectorsTypes.get(name) != TYPE.HISTOGRAM) {
-        throw new IllegalArgumentException("Metrics name already taken with another type: " + name + " type: " + collectorsTypes.get(name));
+      if (collectorsTypes.get(name) != Type.HISTOGRAM) {
+        throw new IllegalArgumentException("Metrics name already taken with another type: "
+            + name + " type: " + collectorsTypes.get(name));
       }
       // collector already registered
       return;
     }
-    collectors.put(name, Histogram.build().
-        buckets(buckets).
-        namespace(namespace).
-        name(name).
-        help(helpMessage).
-        labelNames(Constants.UUID).
-        register());
-    collectorsTypes.put(name, TYPE.HISTOGRAM);
+    collectors.put(name, Histogram.build()
+        .buckets(buckets)
+        .namespace(namespace)
+        .name(name)
+        .help(helpMessage)
+        .labelNames(Constants.UUID)
+        .register());
+    collectorsTypes.put(name, Type.HISTOGRAM);
   }
 }

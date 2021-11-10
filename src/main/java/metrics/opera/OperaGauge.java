@@ -1,7 +1,7 @@
 package metrics.opera;
 
-import io.prometheus.client.Gauge;
 import java.util.UUID;
+import io.prometheus.client.Gauge;
 import metrics.Constants;
 import metrics.GaugeCollector;
 import simulator.Simulator;
@@ -28,22 +28,25 @@ public class OperaGauge extends OperaMetric implements GaugeCollector {
    * @throws IllegalArgumentException when a different metric type (e.g., histogram) with the same name has already
    *                                  been registered.
    */
-  public void register(String name, String namespace, String subsystem, String helpMessage) throws IllegalArgumentException {
+  public void register(String name, String namespace, String subsystem, String helpMessage)
+      throws IllegalArgumentException {
+
     if (!collectors.containsKey(name)) {
-      if (collectorsTypes.get(name) != TYPE.GAUGE) {
-        throw new IllegalArgumentException("metrics name already taken with another type: " + name + " type: " + collectorsTypes.get(name));
+      if (collectorsTypes.get(name) != Type.GAUGE) {
+        throw new IllegalArgumentException("metrics name already taken with another type: "
+            + name + " type: " + collectorsTypes.get(name));
       }
       // collector already registered
       return;
     }
-    collectors.put(name, Gauge.build().
-        namespace(namespace).
-        subsystem(subsystem).
-        name(name).
-        help(helpMessage).
-        labelNames(Constants.UUID).
-        register());
-    collectorsTypes.put(name, TYPE.GAUGE);
+    collectors.put(name, Gauge.build()
+        .namespace(namespace)
+        .subsystem(subsystem)
+        .name(name)
+        .help(helpMessage)
+        .labelNames(Constants.UUID)
+        .register());
+    collectorsTypes.put(name, Type.GAUGE);
   }
 
   @Override
@@ -54,7 +57,9 @@ public class OperaGauge extends OperaMetric implements GaugeCollector {
   @Override
   public boolean inc(String name, UUID id, double v) {
     Gauge metric = getMetric(name);
-    if (metric == null) return false;
+    if (metric == null) {
+      return false;
+    }
     metric.labels(id.toString()).inc(v);
     return true;
   }
@@ -62,7 +67,9 @@ public class OperaGauge extends OperaMetric implements GaugeCollector {
   @Override
   public boolean dec(String name, UUID id, double v) {
     Gauge metric = getMetric(name);
-    if (metric == null) return false;
+    if (metric == null) {
+      return false;
+    }
     metric.labels(id.toString()).dec(v);
     return true;
   }
@@ -75,7 +82,9 @@ public class OperaGauge extends OperaMetric implements GaugeCollector {
   @Override
   public boolean set(String name, UUID id, double v) {
     Gauge metric = getMetric(name);
-    if (metric == null) return false;
+    if (metric == null) {
+      return false;
+    }
     metric.labels(id.toString()).set(v);
     return true;
   }
@@ -83,15 +92,17 @@ public class OperaGauge extends OperaMetric implements GaugeCollector {
   @Override
   public double get(String name, UUID id) {
     Gauge metric = getMetric(name);
-    if (metric == null) return 0;
+    if (metric == null) {
+      return 0;
+    }
     return metric.labels(id.toString()).get();
   }
 
   /**
-   * Return prometheus metric for a specific name
+   * Return prometheus metric for a specific name.
    *
-   * @param name
-   * @return the requested metric
+   * @param name of gauge metric to be returned.
+   * @return the requested gauge metric if exists, or null otherwise.
    */
   @Override
   public Gauge getMetric(String name) {
@@ -100,7 +111,7 @@ public class OperaGauge extends OperaMetric implements GaugeCollector {
       System.err.println("[SimulatorGauge] could not find a metric with name " + name);
       return null;
     }
-    if (collectorsTypes.get(name) != TYPE.GAUGE) {
+    if (collectorsTypes.get(name) != Type.GAUGE) {
       Simulator.getLogger().error("[SimulatorGauge] metric registered with the name " + name + " is not a Gauge");
       System.err.println("[SimulatorGauge] metric registered with the name " + name + " is not a Gauge");
       return null;

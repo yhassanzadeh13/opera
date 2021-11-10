@@ -19,8 +19,6 @@ public interface HistogramCollector {
 
   void startTimer(String name, UUID id, String timerId);
 
-  boolean observeDuration(String name, String timerId);
-
   void tryObserveDuration(String name, String timerId);
 
   void register(String name, String namespace, String subsystem, String helpMessage, double[] buckets)

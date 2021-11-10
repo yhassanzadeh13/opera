@@ -36,6 +36,7 @@ public class OperaCounter extends OperaMetric implements CounterCollector {
 
   /**
    * Returns current sum value of counter for given metric and UUID.
+   *
    * @param name name of metric.
    * @param id identifier of node.
    * @return value of counter metric if exists, null otherwise.
@@ -49,7 +50,7 @@ public class OperaCounter extends OperaMetric implements CounterCollector {
   }
 
   /**
-   * Return prometheus counter metric for a specific name
+   * Return prometheus counter metric for a specific name.
    *
    * @param name name of metric.
    * @return metric name if exists, null otherwise.
@@ -60,7 +61,7 @@ public class OperaCounter extends OperaMetric implements CounterCollector {
       System.err.println("[SimulatorCounter] could not find a metric with name " + name);
       return null;
     }
-    if (collectorsTypes.get(name) != TYPE.COUNTER) {
+    if (collectorsTypes.get(name) != Type.COUNTER) {
       Simulator.getLogger().error("[SimulatorCounter] metric registered with the name " + name + " is not a counter");
       System.err.println("[SimulatorCounter] metric registered with the name " + name + " is not a counter");
       return null;
@@ -86,7 +87,7 @@ public class OperaCounter extends OperaMetric implements CounterCollector {
   public void register(String name, String namespace, String subsystem, String helpMessage)
       throws IllegalArgumentException {
     if (!collectors.containsKey(name)) {
-      if (collectorsTypes.get(name) != TYPE.COUNTER) {
+      if (collectorsTypes.get(name) != Type.COUNTER) {
         throw new IllegalArgumentException("metrics name already taken with another type: "
             + name + " type: " + collectorsTypes.get(name));
       }
@@ -100,6 +101,6 @@ public class OperaCounter extends OperaMetric implements CounterCollector {
         .help(helpMessage)
         .labelNames(Constants.UUID)
         .register());
-    collectorsTypes.put(name, TYPE.COUNTER);
+    collectorsTypes.put(name, Type.COUNTER);
   }
 }

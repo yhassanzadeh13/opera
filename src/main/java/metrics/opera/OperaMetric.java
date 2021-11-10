@@ -9,9 +9,9 @@ import java.util.HashMap;
 public class OperaMetric {
 
   protected static final HashMap<String, Collector> collectors = new HashMap<>();
-  protected static final HashMap<String, TYPE> collectorsTypes = new HashMap<>();
+  protected static final HashMap<String, Type> collectorsTypes = new HashMap<>();
 
-  enum TYPE {
+  enum Type {
     COUNTER,
     GAUGE,
     HISTOGRAM,

@@ -22,10 +22,6 @@ public class NoopCollector implements MetricsCollector {
     public void startTimer(String name, UUID id, String timerId) {
     }
 
-    @Override
-    public boolean observeDuration(String name, String timerId) {
-      return false;
-    }
 
     @Override
     public void tryObserveDuration(String name, String timerId) {}
