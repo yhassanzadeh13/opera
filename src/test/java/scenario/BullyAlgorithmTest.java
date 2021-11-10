@@ -15,6 +15,8 @@ public class BullyAlgorithmTest {
   private MetricsCollector metrics;
   /**
    * Tests the bully algorithm for only one node.
+   * For the single node system coordinator is the node itself.
+   * Therefore, coordinatorID should be equal to the node's Id.
    */
   @Test
   void OneNode_Test(){
@@ -28,7 +30,9 @@ public class BullyAlgorithmTest {
   /**
    * Tests the bully algorithm for two nodes with two cases:
    * Case1- Nodes have same UUID
+   * In the test with same UUID coordinator is the first node that sends the message.
    * Case2- Nodes have different UUID
+   * In the test with different UUID coordinator is the node with the bigger UUID.
    */
   @Test
   void TwoNode_Test(){
@@ -52,8 +56,12 @@ public class BullyAlgorithmTest {
   /**
    * Tests the bully algorithm for random number of nodes in 3 cases:
    * Case1- All nodes have same UUID
+   * In the test with same UUID coordinator is the first node that sends the message.
    * Case2- Some nodes have same UUID
+   * In the test with some same UUID's if the biggest UUID is unique then node with the biggest UUID is the coordinator.
+   * If the biggest UUID is not unique the node which sends the victory message first is the coordinator.
    * Case3- All nodes have different UUID
+   * In the test with different UUID coordinator is the node with the biggest UUID.
    */
   @Test
   void MoreNode_Test(){
