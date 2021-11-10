@@ -1,8 +1,5 @@
 package metrics;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
@@ -10,6 +7,8 @@ import metrics.opera.OperaCollector;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 class OperaCounterTest {
@@ -28,7 +27,15 @@ class OperaCounterTest {
 
   @Test
   void valueTest() {
-    assertTrue(metricsCollector.counter().register("testCounter"));
+    final String TEST_COUNTER = "test_counter";
+    final String SUBSYSTEM_COUNTER_TEST = "subsystem_counter_test";
+
+    metricsCollector.counter().register(
+        TEST_COUNTER,
+        Constants.Namespace.TEST,
+        SUBSYSTEM_COUNTER_TEST,
+        " "
+    );
     ArrayList<UUID> allId = new ArrayList<>();
     while (allId.size() != THREAD_CNT) {
       allId.add(UUID.randomUUID());

@@ -14,6 +14,7 @@ public class Constants {
   public static class Namespace {
     public static final String NETWORK = "network";
     public static final String DEMO = "demo";
+    public static final String TEST = "test";
   }
 
 

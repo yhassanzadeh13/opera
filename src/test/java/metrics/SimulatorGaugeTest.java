@@ -27,7 +27,13 @@ class SimulatorGaugeTest {
 
   @Test
   void valueTest() {
-    assertTrue(metricsCollector.gauge().register("TestGauge"));
+    final String TEST_GAUGE = "test_gauge";
+    final String SUBSYSTEM_GAUGE_TEST = "subsystem_gauge_test";
+    metricsCollector.gauge().register(
+        TEST_GAUGE,
+        Constants.Namespace.TEST,
+        SUBSYSTEM_GAUGE_TEST,
+        "");
     ArrayList<UUID> allId = new ArrayList<>();
     while (allId.size() != THREAD_CNT) {
       allId.add(UUID.randomUUID());
@@ -40,9 +46,9 @@ class SimulatorGaugeTest {
     for (int i = 0; i < ITERATIONS; i++) {
       int v = rand.nextInt(1000);
       tot += v;
-      metricsCollector.gauge().inc("TestGauge", id, v);
+      metricsCollector.gauge().inc(TEST_GAUGE, id, v);
     }
-    assertEquals(tot, metricsCollector.gauge().get("TestGauge", id));
+    assertEquals(tot, metricsCollector.gauge().get(TEST_GAUGE, id));
 
     for (UUID nodeId : allId) {
       new Thread(() -> threadTest(nodeId, ITERATIONS)).start();
