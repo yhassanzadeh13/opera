@@ -14,19 +14,19 @@ import simulator.Simulator;
 public class OperaCounter extends OperaMetric implements CounterCollector {
 
   /**
-   * increment a metric
+   * Increment a metric.
    *
-   * @param name name of the metric
-   * @param id   the node id on which the metric will be regi
-   * @param v    value
+   * @param name name of the metric.
+   * @param id   the node id on which the metric will be registered.
+   * @param value    value by which metric is increased.
    * @return True in case of success
    */
-  public synchronized boolean inc(String name, UUID id, double v) {
+  public synchronized boolean inc(String name, UUID id, double value) {
     Counter metric = getMetric(name);
     if (metric == null) {
       return false;
     }
-    metric.labels(id.toString()).inc(v);
+    metric.labels(id.toString()).inc(value);
     return true;
   }
 
@@ -34,17 +34,25 @@ public class OperaCounter extends OperaMetric implements CounterCollector {
     return inc(name, id, 1.0);
   }
 
+  /**
+   * Returns current sum value of counter for given metric and UUID.
+   * @param name name of metric.
+   * @param id identifier of node.
+   * @return value of counter metric if exists, null otherwise.
+   */
   public double get(String name, UUID id) {
     Counter metric = getMetric(name);
-    if (metric == null) return 0;
+    if (metric == null) {
+      return 0;
+    }
     return metric.labels(id.toString()).get();
   }
 
   /**
-   * Return prometheus metric for a specific name
+   * Return prometheus counter metric for a specific name
    *
-   * @param name
-   * @return
+   * @param name name of metric.
+   * @return metric name if exists, null otherwise.
    */
   public Counter getMetric(String name) {
     if (!collectors.containsKey(name)) {

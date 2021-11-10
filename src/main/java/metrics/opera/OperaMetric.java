@@ -10,6 +10,7 @@ public class OperaMetric {
 
   protected static final HashMap<String, Collector> collectors = new HashMap<>();
   protected static final HashMap<String, TYPE> collectorsTypes = new HashMap<>();
+
   enum TYPE {
     COUNTER,
     GAUGE,

@@ -13,6 +13,7 @@ public interface CounterCollector {
 
   boolean inc(String name, UUID id);
 
+  // TODO: should be replaced by getCounter
   double get(String name, UUID id);
 
   void register(String name, String namespace, String subsystem, String helpMessage);
