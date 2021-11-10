@@ -12,7 +12,7 @@ import underlay.MiddleLayer;
 import underlay.packets.Event;
 
 /**
- * This is a node class with selfId. Coordinater is determined by the UUID's.
+ * This is a node class with selfId. Coordinator is determined by the UUID's.
  */
 public class MyNode implements BaseNode {
   public static Logger log = Logger.getLogger(Simulator.class.getName());
@@ -55,6 +55,7 @@ public class MyNode implements BaseNode {
     if (this.isMax()) {
       log.info("CoordinatorID: " + selfId);
       this.coordinatorId = selfId;
+      System.out.println("Coordinator has been set");
       for (UUID targetId : allId) {
         log.info(selfId + " sends to" + targetId + " " + "Victory Message.");
         Message victoryMassage = new Message(VictoryMessage, selfId, targetId);
@@ -95,7 +96,7 @@ public class MyNode implements BaseNode {
    * @return ID of the coordinator
    */
   public UUID getCoordinatorId() {
-    return (this.coordinatorId);
+    return this.coordinatorId;
   }
 
   /**
@@ -127,6 +128,7 @@ public class MyNode implements BaseNode {
 
   @Override
   public void onCreate(ArrayList<UUID> allId) {
+    System.out.println("Node with" + selfId + "has been created \n");
     this.allId = allId;
     network.ready();
   }
@@ -144,15 +146,7 @@ public class MyNode implements BaseNode {
 
   @Override
   public void onNewMessage(UUID originId, Event msg) {
-    try {
-      Random rand = new Random();
-      Thread.sleep(rand.nextInt(1000));
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
     msg.actionPerformed(this);
-
-
   }
 
   @Override

@@ -11,8 +11,8 @@ import underlay.packets.Event;
  * find the coordinator.
  */
 public class Message implements Event, Serializable {
-  public static String VictoryMessage = "victory";
-  public static String ElectionMessage = "election";
+  public static String VictoryMessage = "Victory";
+  public static String ElectionMessage = "Election";
 
   String payload;
   UUID senderId;
@@ -69,6 +69,7 @@ public class Message implements Event, Serializable {
   public boolean actionPerformed(BaseNode hostNode) {
     MyNode node = (MyNode) hostNode;
     if (this.payload.equals(VictoryMessage)) {
+      System.out.println("içerideyix");
       node.setCoordinatorId(this.senderId);
     } else if (this.payload.equals(ElectionMessage)) {
       node.sendMessage();
