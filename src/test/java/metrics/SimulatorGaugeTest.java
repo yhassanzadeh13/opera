@@ -1,8 +1,5 @@
 package metrics;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
@@ -10,6 +7,9 @@ import metrics.opera.OperaCollector;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import utils.Fixtures;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SimulatorGaugeTest {
   private static final String TEST_GAUGE = "test_gauge";
@@ -39,7 +39,7 @@ class SimulatorGaugeTest {
    * preceding sets.
    */
   @Test
-  void singleNodeTest(){
+  void singleNodeTest() {
     UUID id = UUID.randomUUID();
 
     long finalValue = 0;
@@ -56,46 +56,36 @@ class SimulatorGaugeTest {
     assertEquals(finalValue, metricsCollector.gauge().get(TEST_GAUGE, id));
   }
 
+  /**
+   * Tests correctness of gauge collector for multiple nodes under concurrent setup.
+   * Each node's guage value is set to its global index, and evaluates the correctness
+   * of set.
+   */
   @Test
-  void valueTest() {
-
-
-
-    ArrayList<UUID> allId = new ArrayList<>();
-    while (allId.size() != THREAD_CNT) {
-      allId.add(UUID.randomUUID());
-    }
+  void multiNodeTest() {
+    ArrayList<UUID> allId = Fixtures.identifierListFixture(THREAD_CNT);
     count = new CountDownLatch(THREAD_CNT);
 
-
-
-
-    for (UUID nodeId : allId) {
-      new Thread(() -> threadTest(nodeId, ITERATIONS)).start();
+    for (int i = 0; i < allId.size(); i++) {
+      int finalI = i;
+      new Thread(() -> {
+        // sets gauge value for each metric as its corresponding node index.
+        // TODO: assertion errors.
+        assertTrue(metricsCollector.gauge().set(TEST_GAUGE, allId.get(finalI), finalI));
+        count.countDown();
+      }).start();
     }
 
     try {
+      // TODO: timeout
       count.await();
     } catch (Exception e) {
       e.printStackTrace();
     }
 
-    int tot = 0;
-    for (UUID nodeId : allId) {
-      tot += metricsCollector.gauge().get(TEST_GAUGE, nodeId);
+    for (int i = 0; i < allId.size(); i++) {
+      assertEquals(metricsCollector.gauge().get(TEST_GAUGE, allId.get(i)), i);
     }
-    assertTrue(Math.abs(tot / (ITERATIONS * THREAD_CNT)) <= EPS);
-  }
 
-  void threadTest(UUID nodeId, int iterations) {
-    while (iterations-- > 0) {
-      if (rand.nextBoolean()) {
-        assertTrue(metricsCollector.gauge().inc(TEST_GAUGE, nodeId));
-      } else {
-        assertTrue(metricsCollector.gauge().dec(TEST_GAUGE, nodeId));
-      }
-    }
-    count.countDown();
   }
-
 }
