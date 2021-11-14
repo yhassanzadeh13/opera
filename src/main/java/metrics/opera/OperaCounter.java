@@ -86,7 +86,7 @@ public class OperaCounter extends OperaMetric implements CounterCollector {
    */
   public void register(String name, String namespace, String subsystem, String helpMessage)
       throws IllegalArgumentException {
-    if (!collectors.containsKey(name)) {
+    if (collectors.containsKey(name)) {
       if (collectorsTypes.get(name) != Type.COUNTER) {
         throw new IllegalArgumentException("metrics name already taken with another type: "
             + name + " type: " + collectorsTypes.get(name));

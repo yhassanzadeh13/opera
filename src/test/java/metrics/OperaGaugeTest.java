@@ -13,7 +13,7 @@ import utils.Fixtures;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class SimulatorGaugeTest {
+class OperaGaugeTest {
   private static final String TEST_GAUGE = "test_gauge";
   private static final String SUBSYSTEM_GAUGE_TEST = "subsystem_gauge_test";
   private static final int THREAD_CNT = 50;
