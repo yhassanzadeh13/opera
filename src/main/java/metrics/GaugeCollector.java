@@ -4,7 +4,7 @@ import io.prometheus.client.Gauge;
 import java.util.UUID;
 
 /**
- * The GaugeCollector interface is a base interface for gauge collector.
+ * A base interface for gauge collector.
  */
 public interface GaugeCollector {
   void register(String name, String namespace, String subsystem, String helpMessage);
