@@ -7,16 +7,17 @@ import metrics.opera.OperaCollector;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import utils.Fixtures;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 class OperaCounterTest {
-
+  private final static String TEST_COUNTER = "test_counter";
+  private final static String SUBSYSTEM_COUNTER_TEST = "subsystem_counter_test";
   static final int THREAD_CNT = 50;
   static final int ITERATIONS = 50;
   static JDKRandomGenerator rand = new JDKRandomGenerator();
-  CountDownLatch count;
   private MetricsCollector metricsCollector;
 
 
@@ -25,22 +26,25 @@ class OperaCounterTest {
     metricsCollector = new OperaCollector();
   }
 
+  /**
+   * Tests correctness of counter for a single node,
+   * increments value of counter several times, and evaluates final value.
+   */
+  @Test
+  void singleNodeTest(){
+
+  }
+
   @Test
   void valueTest() {
-    final String TEST_COUNTER = "test_counter";
-    final String SUBSYSTEM_COUNTER_TEST = "subsystem_counter_test";
-
     metricsCollector.counter().register(
         TEST_COUNTER,
         Constants.Namespace.TEST,
         SUBSYSTEM_COUNTER_TEST,
-        " "
+        "test counter help"
     );
-    ArrayList<UUID> allId = new ArrayList<>();
-    while (allId.size() != THREAD_CNT) {
-      allId.add(UUID.randomUUID());
-    }
-    count = new CountDownLatch(THREAD_CNT);
+    ArrayList<UUID> allId = Fixtures.identifierListFixture(THREAD_CNT)
+    CountDownLatch counterIncThread = new CountDownLatch(THREAD_CNT);
 
     // increment single entry
     UUID id = UUID.randomUUID();
@@ -62,7 +66,7 @@ class OperaCounterTest {
     }
 
     try {
-      count.await();
+      counterIncThread.await();
     } catch (Exception e) {
       e.printStackTrace();
     }
