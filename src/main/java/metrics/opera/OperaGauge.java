@@ -50,36 +50,6 @@ public class OperaGauge extends OperaMetric implements GaugeCollector {
   }
 
   @Override
-  public boolean inc(String name, UUID id) {
-    return inc(name, id, 1.0);
-  }
-
-  @Override
-  public boolean inc(String name, UUID id, double v) {
-    Gauge metric = getMetric(name);
-    if (metric == null) {
-      return false;
-    }
-    metric.labels(id.toString()).inc(v);
-    return true;
-  }
-
-  @Override
-  public boolean dec(String name, UUID id, double v) {
-    Gauge metric = getMetric(name);
-    if (metric == null) {
-      return false;
-    }
-    metric.labels(id.toString()).dec(v);
-    return true;
-  }
-
-  @Override
-  public boolean dec(String name, UUID id) {
-    return dec(name, id, 1.0);
-  }
-
-  @Override
   public boolean set(String name, UUID id, double v) {
     Gauge metric = getMetric(name);
     if (metric == null) {

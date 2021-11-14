@@ -39,26 +39,6 @@ public class NoopCollector implements MetricsCollector {
     }
 
     @Override
-    public boolean inc(String name, UUID id) {
-      return false;
-    }
-
-    @Override
-    public boolean inc(String name, UUID id, double v) {
-      return false;
-    }
-
-    @Override
-    public boolean dec(String name, UUID id, double v) {
-      return false;
-    }
-
-    @Override
-    public boolean dec(String name, UUID id) {
-      return false;
-    }
-
-    @Override
     public boolean set(String name, UUID id, double v) {
       return false;
     }
