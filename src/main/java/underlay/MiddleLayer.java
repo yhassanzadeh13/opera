@@ -23,9 +23,6 @@ import utils.SimulatorUtils;
 public class MiddleLayer {
   private static final Logger log = Logger.getLogger(MiddleLayer.class.getName()); // todo: logger should be passed down
   //TODO add bucket size to the default metrics
-  private final String delayMetric = "Delay";
-  private final String sentMsgCntMetric = "Sent_Messages";
-  private final String receivedMsgCntMetric = "Received_Messages";
   private final HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses;
   private final UUID nodeId;
   // TODO : make the communication between the nodes and the simulator (the master node) through the network
