@@ -3,6 +3,8 @@ package metrics;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import metrics.opera.OperaCollector;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +20,6 @@ class SimulatorGaugeTest {
   private static final int ITERATIONS = 2000;
   private static final double EPS = 0.01;
   private static final JDKRandomGenerator rand = new JDKRandomGenerator();
-  private CountDownLatch count;
   private MetricsCollector metricsCollector;
 
 
@@ -63,25 +64,32 @@ class SimulatorGaugeTest {
    */
   @Test
   void multiNodeTest() {
+    AtomicInteger assertionErrorCount = new AtomicInteger();
     ArrayList<UUID> allId = Fixtures.identifierListFixture(THREAD_CNT);
-    count = new CountDownLatch(THREAD_CNT);
+    CountDownLatch gaugeSetThreads = new CountDownLatch(THREAD_CNT);
 
     for (int i = 0; i < allId.size(); i++) {
       int finalI = i;
       new Thread(() -> {
-        // sets gauge value for each metric as its corresponding node index.
-        // TODO: assertion errors.
-        assertTrue(metricsCollector.gauge().set(TEST_GAUGE, allId.get(finalI), finalI));
-        count.countDown();
+        try {
+          // sets gauge value for each metric as its corresponding node index.
+          assertTrue(metricsCollector.gauge().set(TEST_GAUGE, allId.get(finalI), finalI));
+        } catch (AssertionError e) {
+          assertionErrorCount.getAndIncrement();
+        }
+
+        gaugeSetThreads.countDown();
       }).start();
     }
 
     try {
-      // TODO: timeout
-      count.await();
+      boolean onTime = gaugeSetThreads.await(60, TimeUnit.SECONDS);
+      assertTrue(onTime, "setting gauges are not done on time");
     } catch (Exception e) {
       e.printStackTrace();
     }
+
+    assertEquals(0, assertionErrorCount.get(), "unsuccessful threads");
 
     for (int i = 0; i < allId.size(); i++) {
       assertEquals(metricsCollector.gauge().get(TEST_GAUGE, allId.get(i)), i);
