@@ -3,6 +3,8 @@ package metrics;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import metrics.opera.OperaCollector;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,15 +17,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class OperaCounterTest {
   private final static String TEST_COUNTER = "test_counter";
   private final static String SUBSYSTEM_COUNTER_TEST = "subsystem_counter_test";
-  static final int THREAD_CNT = 50;
-  static final int ITERATIONS = 50;
-  static JDKRandomGenerator rand = new JDKRandomGenerator();
+  private static final int THREAD_CNT = 50;
+  private static final int ITERATIONS = 50;
+  private static final JDKRandomGenerator rand = new JDKRandomGenerator();
   private MetricsCollector metricsCollector;
 
 
   @BeforeEach
   public void setup() {
     metricsCollector = new OperaCollector();
+    metricsCollector.counter().register(
+        TEST_COUNTER,
+        Constants.Namespace.TEST,
+        SUBSYSTEM_COUNTER_TEST,
+        "test counter help"
+    );
   }
 
   /**
@@ -32,56 +40,51 @@ class OperaCounterTest {
    */
   @Test
   void singleNodeTest(){
-
-  }
-
-  @Test
-  void valueTest() {
-    metricsCollector.counter().register(
-        TEST_COUNTER,
-        Constants.Namespace.TEST,
-        SUBSYSTEM_COUNTER_TEST,
-        "test counter help"
-    );
-    ArrayList<UUID> allId = Fixtures.identifierListFixture(THREAD_CNT)
-    CountDownLatch counterIncThread = new CountDownLatch(THREAD_CNT);
-
-    // increment single entry
     UUID id = UUID.randomUUID();
-    long tot = 0;
+    long total = 0;
     for (int i = 0; i < ITERATIONS; i++) {
       int v = rand.nextInt(1000);
-      tot += v;
-      metricsCollector.counter().inc("testCounter", id, v);
+      total += v;
+      metricsCollector.counter().inc(TEST_COUNTER, id, v);
     }
-    assertEquals(tot, metricsCollector.counter().get("testCounter", id));
+    assertEquals(total, metricsCollector.counter().get(TEST_COUNTER, id));
+  }
+
+  /**
+   * Tests correctness of counter collector for multiple nodes under concurrent setup.
+   * Each node's counter value is incremented multiple times concurrently (with others), and
+   * test checks the final value on each node.
+   */
+  @Test
+  void multiNodeTest() {
+    AtomicInteger assertionErrorCount = new AtomicInteger();
+    ArrayList<UUID> allId = Fixtures.identifierListFixture(THREAD_CNT);
+    CountDownLatch counterIncThread = new CountDownLatch(THREAD_CNT);
 
     for (UUID nodeId : allId) {
-      new Thread() {
-        @Override
-        public void run() {
-          threadtestCounter(nodeId, ITERATIONS);
+      new Thread(() -> {
+        for(int j = 0; j < ITERATIONS; j++) {
+          try {
+            assertTrue(metricsCollector.counter().inc(TEST_COUNTER, nodeId));
+          } catch (AssertionError e){
+            assertionErrorCount.incrementAndGet();
+          }
         }
-      }.start();
+        counterIncThread.countDown();
+      }).start();
     }
 
     try {
-      counterIncThread.await();
+      boolean onTime = counterIncThread.await(60, TimeUnit.SECONDS);
+      assertTrue(onTime, "setting counters are not done on time");
     } catch (Exception e) {
       e.printStackTrace();
     }
 
-    tot = 0;
-    for (UUID nodeId : allId) {
-      tot += metricsCollector.counter().get("testCounter", nodeId);
-    }
-    assertEquals(ITERATIONS * THREAD_CNT, tot);
-  }
+    assertEquals(0, assertionErrorCount.get(), "unsuccessful threads");
 
-  void threadtestCounter(UUID nodeId, int iterations) {
-    while (iterations-- > 0) {
-      assertTrue(metricsCollector.counter().inc("testCounter", nodeId));
+    for (UUID nodeId : allId) {
+     assertEquals(ITERATIONS, metricsCollector.counter().get(TEST_COUNTER, nodeId));
     }
-    count.countDown();
   }
 }
