@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
+
 import metrics.MetricsCollector;
 import node.BaseNode;
 import simulator.Simulator;
@@ -123,7 +124,7 @@ public class Contestant implements BaseNode {
   /**
    * If a new fight invitation arrives node calls this function and accepts the invitation if node is available.
    *
-   * @param host Id of the host node
+   * @param host     Id of the host node
    * @param duration duration of the battle
    */
   public void onNewFightInvitation(UUID host, int duration) {
@@ -142,9 +143,9 @@ public class Contestant implements BaseNode {
    * If hosts level is bigger than opponents health host wins
    * if opponents level is bigger than hosts health opponent wins.
    *
-   * @param opponent Id of the opponent
+   * @param opponent      Id of the opponent
    * @param opponentLevel Level of the opponent
-   * @param duration duration of the battle
+   * @param duration      duration of the battle
    */
   public synchronized void hostFight(UUID opponent, int opponentLevel, int duration) {
     if (this.isFighting) {
@@ -171,7 +172,7 @@ public class Contestant implements BaseNode {
         res = -1;
       }
       System.out.println("New fighting is happening between contestant with level " + opponentLevel
-            + " and contestant with level " + this.healthLevel);
+          + " and contestant with level " + this.healthLevel);
       network.send(opponent, new BattleResult(this.selfId, opponent, false, res * -1));
 
       // update metrics
