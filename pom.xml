@@ -13,6 +13,7 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.0</version>
                     <configuration>
+                        <debug>true</debug>
                         <verbose>true</verbose>
                         <compilerArgs>
                             <arg>-Xlint</arg>
@@ -80,7 +81,7 @@
 
 
     <groupId>groupId</groupId>
-    <artifactId>distributed-simulator</artifactId>
+    <artifactId>opera</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
