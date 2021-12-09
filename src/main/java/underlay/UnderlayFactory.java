@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
+
 import org.apache.log4j.Logger;
 import org.yaml.snakeyaml.Yaml;
 import underlay.javarmi.JavaRmiUnderlay;
@@ -18,9 +19,9 @@ import underlay.udp.UdpUnderlay;
 public class UnderlayFactory {
 
   private static final Logger log = Logger.getLogger(UnderlayFactory.class.getName());
+  private static final String yamlFile = "./src/main/java/underlay/underlayTypes.yml";
   // hashmap to hold the underlay types to underlay class names
   private static HashMap<String, String> underlayClassName;
-  private static final String yamlFile = "./src/main/java/underlay/underlayTypes.yml";
 
   private UnderlayFactory() {
   }

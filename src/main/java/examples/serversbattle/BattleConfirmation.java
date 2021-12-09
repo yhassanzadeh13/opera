@@ -1,6 +1,7 @@
 package examples.serversbattle;
 
 import java.util.UUID;
+
 import node.BaseNode;
 import underlay.packets.Event;
 
@@ -22,11 +23,11 @@ public class BattleConfirmation implements Event {
   /**
    * Constructor of BattleConfirmation.
    *
-   * @param host ID of the host node
-   * @param opponent ID of the opponent
+   * @param host                 ID of the host node
+   * @param opponent             ID of the opponent
    * @param opponentConfirmation Shows whether opponent accepted battle or not
-   * @param duration Duration of the battle
-   * @param opponentLevel level of the opponent
+   * @param duration             Duration of the battle
+   * @param opponentLevel        level of the opponent
    */
   public BattleConfirmation(UUID host, UUID opponent, boolean opponentConfirmation, int duration, int opponentLevel) {
     this.opponentConfirmation = opponentConfirmation;

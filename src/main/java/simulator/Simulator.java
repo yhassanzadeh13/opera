@@ -4,15 +4,10 @@ import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.PriorityQueue;
-import java.util.Random;
-import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
+
 import metrics.MetricsCollector;
 import metrics.opera.OperaCollector;
 import node.BaseNode;
@@ -303,9 +298,9 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
   /**
    * Simulate churn based on inter-arrival time and session length.
    *
-   * @param lifeTime duration of the simulation.
-   * @param interArrivalGen  inter-arrival generator, i.e., time between two consecutive arrivals in the system.
-   * @param sessionLengthGenerator  session length generator, i.e., online duration of a node in the system.
+   * @param lifeTime               duration of the simulation.
+   * @param interArrivalGen        inter-arrival generator, i.e., time between two consecutive arrivals in the system.
+   * @param sessionLengthGenerator session length generator, i.e., online duration of a node in the system.
    */
   public void churnSimulation(long lifeTime, BaseGenerator interArrivalGen, BaseGenerator sessionLengthGenerator) {
     // initialize all nodes

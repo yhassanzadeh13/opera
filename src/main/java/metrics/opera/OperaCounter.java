@@ -1,6 +1,7 @@
 package metrics.opera;
 
 import java.util.UUID;
+
 import io.prometheus.client.Counter;
 import metrics.Constants;
 import metrics.CounterCollector;
@@ -16,9 +17,9 @@ public class OperaCounter extends OperaMetric implements CounterCollector {
   /**
    * Increment a metric.
    *
-   * @param name name of the metric.
-   * @param id   the node id on which the metric will be registered.
-   * @param value    value by which metric is increased.
+   * @param name  name of the metric.
+   * @param id    the node id on which the metric will be registered.
+   * @param value value by which metric is increased.
    * @return True in case of success
    */
   public synchronized boolean inc(String name, UUID id, double value) {
@@ -38,7 +39,7 @@ public class OperaCounter extends OperaMetric implements CounterCollector {
    * Returns current sum value of counter for given metric and UUID.
    *
    * @param name name of metric.
-   * @param id identifier of node.
+   * @param id   identifier of node.
    * @return value of counter metric if exists, null otherwise.
    */
   public double get(String name, UUID id) {

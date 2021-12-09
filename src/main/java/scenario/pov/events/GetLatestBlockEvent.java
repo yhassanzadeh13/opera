@@ -1,6 +1,7 @@
 package scenario.pov.events;
 
 import java.util.UUID;
+
 import node.BaseNode;
 import scenario.pov.LightChainNode;
 import underlay.packets.Event;
@@ -8,7 +9,7 @@ import underlay.packets.Event;
 
 /**
  * Getter of the latest block event.
- *Size: Returns number of encoded bytes.
+ * Size: Returns number of encoded bytes.
  */
 public class GetLatestBlockEvent implements Event {
 

@@ -1,27 +1,14 @@
 package scenario.pov;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 import metrics.MetricsCollector;
 import node.BaseNode;
 import org.apache.log4j.Logger;
-import scenario.pov.events.CollectTransactionsEvent;
-import scenario.pov.events.ConfirmBlockEvent;
-import scenario.pov.events.ConfirmTransactionEvent;
-import scenario.pov.events.DeliverLatestBlockEvent;
-import scenario.pov.events.DeliverTransactionsEvent;
-import scenario.pov.events.GetLatestBlockEvent;
-import scenario.pov.events.SubmitBlockEvent;
-import scenario.pov.events.SubmitTransactionEvent;
-import scenario.pov.events.ValidateBlockEvent;
-import scenario.pov.events.ValidateTransactionEvent;
+import scenario.pov.events.*;
 import underlay.MiddleLayer;
 import underlay.packets.Event;
 
@@ -126,8 +113,8 @@ public class LightChainNode implements BaseNode {
     if (numValidators > this.allId.size() - 1) {
       try {
         throw new Exception(
-              "Number of validators must be smaller than number of nodes. NumValidators= "
-                    + numValidators + ", numNodes= " + (this.allId.size() - 1));
+            "Number of validators must be smaller than number of nodes. NumValidators= "
+                + numValidators + ", numNodes= " + (this.allId.size() - 1));
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -145,12 +132,12 @@ public class LightChainNode implements BaseNode {
 
       logger.info("[Registry] The Registry node is " + this.uuid);
       this.appendBlock(
-            new Block(UUID.randomUUID(),
-                  0,
-                  this.uuid,
-                  UUID.randomUUID(),
-                  new ArrayList<>(),
-                  new ArrayList<>()));
+          new Block(UUID.randomUUID(),
+              0,
+              this.uuid,
+              UUID.randomUUID(),
+              new ArrayList<>(),
+              new ArrayList<>()));
       logger.info("[Registry] Genesis Block has been appended");
     }
 
@@ -243,7 +230,7 @@ public class LightChainNode implements BaseNode {
 
     logger.info("[Registry] maximum height found so far is " + this.maximumHeight);
     logger.info("[Registry] currently " + this.insertedBlocks.size()
-          + " blocks are inserted totally");
+        + " blocks are inserted totally");
 
     this.lightChainMetrics.onNewFinalizedBlock(block.getHeight(), block.getId(), block.getOwner());
 
@@ -344,10 +331,10 @@ public class LightChainNode implements BaseNode {
       List<UUID> validators = getValidators();
 
       Block block = new Block(UUID.randomUUID(),
-            this.latestBlock.getHeight() + 1,
-            this.uuid, this.latestBlock.getId(),
-            validators,
-            transactionIds);
+          this.latestBlock.getHeight() + 1,
+          this.uuid, this.latestBlock.getId(),
+          validators,
+          transactionIds);
 
       this.blockValidationCount.put(block.getId(), 0);
       this.blocks.put(block.getId(), block);
@@ -391,7 +378,8 @@ public class LightChainNode implements BaseNode {
     }
   }
 
-  /** getter of registery node's ID.
+  /**
+   * getter of registery node's ID.
    *
    * @return the UUID of the registry node.
    */
@@ -615,8 +603,8 @@ public class LightChainNode implements BaseNode {
     if (this.availableTransactions.size() < requiredNumber) {
 
       logger.info("[Registry] number of available transactions is less than requested by node " + requester
-            + ", required number: " + requiredNumber
-            + ", available number: " + this.availableTransactions.size());
+          + ", required number: " + requiredNumber
+          + ", available number: " + this.availableTransactions.size());
 
       //    this.transactionLock.writeLock().unlock();
 

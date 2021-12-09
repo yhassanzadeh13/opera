@@ -1,7 +1,8 @@
 package metrics;
 
-import io.prometheus.client.Histogram;
 import java.util.UUID;
+
+import io.prometheus.client.Histogram;
 
 /**
  * The CounterCollector interface is a base interface of counter collector to use for metric collector.

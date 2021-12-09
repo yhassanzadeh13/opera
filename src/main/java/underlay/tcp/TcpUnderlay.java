@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.HashSet;
+
 import simulator.Simulator;
 import underlay.Underlay;
 import underlay.packets.Request;
@@ -20,8 +21,8 @@ public class TcpUnderlay extends Underlay {
   private Thread listenerThread;
   // The local tcp socket that can accept incoming tcp connections.
   private ServerSocket serverSocket;
-  private HashSet<Socket> socketCache = new HashSet<>();
-  private HashMap<String, ObjectOutputStream> streamCache = new HashMap<>();
+  private final HashSet<Socket> socketCache = new HashSet<>();
+  private final HashMap<String, ObjectOutputStream> streamCache = new HashMap<>();
 
   /**
    * Creates a tcp socket at the given port and starts listening it.

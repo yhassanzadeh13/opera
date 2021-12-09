@@ -1,6 +1,7 @@
 package examples.serversbattle;
 
 import java.util.UUID;
+
 import node.BaseNode;
 import underlay.packets.Event;
 
@@ -15,7 +16,7 @@ public class BattleInvitation implements Event {
   /**
    * Constructor of the BattleInvitation.
    *
-   * @param host Id of the host node
+   * @param host     Id of the host node
    * @param opponent Id of the reciever of the invitation
    * @param duration duration of the battle
    */

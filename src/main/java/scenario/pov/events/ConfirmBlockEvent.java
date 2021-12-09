@@ -1,10 +1,10 @@
 package scenario.pov.events;
 
 import java.util.UUID;
+
 import node.BaseNode;
 import scenario.pov.LightChainNode;
 import underlay.packets.Event;
-
 
 
 /**
@@ -12,7 +12,7 @@ import underlay.packets.Event;
  */
 public class ConfirmBlockEvent implements Event {
 
-  private UUID blockUuid;
+  private final UUID blockUuid;
 
   public ConfirmBlockEvent(UUID blockUuid) {
     this.blockUuid = blockUuid;

@@ -1,12 +1,8 @@
 package underlay.udp;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.net.*;
+
 import underlay.Underlay;
 import underlay.packets.Request;
 
@@ -112,10 +108,10 @@ public class UdpUnderlay extends Underlay {
       udpSocket.close();
       // Close the listener thread.
       listenerThread.join();
-      this.log.debug("[TCPUnderlay] node " + address + ":" + port + " is begin terminated");
+      log.debug("[TCPUnderlay] node " + address + ":" + port + " is begin terminated");
     } catch (InterruptedException e) {
       System.err.println("[UDPUnderlay] Could not terminate.");
-      this.log.error("[UDPUnderlay] Could not terminate node " + address + ":" + port);
+      log.error("[UDPUnderlay] Could not terminate node " + address + ":" + port);
       e.printStackTrace();
       return false;
     }

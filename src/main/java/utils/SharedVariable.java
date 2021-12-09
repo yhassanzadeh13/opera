@@ -1,12 +1,14 @@
 package utils;
 
 //import java.util.*;
+
 import java.util.AbstractMap;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
+
 import simulator.Simulator;
 
 /**
@@ -16,22 +18,21 @@ import simulator.Simulator;
 public class SharedVariable {
   // for each node ID, hold an array list of all the variables' queues ordered by the variables IDs
 
+  // singleton instance
+  private static SharedVariable instance = null;
   private final ConcurrentHashMap<UUID,
-        ConcurrentHashMap<Integer,
-              ArrayDeque<SimpleEntryComparable<UUID,
-                    Object>>>> nodeQueues;
+      ConcurrentHashMap<Integer,
+          ArrayDeque<SimpleEntryComparable<UUID,
+              Object>>>> nodeQueues;
   // for each variable ID, hold the cluster of that variable
   private final ArrayList<ArrayList<UUID>> clusters;
   // for each new variable, assign a new id for it
-  private ConcurrentHashMap<String, Integer> variablesIds;
+  private final ConcurrentHashMap<String, Integer> variablesIds;
   // for each variable, keep the lock holder
-  private ArrayList<UUID> lockHolders;
+  private final ArrayList<UUID> lockHolders;
   // for every variable, hold a latch that tell us if a node is currently writing
-  private ArrayList<ReentrantLock> lock;
-  private UUID fixtureOwner;
-
-  // singleton instance
-  private static SharedVariable instance = null;
+  private final ArrayList<ReentrantLock> lock;
+  private final UUID fixtureOwner;
 
   private SharedVariable() {
     nodeQueues = new ConcurrentHashMap<>();
@@ -58,7 +59,7 @@ public class SharedVariable {
   /**
    * Register a new variable in the DSM.
    *
-   * @param name name of the variable
+   * @param name  name of the variable
    * @param allId the IDs of the nodes that should have access to this variable
    * @return false if variable already registered, true otherwise
    */
@@ -90,7 +91,7 @@ public class SharedVariable {
    * Requesting the writing lock for a variable.
    *
    * @param nodeId Id of the node
-   * @param name name of the variable
+   * @param name   name of the variable
    * @return true if node equal to fixture owner or nodeID
    */
   public synchronized boolean requestLock(UUID nodeId, String name) {
@@ -110,7 +111,7 @@ public class SharedVariable {
    * In case the name is assigned with another type, the variable will be overwritten.
    *
    * @param senderId node UUID
-   * @param name name of the value
+   * @param name     name of the value
    * @param variable variable to overwrite
    * @return Ture in case of success, False otherwise.
    */
@@ -139,7 +140,7 @@ public class SharedVariable {
    * read the value of a DSM variable.
    *
    * @param nodeId the reader node ID
-   * @param name name of the variable
+   * @param name   name of the variable
    * @return value if there is a value for the given name null otherwise.
    */
   public AbstractMap.SimpleEntry<UUID, Object> read(UUID nodeId, String name) throws NullPointerException {
@@ -151,9 +152,9 @@ public class SharedVariable {
 
     if (!nodeQueues.get(nodeId).containsKey(variableId)) {
       Simulator.getLogger().error("[SharedVariable] Read: the node with ID " + nodeId + " does not have "
-            + "access to the variable with name " + name);
+          + "access to the variable with name " + name);
       throw new NullPointerException("[SharedVariable] Read: the node with ID " + nodeId + " does not have "
-            + "access to the variable with name " + name);
+          + "access to the variable with name " + name);
     }
     if (nodeQueues.get(nodeId).get(variableId).isEmpty()) {
       Simulator.getLogger().debug("[SharedVariable] Read: no present values for variable with name " + name);
@@ -180,7 +181,7 @@ public class SharedVariable {
    * Checks whether there is a value with that variable name or not.
    *
    * @param nodeId Id of the node
-   * @param name name of the variable
+   * @param name   name of the variable
    * @return true if empty false otherwise
    */
   public boolean isEmpty(UUID nodeId, String name) {
@@ -191,9 +192,9 @@ public class SharedVariable {
     int variableId = variablesIds.get(name);
     if (!nodeQueues.get(nodeId).containsKey(variableId)) {
       Simulator.getLogger().error("[SharedVariable] Read: the node with ID " + nodeId + " does not have "
-            + "access to the variable with name " + name);
+          + "access to the variable with name " + name);
       throw new NullPointerException("[SharedVariable] Read: the node with ID " + nodeId + " does not have "
-            + "access to the variable with name " + name);
+          + "access to the variable with name " + name);
     }
     return nodeQueues.get(nodeId).get(variableId).isEmpty();
   }
@@ -202,7 +203,7 @@ public class SharedVariable {
    * releases lock for given name and ID.
    *
    * @param nodeId Id of the node
-   * @param name name of the variable
+   * @param name   name of the variable
    */
   public void releaseLock(UUID nodeId, String name) {
     if (getOwner(name).equals(nodeId)) {

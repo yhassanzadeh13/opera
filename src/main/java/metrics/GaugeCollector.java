@@ -1,7 +1,8 @@
 package metrics;
 
-import io.prometheus.client.Gauge;
 import java.util.UUID;
+
+import io.prometheus.client.Gauge;
 
 /**
  * A base interface for gauge collector.

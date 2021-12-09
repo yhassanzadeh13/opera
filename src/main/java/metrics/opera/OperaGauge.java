@@ -1,6 +1,7 @@
 package metrics.opera;
 
 import java.util.UUID;
+
 import io.prometheus.client.Gauge;
 import metrics.Constants;
 import metrics.GaugeCollector;
