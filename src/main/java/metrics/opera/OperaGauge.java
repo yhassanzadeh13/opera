@@ -9,9 +9,7 @@ import simulator.Simulator;
 
 
 /**
- * This class provides a prometheus-based gauge for extracting metrics
- * For every registered metric, the metric will be collected for each node separately
- * Gauges can be incremented and decremented.
+ * OperaCounter implements a wrapper for collecting gauge metrics. Metrics for each node are collected separately.
  */
 public class OperaGauge extends OperaMetric implements GaugeCollector {
   /**

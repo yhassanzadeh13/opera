@@ -8,9 +8,7 @@ import metrics.CounterCollector;
 import simulator.Simulator;
 
 /**
- * This class provides a prometheus-based counter for extracting metrics
- * For every registered metric, the metric will be collected for each node separately
- * Counters can be incremented but never decremented.
+ * OperaCounter implements a wrapper for collecting counter metrics. Metrics for each node are collected separately.
  */
 public class OperaCounter extends OperaMetric implements CounterCollector {
 
