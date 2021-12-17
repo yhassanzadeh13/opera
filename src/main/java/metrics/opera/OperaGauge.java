@@ -9,7 +9,7 @@ import simulator.Simulator;
 
 
 /**
- * OperaCounter implements a wrapper for collecting gauge metrics. Metrics for each node are collected separately.
+ * OperaGauge implements a wrapper for collecting gauge metrics. Metrics for each node are collected separately.
  */
 public class OperaGauge extends OperaMetric implements GaugeCollector {
   /**
