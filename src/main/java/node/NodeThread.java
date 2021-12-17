@@ -3,6 +3,7 @@ package node;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
+
 import metrics.MetricsCollector;
 import underlay.MiddleLayer;
 import underlay.packets.Event;
@@ -24,11 +25,11 @@ public class NodeThread<T extends BaseNode> extends Thread {
   /**
    * Constructs a new factory instance using the given parameters.
    *
-   * @param factory Consists of middlelayer, IDs and metric collector
-   * @param selfId Id of the node
-   * @param allId List of Id's of all the nodes
+   * @param factory     Consists of middlelayer, IDs and metric collector
+   * @param selfId      Id of the node
+   * @param allId       List of Id's of all the nodes
    * @param middleLayer layer of the modes
-   * @param metrics is a metric collector.
+   * @param metrics     is a metric collector.
    */
   public NodeThread(T factory, UUID selfId, ArrayList<UUID> allId, MiddleLayer middleLayer, MetricsCollector metrics) {
     this.selfId = selfId;

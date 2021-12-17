@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
+
 import metrics.MetricsCollector;
 import node.BaseNode;
 import simulator.Simulator;
@@ -16,9 +17,7 @@ import underlay.packets.Event;
  */
 public class Contestant implements BaseNode {
 
-  static final String FIGHTCOUNT = "FightCount";
-  static final String FIGHTDURATION = "FightDuration";
-  static final String HEALTHLEVEL = "HealthLevel";
+
   public boolean isFighting;
   public boolean isWaiting;
   ReentrantLock lock = new ReentrantLock();
@@ -26,7 +25,7 @@ public class Contestant implements BaseNode {
   private UUID selfId;
   private ArrayList<UUID> allId;
   private int healthLevel;
-  private MetricsCollector metrics;
+  private ContestantMetrics metrics;
 
   Contestant() {
   }
@@ -34,24 +33,11 @@ public class Contestant implements BaseNode {
   Contestant(UUID selfId, MiddleLayer network, MetricsCollector metrics) {
     this.selfId = selfId;
     this.network = network;
-    this.metrics = metrics;
-
-    //Register metrics
-    this.metrics.gauge().register(HEALTHLEVEL);
-    this.metrics.counter().register(FIGHTCOUNT);
-    this.metrics.histogram().register(FIGHTDURATION, new double[]{500.0, 1000.0, 1500.0, 2000.0, 2500.0});
+    this.metrics = new ContestantMetrics(metrics);
   }
 
   public UUID getId() {
     return this.selfId;
-  }
-
-  boolean isFighting() {
-    return this.isFighting;
-  }
-
-  int getHealthLevel() {
-    return this.healthLevel;
   }
 
   @Override
@@ -138,7 +124,7 @@ public class Contestant implements BaseNode {
   /**
    * If a new fight invitation arrives node calls this function and accepts the invitation if node is available.
    *
-   * @param host Id of the host node
+   * @param host     Id of the host node
    * @param duration duration of the battle
    */
   public void onNewFightInvitation(UUID host, int duration) {
@@ -157,9 +143,9 @@ public class Contestant implements BaseNode {
    * If hosts level is bigger than opponents health host wins
    * if opponents level is bigger than hosts health opponent wins.
    *
-   * @param opponent Id of the opponent
+   * @param opponent      Id of the opponent
    * @param opponentLevel Level of the opponent
-   * @param duration duration of the battle
+   * @param duration      duration of the battle
    */
   public synchronized void hostFight(UUID opponent, int opponentLevel, int duration) {
     if (this.isFighting) {
@@ -186,14 +172,11 @@ public class Contestant implements BaseNode {
         res = -1;
       }
       System.out.println("New fighting is happening between contestant with level " + opponentLevel
-            + " and contestant with level " + this.healthLevel);
+          + " and contestant with level " + this.healthLevel);
       network.send(opponent, new BattleResult(this.selfId, opponent, false, res * -1));
 
       // update metrics
-      this.metrics.counter().inc(FIGHTCOUNT, this.selfId);
-      this.metrics.counter().inc(FIGHTCOUNT, opponent);
-      this.metrics.histogram().observe(FIGHTDURATION, this.selfId, duration);
-      this.metrics.histogram().observe(FIGHTDURATION, opponent, duration);
+      this.metrics.onNewFight(this.selfId, opponent, duration);
       updateHealth(res);
     }
   }
@@ -209,17 +192,17 @@ public class Contestant implements BaseNode {
     switch (result) {
       case -1:
         this.healthLevel -= 10;
-        this.metrics.gauge().dec(HEALTHLEVEL, this.selfId, 10);
+        this.metrics.onHealthUpdate(this.selfId, 10);
         Simulator.getLogger().info(this.selfId + " losses 10 points");
         break;
       case 0:
         this.healthLevel += 1;
-        this.metrics.gauge().inc(HEALTHLEVEL, this.selfId, 1);
+        this.metrics.onHealthUpdate(this.selfId, 1);
         Simulator.getLogger().info(this.selfId + " gains 1 point");
         break;
       default:
         this.healthLevel += 5;
-        this.metrics.gauge().inc(HEALTHLEVEL, this.selfId, 5);
+        this.metrics.onHealthUpdate(this.selfId, 5);
         Simulator.getLogger().info(this.selfId + " gains 5 points");
         break;
     }

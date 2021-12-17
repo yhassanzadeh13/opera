@@ -1,6 +1,7 @@
 package scenario.pov.events;
 
 import java.util.UUID;
+
 import node.BaseNode;
 import scenario.pov.LightChainNode;
 import underlay.packets.Event;
@@ -11,7 +12,7 @@ import underlay.packets.Event;
  */
 public class ConfirmTransactionEvent implements Event {
 
-  private UUID transactionUuid;
+  private final UUID transactionUuid;
 
   public ConfirmTransactionEvent(UUID transactionUuid) {
     this.transactionUuid = transactionUuid;

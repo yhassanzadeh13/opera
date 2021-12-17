@@ -1,10 +1,11 @@
 package underlay;
 
-import events.StopStartEvent;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+
+import events.StopStartEvent;
 import metrics.MetricsCollector;
 import node.BaseNode;
 import org.apache.log4j.Logger;
@@ -23,14 +24,11 @@ import utils.SimulatorUtils;
 public class MiddleLayer {
   private static final Logger log = Logger.getLogger(MiddleLayer.class.getName()); // todo: logger should be passed down
   //TODO add bucket size to the default metrics
-  private final String delayMetric = "Delay";
-  private final String sentMsgCntMetric = "Sent_Messages";
-  private final String receivedMsgCntMetric = "Received_Messages";
   private final HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses;
   private final UUID nodeId;
   // TODO : make the communication between the nodes and the simulator (the master node) through the network
   private final Orchestrator orchestrator;
-  private final MetricsCollector metricsCollector;
+  private final MiddleLayerMetricsCollector metricsCollector;
   private Underlay underlay;
   private BaseNode overlay;
 
@@ -56,13 +54,9 @@ public class MiddleLayer {
     this.nodeId = nodeId;
     this.allFullAddresses = allFullAddresses;
     this.orchestrator = orchestrator;
-    this.metricsCollector = metricsCollector;
+    this.metricsCollector = new MiddleLayerMetricsCollector(metricsCollector);
 
-    this.metricsCollector.histogram().register(delayMetric);
-    this.metricsCollector.counter().register(sentMsgCntMetric);
-    this.metricsCollector.counter().register(receivedMsgCntMetric);
-    this.metricsCollector.histogram().register(metrics.Metrics.PACKET_SIZE,
-        new double[]{1.0, 2.0, 3.0, 5.0, 10.0, 15.0, 20.0});
+
   }
 
   public Underlay getUnderlay() {
@@ -92,11 +86,6 @@ public class MiddleLayer {
     // check the readiness of the destination node
     SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(destinationId);
 
-    // update metrics
-    this.metricsCollector.counter().inc(sentMsgCntMetric, nodeId);
-    this.metricsCollector.histogram().startTimer(delayMetric, nodeId, sentBucketHash(destinationId));
-
-
     // wrap the event by request class
     Request request = new Request(event, this.nodeId, destinationId);
     String destinationAddress = fullAddress.getKey();
@@ -120,12 +109,12 @@ public class MiddleLayer {
       log.debug("[MiddleLayer] " + this.getAddress(nodeId) + " : node could not send an event " + event.logMessage());
     }
 
+    // updates metrics
+    this.metricsCollector.onMessageSent(nodeId, destinationId);
+
     return success;
   }
 
-  private String sentBucketHash(UUID id) {
-    return SimulatorUtils.hashPairOfNodes(nodeId, id);
-  }
 
   public String getAddress(UUID nodeId) {
     SimpleEntry<String, Integer> address = allFullAddresses.get(nodeId);
@@ -138,9 +127,7 @@ public class MiddleLayer {
   public void receive(Request request) {
     // check the readiness of the overlay
     SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(nodeId);
-
-    this.metricsCollector.counter().inc(receivedMsgCntMetric, nodeId);
-    this.metricsCollector.histogram().tryObserveDuration(delayMetric, receivedBucketHash(request.getOriginalId()));
+    this.metricsCollector.onMessageReceived(nodeId, request.getOriginalId(), request.getEvent().size());
 
 
     log.info("[MiddleLayer] " + this.getAddress(nodeId)
@@ -155,9 +142,6 @@ public class MiddleLayer {
         this.stop(event.getAddress(), event.getPort());
       }
     } else {
-      this.metricsCollector.histogram().observe(metrics.Metrics.PACKET_SIZE,
-          request.getOriginalId(),
-          request.getEvent().size());
       overlay.onNewMessage(request.getOriginalId(), request.getEvent());
     }
 

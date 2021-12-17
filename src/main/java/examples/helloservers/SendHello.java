@@ -2,6 +2,7 @@ package examples.helloservers;
 
 import java.io.Serializable;
 import java.util.UUID;
+
 import node.BaseNode;
 import underlay.packets.Event;
 
@@ -15,11 +16,11 @@ public class SendHello implements Event, Serializable {
   UUID targetId;
 
   /**
-   *  Constructor of a Sendhello object.
+   * Constructor of a Sendhello object.
    *
-   * @param msg message to send.
+   * @param msg        message to send.
    * @param originalId Id of the sendeer node.
-   * @param targetId Id of the reciever node.
+   * @param targetId   Id of the reciever node.
    */
   public SendHello(String msg, UUID originalId, UUID targetId) {
     this.msg = msg;

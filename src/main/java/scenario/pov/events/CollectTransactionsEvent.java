@@ -1,18 +1,18 @@
 package scenario.pov.events;
 
 import java.util.UUID;
+
 import node.BaseNode;
 import scenario.pov.LightChainNode;
 import underlay.packets.Event;
-
 
 
 /**
  * Collects Transactions submitted to a node.
  */
 public class CollectTransactionsEvent implements Event {
-  private UUID requester;
-  private Integer requiredNumber;
+  private final UUID requester;
+  private final Integer requiredNumber;
 
   public CollectTransactionsEvent(UUID requester, Integer requiredNumber) {
     this.requester = requester;

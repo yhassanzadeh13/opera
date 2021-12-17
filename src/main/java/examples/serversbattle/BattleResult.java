@@ -1,6 +1,7 @@
 package examples.serversbattle;
 
 import java.util.UUID;
+
 import node.BaseNode;
 import underlay.packets.Event;
 
@@ -22,10 +23,10 @@ public class BattleResult implements Event {
   /**
    * Constructor of BattleResult.
    *
-   * @param host Id of the host node
+   * @param host     Id of the host node
    * @param opponent Id of the opponent node
-   * @param aborted shows whether battle is aborted or not
-   * @param result Result of the battle
+   * @param aborted  shows whether battle is aborted or not
+   * @param result   Result of the battle
    */
   public BattleResult(UUID host, UUID opponent, boolean aborted, int result) {
     this.result = result;

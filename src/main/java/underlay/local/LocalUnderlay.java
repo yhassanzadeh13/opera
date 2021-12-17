@@ -2,9 +2,9 @@ package underlay.local;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
+
 import underlay.Underlay;
 import underlay.packets.Request;
-
 
 
 /**
@@ -14,15 +14,15 @@ import underlay.packets.Request;
 public class LocalUnderlay extends Underlay {
 
 
-  private HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allUnderlay;
   private final String selfAddress;
   private final int port;
+  private HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allUnderlay;
 
   /**
    * Constructor of LocalUnderlay.
    *
    * @param selfAddress Address of the underlay
-   * @param port port of the Underlay
+   * @param port        port of the Underlay
    * @param allUnderlay hashmap of all underlays
    */
   public LocalUnderlay(String selfAddress, int port, HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allUnderlay) {

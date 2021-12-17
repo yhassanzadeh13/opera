@@ -1,6 +1,7 @@
 package scenario.pov.events;
 
 import java.util.List;
+
 import node.BaseNode;
 import scenario.pov.LightChainNode;
 import scenario.pov.Transaction;
@@ -9,7 +10,7 @@ import underlay.packets.Event;
 
 /**
  * Delivers transaction to a node.
- *Size: Returns number of encoded bytes.
+ * Size: Returns number of encoded bytes.
  */
 public class DeliverTransactionsEvent implements Event {
   private final List<Transaction> transactions;

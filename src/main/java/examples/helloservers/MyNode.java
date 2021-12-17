@@ -3,6 +3,7 @@ package examples.helloservers;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
+
 import metrics.MetricsCollector;
 import node.BaseNode;
 import underlay.MiddleLayer;
@@ -18,6 +19,7 @@ public class MyNode implements BaseNode {
   private MiddleLayer network;
   private MetricsCollector metricsCollector;
 
+  // TODO: enable metrics
   MyNode() {
   }
 

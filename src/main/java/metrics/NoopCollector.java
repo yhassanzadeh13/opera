@@ -1,76 +1,60 @@
 package metrics;
 
+import java.util.UUID;
+
 import io.prometheus.client.Gauge;
 import io.prometheus.client.Histogram;
-import java.util.UUID;
 
 /**
  * Noop Collector is a no operation metric collector.
  */
 public class NoopCollector implements MetricsCollector {
-  class NoopHistogram implements HistogramCollector {
+  @Override
+  public HistogramCollector histogram() {
+    return new NoopHistogram();
+  }
+
+  @Override
+  public GaugeCollector gauge() {
+    return new NoopGauge();
+  }
+
+  @Override
+  public CounterCollector counter() {
+    return new NoopCounter();
+  }
+
+  static class NoopHistogram implements HistogramCollector {
 
     @Override
-    public boolean observe(String name, UUID id, double v) {
-      return false;
+    public void observe(String name, UUID id, double v) {
     }
 
     @Override
-    public Histogram getMetric(String name) {
+    public Histogram get(String name) {
       return null;
     }
 
     @Override
-    public boolean startTimer(String name, UUID id, String timerId) {
-      return false;
+    public void startTimer(String name, UUID id, String timerId) {
     }
 
-    @Override
-    public boolean observeDuration(String name, String timerId) {
-      return false;
-    }
 
     @Override
     public void tryObserveDuration(String name, String timerId) {
-
     }
 
     @Override
-    public boolean register(String name) {
-      return false;
-    }
-
-    @Override
-    public boolean register(String name, double[] buckets) {
-      return false;
+    public void register(String name, String namespace, String subsystem, String helpMessage, double[] buckets)
+        throws IllegalArgumentException {
     }
   }
 
-  class NoopGauge implements GaugeCollector {
+  static class NoopGauge implements GaugeCollector {
 
     @Override
-    public boolean register(String name) {
-      return false;
-    }
+    public void register(String name, String namespace, String subsystem, String helpMessage) {
 
-    @Override
-    public boolean inc(String name, UUID id) {
-      return false;
-    }
-
-    @Override
-    public boolean inc(String name, UUID id, double v) {
-      return false;
-    }
-
-    @Override
-    public boolean dec(String name, UUID id, double v) {
-      return false;
-    }
-
-    @Override
-    public boolean dec(String name, UUID id) {
-      return false;
     }
 
     @Override
@@ -89,7 +73,7 @@ public class NoopCollector implements MetricsCollector {
     }
   }
 
-  class NoopCounter implements CounterCollector {
+  static class NoopCounter implements CounterCollector {
 
     @Override
     public boolean inc(String name, UUID id, double v) {
@@ -107,23 +91,9 @@ public class NoopCollector implements MetricsCollector {
     }
 
     @Override
-    public boolean register(String name) {
-      return false;
+    public void register(String name, String namespace, String subsystem, String helpMessage) {
+
     }
-  }
 
-  @Override
-  public HistogramCollector histogram() {
-    return new NoopHistogram();
-  }
-
-  @Override
-  public GaugeCollector gauge() {
-    return new NoopGauge();
-  }
-
-  @Override
-  public CounterCollector counter() {
-    return new NoopCounter();
   }
 }

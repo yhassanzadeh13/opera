@@ -1,27 +1,14 @@
 package scenario.pov;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 import metrics.MetricsCollector;
 import node.BaseNode;
 import org.apache.log4j.Logger;
-import scenario.pov.events.CollectTransactionsEvent;
-import scenario.pov.events.ConfirmBlockEvent;
-import scenario.pov.events.ConfirmTransactionEvent;
-import scenario.pov.events.DeliverLatestBlockEvent;
-import scenario.pov.events.DeliverTransactionsEvent;
-import scenario.pov.events.GetLatestBlockEvent;
-import scenario.pov.events.SubmitBlockEvent;
-import scenario.pov.events.SubmitTransactionEvent;
-import scenario.pov.events.ValidateBlockEvent;
-import scenario.pov.events.ValidateTransactionEvent;
+import scenario.pov.events.*;
 import underlay.MiddleLayer;
 import underlay.packets.Event;
 
@@ -65,14 +52,12 @@ public class LightChainNode implements BaseNode {
   private CountDownLatch transactionLatch;
   private Integer maximumHeight;
   private Integer totalTransactionCount;
-  private MetricsCollector metricsCollector;
+  private LightChainMetrics lightChainMetrics;
   // only for registry node
   private List<Transaction> availableTransactions;
   private List<Block> insertedBlocks;
   private Map<Integer, Integer> heightToUniquePrevCount;
   private Map<Integer, Map<UUID, Integer>> heightToUniquePrev;
-  private ReadWriteLock transactionLock;
-  private ReadWriteLock blockLock;
   private ReadWriteLock transactionValidationLock;
   private ReadWriteLock blockValidationLock;
 
@@ -92,11 +77,9 @@ public class LightChainNode implements BaseNode {
     this.transactionValidationLock = new ReentrantReadWriteLock();
     this.blockValidationLock = new ReentrantReadWriteLock();
     this.logger = Logger.getLogger(LightChainNode.class.getName());
-    this.metricsCollector = metrics;
+    this.lightChainMetrics = new LightChainMetrics(metrics);
 
     // for registry nodes
-    this.transactionLock = new ReentrantReadWriteLock();
-    this.blockLock = new ReentrantReadWriteLock();
     this.availableTransactions = new ArrayList<>();
     this.insertedBlocks = new ArrayList<>();
     this.heightToUniquePrev = new HashMap<>();
@@ -130,8 +113,8 @@ public class LightChainNode implements BaseNode {
     if (numValidators > this.allId.size() - 1) {
       try {
         throw new Exception(
-              "Number of validators must be smaller than number of nodes. NumValidators= "
-                    + numValidators + ", numNodes= " + (this.allId.size() - 1));
+            "Number of validators must be smaller than number of nodes. NumValidators= "
+                + numValidators + ", numNodes= " + (this.allId.size() - 1));
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -146,21 +129,15 @@ public class LightChainNode implements BaseNode {
         linespace[i] = i;
       }
 
-      this.metricsCollector.gauge().register("transaction_count");
-      this.metricsCollector.gauge().register("block_height_per_time");
-      this.metricsCollector.histogram().register("block_height_histogram", linespace);
-      this.metricsCollector.histogram().register("unique_blocks_per_height", linespace);
-
-      new Thread(this::monitorBlockHeight).start();
 
       logger.info("[Registry] The Registry node is " + this.uuid);
       this.appendBlock(
-            new Block(UUID.randomUUID(),
-                  0,
-                  this.uuid,
-                  UUID.randomUUID(),
-                  new ArrayList<>(),
-                  new ArrayList<>()));
+          new Block(UUID.randomUUID(),
+              0,
+              this.uuid,
+              UUID.randomUUID(),
+              new ArrayList<>(),
+              new ArrayList<>()));
       logger.info("[Registry] Genesis Block has been appended");
     }
 
@@ -215,28 +192,12 @@ public class LightChainNode implements BaseNode {
   }
 
   /**
-   * This function runs on a separate thread and records the maximum block height every second.
-   */
-  public void monitorBlockHeight() {
-    while (true) {
-      try {
-        Thread.sleep(1000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-
-      this.metricsCollector.gauge().set("block_height_per_time", this.uuid, this.maximumHeight);
-    }
-  }
-
-  /**
    * Invoked by a node that is inserting a block after it has been validated to the registry.
    * It also provides a lock to ensure the correctness of the write operations on the ledger.
    *
    * @param block block to be appended to the ledger
    */
   public void appendBlock(Block block) {
-
     if (!this.isRegistry) {
       try {
         throw new Exception("Add Transaction is called from a non-registry node");
@@ -259,10 +220,6 @@ public class LightChainNode implements BaseNode {
         oldValue = 0;
       }
       this.heightToUniquePrevCount.put(block.getHeight(), oldValue + 1);
-
-      this.metricsCollector.histogram().observe(
-            "unique_blocks_per_height",
-            this.uuid, block.getHeight());
     }
 
     Integer old = this.heightToUniquePrev.get(block.getHeight()).get(block.getPrev());
@@ -271,15 +228,11 @@ public class LightChainNode implements BaseNode {
     }
     this.heightToUniquePrev.get(block.getHeight()).put(block.getPrev(), old + 1);
 
-
-    this.metricsCollector.histogram().observe(
-          "block_height_histogram",
-          this.uuid,
-          block.getHeight());
-
     logger.info("[Registry] maximum height found so far is " + this.maximumHeight);
     logger.info("[Registry] currently " + this.insertedBlocks.size()
-          + " blocks are inserted totally");
+        + " blocks are inserted totally");
+
+    this.lightChainMetrics.onNewFinalizedBlock(block.getHeight(), block.getId(), block.getOwner());
 
     // this.blockLock.writeLock().unlock();
   }
@@ -378,10 +331,10 @@ public class LightChainNode implements BaseNode {
       List<UUID> validators = getValidators();
 
       Block block = new Block(UUID.randomUUID(),
-            this.latestBlock.getHeight() + 1,
-            this.uuid, this.latestBlock.getId(),
-            validators,
-            transactionIds);
+          this.latestBlock.getHeight() + 1,
+          this.uuid, this.latestBlock.getId(),
+          validators,
+          transactionIds);
 
       this.blockValidationCount.put(block.getId(), 0);
       this.blocks.put(block.getId(), block);
@@ -425,7 +378,8 @@ public class LightChainNode implements BaseNode {
     }
   }
 
-  /** getter of registery node's ID.
+  /**
+   * getter of registery node's ID.
    *
    * @return the UUID of the registry node.
    */
@@ -604,9 +558,6 @@ public class LightChainNode implements BaseNode {
    * @param transaction transaction to be inserted into the network
    */
   public void addTransaction(Transaction transaction) {
-
-    this.metricsCollector.gauge().inc("transaction_count", this.uuid);
-
     if (!this.isRegistry) {
       try {
         throw new Exception("Add Transaction is called from a non-registry node");
@@ -622,6 +573,8 @@ public class LightChainNode implements BaseNode {
     this.totalTransactionCount += 1;
     logger.info("[Registry] currently " + this.availableTransactions.size() + " transactions are available");
     logger.info("[Registry] total number of transactions inserted so far " + this.totalTransactionCount);
+
+    this.lightChainMetrics.onNewTransactions(1);
 
     //  this.transactionLock.writeLock().unlock();
   }
@@ -650,8 +603,8 @@ public class LightChainNode implements BaseNode {
     if (this.availableTransactions.size() < requiredNumber) {
 
       logger.info("[Registry] number of available transactions is less than requested by node " + requester
-            + ", required number: " + requiredNumber
-            + ", available number: " + this.availableTransactions.size());
+          + ", required number: " + requiredNumber
+          + ", available number: " + this.availableTransactions.size());
 
       //    this.transactionLock.writeLock().unlock();
 
@@ -671,8 +624,6 @@ public class LightChainNode implements BaseNode {
     this.availableTransactions = temporary;
 
     //  this.transactionLock.writeLock().unlock();
-
-    this.metricsCollector.gauge().dec("transaction_count", this.uuid, requiredNumber);
 
     network.send(requester, new DeliverTransactionsEvent(requestedTransactions));
 
