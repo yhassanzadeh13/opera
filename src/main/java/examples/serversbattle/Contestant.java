@@ -42,7 +42,6 @@ public class Contestant implements BaseNode {
 
   @Override
   public void onCreate(ArrayList<UUID> allId) {
-
     Random rand = new Random();
     this.healthLevel = rand.nextInt(30) + 1;
     Simulator.getLogger().info("Contestant " + this.selfId + "was initialized with level " + this.healthLevel);

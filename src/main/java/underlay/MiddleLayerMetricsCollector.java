@@ -1,5 +1,10 @@
 package underlay;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -76,10 +81,15 @@ public class MiddleLayerMetricsCollector {
    * @param senderId   identifier of sender.
    * @param size       size of message in bytes.
    */
-  public void onMessageReceived(UUID receiverId, UUID senderId, int size) {
+  public void onMessageReceived(UUID receiverId, UUID senderId, int size, Timestamp sentTimeStamp) {
     MiddleLayerMetricsCollector.metricsCollector.counter().inc(Name.MESSAGE_RECEIVED_TOTAL, receiverId);
-    MiddleLayerMetricsCollector.metricsCollector.histogram()
-        .tryObserveDuration(Name.PROPAGATION_DELAY, delayBucketHash(senderId, receiverId));
+    LocalDateTime sentTime = sentTimeStamp.toLocalDateTime();
+    LocalDateTime receivedTime = LocalDateTime.now();
+    Duration propagationDelay = Duration.between(sentTime, receivedTime);
+
+    MiddleLayerMetricsCollector.metricsCollector.histogram().observe(Name.PROPAGATION_DELAY,
+        receiverId,
+        propagationDelay.toMillis());
     MiddleLayerMetricsCollector.metricsCollector.histogram().observe(Name.PACKET_SIZE, senderId, size);
   }
 
@@ -92,8 +102,6 @@ public class MiddleLayerMetricsCollector {
    */
   public void onMessageSent(UUID senderId, UUID receiverId) {
     MiddleLayerMetricsCollector.metricsCollector.counter().inc(Name.MESSAGE_SENT_TOTAL, senderId);
-    MiddleLayerMetricsCollector.metricsCollector.histogram()
-        .startTimer(Name.PROPAGATION_DELAY, senderId, delayBucketHash(senderId, receiverId));
   }
 
   /**

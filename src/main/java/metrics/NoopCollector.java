@@ -36,15 +36,6 @@ public class NoopCollector implements MetricsCollector {
     }
 
     @Override
-    public void startTimer(String name, UUID id, String timerId) {
-    }
-
-
-    @Override
-    public void tryObserveDuration(String name, String timerId) {
-    }
-
-    @Override
     public void register(String name, String namespace, String subsystem, String helpMessage, double[] buckets)
         throws IllegalArgumentException {
     }
