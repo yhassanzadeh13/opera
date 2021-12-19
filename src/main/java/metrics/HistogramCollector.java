@@ -18,10 +18,6 @@ public interface HistogramCollector {
 
   Histogram get(String name) throws IllegalArgumentException;
 
-  void startTimer(String name, UUID id, String timerId);
-
-  void tryObserveDuration(String name, String timerId);
-
   void register(String name, String namespace, String subsystem, String helpMessage, double[] buckets)
       throws IllegalArgumentException;
 }

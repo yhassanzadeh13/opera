@@ -14,7 +14,6 @@ import simulator.Simulator;
  */
 public class OperaHistogram extends OperaMetric implements HistogramCollector {
 
-  private static final HashMap<String, HashMap<String, ArrayDeque<Histogram.Timer>>> timersByName = new HashMap<>();
 
   /**
    * Record a new value for the histogram with a specific name and id.
@@ -35,50 +34,6 @@ public class OperaHistogram extends OperaMetric implements HistogramCollector {
       throw new IllegalArgumentException("Histogram name does not exist: " + name);
     }
     return (Histogram) collectors.get(name);
-  }
-
-  /**
-   * Start a time for recoding a duration and add it to the histogram with a specific name, and timer ID.
-   * The time recording finishes once the observeDuration method is called with the same name, and timer ID.
-   * The time elapsed will be recorded under the node with the given id.
-   * In case of starting two timers with the same timer ID, the observeDuration method will stop the earliest one.
-   *
-   * @param name    name of metric.
-   * @param id      identifier of node associated with metric.
-   * @param timerId identifier of timer.
-   */
-  @Override
-  public void startTimer(String name, UUID id, String timerId) {
-    Histogram metric = get(name);
-
-    if (!timersByName.containsKey(name)) {
-      timersByName.put(name, new HashMap<>());
-    }
-
-    if (!timersByName.get(name).containsKey(timerId)) {
-      timersByName.get(name).put(timerId, new ArrayDeque<>());
-    }
-
-    timersByName.get(name).get(timerId).addLast(metric.labels(id.toString()).startTimer());
-
-    Simulator.getLogger().debug("[SimulatorHistogram] Timer of name "
-        + name + " and id " + timerId + " has started at time " + System.currentTimeMillis());
-  }
-
-  /**
-   * Silently observes the duration of the already started timer with a specific name and timer ID.
-   * In case timer has not already been started, it simply returns without logging any error.
-   *
-   * @param name    of the metric.
-   * @param timerId unique identifier for the timer.
-   */
-  @Override
-  public void tryObserveDuration(String name, String timerId) {
-    if (timersByName.get(name) == null || timersByName.get(name).get(timerId) == null) {
-      return;
-    }
-    timersByName.get(name).get(timerId).getFirst().observeDuration();
-    timersByName.get(name).get(timerId).removeFirst();
   }
 
   /**

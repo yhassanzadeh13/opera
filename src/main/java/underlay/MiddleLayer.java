@@ -127,7 +127,10 @@ public class MiddleLayer {
   public void receive(Request request) {
     // check the readiness of the overlay
     SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(nodeId);
-    this.metricsCollector.onMessageReceived(nodeId, request.getOriginalId(), request.getEvent().size());
+    this.metricsCollector.onMessageReceived(nodeId,
+        request.getOriginalId(),
+        request.getEvent().size(),
+        request.getSentTimeStamp());
 
 
     log.info("[MiddleLayer] " + this.getAddress(nodeId)
