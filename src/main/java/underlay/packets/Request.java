@@ -2,7 +2,6 @@ package underlay.packets;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -17,8 +16,8 @@ public class Request implements Serializable {
   /**
    * Constructor for the Request.
    *
-   * @param event Event of the request
-   * @param originalId sender of the request
+   * @param event         Event of the request
+   * @param originalId    sender of the request
    * @param destinationId reciever of the request
    */
   public Request(Event event, UUID originalId, UUID destinationId) {
@@ -40,5 +39,7 @@ public class Request implements Serializable {
     return destinationId;
   }
 
-  public Timestamp getSentTimeStamp(){return sentTimeStamp;}
+  public Timestamp getSentTimeStamp() {
+    return sentTimeStamp;
+  }
 }
