@@ -30,14 +30,14 @@ import utils.generator.GaussianGenerator;
  *
  * @param <T> Type of the BaseNode.
  */
-public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
+public class Simulator implements Orchestrator {
   private static final Random rand = new Random();
   private static final UUID SimulatorID = UUID.randomUUID();
   public static Logger log = Logger.getLogger(Simulator.class.getName());
   private final ArrayList<UUID> allId;
   private final HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses;
   private final HashMap<SimpleEntry<String, Integer>, Boolean> isReady;
-  private final T factory;
+  private final Factory factory;
   private final ArrayList<UUID> offlineNodes = new ArrayList<>();
   private final CountDownLatch count;
   private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
@@ -50,21 +50,20 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
   /**
    * Initializes a new simulation.
    *
-   * @param factory     a dummy factory instance of special node class.
-   * @param n           the number of nodes.
+   * @param factory     factory object to create nodes based on inventory.
    * @param networkType the type of simulated communication protocol(**tcp**, **javarmi**, **udp**, and **mockNetwork*)
    */
-  public Simulator(T factory, int n, UnderlayType networkType) {
+  public Simulator(Factory factory, UnderlayType networkType) {
     this.factory = factory;
     this.isReady = new HashMap<>();
-    this.allId = generateIds(n);
+    this.allId = generateIds(factory.getTotalNodes());
     int startPort = 2000;
-    this.allFullAddresses = generateFullAddressed(n, startPort + 1);
+    this.allFullAddresses = generateFullAddressed(factory.getTotalNodes(), startPort + 1);
 
     SimulatorUtils.configurePrometheus();
 
     // CountDownLatch for awaiting the start of the simulation until all nodes are ready
-    count = new CountDownLatch(n);
+    count = new CountDownLatch(factory.getTotalNodes());
 
     // initializes metrics collector
     this.metricsCollector = new OperaCollector();
