@@ -5,9 +5,9 @@ import node.BaseNode;
 public class Recipe {
   private final BaseNode baseNode;
   private final String nameSpace;
-  private final short total;
+  private final int total;
 
-  public Recipe(BaseNode baseNode, String nameSpace, short total) {
+  public Recipe(BaseNode baseNode, String nameSpace, int total) {
     this.baseNode = baseNode;
     this.nameSpace = nameSpace;
     this.total = total;
@@ -21,7 +21,7 @@ public class Recipe {
     return nameSpace;
   }
 
-  public short getTotal() {
+  public int getTotal() {
     return total;
   }
 }
