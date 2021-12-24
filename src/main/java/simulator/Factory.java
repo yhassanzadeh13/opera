@@ -1,29 +1,26 @@
 package simulator;
 
-import java.util.Hashtable;
-import java.util.Iterator;
-
-import node.BaseNode;
+import java.util.ArrayList;
 
 public class Factory {
-  private Hashtable<BaseNode, Short> inventory;
+  private final ArrayList<Recipe> recipes;
   private int total;
 
-  public Factory(){
-    this.inventory = new Hashtable<>();
+  public Factory() {
+    this.recipes = new ArrayList<>();
     this.total = 0;
   }
 
-  public void AddRecipe(BaseNode node, short number){
-      this.inventory.put(node, number);
-      this.total += number;
+  public void AddRecipe(Recipe r) {
+    this.recipes.add(r);
+    this.total += r.getTotal();
   }
 
-  public Hashtable<BaseNode, Short> getInventory() {
-    return this.inventory;
+  public ArrayList<Recipe> getRecipes() {
+    return recipes;
   }
 
-  public int getTotalNodes(){
+  public int getTotalNodes() {
     return this.total;
   }
 }
