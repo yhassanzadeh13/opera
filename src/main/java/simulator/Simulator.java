@@ -27,14 +27,11 @@ import utils.generator.GaussianGenerator;
  * Simulator simulates situations between nodes with actions performed between the nodes.
  * Simulator also can create new instances for the nodes.
  * Simulator can simulate in two ways: churn-based, time-based.
- *
- * @param <T> Type of the BaseNode.
  */
 public class Simulator implements Orchestrator {
   private static final Random rand = new Random();
-  private static final UUID SimulatorID = UUID.randomUUID();
   public static Logger log = Logger.getLogger(Simulator.class.getName());
-  private final ArrayList<UUID> allId;
+  private final ArrayList<UUID> allId = new ArrayList<>();
   private final HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses;
   private final HashMap<SimpleEntry<String, Integer>, Boolean> isReady;
   private final Factory factory;
@@ -56,7 +53,6 @@ public class Simulator implements Orchestrator {
   public Simulator(Factory factory, UnderlayType networkType) {
     this.factory = factory;
     this.isReady = new HashMap<>();
-    this.allId = generateIds(factory.getTotalNodes());
     int startPort = 2000;
     this.allFullAddresses = generateFullAddressed(factory.getTotalNodes(), startPort + 1);
 
@@ -122,12 +118,18 @@ public class Simulator implements Orchestrator {
     log.debug("[simulator.simulator] Generating new nodes instances");
 
     // generate nodes, and middle layers instances
-    for (UUID id : allId) {
-      isReady.put(this.allFullAddresses.get(id), false);
-      MiddleLayer middleLayer = new MiddleLayer(id, this.allFullAddresses, isReady, this, this.metricsCollector);
-      BaseNode node = factory.newInstance(id, middleLayer, this.metricsCollector);
-      middleLayer.setOverlay(node);
-      this.allMiddleLayers.put(this.allFullAddresses.get(id), middleLayer);
+    for (Recipe r : this.factory.getRecipes()) {
+      for(int i = 0; i < r.getTotal(); i++){
+        UUID id = UUID.randomUUID();
+        allId.add(id);
+
+        isReady.put(this.allFullAddresses.get(id), false);
+        MiddleLayer middleLayer = new MiddleLayer(id, this.allFullAddresses, isReady, this, this.metricsCollector);
+
+        BaseNode node = r.getBaseNode().newInstance(id, middleLayer, this.metricsCollector);
+        middleLayer.setOverlay(node);
+        this.allMiddleLayers.put(this.allFullAddresses.get(id), middleLayer);
+      }
     }
 
     // generate new underlays and assign them to the nodes middles layers.
@@ -147,12 +149,7 @@ public class Simulator implements Orchestrator {
     }
   }
 
-  @Override
-  public void onCreate(ArrayList<UUID> allId) {
-  }
-
-  @Override
-  public void onStart() {
+  public void start() {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     LocalDateTime now = LocalDateTime.now();
     log.info("New simulation started on " + dtf.format(now));
@@ -169,25 +166,13 @@ public class Simulator implements Orchestrator {
     }
   }
 
-  @Override
-  public void onStop() {
+  public void terminate() {
     log.info("Nodes will be terminated....");
 
     //terminating all nodes
     while (!onlineNodes.isEmpty()) {
       this.done(onlineNodes.poll().getValue());
     }
-  }
-
-  @Override
-  public void onNewMessage(UUID originId, Event msg) {
-    // TODO make the communication between the nodes and the master nodes through the underlay
-    msg.actionPerformed(this);
-  }
-
-  @Override
-  public BaseNode newInstance(UUID selfId, MiddleLayer middleLayer, MetricsCollector metricsCollector) {
-    return null;
   }
 
   /**
@@ -275,7 +260,7 @@ public class Simulator implements Orchestrator {
    * @param duration duration of the simulation
    */
   public void constantSimulation(int duration) {
-    this.onStart();
+    this.start();
     getLogger().info("Simulation started");
 
     try {
@@ -286,7 +271,7 @@ public class Simulator implements Orchestrator {
 
     log.info("Simulation duration finished");
 
-    this.onStop();
+    this.terminate();
   }
 
   public String getAddress(UUID nodeId) {
@@ -303,7 +288,7 @@ public class Simulator implements Orchestrator {
    */
   public void churnSimulation(long lifeTime, BaseGenerator interArrivalGen, BaseGenerator sessionLengthGenerator) {
     // initialize all nodes
-    this.onStart();
+    this.start();
     System.out.println("Simulation started");
     getLogger().info("Simulation started");
 
@@ -387,7 +372,7 @@ public class Simulator implements Orchestrator {
     System.out.println("Simulation duration finished");
 
     // stop the simulation.
-    this.onStop();
+    this.terminate();
   }
 
   /**
