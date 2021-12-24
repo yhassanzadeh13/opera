@@ -19,8 +19,7 @@ public class Main {
     final String nameSpace = "demo-contestant";
     Factory factory = new Factory();
     factory.AddRecipe(new Recipe(new Contestant(), nameSpace, 4));
-
-    Simulator sim = new Simulator(factory, UnderlayType.TCP_PROTOCOL);
-    sim.constantSimulation(10000);
+    Simulator simulator = new Simulator(factory, UnderlayType.TCP_PROTOCOL);
+    simulator.constantSimulation(10000);
   }
 }

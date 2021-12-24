@@ -1,5 +1,8 @@
 package scenario.pov;
 
+import examples.serversbattle.Contestant;
+import simulator.Factory;
+import simulator.Recipe;
 import simulator.Simulator;
 import underlay.UnderlayType;
 
@@ -11,13 +14,11 @@ public class Simulation {
    * Simulates the event in a mock network type underlay with @numNodes times fixture node in @duration ms.
    */
   public static void main(String[] args) {
-
-    int numNodes = 21;
     int duration = 1000000;
-
-    LightChainNode fixtureNode = new LightChainNode();
-    Simulator<LightChainNode> simulator = new Simulator<>(fixtureNode, numNodes, UnderlayType.MOCK_NETWORK);
-
+    final String nameSpace = "demo-lightchain";
+    Factory factory = new Factory();
+    factory.AddRecipe(new Recipe(new LightChainNode(), nameSpace, 21));
+    Simulator simulator = new Simulator(factory, UnderlayType.MOCK_NETWORK);
     simulator.constantSimulation(duration);
   }
 
