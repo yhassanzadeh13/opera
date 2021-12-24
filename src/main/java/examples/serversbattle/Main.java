@@ -16,7 +16,7 @@ public class Main {
    * @param args nothing
    */
   public static void main(String[] args) {
-    final String nameSpace = "demo-contestant";
+    final String nameSpace = "example-contestant";
     Factory factory = new Factory();
     factory.AddRecipe(new Recipe(new Contestant(), nameSpace, 4));
     Simulator simulator = new Simulator(factory, UnderlayType.TCP_PROTOCOL);
