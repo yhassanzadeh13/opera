@@ -1,5 +1,7 @@
 package examples.helloservers;
 
+import simulator.Factory;
+import simulator.Recipe;
 import simulator.Simulator;
 import underlay.UnderlayType;
 import utils.generator.UniformGenerator;
@@ -17,8 +19,10 @@ public class Main {
    * @param args nothing
    */
   public static void main(String[] args) {
-    MyNode fixtureNode = new MyNode();
-    Simulator<MyNode> simulation = new Simulator<MyNode>(fixtureNode, 5, UnderlayType.MOCK_NETWORK);
-    simulation.churnSimulation(100000, new UniformGenerator(500, 1000), new UniformGenerator(2000, 3000));
+    final String nameSpace = "example-helloservers";
+    Factory factory = new Factory();
+    factory.addRecipe(new Recipe(new MyNode(), nameSpace, 5));
+    Simulator simulator = new Simulator(factory, UnderlayType.MOCK_NETWORK);
+    simulator.churnSimulation(100000, new UniformGenerator(500, 1000), new UniformGenerator(2000, 3000));
   }
 }
