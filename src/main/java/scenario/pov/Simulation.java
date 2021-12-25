@@ -1,6 +1,5 @@
 package scenario.pov;
 
-import examples.serversbattle.Contestant;
 import simulator.Factory;
 import simulator.Recipe;
 import simulator.Simulator;
@@ -17,7 +16,7 @@ public class Simulation {
     int duration = 1000000;
     final String nameSpace = "demo-lightchain";
     Factory factory = new Factory();
-    factory.AddRecipe(new Recipe(new LightChainNode(), nameSpace, 21));
+    factory.addRecipe(new Recipe(new LightChainNode(), nameSpace, 21));
     Simulator simulator = new Simulator(factory, UnderlayType.MOCK_NETWORK);
     simulator.constantSimulation(duration);
   }

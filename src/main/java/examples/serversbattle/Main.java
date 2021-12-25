@@ -18,7 +18,7 @@ public class Main {
   public static void main(String[] args) {
     final String nameSpace = "example-contestant";
     Factory factory = new Factory();
-    factory.AddRecipe(new Recipe(new Contestant(), nameSpace, 4));
+    factory.addRecipe(new Recipe(new Contestant(), nameSpace, 4));
     Simulator simulator = new Simulator(factory, UnderlayType.TCP_PROTOCOL);
     simulator.constantSimulation(10000);
   }

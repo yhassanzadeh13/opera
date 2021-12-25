@@ -1,6 +1,5 @@
 package examples.helloservers;
 
-import scenario.pov.LightChainNode;
 import simulator.Factory;
 import simulator.Recipe;
 import simulator.Simulator;
@@ -22,7 +21,7 @@ public class Main {
   public static void main(String[] args) {
     final String nameSpace = "example-helloservers";
     Factory factory = new Factory();
-    factory.AddRecipe(new Recipe(new MyNode(), nameSpace, 5));
+    factory.addRecipe(new Recipe(new MyNode(), nameSpace, 5));
     Simulator simulator = new Simulator(factory, UnderlayType.MOCK_NETWORK);
     simulator.churnSimulation(100000, new UniformGenerator(500, 1000), new UniformGenerator(2000, 3000));
   }

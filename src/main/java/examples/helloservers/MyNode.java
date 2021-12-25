@@ -10,24 +10,18 @@ import underlay.MiddleLayer;
 import underlay.packets.Event;
 
 /**
- * MyNode is a basenode to be fixture node for the helloservers simulation.
+ * MyNode is a basenode to be fixture node for the hello servers simulation.
  */
 public class MyNode implements BaseNode {
   private static final String MESSAGE_COUNT = "MessageCnt";
-  private UUID selfId;
+  private final UUID selfId;
   private ArrayList<UUID> allId;
-  private MiddleLayer network;
-  private MetricsCollector metricsCollector;
-
-  // TODO: enable metrics
-  MyNode() {
-  }
+  private final MiddleLayer network;
+  private MetricsCollector metricsCollector; // TODO: enable metrics
 
   MyNode(UUID selfId, MiddleLayer network, MetricsCollector metricsCollector) {
     this.selfId = selfId;
     this.network = network;
-
-    //Register metrics
     this.metricsCollector = metricsCollector;
   }
 
@@ -74,7 +68,7 @@ public class MyNode implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(UUID selfId, MiddleLayer network, MetricsCollector metricsCollector) {
+  public BaseNode newInstance(UUID selfId, String nameSpace, MiddleLayer network, MetricsCollector metricsCollector) {
     return new MyNode(selfId, network, metricsCollector);
   }
 }
