@@ -125,7 +125,7 @@ public class Simulator implements Orchestrator {
         isReady.put(this.allFullAddresses.get(id), false);
         MiddleLayer middleLayer = new MiddleLayer(id, this.allFullAddresses, isReady, this, this.metricsCollector);
 
-        BaseNode node = r.getBaseNode().newInstance(id, middleLayer, this.metricsCollector);
+        BaseNode node = r.getBaseNode().newInstance(id, r.getNameSpace(), middleLayer, this.metricsCollector);
         middleLayer.setOverlay(node);
         this.allMiddleLayers.put(this.allFullAddresses.get(id), middleLayer);
       }
