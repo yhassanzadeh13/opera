@@ -16,7 +16,6 @@ import underlay.MiddleLayer;
 import underlay.UnderlayFactory;
 import underlay.UnderlayType;
 import underlay.local.LocalUnderlay;
-import underlay.packets.Event;
 import utils.SimpleEntryComparable;
 import utils.SimulatorUtils;
 import utils.generator.BaseGenerator;
@@ -119,7 +118,7 @@ public class Simulator implements Orchestrator {
 
     // generate nodes, and middle layers instances
     for (Recipe r : this.factory.getRecipes()) {
-      for(int i = 0; i < r.getTotal(); i++){
+      for (int i = 0; i < r.getTotal(); i++) {
         UUID id = UUID.randomUUID();
         allId.add(id);
 
@@ -149,6 +148,9 @@ public class Simulator implements Orchestrator {
     }
   }
 
+  /**
+   * Starts the simulator and spawns the identified number of nodes.
+   */
   public void start() {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     LocalDateTime now = LocalDateTime.now();
@@ -166,6 +168,9 @@ public class Simulator implements Orchestrator {
     }
   }
 
+  /**
+   * terminates the simulator and all spawned nodes.
+   */
   public void terminate() {
     log.info("Nodes will be terminated....");
 
