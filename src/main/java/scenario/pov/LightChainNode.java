@@ -183,11 +183,12 @@ public class LightChainNode implements BaseNode {
    * creates a new instance of LightChainNode.
    *
    * @param selfId  the ID of the new node
+   * @param nameSpace string tag to virtually group the nodes (with identical tags)
    * @param network communication network for the new node
    * @return a new instance of LightChainNode
    */
   @Override
-  public BaseNode newInstance(UUID selfId, MiddleLayer network, MetricsCollector metrics) {
+  public BaseNode newInstance(UUID selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics) {
     return new LightChainNode(selfId, network, metrics);
   }
 

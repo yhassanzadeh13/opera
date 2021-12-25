@@ -35,7 +35,7 @@ public class NodeThread<T extends BaseNode> extends Thread {
     this.selfId = selfId;
     this.allId = allId;
     this.metrics = metrics;
-    node = factory.newInstance(selfId, middleLayer, metrics);
+    node = factory.newInstance(selfId, null, middleLayer, metrics);
   }
 
   @Override
