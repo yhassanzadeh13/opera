@@ -30,7 +30,7 @@ import utils.generator.GaussianGenerator;
 public class Simulator implements Orchestrator {
   private static final Random rand = new Random();
   public static Logger log = Logger.getLogger(Simulator.class.getName());
-  private final ArrayList<UUID> allId = new ArrayList<>();
+  private final ArrayList<UUID> allId;
   private final HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses;
   private final HashMap<SimpleEntry<String, Integer>, Boolean> isReady;
   private final Factory factory;
@@ -53,6 +53,7 @@ public class Simulator implements Orchestrator {
     this.factory = factory;
     this.isReady = new HashMap<>();
     int startPort = 2000;
+    this.allId = generateIds(factory.getTotalNodes());
     this.allFullAddresses = generateFullAddressed(factory.getTotalNodes(), startPort + 1);
 
     SimulatorUtils.configurePrometheus();
@@ -114,13 +115,12 @@ public class Simulator implements Orchestrator {
    */
   private void generateNodesInstances(UnderlayType networkType) {
     this.allMiddleLayers = new HashMap<>();
-    log.debug("[simulator.simulator] Generating new nodes instances");
 
     // generate nodes, and middle layers instances
+    int globalIndex = 0;
     for (Recipe r : this.factory.getRecipes()) {
       for (int i = 0; i < r.getTotal(); i++) {
-        UUID id = UUID.randomUUID();
-        allId.add(id);
+        UUID id = allId.get(globalIndex++);
 
         isReady.put(this.allFullAddresses.get(id), false);
         MiddleLayer middleLayer = new MiddleLayer(id, this.allFullAddresses, isReady, this, this.metricsCollector);

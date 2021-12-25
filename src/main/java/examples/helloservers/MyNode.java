@@ -14,15 +14,19 @@ import underlay.packets.Event;
  */
 public class MyNode implements BaseNode {
   private static final String MESSAGE_COUNT = "MessageCnt";
-  private final UUID selfId;
+  private UUID selfId;
   private ArrayList<UUID> allId;
-  private final MiddleLayer network;
+  private MiddleLayer network;
   private MetricsCollector metricsCollector; // TODO: enable metrics
 
   MyNode(UUID selfId, MiddleLayer network, MetricsCollector metricsCollector) {
     this.selfId = selfId;
     this.network = network;
     this.metricsCollector = metricsCollector;
+  }
+
+  public MyNode() {
+
   }
 
 
