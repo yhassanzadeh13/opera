@@ -1,15 +1,15 @@
 package events;
 
-import node.BaseNode;
 import network.packets.Event;
+import node.BaseNode;
 
 /**
  * StopStartEvent is an event can be used to call onstart or onstop method of the node.
  */
 public class StopStartEvent implements Event {
-  private String address;
-  private int port;
-  private boolean start;
+  private final String address;
+  private final int port;
+  private final boolean start;
 
   /**
    * create new stop/start event to be invoked by the node.

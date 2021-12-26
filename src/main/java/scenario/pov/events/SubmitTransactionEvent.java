@@ -1,9 +1,9 @@
 package scenario.pov.events;
 
+import network.packets.Event;
 import node.BaseNode;
 import scenario.pov.LightChainNode;
 import scenario.pov.Transaction;
-import network.packets.Event;
 
 /**
  * Adds a new transaction to a node.
@@ -11,7 +11,7 @@ import network.packets.Event;
  */
 public class SubmitTransactionEvent implements Event {
 
-  private Transaction transaction;
+  private final Transaction transaction;
 
   public SubmitTransactionEvent(Transaction transaction) {
     this.transaction = transaction;

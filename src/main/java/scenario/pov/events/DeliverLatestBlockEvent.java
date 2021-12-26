@@ -1,9 +1,9 @@
 package scenario.pov.events;
 
+import network.packets.Event;
 import node.BaseNode;
 import scenario.pov.Block;
 import scenario.pov.LightChainNode;
-import network.packets.Event;
 
 
 /**
@@ -11,7 +11,7 @@ import network.packets.Event;
  */
 public class DeliverLatestBlockEvent implements Event {
 
-  private Block latestBlock;
+  private final Block latestBlock;
 
   public DeliverLatestBlockEvent(Block latestBlock) {
     this.latestBlock = latestBlock;

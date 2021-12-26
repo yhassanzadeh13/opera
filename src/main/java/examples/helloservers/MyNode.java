@@ -5,9 +5,9 @@ import java.util.Random;
 import java.util.UUID;
 
 import metrics.MetricsCollector;
-import node.BaseNode;
 import network.MiddleLayer;
 import network.packets.Event;
+import node.BaseNode;
 
 /**
  * MyNode is a basenode to be fixture node for the hello servers simulation.

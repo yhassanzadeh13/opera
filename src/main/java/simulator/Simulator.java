@@ -4,8 +4,8 @@ import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.*;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.concurrent.CountDownLatch;
 
 import metrics.MetricsCollector;

@@ -1,9 +1,9 @@
 package scenario.pov;
 
+import network.UnderlayType;
 import simulator.Factory;
 import simulator.Recipe;
 import simulator.Simulator;
-import network.UnderlayType;
 
 /**
  * Simulation uses simulator to simulate an event with given number of given node and in a given duration of time.

@@ -6,12 +6,12 @@ import java.io.InputStream;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
-import org.yaml.snakeyaml.Yaml;
 import network.javarmi.JavaRmiUnderlay;
 import network.local.LocalUnderlay;
 import network.tcp.TcpUnderlay;
 import network.udp.UdpUnderlay;
+import org.apache.log4j.Logger;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * UnderlayFactory is a factory which consists of Underlays.

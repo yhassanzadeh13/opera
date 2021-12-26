@@ -4,9 +4,9 @@ import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ExportException;
 
-import simulator.Simulator;
 import network.Underlay;
 import network.packets.Request;
+import simulator.Simulator;
 
 
 /**

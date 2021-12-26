@@ -1,9 +1,9 @@
 package scenario.pov.events;
 
+import network.packets.Event;
 import node.BaseNode;
 import scenario.pov.Block;
 import scenario.pov.LightChainNode;
-import network.packets.Event;
 
 
 /**
@@ -12,7 +12,7 @@ import network.packets.Event;
  */
 public class ValidateBlockEvent implements Event {
 
-  private Block block;
+  private final Block block;
 
   public ValidateBlockEvent(Block block) {
     this.block = block;

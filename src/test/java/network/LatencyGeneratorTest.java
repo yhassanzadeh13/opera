@@ -11,6 +11,7 @@ import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.Test;
 import utils.Fixtures;
 
+
 public class LatencyGeneratorTest {
   static final int NODE_CNT = 1000;
 
@@ -45,7 +46,7 @@ public class LatencyGeneratorTest {
       totalDelay += delay;
     }
     double mean = (double) totalDelay / ITERATIONS;
-    assertTrue(Math.abs(mean - latencyGenerator.MEAN_LATENCY) <= EPS);
+    assertTrue(Math.abs(mean - latencyGenerator.MeanLatency) <= EPS);
 
     // TODO: add std test
   }

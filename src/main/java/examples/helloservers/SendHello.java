@@ -3,8 +3,8 @@ package examples.helloservers;
 import java.io.Serializable;
 import java.util.UUID;
 
-import node.BaseNode;
 import network.packets.Event;
+import node.BaseNode;
 
 /**
  * Sendhello is an event which enables node to send "Thank You" if the message is "Hello"

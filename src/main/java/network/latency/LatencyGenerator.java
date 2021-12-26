@@ -10,11 +10,11 @@ import utils.generator.GaussianGenerator;
  * Creates synthetic and symmetric latecy between nodes.
  */
 public class LatencyGenerator {
-  private HashMap<String, Integer> nodesSimulatedLatency;
-  public final int MEAN_LATENCY = 159;
-  public final int STD_LATENCY = 96;
+  public static final int MeanLatency = 159;
+  public static final int StdLatency = 96;
+  private final HashMap<String, Integer> nodesSimulatedLatency;
 
-  public LatencyGenerator(){
+  public LatencyGenerator() {
     this.nodesSimulatedLatency = new HashMap<>();
   }
 
@@ -34,7 +34,7 @@ public class LatencyGenerator {
     }
     String hash = SimulatorUtils.hashPairOfNodes(nodeA, nodeB);
     if (!this.nodesSimulatedLatency.containsKey(hash)) {
-      GaussianGenerator generator = new GaussianGenerator(MEAN_LATENCY, STD_LATENCY);
+      GaussianGenerator generator = new GaussianGenerator(MeanLatency, StdLatency);
       this.nodesSimulatedLatency.put(hash, generator.next());
     }
     return this.nodesSimulatedLatency.get(hash);

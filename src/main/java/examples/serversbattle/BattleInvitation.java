@@ -2,8 +2,8 @@ package examples.serversbattle;
 
 import java.util.UUID;
 
-import node.BaseNode;
 import network.packets.Event;
+import node.BaseNode;
 
 /**
  * BattleInvitation is an event to send battle invitations to another nodes.

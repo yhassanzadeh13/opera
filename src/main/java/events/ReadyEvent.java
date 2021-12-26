@@ -2,8 +2,8 @@ package events;
 
 import java.util.UUID;
 
-import node.BaseNode;
 import network.packets.Event;
+import node.BaseNode;
 
 /**
  * Ready Event is an event which can be used to declare a node is ready.

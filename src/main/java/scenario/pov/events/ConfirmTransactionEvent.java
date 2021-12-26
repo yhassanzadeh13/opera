@@ -2,9 +2,9 @@ package scenario.pov.events;
 
 import java.util.UUID;
 
+import network.packets.Event;
 import node.BaseNode;
 import scenario.pov.LightChainNode;
-import network.packets.Event;
 
 
 /**

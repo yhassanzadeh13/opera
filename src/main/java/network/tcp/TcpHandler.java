@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
-import simulator.Simulator;
 import network.packets.Request;
+import simulator.Simulator;
 
 
 /**
