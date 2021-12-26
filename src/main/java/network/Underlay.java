@@ -1,8 +1,8 @@
 package network;
 
+import network.packets.Request;
 import org.apache.log4j.Logger;
 import simulator.Simulator;
-import network.packets.Request;
 
 /**
  * Represents the underlay layer of the simulator.
@@ -10,8 +10,8 @@ import network.packets.Request;
 
 public abstract class Underlay {
 
-  private MiddleLayer middleLayer;
   protected static final Logger log = Logger.getLogger(Simulator.class.getName());
+  private MiddleLayer middleLayer;
 
   public abstract int getPort();
 

@@ -4,22 +4,21 @@ import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
 import metrics.MetricsCollector;
 import metrics.opera.OperaCollector;
-import node.BaseNode;
-import org.apache.log4j.Logger;
 import network.MiddleLayer;
 import network.UnderlayFactory;
 import network.UnderlayType;
 import network.local.LocalUnderlay;
+import node.BaseNode;
+import org.apache.log4j.Logger;
 import utils.SimpleEntryComparable;
 import utils.SimulatorUtils;
 import utils.generator.BaseGenerator;
-import utils.generator.GaussianGenerator;
 
 
 /**
@@ -39,7 +38,7 @@ public class Simulator implements Orchestrator {
   private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
   private final MetricsCollector metricsCollector;
   private final SimulatorMetricsCollector simulatorMetricsCollector;
-  public HashMap<String, Integer> nodesSimulatedLatency = new HashMap<>();
+
   private HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers;
   private PriorityQueue<SimpleEntryComparable<Long, UUID>> onlineNodes = new PriorityQueue<>();
 
@@ -233,30 +232,6 @@ public class Simulator implements Orchestrator {
     log.info(getAddress(nodeId) + ": node has been terminated");
   }
 
-  /**
-   * get the simulated delay based on the normal distribution extracted from the AWS.
-   *
-   * @param nodeA         first node
-   * @param nodeB         second node
-   * @param bidirectional True, if simulated latency from A to B is the same as from B to A
-   * @return new simulated latency
-   */
-  @Override
-  public int getSimulatedLatency(UUID nodeA, UUID nodeB, boolean bidirectional) {
-    if (bidirectional && nodeA.compareTo(nodeB) < 0) {
-      UUID tmp = nodeA;
-      nodeA = nodeB;
-      nodeB = tmp;
-    }
-    String hash = SimulatorUtils.hashPairOfNodes(nodeA, nodeB);
-    if (!this.nodesSimulatedLatency.containsKey(hash)) {
-      final int mean = 159;
-      final int std = 96;
-      GaussianGenerator generator = new GaussianGenerator(mean, std);
-      this.nodesSimulatedLatency.put(hash, generator.next());
-    }
-    return this.nodesSimulatedLatency.get(hash);
-  }
 
   /**
    * Used to start the simulation.

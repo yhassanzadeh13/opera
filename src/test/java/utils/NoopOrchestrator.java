@@ -19,9 +19,4 @@ public class NoopOrchestrator implements Orchestrator {
   public void done(UUID nodeId) {
 
   }
-
-  @Override
-  public int getSimulatedLatency(UUID nodeA, UUID nodeB, boolean bidirectional) {
-    return 0;
-  }
 }

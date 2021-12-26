@@ -122,7 +122,7 @@ public class MiddleLayerMetricsCollector {
   }
 
   private static class HelpMsg {
-    public static final String PROPAGATION_DELAY = "inter-node latency";
+    public static final String PROPAGATION_DELAY = "inter-node network.latency";
     public static final String MESSAGE_SENT_TOTAL = "total messages sent by a node";
     public static final String MESSAGE_RECEIVED_TOTAL = "total messages received by a node";
     public static final String PACKET_SIZE = "size of exchanged packet size";

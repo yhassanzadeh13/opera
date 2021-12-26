@@ -7,12 +7,13 @@ import java.util.UUID;
 
 import events.StopStartEvent;
 import metrics.MetricsCollector;
+import network.latency.LatencyGenerator;
+import network.packets.Event;
+import network.packets.Request;
 import node.BaseNode;
 import org.apache.log4j.Logger;
 import simulator.Orchestrator;
 import simulator.Simulator;
-import network.packets.Event;
-import network.packets.Request;
 import utils.SimulatorUtils;
 
 /**
@@ -29,6 +30,7 @@ public class MiddleLayer {
   // TODO : make the communication between the nodes and the simulator (the master node) through the network
   private final Orchestrator orchestrator;
   private final MiddleLayerMetricsCollector metricsCollector;
+  private final LatencyGenerator latencyGenerator;
   private Underlay underlay;
   private BaseNode overlay;
 
@@ -55,8 +57,7 @@ public class MiddleLayer {
     this.allFullAddresses = allFullAddresses;
     this.orchestrator = orchestrator;
     this.metricsCollector = new MiddleLayerMetricsCollector(metricsCollector);
-
-
+    this.latencyGenerator = new LatencyGenerator();
   }
 
   public Underlay getUnderlay() {
@@ -92,7 +93,7 @@ public class MiddleLayer {
     Integer port = fullAddress.getValue();
 
     // sleep for the simulated duration
-    int sleepTime = this.orchestrator.getSimulatedLatency(nodeId, destinationId, true);
+    int sleepTime = this.latencyGenerator.getSimulatedLatency(nodeId, destinationId, true);
     try {
       Thread.sleep(sleepTime);
     } catch (Exception e) {
