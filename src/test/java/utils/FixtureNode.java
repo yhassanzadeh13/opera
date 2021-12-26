@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 import metrics.MetricsCollector;
 import node.BaseNode;
-import underlay.MiddleLayer;
-import underlay.packets.Event;
+import network.MiddleLayer;
+import network.packets.Event;
 
 /**
  * A basic BaseNode to check whether Utils coded correctly or not.
@@ -16,7 +16,7 @@ public class FixtureNode implements BaseNode {
   private MiddleLayer network;
   public int receivedMessages = 0;
 
-  FixtureNode() {
+  public FixtureNode() {
   }
 
   FixtureNode(UUID selfId, MiddleLayer network) {

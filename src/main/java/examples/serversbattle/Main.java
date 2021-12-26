@@ -3,7 +3,7 @@ package examples.serversbattle;
 import simulator.Factory;
 import simulator.Recipe;
 import simulator.Simulator;
-import underlay.UnderlayType;
+import network.UnderlayType;
 
 /**
  * Servers battle is a simulator with 4 nodes.

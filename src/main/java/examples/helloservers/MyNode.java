@@ -6,8 +6,8 @@ import java.util.UUID;
 
 import metrics.MetricsCollector;
 import node.BaseNode;
-import underlay.MiddleLayer;
-import underlay.packets.Event;
+import network.MiddleLayer;
+import network.packets.Event;
 
 /**
  * MyNode is a basenode to be fixture node for the hello servers simulation.

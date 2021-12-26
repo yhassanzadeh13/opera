@@ -5,8 +5,8 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import metrics.MetricsCollector;
-import underlay.MiddleLayer;
-import underlay.packets.Event;
+import network.MiddleLayer;
+import network.packets.Event;
 
 
 /**

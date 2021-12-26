@@ -9,8 +9,8 @@ import metrics.MetricsCollector;
 import node.BaseNode;
 import org.apache.log4j.Logger;
 import scenario.pov.events.*;
-import underlay.MiddleLayer;
-import underlay.packets.Event;
+import network.MiddleLayer;
+import network.packets.Event;
 
 
 /**

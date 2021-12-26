@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import node.BaseNode;
-import underlay.packets.Event;
+import network.packets.Event;
 
 /**
  * Sendhello is an event which enables node to send "Thank You" if the message is "Hello"

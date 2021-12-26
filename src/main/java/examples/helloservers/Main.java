@@ -3,7 +3,7 @@ package examples.helloservers;
 import simulator.Factory;
 import simulator.Recipe;
 import simulator.Simulator;
-import underlay.UnderlayType;
+import network.UnderlayType;
 import utils.generator.UniformGenerator;
 
 /**

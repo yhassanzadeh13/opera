@@ -3,7 +3,7 @@ package scenario.pov.events;
 import node.BaseNode;
 import scenario.pov.Block;
 import scenario.pov.LightChainNode;
-import underlay.packets.Event;
+import network.packets.Event;
 
 
 /**

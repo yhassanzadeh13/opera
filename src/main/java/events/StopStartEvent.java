@@ -1,7 +1,7 @@
 package events;
 
 import node.BaseNode;
-import underlay.packets.Event;
+import network.packets.Event;
 
 /**
  * StopStartEvent is an event can be used to call onstart or onstop method of the node.

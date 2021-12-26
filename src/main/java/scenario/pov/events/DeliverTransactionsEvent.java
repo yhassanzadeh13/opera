@@ -5,7 +5,7 @@ import java.util.List;
 import node.BaseNode;
 import scenario.pov.LightChainNode;
 import scenario.pov.Transaction;
-import underlay.packets.Event;
+import network.packets.Event;
 
 
 /**

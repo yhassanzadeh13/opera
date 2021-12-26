@@ -3,7 +3,7 @@ package examples.serversbattle;
 import java.util.UUID;
 
 import node.BaseNode;
-import underlay.packets.Event;
+import network.packets.Event;
 
 /**
  * BattleResult is an event to declare the result of the battle between two nodes.
