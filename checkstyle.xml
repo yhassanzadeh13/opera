@@ -259,6 +259,7 @@
         </module>
         <module name="OverloadMethodsDeclarationOrder"/>
         <module name="VariableDeclarationUsageDistance"/>
+        <module name="UnusedImports"/>
         <module name="CustomImportOrder">
             <property name="customImportOrderRules" value="SPECIAL_IMPORTS###STANDARD_JAVA_PACKAGE###STATIC###THIRD_PARTY_PACKAGE"/>
             <property name="sortImportsInGroupAlphabetically" value="true"/>

@@ -4,14 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
+
 import metrics.NoopCollector;
-import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import underlay.local.LocalUnderlay;
@@ -20,13 +15,10 @@ import utils.NoopOrchestrator;
 /**
  * Test the communication and termination of every network underlay.
  */
-
 public class UnderlayTest {
   static final int THREAD_CNT = 50;
   static final int SLEEP_DURATION = 10000; // 10 seconds
-  private static final ConcurrentHashMap<Integer, Integer> usedPorts = new ConcurrentHashMap();
   private static final HashMap<AbstractMap.SimpleEntry<String, Integer>, Underlay> allUnderlays = new HashMap<>();
-  static JDKRandomGenerator rand = new JDKRandomGenerator();
 
   @AfterAll
   static void terminate() {
@@ -51,10 +43,10 @@ public class UnderlayTest {
         UUID id = allId.get(i);
 
         MiddleLayer middleLayer = new MiddleLayer(id,
-              allFullAddresses,
-              isReady,
-              new NoopOrchestrator(),
-              new NoopCollector());
+            allFullAddresses,
+            isReady,
+            new NoopOrchestrator(),
+            new NoopCollector());
         FixtureNode node = new FixtureNode(id, allId, middleLayer);
         middleLayer.setOverlay(node);
         Underlay underlay = UnderlayFactory.newUnderlay(underlayName, 0, middleLayer);
@@ -145,10 +137,10 @@ public class UnderlayTest {
       int port = allFullAddresses.get(id).getValue();
 
       MiddleLayer middleLayer = new MiddleLayer(id,
-            allFullAddresses,
-            isReady,
-            new NoopOrchestrator(),
-            new NoopCollector());
+          allFullAddresses,
+          isReady,
+          new NoopOrchestrator(),
+          new NoopCollector());
       FixtureNode node = new FixtureNode(id, allId, middleLayer);
       middleLayer.setOverlay(node);
 
