@@ -35,7 +35,7 @@ public class LatencyGenerator {
     String hash = SimulatorUtils.hashPairOfNodes(nodeA, nodeB);
     if (!this.nodesSimulatedLatency.containsKey(hash)) {
       GaussianGenerator generator = new GaussianGenerator(MeanLatency, StdLatency);
-      this.nodesSimulatedLatency.put(hash, generator.next());
+      this.nodesSimulatedLatency.put(hash, Math.abs(generator.next()));
     }
     return this.nodesSimulatedLatency.get(hash);
   }

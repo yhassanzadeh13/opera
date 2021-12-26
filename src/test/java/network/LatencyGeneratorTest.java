@@ -46,7 +46,7 @@ public class LatencyGeneratorTest {
       totalDelay += delay;
     }
     double mean = (double) totalDelay / ITERATIONS;
-    assertTrue(Math.abs(mean - latencyGenerator.MeanLatency) <= EPS);
+    assertTrue(Math.abs(mean - LatencyGenerator.MeanLatency) <= EPS);
 
     // TODO: add std test
   }
