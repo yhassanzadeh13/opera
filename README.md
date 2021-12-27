@@ -138,3 +138,35 @@ the JavaDoc Documentation can be found under the `doc` directory under the proje
 - All tests:`mvn test`
 - Tests in class: `mvn test -Dtest="underlay.UnderlayTest" `
 - Specific test: `mvn test -Dtest="underlay.UnderlayTest.A_testTCP" `
+
+## Setting up Development Environment
+### IntelliJ IDEA
+Make sure you have the latest version of Java JDK installed on your machine.
+
+Clone the project repository using the Github address.
+
+![Screenshot 2021-12-24 at 11 20 15 AM](https://user-images.githubusercontent.com/35961250/147369973-9fc0bc22-d401-4dd3-ba8d-dbd6d60468d1.png)
+
+Import the project as a `Maven` project into your IntelliJ IDEA.
+
+<img width="646" alt="Screenshot 2021-12-24 at 11 13 59 AM" src="https://user-images.githubusercontent.com/35961250/147369845-44594bad-5c7b-4a55-98a4-c9cbad65f8b5.png">
+
+Navigate to the folder the project is cloned to.
+
+<img width="568" alt="Screenshot 2021-12-24 at 11 14 49 AM" src="https://user-images.githubusercontent.com/35961250/147369872-c88d1dcd-acab-4246-a67a-7e0c2c98bd92.png">
+
+Create a project from the existing sources.
+
+<img width="1004" alt="Screenshot 2021-12-24 at 11 15 39 AM" src="https://user-images.githubusercontent.com/35961250/147369881-54d57814-fe7e-4944-80c4-1bfa6c6b993a.png">
+
+Proceed with other steps as you always do.
+Once the project is created, you will be prompted with a message on the bottom of your IDEA `Add as Maven Project`. Click on that.
+
+![Screenshot 2021-12-24 at 11 18 31 AM](https://user-images.githubusercontent.com/35961250/147369957-985f06c6-9d43-4d9e-8349-aa7e626d35e3.png)
+
+
+Wait until IDEA finishes the indexing process. The final project structure will look like below.
+
+![Screenshot 2021-12-24 at 11 24 00 AM](https://user-images.githubusercontent.com/35961250/147370054-497675a3-9d10-4703-baa8-f907ba299748.png)
+
+Now, to confirm that your setup works, run `make test` in your terminal. If you do not run into any errors, you are good to go!

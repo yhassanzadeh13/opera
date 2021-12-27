@@ -16,7 +16,6 @@ import underlay.MiddleLayer;
 import underlay.UnderlayFactory;
 import underlay.UnderlayType;
 import underlay.local.LocalUnderlay;
-import underlay.packets.Event;
 import utils.SimpleEntryComparable;
 import utils.SimulatorUtils;
 import utils.generator.BaseGenerator;
@@ -27,17 +26,14 @@ import utils.generator.GaussianGenerator;
  * Simulator simulates situations between nodes with actions performed between the nodes.
  * Simulator also can create new instances for the nodes.
  * Simulator can simulate in two ways: churn-based, time-based.
- *
- * @param <T> Type of the BaseNode.
  */
-public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
+public class Simulator implements Orchestrator {
   private static final Random rand = new Random();
-  private static final UUID SimulatorID = UUID.randomUUID();
   public static Logger log = Logger.getLogger(Simulator.class.getName());
   private final ArrayList<UUID> allId;
   private final HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses;
   private final HashMap<SimpleEntry<String, Integer>, Boolean> isReady;
-  private final T factory;
+  private final Factory factory;
   private final ArrayList<UUID> offlineNodes = new ArrayList<>();
   private final CountDownLatch count;
   private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
@@ -50,21 +46,20 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
   /**
    * Initializes a new simulation.
    *
-   * @param factory     a dummy factory instance of special node class.
-   * @param n           the number of nodes.
+   * @param factory     factory object to create nodes based on inventory.
    * @param networkType the type of simulated communication protocol(**tcp**, **javarmi**, **udp**, and **mockNetwork*)
    */
-  public Simulator(T factory, int n, UnderlayType networkType) {
+  public Simulator(Factory factory, UnderlayType networkType) {
     this.factory = factory;
     this.isReady = new HashMap<>();
-    this.allId = generateIds(n);
     int startPort = 2000;
-    this.allFullAddresses = generateFullAddressed(n, startPort + 1);
+    this.allId = generateIds(factory.getTotalNodes());
+    this.allFullAddresses = generateFullAddressed(factory.getTotalNodes(), startPort + 1);
 
     SimulatorUtils.configurePrometheus();
 
     // CountDownLatch for awaiting the start of the simulation until all nodes are ready
-    count = new CountDownLatch(n);
+    count = new CountDownLatch(factory.getTotalNodes());
 
     // initializes metrics collector
     this.metricsCollector = new OperaCollector();
@@ -120,15 +115,20 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
    */
   private void generateNodesInstances(UnderlayType networkType) {
     this.allMiddleLayers = new HashMap<>();
-    log.debug("[simulator.simulator] Generating new nodes instances");
 
     // generate nodes, and middle layers instances
-    for (UUID id : allId) {
-      isReady.put(this.allFullAddresses.get(id), false);
-      MiddleLayer middleLayer = new MiddleLayer(id, this.allFullAddresses, isReady, this, this.metricsCollector);
-      BaseNode node = factory.newInstance(id, middleLayer, this.metricsCollector);
-      middleLayer.setOverlay(node);
-      this.allMiddleLayers.put(this.allFullAddresses.get(id), middleLayer);
+    int globalIndex = 0;
+    for (Recipe r : this.factory.getRecipes()) {
+      for (int i = 0; i < r.getTotal(); i++) {
+        UUID id = allId.get(globalIndex++);
+
+        isReady.put(this.allFullAddresses.get(id), false);
+        MiddleLayer middleLayer = new MiddleLayer(id, this.allFullAddresses, isReady, this, this.metricsCollector);
+
+        BaseNode node = r.getBaseNode().newInstance(id, r.getNameSpace(), middleLayer, this.metricsCollector);
+        middleLayer.setOverlay(node);
+        this.allMiddleLayers.put(this.allFullAddresses.get(id), middleLayer);
+      }
     }
 
     // generate new underlays and assign them to the nodes middles layers.
@@ -148,12 +148,10 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
     }
   }
 
-  @Override
-  public void onCreate(ArrayList<UUID> allId) {
-  }
-
-  @Override
-  public void onStart() {
+  /**
+   * Starts the simulator and spawns the identified number of nodes.
+   */
+  public void start() {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     LocalDateTime now = LocalDateTime.now();
     log.info("New simulation started on " + dtf.format(now));
@@ -170,25 +168,16 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
     }
   }
 
-  @Override
-  public void onStop() {
+  /**
+   * terminates the simulator and all spawned nodes.
+   */
+  public void terminate() {
     log.info("Nodes will be terminated....");
 
     //terminating all nodes
     while (!onlineNodes.isEmpty()) {
       this.done(onlineNodes.poll().getValue());
     }
-  }
-
-  @Override
-  public void onNewMessage(UUID originId, Event msg) {
-    // TODO make the communication between the nodes and the master nodes through the underlay
-    msg.actionPerformed(this);
-  }
-
-  @Override
-  public BaseNode newInstance(UUID selfId, MiddleLayer middleLayer, MetricsCollector metricsCollector) {
-    return null;
   }
 
   /**
@@ -276,7 +265,7 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
    * @param duration duration of the simulation
    */
   public void constantSimulation(int duration) {
-    this.onStart();
+    this.start();
     getLogger().info("Simulation started");
 
     try {
@@ -287,7 +276,7 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
 
     log.info("Simulation duration finished");
 
-    this.onStop();
+    this.terminate();
   }
 
   public String getAddress(UUID nodeId) {
@@ -304,7 +293,7 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
    */
   public void churnSimulation(long lifeTime, BaseGenerator interArrivalGen, BaseGenerator sessionLengthGenerator) {
     // initialize all nodes
-    this.onStart();
+    this.start();
     System.out.println("Simulation started");
     getLogger().info("Simulation started");
 
@@ -388,7 +377,7 @@ public class Simulator<T extends BaseNode> implements BaseNode, Orchestrator {
     System.out.println("Simulation duration finished");
 
     // stop the simulation.
-    this.onStop();
+    this.terminate();
   }
 
   /**
