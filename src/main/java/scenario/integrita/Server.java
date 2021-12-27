@@ -9,21 +9,22 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class Server implements BaseNode {
-    UUID ID;
-    MiddleLayer Network;
-    ArrayList<UUID> AllId; // all ids including self
+    UUID id;
+    MiddleLayer network;
+    ArrayList<UUID> ids; // all ids including self
 
     public Server(){
 
     }
     public Server(UUID selfId, MiddleLayer network){
-        this.ID = selfId;
-        this.Network = network;
+        this.id = selfId;
+        this.network = network;
     }
 
     @Override
     public void onCreate(ArrayList<UUID> allId) {
-        this.AllId = allId;
+        this.ids = allId;
+        this.network.ready();
     }
 
     @Override
@@ -38,8 +39,7 @@ public class Server implements BaseNode {
 
     @Override
     public void onNewMessage(UUID originId, Event msg) {
-        System.out.println("Sender UUID: " + originId.toString());
-        msg.logMessage();
+        System.out.println("Sender UUID: " + originId.toString() + " message " + msg.logMessage());
     }
 
     @Override

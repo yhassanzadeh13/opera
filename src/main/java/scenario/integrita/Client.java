@@ -25,6 +25,7 @@ public class Client implements BaseNode {
     @Override
     public void onCreate(ArrayList<UUID> allId) {
         this.ids = allId;
+        this.network.ready();
     }
 
     @Override
