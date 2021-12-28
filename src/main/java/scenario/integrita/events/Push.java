@@ -8,6 +8,15 @@ public class Push implements Event {
     HistoryTreeNode historyTreeNode;
     String msg;
 
+    public Push(){
+
+    }
+
+    public Push(HistoryTreeNode historyTreeNode, String msg) {
+        this.historyTreeNode = historyTreeNode;
+        this.msg = msg;
+    }
+
     public void setMsg(String msg) {
         this.msg = msg;
     }
@@ -17,13 +26,21 @@ public class Push implements Event {
     }
 
     @Override
+    public String toString() {
+        return "Push{" +
+                "historyTreeNode=" + historyTreeNode +
+                ", msg='" + msg + '\'' +
+                '}';
+    }
+
+    @Override
     public boolean actionPerformed(BaseNode hostNode) {
         return false;
     }
 
     @Override
     public String logMessage() {
-        return msg;
+        return this.toString();
     }
 
     @Override
