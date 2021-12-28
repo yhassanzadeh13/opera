@@ -5,8 +5,9 @@ import scenario.integrita.utils.StatusCode;
 import underlay.packets.Event;
 
 public class PushResp implements Event {
-    String msg;
     StatusCode code;
+    String msg;
+
 
     public void setMsg(String msg) {
         this.msg = msg;
