@@ -2,6 +2,9 @@ package scenario.integrita;
 
 import metrics.MetricsCollector;
 import node.BaseNode;
+import scenario.integrita.events.PullResp;
+import scenario.integrita.events.Push;
+import scenario.integrita.events.PushResp;
 import underlay.MiddleLayer;
 import underlay.packets.Event;
 
@@ -40,6 +43,9 @@ public class Server implements BaseNode {
     @Override
     public void onNewMessage(UUID originId, Event msg) {
         System.out.println("Sender UUID: " + originId.toString() + " message " + msg.logMessage());
+        PushResp pushResp = new PushResp();
+        pushResp.setMsg("Hello Back");
+        network.send(originId, pushResp);
     }
 
     @Override
