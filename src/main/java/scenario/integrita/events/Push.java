@@ -1,13 +1,19 @@
 package scenario.integrita.events;
 
 import node.BaseNode;
+import scenario.integrita.historytree.HistoryTreeNode;
 import underlay.packets.Event;
 
 public class Push implements Event {
+    HistoryTreeNode historyTreeNode;
     String msg;
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public void setHistoryTreeNode(HistoryTreeNode historyTreeNode) {
+        this.historyTreeNode = historyTreeNode;
     }
 
     @Override
