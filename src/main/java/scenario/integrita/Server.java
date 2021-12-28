@@ -5,16 +5,21 @@ import node.BaseNode;
 import scenario.integrita.events.PullResp;
 import scenario.integrita.events.Push;
 import scenario.integrita.events.PushResp;
+import scenario.integrita.historytree.HistoryTreeNode;
+import scenario.integrita.historytree.NodeAddress;
+import scenario.integrita.utils.StatusCode;
 import underlay.MiddleLayer;
 import underlay.packets.Event;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class Server implements BaseNode {
     UUID id;
     MiddleLayer network;
     ArrayList<UUID> ids; // all ids including self
+    HashMap<NodeAddress, HistoryTreeNode> db = new HashMap<>();
 
     public Server(){
 
@@ -43,8 +48,7 @@ public class Server implements BaseNode {
     @Override
     public void onNewMessage(UUID originId, Event msg) {
         System.out.println("Sender UUID: " + originId.toString() + " message " + msg.logMessage());
-        PushResp pushResp = new PushResp();
-        pushResp.setMsg("Hello Back");
+        PushResp pushResp = new PushResp(StatusCode.Accept, "Hello Back");
         network.send(originId, pushResp);
     }
 
