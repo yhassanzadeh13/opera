@@ -34,6 +34,7 @@ public class Client implements BaseNode {
             if(receiver.equals(this.me)){
                 continue;
             }
+            
             Push pushMsg = new Push();
             pushMsg.setMsg("Hello");
             network.send(receiver, pushMsg);
@@ -47,6 +48,7 @@ public class Client implements BaseNode {
 
     @Override
     public void onNewMessage(UUID originId, Event msg) {
+        System.out.println("Sender UUID: " + originId.toString() + " message " + msg.logMessage());
 
     }
 
