@@ -3,6 +3,7 @@ package scenario.integrita;
 import metrics.MetricsCollector;
 import node.BaseNode;
 import scenario.integrita.events.Push;
+import scenario.integrita.historytree.HistoryTreeNode;
 import underlay.MiddleLayer;
 import underlay.packets.Event;
 
@@ -34,9 +35,8 @@ public class Client implements BaseNode {
             if(receiver.equals(this.me)){
                 continue;
             }
-            
-            Push pushMsg = new Push();
-            pushMsg.setMsg("Hello");
+            // create an empty node
+            Push pushMsg = new Push(new HistoryTreeNode(), "Hello");
             network.send(receiver, pushMsg);
         }
     }
