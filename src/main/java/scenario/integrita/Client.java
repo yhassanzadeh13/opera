@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class Client implements BaseNode {
-    UUID me;
+    UUID id;
     MiddleLayer network;
     ArrayList<UUID> ids; // all ids inclding self
 
@@ -19,7 +19,7 @@ public class Client implements BaseNode {
 
     }
     public Client(UUID selfId, MiddleLayer network){
-        this.me = selfId;
+        this.id = selfId;
         this.network = network;
     }
 
@@ -32,7 +32,7 @@ public class Client implements BaseNode {
     @Override
     public void onStart() {
         for (UUID receiver: ids){
-            if(receiver.equals(this.me)){
+            if(receiver.equals(this.id)){
                 continue;
             }
             // create an empty node
