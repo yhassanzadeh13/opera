@@ -1,6 +1,5 @@
 package scenario.integrita;
 
-import examples.serversbattle.Contestant;
 import simulator.Factory;
 import simulator.Recipe;
 import simulator.Simulator;
@@ -8,6 +7,9 @@ import underlay.UnderlayType;
 
 public class Main {
     public static void main(String[] args) {
+        /**
+         *
+         */
         final String nameSpace = "integrita";
         Factory factory = new Factory();
         factory.addRecipe(new Recipe(new Client(), nameSpace, 1));

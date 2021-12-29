@@ -1,5 +1,8 @@
 package scenario.integrita;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
 import metrics.MetricsCollector;
 import node.BaseNode;
 import scenario.integrita.events.Push;
@@ -7,18 +10,16 @@ import scenario.integrita.historytree.HistoryTreeNode;
 import underlay.MiddleLayer;
 import underlay.packets.Event;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
 public class Client implements BaseNode {
     UUID id;
     MiddleLayer network;
     ArrayList<UUID> ids; // all ids inclding self
 
-    public Client(){
+    public Client() {
 
     }
-    public Client(UUID selfId, MiddleLayer network){
+
+    public Client(UUID selfId, MiddleLayer network) {
         this.id = selfId;
         this.network = network;
     }
@@ -31,8 +32,8 @@ public class Client implements BaseNode {
 
     @Override
     public void onStart() {
-        for (UUID receiver: ids){
-            if(receiver.equals(this.id)){
+        for (UUID receiver : ids) {
+            if (receiver.equals(this.id)) {
                 continue;
             }
             // create an empty node

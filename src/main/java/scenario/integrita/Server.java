@@ -2,8 +2,6 @@ package scenario.integrita;
 
 import metrics.MetricsCollector;
 import node.BaseNode;
-import scenario.integrita.events.PullResp;
-import scenario.integrita.events.Push;
 import scenario.integrita.events.PushResp;
 import scenario.integrita.historytree.HistoryTreeNode;
 import scenario.integrita.historytree.NodeAddress;
@@ -21,10 +19,10 @@ public class Server implements BaseNode {
     ArrayList<UUID> ids; // all ids including self
     HashMap<NodeAddress, HistoryTreeNode> db = new HashMap<>();
 
-    public Server(){
-
+    public Server() {
     }
-    public Server(UUID selfId, MiddleLayer network){
+
+    public Server(UUID selfId, MiddleLayer network) {
         this.id = selfId;
         this.network = network;
     }
