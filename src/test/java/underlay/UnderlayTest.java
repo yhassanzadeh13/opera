@@ -39,7 +39,6 @@ public class UnderlayTest {
     ArrayList<FixtureNode> instances = new ArrayList<>();
     ArrayList<UUID> allId = new ArrayList<>();
     HashMap<UUID, AbstractMap.SimpleEntry<String, Integer>> allFullAddresses = new HashMap<>();
-    HashMap<AbstractMap.SimpleEntry<String, Integer>, Boolean> isReady = new HashMap<>();
 
     // generate IDs
     for (int i = 0; i < THREAD_CNT; i++) {
@@ -52,7 +51,6 @@ public class UnderlayTest {
 
         Network network = new Network(id,
               allFullAddresses,
-              isReady,
               new NoopOrchestrator(),
               new NoopCollector());
         FixtureNode node = new FixtureNode(id, allId, network);
@@ -119,7 +117,6 @@ public class UnderlayTest {
     ArrayList<FixtureNode> instances = new ArrayList<>();
     ArrayList<UUID> allId = new ArrayList<>();
     HashMap<UUID, AbstractMap.SimpleEntry<String, Integer>> allFullAddresses = new HashMap<>();
-    HashMap<AbstractMap.SimpleEntry<String, Integer>, Boolean> isReady = new HashMap<>();
 
     // generate IDs
     for (int i = 0; i < THREAD_CNT; i++) {
@@ -132,7 +129,6 @@ public class UnderlayTest {
       for (int i = 0; i < THREAD_CNT; i++) {
 
         allFullAddresses.put(allId.get(i), new AbstractMap.SimpleEntry<>(address, i));
-        isReady.put(new AbstractMap.SimpleEntry<>(address, i), true);
       }
 
     } catch (UnknownHostException e) {
@@ -146,7 +142,6 @@ public class UnderlayTest {
 
       Network network = new Network(id,
             allFullAddresses,
-            isReady,
             new NoopOrchestrator(),
             new NoopCollector());
       FixtureNode node = new FixtureNode(id, allId, network);

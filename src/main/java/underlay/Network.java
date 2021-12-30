@@ -37,13 +37,11 @@ public class Network {
    *
    * @param nodeId           Id of the node
    * @param allFullAddresses Hashmap of the all addresses
-   * @param isReady          Hashmap of whether nodes are ready or not
    * @param orchestrator     Orchestrator for the middle layer
    * @param metricsCollector Metrics collector for the middle layer
    */
   public Network(UUID nodeId,
                  HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses,
-                 HashMap<SimpleEntry<String, Integer>, Boolean> isReady, // TODO: isReady can be removed.
                  Orchestrator orchestrator,
                  MetricsCollector metricsCollector) {
 

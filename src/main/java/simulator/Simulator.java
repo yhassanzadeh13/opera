@@ -4,8 +4,8 @@ import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
 import metrics.MetricsCollector;
@@ -123,7 +123,7 @@ public class Simulator implements Orchestrator {
         UUID id = allId.get(globalIndex++);
 
         isReady.put(this.allFullAddresses.get(id), false);
-        Network network = new Network(id, this.allFullAddresses, isReady, this, this.metricsCollector);
+        Network network = new Network(id, this.allFullAddresses, this, this.metricsCollector);
 
         BaseNode node = r.getBaseNode().newInstance(id, r.getNameSpace(), network, this.metricsCollector);
         network.setOverlay(node);
