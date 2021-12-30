@@ -22,30 +22,4 @@ public class HistoryTreeNode {
             + '}';
   }
 
-  /**
-   * checks if the supplied address `addr` belongs to a full node.
-   * A full node is a node whose left and right sub-trees are full.
-   */
-  public boolean isFull(NodeAddress addr) {
-    int modulus = (int) Math.pow(2, addr.level);
-    int remainder = Math.floorMod(addr.position, modulus);
-    return (remainder == 0);
-  }
-
-  /**
-   * checks if the supplied address `addr` belongs to a temporary node i.e., not a full node.
-   */
-  public boolean isTemporary(NodeAddress addr) {
-    return !isFull(addr);
-  }
-
-  /**
-   * checks if the supplied address `addr` belongs to a history tree root.
-   */
-  public boolean isTreeDigest(NodeAddress addr) {
-    double denom = Math.ceil(Math.log(addr.position) / Math.log(2));
-    return (addr.level == denom);
-  }
-
-
 }
