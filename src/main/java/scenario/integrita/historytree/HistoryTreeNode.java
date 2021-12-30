@@ -32,5 +32,20 @@ public class HistoryTreeNode {
     return (remainder == 0);
   }
 
+  /**
+   * checks if the supplied address `addr` belongs to a temporary node i.e., not a full node.
+   */
+  public boolean isTemporary(NodeAddress addr) {
+    return !isFull(addr);
+  }
+
+  /**
+   * checks if the supplied address `addr` belongs to a history tree root.
+   */
+  public boolean isTreeDigest(NodeAddress addr) {
+    double denom = Math.ceil(Math.log(addr.position) / Math.log(2));
+    return (addr.level == denom);
+  }
+
 
 }
