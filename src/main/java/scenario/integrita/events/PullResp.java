@@ -4,24 +4,24 @@ import node.BaseNode;
 import underlay.packets.Event;
 
 public class PullResp implements Event {
-    String msg;
+  String msg;
 
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
+  public void setMsg(String msg) {
+    this.msg = msg;
+  }
 
-    @Override
-    public boolean actionPerformed(BaseNode hostNode) {
-        return false;
-    }
+  @Override
+  public boolean actionPerformed(BaseNode hostNode) {
+    return false;
+  }
 
-    @Override
-    public String logMessage() {
-        return null;
-    }
+  @Override
+  public String logMessage() {
+    return null;
+  }
 
-    @Override
-    public int size() {
-        return 0;
-    }
+  @Override
+  public int size() {
+    return 0;
+  }
 }

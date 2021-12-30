@@ -4,6 +4,9 @@ import node.BaseNode;
 import scenario.integrita.historytree.HistoryTreeNode;
 import underlay.packets.Event;
 
+/**
+ * Push event encapsulates a client-side push request to the server.
+ */
 public class Push implements Event {
   HistoryTreeNode historyTreeNode;
   String msg;
@@ -27,10 +30,10 @@ public class Push implements Event {
 
   @Override
   public String toString() {
-    return "Push{" +
-            "historyTreeNode=" + historyTreeNode +
-            ", msg='" + msg + '\'' +
-            '}';
+    return "Push{"
+            + "historyTreeNode=" + historyTreeNode
+            + ", msg='" + msg + '\''
+            + '}';
   }
 
   @Override
