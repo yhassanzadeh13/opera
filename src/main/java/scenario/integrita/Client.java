@@ -10,6 +10,9 @@ import scenario.integrita.historytree.HistoryTreeNode;
 import underlay.MiddleLayer;
 import underlay.packets.Event;
 
+/**
+ * Integrita client implementation.
+ */
 public class Client implements BaseNode {
   UUID id;
   MiddleLayer network;

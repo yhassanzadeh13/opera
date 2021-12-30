@@ -13,6 +13,9 @@ import scenario.integrita.utils.StatusCode;
 import underlay.MiddleLayer;
 import underlay.packets.Event;
 
+/**
+ * Integrita server implementation.
+ */
 public class Server implements BaseNode {
   UUID id;
   MiddleLayer network;
