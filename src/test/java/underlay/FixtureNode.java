@@ -5,6 +5,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import metrics.MetricsCollector;
 import node.BaseNode;
+import node.Identity;
 import underlay.packets.Event;
 
 /**
@@ -24,7 +25,7 @@ public class FixtureNode implements BaseNode {
 
 
   @Override
-  public void onCreate(ArrayList<UUID> allId) {
+  public void onCreate(ArrayList<Identity> identities) {
   }
 
   @Override

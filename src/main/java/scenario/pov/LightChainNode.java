@@ -7,6 +7,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import metrics.MetricsCollector;
 import node.BaseNode;
+import node.Identity;
 import org.apache.log4j.Logger;
 import scenario.pov.events.*;
 import underlay.Network;
@@ -37,7 +38,7 @@ public class LightChainNode implements BaseNode {
   final int blockInsertionDelay = 2000; // (ms)
   final int updateWaitTime = 500; // (ms)
 
-  private List<UUID> allId;
+  private List<Identity> identities;
   private UUID uuid;
   private Network network;
   private boolean isRegistry;
@@ -100,30 +101,28 @@ public class LightChainNode implements BaseNode {
    * If it matches then it sets isRegistry variable to true, or false otherwise.
    * If the node is the registry node, then it appends the genesis block to its list of blocks.
    *
-   * @param allId the IDs of type UUID for all the nodes in the cluster
+   * @param identities the identities of all nodes involved in simulation.
    */
   @Override
-  public void onCreate(ArrayList<UUID> allId) {
-
+  public void onCreate(ArrayList<Identity> identities) {
     logger.info("node " + this.uuid + " has been created.");
-
-    this.allId = allId;
+    this.identities = identities;
 
     // ensure that number of validators is small than number of nodes
-    if (numValidators > this.allId.size() - 1) {
+    if (numValidators > this.identities.size() - 1) {
       try {
         throw new Exception(
             "Number of validators must be smaller than number of nodes. NumValidators= "
-                + numValidators + ", numNodes= " + (this.allId.size() - 1));
+                + numValidators + ", numNodes= " + (this.identities.size() - 1));
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
-    this.isRegistry = this.uuid.equals(this.allId.get(0));
+    this.isRegistry = this.uuid.equals(this.identities.get(0));
 
     if (this.isRegistry) {
 
-      double[] linespace = new double[this.allId.size() * this.blockIterations];
+      double[] linespace = new double[this.identities.size() * this.blockIterations];
 
       for (int i = 0; i < linespace.length; i++) {
         linespace[i] = i;
@@ -385,7 +384,7 @@ public class LightChainNode implements BaseNode {
    * @return the UUID of the registry node.
    */
   public UUID getRegistryId() {
-    return this.allId.get(0);
+    return this.identities.get(0).getIdentifier();
   }
 
   /**
@@ -447,7 +446,7 @@ public class LightChainNode implements BaseNode {
     }
 
     Random rand = new Random();
-    for (int i = this.numValidators + 1; i < this.allId.size(); ++i) {
+    for (int i = this.numValidators + 1; i < this.identities.size(); ++i) {
       int j = rand.nextInt(i + 1);
       if (j < this.numValidators) {
         randomIndexes.set(j, i);
@@ -456,7 +455,7 @@ public class LightChainNode implements BaseNode {
 
     List<UUID> validators = new ArrayList<>();
     for (Integer index : randomIndexes) {
-      validators.add(this.allId.get(index));
+      validators.add(this.identities.get(index).getIdentifier());
     }
 
     return validators;

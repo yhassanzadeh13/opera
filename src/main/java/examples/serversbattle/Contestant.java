@@ -8,6 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import metrics.MetricsCollector;
 import node.BaseNode;
+import node.Identity;
 import simulator.Simulator;
 import underlay.Network;
 import underlay.packets.Event;
@@ -23,7 +24,7 @@ public class Contestant implements BaseNode {
   ReentrantLock lock = new ReentrantLock();
   Network network;
   private UUID selfId;
-  private ArrayList<UUID> allId;
+  private ArrayList<Identity> identities;
   private int healthLevel;
   private ContestantMetrics metrics;
 
@@ -41,13 +42,13 @@ public class Contestant implements BaseNode {
   }
 
   @Override
-  public void onCreate(ArrayList<UUID> allId) {
+  public void onCreate(ArrayList<Identity> identities) {
     Random rand = new Random();
     this.healthLevel = rand.nextInt(30) + 1;
     Simulator.getLogger().info("Contestant " + this.selfId + "was initialized with level " + this.healthLevel);
     this.isFighting = false;
     this.isWaiting = false;
-    this.allId = allId;
+    this.identities = identities;
     network.ready();
   }
 
@@ -75,8 +76,8 @@ public class Contestant implements BaseNode {
    * Sends new fight invitation to a random node.
    */
   public synchronized void sendNewFightInvitation() {
-    if (this.allId.size() <= 1) {
-      if (!this.allId.isEmpty() && allId.get(0).equals(this.selfId)) {
+    if (this.identities.size() <= 1) {
+      if (!this.identities.isEmpty() && identities.get(0).equals(this.selfId)) {
         Simulator.getLogger().info("Contestant " + this.selfId + " is the winner");
         System.out.println("Congrats. Contestant " + this.selfId + " is the winner");
       }
@@ -85,13 +86,13 @@ public class Contestant implements BaseNode {
     Random rand = new Random();
     int duration = rand.nextInt(2000) + 500;
     this.isWaiting = false;
-    Collections.shuffle(this.allId);
+    Collections.shuffle(this.identities);
     int ind = 0;
     while (!this.isWaiting && !this.isFighting) {
-      UUID targetId = this.allId.get(ind);
+      UUID targetId = this.identities.get(ind).getIdentifier();
       if (!this.selfId.equals(targetId)) {
         if (!network.send(targetId, new BattleInvitation(this.selfId, targetId, duration))) {
-          this.allId.remove(targetId);
+          this.identities.remove(targetId);
         } else {
           this.isWaiting = true;
 
@@ -102,14 +103,14 @@ public class Contestant implements BaseNode {
           }
         }
       }
-      if (this.allId.size() <= 1) {
-        if (!this.allId.isEmpty() && allId.get(0).equals(this.selfId)) {
+      if (this.identities.size() <= 1) {
+        if (!this.identities.isEmpty() && identities.get(0).equals(this.selfId)) {
           Simulator.getLogger().info("Contestant " + this.selfId + " is the winner");
         }
         return;
       }
       ind += 1;
-      if (ind == allId.size()) {
+      if (ind == identities.size()) {
         try {
           Thread.sleep(500);
         } catch (Exception e) {
@@ -212,8 +213,8 @@ public class Contestant implements BaseNode {
 
     this.isFighting = false;
     this.isWaiting = false;
-    if (this.allId.size() <= 1) {
-      if (!this.allId.isEmpty() && allId.get(0).equals(this.selfId)) {
+    if (this.identities.size() <= 1) {
+      if (!this.identities.isEmpty() && identities.get(0).equals(this.selfId)) {
         Simulator.getLogger().info("Contestant " + this.selfId + " is the winner");
         System.out.println("Congrats. Contestant " + this.selfId + " is the winner");
       }

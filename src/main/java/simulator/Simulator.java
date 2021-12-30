@@ -144,7 +144,7 @@ public class Simulator implements Orchestrator {
         allLocalUnderlay.put(node.getKey(), underlay);
       }
       // call the node onCreat method of the nodes
-      network.create(this.allId);
+      network.bootstrap(this.allId);
     }
   }
 
@@ -357,7 +357,7 @@ public class Simulator implements Orchestrator {
         // Once the node call `ready` method, the node's onStart method will be called
         Network network = this.getMiddleLayer(id);
         network.initUnderLay();
-        network.create(this.allId);
+        network.bootstrap(this.allId);
 
         // assign a termination time
         int sessionLength = sessionLengthGenerator.next();

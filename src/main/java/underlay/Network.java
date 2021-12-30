@@ -2,18 +2,19 @@ package underlay;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
 import events.StopStartEvent;
 import metrics.MetricsCollector;
 import node.BaseNode;
+import node.Identity;
 import org.apache.log4j.Logger;
 import simulator.Orchestrator;
 import simulator.Simulator;
 import underlay.packets.Event;
 import underlay.packets.Request;
-import utils.SimulatorUtils;
 
 /**
  * Represents a mediator between the overlay and the underlay. The requests coming from the underlay are directed
@@ -148,10 +149,6 @@ public class Network {
 
   }
 
-  private String receivedBucketHash(UUID id) {
-    return SimulatorUtils.hashPairOfNodes(id, nodeId);
-  }
-
   /**
    * start the node in a new thread.
    * This method will be called once the simulator send a start event to the node
@@ -203,12 +200,12 @@ public class Network {
   }
 
   /**
-   * Call the node onCreat on a new thread.
+   * Calls the node onCreate on a new thread.
    *
-   * @param allId List of IDs of all nodes.
+   * @param identities is the identity map of all nodes involved in simulation.
    */
-  public void create(ArrayList<UUID> allId) {
-    log.info("[MiddleLayer] creating node " + getAddress(nodeId));
-    new Thread(() -> overlay.onCreate(allId)).start();
+  public void bootstrap(HashMap<UUID, Identity> identities) {
+    ArrayList<Identity> identityList = new ArrayList<>(identities.values());
+    new Thread(() -> overlay.onCreate(identityList)).start();
   }
 }

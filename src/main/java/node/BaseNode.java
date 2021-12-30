@@ -1,6 +1,7 @@
 package node;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.UUID;
 
 import metrics.MetricsCollector;
@@ -20,11 +21,11 @@ public interface BaseNode {
 
 
   /**
-   * When node is created, simulator.simulator activates it and initializes the node parameters.
+   * Is called by simulator to initialize a node with simulation parameters.
    *
-   * @param allId the IDs of type UUID for all the nodes in the cluster
+   * @param identities is the list of identities of all nodes in the simulation.
    */
-  void onCreate(ArrayList<UUID> allId);
+  void onCreate(ArrayList<Identity> identities);
 
   /**
    * Activated by the simulator.simulator after all the nodes in the cluster become ready

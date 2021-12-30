@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 import metrics.MetricsCollector;
 import node.BaseNode;
+import node.Identity;
 import underlay.Network;
 import underlay.packets.Event;
 
@@ -12,7 +13,7 @@ import underlay.packets.Event;
  */
 public class FixtureNode implements BaseNode {
   private UUID selfId;
-  private ArrayList<UUID> allId;
+  private ArrayList<Identity> identities;
   private Network network;
   public int receivedMessages = 0;
 
@@ -26,8 +27,8 @@ public class FixtureNode implements BaseNode {
 
 
   @Override
-  public void onCreate(ArrayList<UUID> allId) {
-    this.allId = allId;
+  public void onCreate(ArrayList<Identity> identities) {
+    this.identities = identities;
     network.ready();
   }
 

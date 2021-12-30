@@ -6,16 +6,16 @@ import java.util.UUID;
 
 import metrics.MetricsCollector;
 import node.BaseNode;
+import node.Identity;
 import underlay.Network;
 import underlay.packets.Event;
 
 /**
- * MyNode is a basenode to be fixture node for the hello servers simulation.
+ * MyNode is a base node to be fixture node for the hello servers simulation.
  */
 public class MyNode implements BaseNode {
-  private static final String MESSAGE_COUNT = "MessageCnt";
   private UUID selfId;
-  private ArrayList<UUID> allId;
+  private ArrayList<Identity> identities;
   private Network network;
   private MetricsCollector metricsCollector; // TODO: enable metrics
 
@@ -31,8 +31,8 @@ public class MyNode implements BaseNode {
 
 
   @Override
-  public void onCreate(ArrayList<UUID> allId) {
-    this.allId = allId;
+  public void onCreate(ArrayList<Identity> identities) {
+    this.identities = identities;
     network.ready();
   }
 
@@ -47,13 +47,14 @@ public class MyNode implements BaseNode {
    * @param msg msg to send
    */
   public void sendNewMessage(String msg) {
-    if (allId.isEmpty()) {
+    if (identities.isEmpty()) {
       return;
     }
     Random rand = new Random();
-    int ind = rand.nextInt(allId.size());
-    SendHello helloMessage = new SendHello(msg, selfId, allId.get(ind));
-    network.send(allId.get(ind), helloMessage);
+    int randomIndex = rand.nextInt(identities.size());
+    UUID randomIdentifier = identities.get(randomIndex).getIdentifier();
+    SendHello helloMessage = new SendHello(msg, selfId, randomIdentifier);
+    network.send(randomIdentifier, helloMessage);
   }
 
   @Override
