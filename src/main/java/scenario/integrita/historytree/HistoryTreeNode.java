@@ -22,15 +22,4 @@ public class HistoryTreeNode {
             + '}';
   }
 
-  /**
-   * checks if the supplied address `addr` belongs to a full node.
-   * A full node is a node whose left and right sub-trees are full.
-   */
-  public boolean isFull(NodeAddress addr) {
-    int modulus = (int) Math.pow(2, addr.level);
-    int remainder = Math.floorMod(addr.position, modulus);
-    return (remainder == 0);
-  }
-
-
 }
