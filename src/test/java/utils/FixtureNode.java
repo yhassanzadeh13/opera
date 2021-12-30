@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 import metrics.MetricsCollector;
 import node.BaseNode;
-import underlay.MiddleLayer;
+import underlay.Network;
 import underlay.packets.Event;
 
 /**
@@ -13,13 +13,13 @@ import underlay.packets.Event;
 public class FixtureNode implements BaseNode {
   private UUID selfId;
   private ArrayList<UUID> allId;
-  private MiddleLayer network;
+  private Network network;
   public int receivedMessages = 0;
 
   FixtureNode() {
   }
 
-  FixtureNode(UUID selfId, MiddleLayer network) {
+  FixtureNode(UUID selfId, Network network) {
     this.selfId = selfId;
     this.network = network;
   }
@@ -41,7 +41,7 @@ public class FixtureNode implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(UUID selfId, String nameSpace, MiddleLayer network, MetricsCollector metricsCollector) {
+  public BaseNode newInstance(UUID selfId, String nameSpace, Network network, MetricsCollector metricsCollector) {
     return new FixtureNode(selfId, network);
   }
 

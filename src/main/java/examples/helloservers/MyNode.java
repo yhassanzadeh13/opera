@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import metrics.MetricsCollector;
 import node.BaseNode;
-import underlay.MiddleLayer;
+import underlay.Network;
 import underlay.packets.Event;
 
 /**
@@ -16,10 +16,10 @@ public class MyNode implements BaseNode {
   private static final String MESSAGE_COUNT = "MessageCnt";
   private UUID selfId;
   private ArrayList<UUID> allId;
-  private MiddleLayer network;
+  private Network network;
   private MetricsCollector metricsCollector; // TODO: enable metrics
 
-  MyNode(UUID selfId, MiddleLayer network, MetricsCollector metricsCollector) {
+  MyNode(UUID selfId, Network network, MetricsCollector metricsCollector) {
     this.selfId = selfId;
     this.network = network;
     this.metricsCollector = metricsCollector;
@@ -72,7 +72,7 @@ public class MyNode implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(UUID selfId, String nameSpace, MiddleLayer network, MetricsCollector metricsCollector) {
+  public BaseNode newInstance(UUID selfId, String nameSpace, Network network, MetricsCollector metricsCollector) {
     return new MyNode(selfId, network, metricsCollector);
   }
 }

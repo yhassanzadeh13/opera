@@ -13,10 +13,10 @@ import underlay.packets.Event;
 public class FixtureNode implements BaseNode {
   private final UUID selfId;
   private final ArrayList<UUID> allId;
-  private final MiddleLayer network;
+  private final Network network;
   public AtomicInteger receivedMessages = new AtomicInteger(0);
 
-  FixtureNode(UUID selfId, ArrayList<UUID> allId, MiddleLayer network) {
+  FixtureNode(UUID selfId, ArrayList<UUID> allId, Network network) {
     this.selfId = selfId;
     this.network = network;
     this.allId = allId;
@@ -41,7 +41,7 @@ public class FixtureNode implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(UUID selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics) {
+  public BaseNode newInstance(UUID selfId, String nameSpace, Network network, MetricsCollector metrics) {
     return null;
   }
 

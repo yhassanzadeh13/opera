@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import metrics.MetricsCollector;
-import underlay.MiddleLayer;
+import underlay.Network;
 import underlay.packets.Event;
 
 
@@ -55,6 +55,6 @@ public interface BaseNode {
    * @param metrics metrics collector for the node.
    * @return a new instance of the special node class.
    */
-  BaseNode newInstance(UUID selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics);
+  BaseNode newInstance(UUID selfId, String nameSpace, Network network, MetricsCollector metrics);
 
 }

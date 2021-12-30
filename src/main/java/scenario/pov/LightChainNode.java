@@ -9,7 +9,7 @@ import metrics.MetricsCollector;
 import node.BaseNode;
 import org.apache.log4j.Logger;
 import scenario.pov.events.*;
-import underlay.MiddleLayer;
+import underlay.Network;
 import underlay.packets.Event;
 
 
@@ -39,7 +39,7 @@ public class LightChainNode implements BaseNode {
 
   private List<UUID> allId;
   private UUID uuid;
-  private MiddleLayer network;
+  private Network network;
   private boolean isRegistry;
   private Logger logger;
   private Map<UUID, Transaction> transactions;
@@ -67,7 +67,7 @@ public class LightChainNode implements BaseNode {
    * @param uuid    ID of the node
    * @param network used to communicate with other nodes
    */
-  public LightChainNode(UUID uuid, MiddleLayer network, MetricsCollector metrics) {
+  public LightChainNode(UUID uuid, Network network, MetricsCollector metrics) {
     this.uuid = uuid;
     this.network = network;
     this.transactions = new HashMap<>();
@@ -188,7 +188,7 @@ public class LightChainNode implements BaseNode {
    * @return a new instance of LightChainNode
    */
   @Override
-  public BaseNode newInstance(UUID selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics) {
+  public BaseNode newInstance(UUID selfId, String nameSpace, Network network, MetricsCollector metrics) {
     return new LightChainNode(selfId, network, metrics);
   }
 

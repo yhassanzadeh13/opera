@@ -21,8 +21,8 @@ import utils.SimulatorUtils;
  * the overlay are either directed to the underlay or to another local overlay, and the emitted response is returned
  * to the overlay.
  */
-public class MiddleLayer {
-  private static final Logger log = Logger.getLogger(MiddleLayer.class.getName()); // todo: logger should be passed down
+public class Network {
+  private static final Logger log = Logger.getLogger(Network.class.getName()); // todo: logger should be passed down
   //TODO add bucket size to the default metrics
   private final HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses;
   private final UUID nodeId;
@@ -41,11 +41,11 @@ public class MiddleLayer {
    * @param orchestrator     Orchestrator for the middle layer
    * @param metricsCollector Metrics collector for the middle layer
    */
-  public MiddleLayer(UUID nodeId,
-                     HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses,
-                     HashMap<SimpleEntry<String, Integer>, Boolean> isReady, // TODO: isReady can be removed.
-                     Orchestrator orchestrator,
-                     MetricsCollector metricsCollector) {
+  public Network(UUID nodeId,
+                 HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses,
+                 HashMap<SimpleEntry<String, Integer>, Boolean> isReady, // TODO: isReady can be removed.
+                 Orchestrator orchestrator,
+                 MetricsCollector metricsCollector) {
 
     if (orchestrator == null) {
       log.fatal("cannot initialize simulator with a null runtime");

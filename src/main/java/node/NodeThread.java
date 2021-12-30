@@ -5,7 +5,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import metrics.MetricsCollector;
-import underlay.MiddleLayer;
+import underlay.Network;
 import underlay.packets.Event;
 
 
@@ -28,14 +28,14 @@ public class NodeThread<T extends BaseNode> extends Thread {
    * @param factory     Consists of middlelayer, IDs and metric collector
    * @param selfId      Id of the node
    * @param allId       List of Id's of all the nodes
-   * @param middleLayer layer of the modes
+   * @param network layer of the modes
    * @param metrics     is a metric collector.
    */
-  public NodeThread(T factory, UUID selfId, ArrayList<UUID> allId, MiddleLayer middleLayer, MetricsCollector metrics) {
+  public NodeThread(T factory, UUID selfId, ArrayList<UUID> allId, Network network, MetricsCollector metrics) {
     this.selfId = selfId;
     this.allId = allId;
     this.metrics = metrics;
-    node = factory.newInstance(selfId, null, middleLayer, metrics);
+    node = factory.newInstance(selfId, null, network, metrics);
   }
 
   @Override

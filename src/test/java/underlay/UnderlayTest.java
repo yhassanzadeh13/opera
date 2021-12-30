@@ -50,17 +50,17 @@ public class UnderlayTest {
       for (int i = 0; i < THREAD_CNT; i++) {
         UUID id = allId.get(i);
 
-        MiddleLayer middleLayer = new MiddleLayer(id,
+        Network network = new Network(id,
               allFullAddresses,
               isReady,
               new NoopOrchestrator(),
               new NoopCollector());
-        FixtureNode node = new FixtureNode(id, allId, middleLayer);
-        middleLayer.setOverlay(node);
-        Underlay underlay = UnderlayFactory.newUnderlay(underlayName, 0, middleLayer);
+        FixtureNode node = new FixtureNode(id, allId, network);
+        network.setOverlay(node);
+        Underlay underlay = UnderlayFactory.newUnderlay(underlayName, 0, network);
         int port = underlay.getPort();
         allFullAddresses.put(id, new AbstractMap.SimpleEntry<>(underlay.getAddress(), port));
-        middleLayer.setUnderlay(underlay);
+        network.setUnderlay(underlay);
         instances.add(node);
         allUnderlays.put(new AbstractMap.SimpleEntry<>(underlay.getAddress(), port), underlay);
       }
@@ -144,18 +144,18 @@ public class UnderlayTest {
       String address = allFullAddresses.get(id).getKey();
       int port = allFullAddresses.get(id).getValue();
 
-      MiddleLayer middleLayer = new MiddleLayer(id,
+      Network network = new Network(id,
             allFullAddresses,
             isReady,
             new NoopOrchestrator(),
             new NoopCollector());
-      FixtureNode node = new FixtureNode(id, allId, middleLayer);
-      middleLayer.setOverlay(node);
+      FixtureNode node = new FixtureNode(id, allId, network);
+      network.setOverlay(node);
 
       LocalUnderlay underlay = new LocalUnderlay(address, port, allLocalUnderlay);
-      underlay.initialize(port, middleLayer);
+      underlay.initialize(port, network);
 
-      middleLayer.setUnderlay(underlay);
+      network.setUnderlay(underlay);
       instances.add(node);
       allLocalUnderlay.put(new AbstractMap.SimpleEntry<>(address, port), underlay);
     }

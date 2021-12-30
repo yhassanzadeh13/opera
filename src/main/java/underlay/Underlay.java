@@ -10,7 +10,7 @@ import underlay.packets.Request;
 
 public abstract class Underlay {
 
-  private MiddleLayer middleLayer;
+  private Network network;
   protected static final Logger log = Logger.getLogger(Simulator.class.getName());
 
   public abstract int getPort();
@@ -25,18 +25,18 @@ public abstract class Underlay {
    * Dispatches a request to the middle layer.
    */
   public void dispatchRequest(Request request) {
-    middleLayer.receive(request);
+    network.receive(request);
   }
 
   /**
    * Initializes the underlay.
    *
    * @param port        the port that the underlay should be bound to.
-   * @param middleLayer middle layer for underlay.
+   * @param network middle layer for underlay.
    * @return true iff the initialization was successful.
    */
-  public final boolean initialize(int port, MiddleLayer middleLayer) {
-    this.middleLayer = middleLayer;
+  public final boolean initialize(int port, Network network) {
+    this.network = network;
     return initUnderlay(port);
   }
 

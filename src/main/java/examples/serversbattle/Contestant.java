@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import metrics.MetricsCollector;
 import node.BaseNode;
 import simulator.Simulator;
-import underlay.MiddleLayer;
+import underlay.Network;
 import underlay.packets.Event;
 
 /**
@@ -21,7 +21,7 @@ public class Contestant implements BaseNode {
   public boolean isFighting;
   public boolean isWaiting;
   ReentrantLock lock = new ReentrantLock();
-  MiddleLayer network;
+  Network network;
   private UUID selfId;
   private ArrayList<UUID> allId;
   private int healthLevel;
@@ -30,7 +30,7 @@ public class Contestant implements BaseNode {
   Contestant() {
   }
 
-  Contestant(UUID selfId, MiddleLayer network, MetricsCollector metrics) {
+  Contestant(UUID selfId, Network network, MetricsCollector metrics) {
     this.selfId = selfId;
     this.network = network;
     this.metrics = new ContestantMetrics(metrics);
@@ -67,7 +67,7 @@ public class Contestant implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(UUID selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics) {
+  public BaseNode newInstance(UUID selfId, String nameSpace, Network network, MetricsCollector metrics) {
     return new Contestant(selfId, network, metrics);
   }
 

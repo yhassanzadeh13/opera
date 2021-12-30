@@ -31,16 +31,16 @@ public class UnderlayFactory {
    *
    * @param address          address of the underlay
    * @param port             port of the underlay
-   * @param middleLayer      middle layer of the underlay
+   * @param network      middle layer of the underlay
    * @param allLocalUnderlay hashmap of all underlays
    * @return underlay
    */
   public static LocalUnderlay getMockUnderlay(String address,
                                               int port,
-                                              MiddleLayer middleLayer,
+                                              Network network,
                                               HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay) {
     LocalUnderlay underlay = new LocalUnderlay(address, port, allLocalUnderlay);
-    underlay.initialize(port, middleLayer);
+    underlay.initialize(port, network);
     return underlay;
   }
 
@@ -49,10 +49,10 @@ public class UnderlayFactory {
    *
    * @param underlayName the underlay type name according to underlayTypes yaml file
    * @param port         port of the underlay
-   * @param middleLayer  middle layer of the underlay
+   * @param network  middle layer of the underlay
    * @return new underlay instance according to the given type
    */
-  public static Underlay newUnderlay(UnderlayType underlayName, int port, MiddleLayer middleLayer) {
+  public static Underlay newUnderlay(UnderlayType underlayName, int port, Network network) {
     Underlay underlay;
     switch (underlayName) {
       case JAVA_RMI:
@@ -71,7 +71,7 @@ public class UnderlayFactory {
         throw new IllegalArgumentException("wrong argument name: " + underlayName);
     }
     try {
-      underlay.initialize(port, middleLayer);
+      underlay.initialize(port, network);
     } catch (Exception e) {
       System.err.println("[UnderlayFactory] could not create new underlay instance of type " + underlayName);
       e.printStackTrace();

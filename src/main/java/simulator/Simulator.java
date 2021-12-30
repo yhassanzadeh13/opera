@@ -12,7 +12,7 @@ import metrics.MetricsCollector;
 import metrics.opera.OperaCollector;
 import node.BaseNode;
 import org.apache.log4j.Logger;
-import underlay.MiddleLayer;
+import underlay.Network;
 import underlay.UnderlayFactory;
 import underlay.UnderlayType;
 import underlay.local.LocalUnderlay;
@@ -40,7 +40,7 @@ public class Simulator implements Orchestrator {
   private final MetricsCollector metricsCollector;
   private final SimulatorMetricsCollector simulatorMetricsCollector;
   public HashMap<String, Integer> nodesSimulatedLatency = new HashMap<>();
-  private HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers;
+  private HashMap<SimpleEntry<String, Integer>, Network> networks;
   private PriorityQueue<SimpleEntryComparable<Long, UUID>> onlineNodes = new PriorityQueue<>();
 
   /**
@@ -114,7 +114,7 @@ public class Simulator implements Orchestrator {
    * Generate new instances for the nodes and add them to the network.
    */
   private void generateNodesInstances(UnderlayType networkType) {
-    this.allMiddleLayers = new HashMap<>();
+    this.networks = new HashMap<>();
 
     // generate nodes, and middle layers instances
     int globalIndex = 0;
@@ -123,28 +123,28 @@ public class Simulator implements Orchestrator {
         UUID id = allId.get(globalIndex++);
 
         isReady.put(this.allFullAddresses.get(id), false);
-        MiddleLayer middleLayer = new MiddleLayer(id, this.allFullAddresses, isReady, this, this.metricsCollector);
+        Network network = new Network(id, this.allFullAddresses, isReady, this, this.metricsCollector);
 
-        BaseNode node = r.getBaseNode().newInstance(id, r.getNameSpace(), middleLayer, this.metricsCollector);
-        middleLayer.setOverlay(node);
-        this.allMiddleLayers.put(this.allFullAddresses.get(id), middleLayer);
+        BaseNode node = r.getBaseNode().newInstance(id, r.getNameSpace(), network, this.metricsCollector);
+        network.setOverlay(node);
+        this.networks.put(this.allFullAddresses.get(id), network);
       }
     }
 
     // generate new underlays and assign them to the nodes middles layers.
-    for (Map.Entry<SimpleEntry<String, Integer>, MiddleLayer> node : this.allMiddleLayers.entrySet()) {
-      MiddleLayer middleLayer = node.getValue();
+    for (Map.Entry<SimpleEntry<String, Integer>, Network> node : this.networks.entrySet()) {
+      Network network = node.getValue();
       String address = node.getKey().getKey();
       int port = node.getKey().getValue();
       if (networkType != UnderlayType.MOCK_NETWORK) {
-        middleLayer.setUnderlay(UnderlayFactory.newUnderlay(networkType, port, middleLayer));
+        network.setUnderlay(UnderlayFactory.newUnderlay(networkType, port, network));
       } else {
-        LocalUnderlay underlay = UnderlayFactory.getMockUnderlay(address, port, middleLayer, allLocalUnderlay);
-        middleLayer.setUnderlay(underlay);
+        LocalUnderlay underlay = UnderlayFactory.getMockUnderlay(address, port, network, allLocalUnderlay);
+        network.setUnderlay(underlay);
         allLocalUnderlay.put(node.getKey(), underlay);
       }
       // call the node onCreat method of the nodes
-      middleLayer.create(this.allId);
+      network.create(this.allId);
     }
   }
 
@@ -163,7 +163,7 @@ public class Simulator implements Orchestrator {
     }
 
     // start all nodes in new threads
-    for (MiddleLayer middleNetwork : this.allMiddleLayers.values()) {
+    for (Network middleNetwork : this.networks.values()) {
       middleNetwork.start();
     }
   }
@@ -198,9 +198,9 @@ public class Simulator implements Orchestrator {
     }
   }
 
-  public MiddleLayer getMiddleLayer(UUID id) {
+  public Network getMiddleLayer(UUID id) {
     SimpleEntry<String, Integer> address = this.allFullAddresses.get(id);
-    return this.allMiddleLayers.get(address);
+    return this.networks.get(address);
   }
 
   /**
@@ -219,8 +219,8 @@ public class Simulator implements Orchestrator {
 
     // stop the nodes on a new thread
     try {
-      MiddleLayer middleLayer = this.allMiddleLayers.get(fullAddress);
-      middleLayer.stop(fullAddress.getKey(), fullAddress.getValue());
+      Network network = this.networks.get(fullAddress);
+      network.stop(fullAddress.getKey(), fullAddress.getValue());
     } catch (NullPointerException e) {
       log.error("[simulator.simulator] Cannot find node " + getAddress(nodeId));
       log.debug("[simulator.simulator] Node " + getAddress(nodeId) + " has already been terminate");
@@ -355,9 +355,9 @@ public class Simulator implements Orchestrator {
 
         // creat the new node in a new thread
         // Once the node call `ready` method, the node's onStart method will be called
-        MiddleLayer middleLayer = this.getMiddleLayer(id);
-        middleLayer.initUnderLay();
-        middleLayer.create(this.allId);
+        Network network = this.getMiddleLayer(id);
+        network.initUnderLay();
+        network.create(this.allId);
 
         // assign a termination time
         int sessionLength = sessionLengthGenerator.next();
