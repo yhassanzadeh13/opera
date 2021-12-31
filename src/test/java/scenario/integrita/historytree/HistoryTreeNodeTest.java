@@ -38,6 +38,18 @@ public class HistoryTreeNodeTest {
     assertTrue(NodeAddress.isTreeDigest(new NodeAddress(2, 1)));
     assertTrue(NodeAddress.isTreeDigest(new NodeAddress(3, 2)));
     assertTrue(NodeAddress.isTreeDigest(new NodeAddress(4, 2)));
+  }
 
+  @Test
+  void testmapServerIndex() {
+    assertTrue( 1 == NodeAddress.mapServerIndex(new NodeAddress(1, 0), 4));
+    assertTrue( 2 == NodeAddress.mapServerIndex(new NodeAddress(2, 0), 4));
+    assertTrue( 3 == NodeAddress.mapServerIndex(new NodeAddress(2, 1), 4));
+    assertTrue( 4 == NodeAddress.mapServerIndex(new NodeAddress(3, 0), 4));
+    assertTrue( 1 == NodeAddress.mapServerIndex(new NodeAddress(3, 1), 4));
+    assertTrue( 2 == NodeAddress.mapServerIndex(new NodeAddress(3, 2), 4));
+    assertTrue( 3 == NodeAddress.mapServerIndex(new NodeAddress(4, 0), 4));
+    assertTrue( 4 == NodeAddress.mapServerIndex(new NodeAddress(4, 1), 4));
+    assertTrue( 1 == NodeAddress.mapServerIndex(new NodeAddress(4, 2), 4));
   }
 }
