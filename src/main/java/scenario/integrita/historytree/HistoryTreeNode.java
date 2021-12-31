@@ -7,10 +7,10 @@ import java.util.Arrays;
  * implementation of a decentralized history tree as instructed in Integrita.
  */
 public class HistoryTreeNode {
-  NodeAddress addr;
-  String op;
-  byte[] hash;
-  byte[] signature;
+  public NodeAddress addr;
+  public String op;
+  public byte[] hash;
+  public byte[] signature;
 
   @Override
   public String toString() {
