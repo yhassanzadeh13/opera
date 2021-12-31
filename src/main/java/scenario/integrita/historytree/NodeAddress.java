@@ -9,19 +9,6 @@ package scenario.integrita.historytree;
 public class NodeAddress {
   int position;
   int level;
-}
-
-package scenario.integrita.historytree;
-
-/**
- * holds the address of a node of the history tree.
- * position represents the operation number.
- * level indicates at which height of the history tree the node is located.
- * level ranges from 0 to log2(position)+1.
- */
-public class NodeAddress {
-  int position;
-  int level;
 
   public NodeAddress() {
 
@@ -78,5 +65,35 @@ public class NodeAddress {
     }
     double denom = Math.ceil(Math.log(addr.position) / Math.log(2));
     return (addr.level == denom);
+  }
+
+  /**
+   * implements the L function of Integrita.
+   *
+   * @param addr a node address
+   * @return the integer label of the supplied node address
+   */
+  public static int toLabel(NodeAddress addr) {
+    int sum = 0;
+    for (int j = 1; j < addr.position; j++) {
+      sum = sum + (int) Math.ceil(Math.log(j) / Math.log(2)) + 1;
+    }
+    sum = sum + addr.level + 1;
+    return sum;
+  }
+
+  /**
+   * finds the index of the storage server for the supplied node address.
+   *
+   * @param addr              node's address
+   * @param totalNumberServer the total number of servers
+   * @return the index of the server
+   */
+  public static int mapServerIndex(NodeAddress addr, int totalNumberServer) {
+    int index = Math.floorMod(toLabel(addr), totalNumberServer);
+    if (index == 0) {
+      index = totalNumberServer;
+    }
+    return index;
   }
 }
