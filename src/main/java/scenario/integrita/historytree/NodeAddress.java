@@ -73,7 +73,7 @@ public class NodeAddress {
    * @param addr a node address
    * @return the integer label of the supplied node address
    */
-  public static int toLabel(NodeAddress addr) {
+  public static int L(NodeAddress addr) {
     int sum = 0;
     for (int j = 1; j < addr.position; j++) {
       sum = sum + (int) Math.ceil(Math.log(j) / Math.log(2)) + 1;
@@ -89,11 +89,18 @@ public class NodeAddress {
    * @param totalNumberServer the total number of servers
    * @return the index of the server
    */
-  public static int mapServerIndex(NodeAddress addr, int totalNumberServer) {
-    int index = Math.floorMod(toLabel(addr), totalNumberServer);
+  public static int F(NodeAddress addr, int totalNumberServer) {
+    int index = Math.floorMod(L(addr), totalNumberServer);
     if (index == 0) {
       index = totalNumberServer;
     }
     return index;
+  }
+
+  /**
+   * returns true if the address point to a leaf node
+   */
+  public static boolean isLeaf(NodeAddress addr) {
+    return (addr.level == 0);
   }
 }
