@@ -37,6 +37,20 @@ public class Server implements BaseNode {
   }
 
   // BaseNode interface implementation ------------
+  // Integrita methods
+
+  /**
+   * implements integrita push algorithm.
+   *
+   * @param node the history tree node
+   * @return
+   */
+  public boolean push(HistoryTreeNode node) {
+    // check the membership
+
+    return true;
+  }
+
   @Override
   public void onStart() {
 
