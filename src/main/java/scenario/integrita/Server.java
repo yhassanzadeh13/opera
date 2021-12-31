@@ -21,6 +21,9 @@ public class Server implements BaseNode {
   MiddleLayer network;
   ArrayList<UUID> ids; // all ids including self
   HashMap<NodeAddress, HistoryTreeNode> db = new HashMap<>();
+  int index;
+  int totalNumServers;
+  NodeAddress status;
 
   public Server() {
   }
@@ -36,7 +39,6 @@ public class Server implements BaseNode {
     this.network.ready();
   }
 
-  // BaseNode interface implementation ------------
   // Integrita methods
 
   /**
@@ -48,9 +50,37 @@ public class Server implements BaseNode {
   public boolean push(HistoryTreeNode node) {
     // check the membership
 
+    // check the correctness of server index
+    int expected = NodeAddress.F(node.addr, totalNumServers);
+    if (expected != this.index) {
+      return false;
+    }
+
+    // check the labels
+    int dist = NodeAddress.L(node.addr) - NodeAddress.L(this.status);
+    if (dist != this.totalNumServers) {
+      return false;
+    }
+
+    // check the signature and the hash integrity
+    if (NodeAddress.isLeaf(node.addr)) {
+      // @TODO verify the signature
+      // @TODO check the hash correctness
+    }
+
+    // check the tree digest
+    if (NodeAddress.isTreeDigest(node.addr)){
+      // @TODO verify the signature
+    }
+
+    // insert to the db
+    
+
     return true;
   }
 
+
+  // BaseNode interface implementation ------------
   @Override
   public void onStart() {
 
