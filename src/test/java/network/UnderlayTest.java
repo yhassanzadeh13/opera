@@ -1,10 +1,13 @@
 package network;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import metrics.NoopCollector;
 import org.junit.jupiter.api.AfterAll;
@@ -73,13 +76,19 @@ public class UnderlayTest {
 
   }
 
+  // TODO: add documentations
   void assure(ArrayList<FixtureNode> instances) {
+    CountDownLatch countDownLatch = new CountDownLatch(instances.size());
     // start all instances
     for (FixtureNode node : instances) {
-      new Thread(node::onStart).start();
+      new Thread(()->{
+        node.onStart();
+        countDownLatch.countDown();
+      }).start();
     }
     try {
-      Thread.sleep(SLEEP_DURATION);
+      boolean onTime = countDownLatch.await(60, TimeUnit.SECONDS);
+      assertTrue(onTime, "threads are not done on time");
     } catch (Exception e) {
       e.printStackTrace();
     }

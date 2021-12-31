@@ -16,6 +16,7 @@ public class FixtureNode implements BaseNode {
   private final MiddleLayer network;
   public AtomicInteger receivedMessages = new AtomicInteger(0);
 
+
   FixtureNode(UUID selfId, ArrayList<UUID> allId, MiddleLayer network) {
     this.selfId = selfId;
     this.network = network;
