@@ -19,8 +19,7 @@ import utils.NoopOrchestrator;
  * Test the communication and termination of every network underlay.
  */
 public class UnderlayTest {
-  static final int THREAD_CNT = 50;
-  static final int SLEEP_DURATION = 10000; // 10 seconds
+
   private static final HashMap<AbstractMap.SimpleEntry<String, Integer>, Underlay> allUnderlays = new HashMap<>();
 
   @AfterAll
@@ -30,19 +29,20 @@ public class UnderlayTest {
     }
   }
 
-  ArrayList<FixtureNode> initialize(UnderlayType underlayName) {
+  ArrayList<FixtureNode> initializeUnderlayTest(UnderlayType underlayName) {
+    final int NodeCount = 50; // total number of nodes in test
     ArrayList<FixtureNode> instances = new ArrayList<>();
     ArrayList<UUID> allId = new ArrayList<>();
     HashMap<UUID, AbstractMap.SimpleEntry<String, Integer>> allFullAddresses = new HashMap<>();
     HashMap<AbstractMap.SimpleEntry<String, Integer>, Boolean> isReady = new HashMap<>();
 
     // generate IDs
-    for (int i = 0; i < THREAD_CNT; i++) {
+    for (int i = 0; i < NodeCount; i++) {
       allId.add(UUID.randomUUID());
     }
 
     try {
-      for (int i = 0; i < THREAD_CNT; i++) {
+      for (int i = 0; i < NodeCount; i++) {
         UUID id = allId.get(i);
 
         MiddleLayer middleLayer = new MiddleLayer(id,
@@ -70,15 +70,15 @@ public class UnderlayTest {
 
   @Test
   void atestTcp() {
-    // generate middle layers
-    ArrayList<FixtureNode> tcpNodes = initialize(UnderlayType.TCP_PROTOCOL);
+    ArrayList<FixtureNode> tcpNodes = initializeUnderlayTest(UnderlayType.TCP_PROTOCOL);
     assure(tcpNodes);
-
   }
 
   // TODO: add documentations
   void assure(ArrayList<FixtureNode> instances) {
     CountDownLatch countDownLatch = new CountDownLatch(instances.size());
+
+
     // start all instances
     for (FixtureNode node : instances) {
       new Thread(()->{
@@ -95,26 +95,27 @@ public class UnderlayTest {
 
     // check that all nodes received threadCount - 1 messages
     for (FixtureNode node : instances) {
-      assertEquals(THREAD_CNT - 1, node.receivedMessages.get());
+      assertEquals(instances.size() - 1, node.receivedMessages.get());
     }
   }
 
   @Test
   void btestUdp() {
     // generate middle layers
-    ArrayList<FixtureNode> udpNodes = initialize(UnderlayType.UDP_PROTOCOL);
+    ArrayList<FixtureNode> udpNodes = initializeUnderlayTest(UnderlayType.UDP_PROTOCOL);
     assure(udpNodes);
   }
 
   @Test
   void ctestRmi() {
     // generate middle layers
-    ArrayList<FixtureNode> javaRmiNodes = initialize(UnderlayType.JAVA_RMI);
+    ArrayList<FixtureNode> javaRmiNodes = initializeUnderlayTest(UnderlayType.JAVA_RMI);
     assure(javaRmiNodes);
   }
 
   @Test
   void testLocal() {
+    final int NodeCount = 50; // total number of nodes in test
     HashMap<AbstractMap.SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
     // generate middle layers
     ArrayList<FixtureNode> instances = new ArrayList<>();
@@ -123,14 +124,14 @@ public class UnderlayTest {
     HashMap<AbstractMap.SimpleEntry<String, Integer>, Boolean> isReady = new HashMap<>();
 
     // generate IDs
-    for (int i = 0; i < THREAD_CNT; i++) {
+    for (int i = 0; i < NodeCount; i++) {
       allId.add(UUID.randomUUID());
     }
 
     // generate full addresses
     try {
       String address = Inet4Address.getLocalHost().getHostAddress();
-      for (int i = 0; i < THREAD_CNT; i++) {
+      for (int i = 0; i < NodeCount; i++) {
 
         allFullAddresses.put(allId.get(i), new AbstractMap.SimpleEntry<>(address, i));
         isReady.put(new AbstractMap.SimpleEntry<>(address, i), true);
@@ -140,7 +141,7 @@ public class UnderlayTest {
       e.printStackTrace();
     }
 
-    for (int i = 0; i < THREAD_CNT; i++) {
+    for (int i = 0; i < NodeCount; i++) {
       UUID id = allId.get(i);
       String address = allFullAddresses.get(id).getKey();
       int port = allFullAddresses.get(id).getValue();
