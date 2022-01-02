@@ -87,6 +87,7 @@ public class MiddleLayer {
     // check the readiness of the destination node
     SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(destinationId);
 
+
     // wrap the event by request class
     Request request = new Request(event, this.nodeId, destinationId);
     String destinationAddress = fullAddress.getKey();
@@ -143,7 +144,7 @@ public class MiddleLayer {
       if (event.getState()) {
         this.start();
       } else {
-        this.stop(event.getAddress(), event.getPort());
+        this.stop();
       }
     } else {
       overlay.onNewMessage(request.getOriginalId(), request.getEvent());

@@ -219,7 +219,7 @@ public class Simulator implements Orchestrator {
     // stop the nodes on a new thread
     try {
       MiddleLayer middleLayer = this.allMiddleLayers.get(fullAddress);
-      middleLayer.stop(fullAddress.getKey(), fullAddress.getValue());
+      middleLayer.stop();
     } catch (NullPointerException e) {
       log.error("[simulator.simulator] Cannot find node " + getAddress(nodeId));
       log.debug("[simulator.simulator] Node " + getAddress(nodeId) + " has already been terminate");

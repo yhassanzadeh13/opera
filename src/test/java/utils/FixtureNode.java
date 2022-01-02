@@ -14,7 +14,6 @@ public class FixtureNode implements BaseNode {
   private UUID selfId;
   private ArrayList<UUID> allId;
   private MiddleLayer network;
-  public int receivedMessages = 0;
 
   public FixtureNode() {
   }
@@ -38,6 +37,7 @@ public class FixtureNode implements BaseNode {
 
   @Override
   public void onStop() {
+    this.network.stop();
   }
 
   @Override
