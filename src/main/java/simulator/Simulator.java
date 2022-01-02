@@ -12,7 +12,7 @@ import metrics.MetricsCollector;
 import metrics.opera.OperaCollector;
 import network.MiddleLayer;
 import network.UnderlayFactory;
-import network.UnderlayType;
+import network.NetworkProtocol;
 import network.local.LocalUnderlay;
 import node.BaseNode;
 import org.apache.log4j.Logger;
@@ -48,7 +48,7 @@ public class Simulator implements Orchestrator {
    * @param factory     factory object to create nodes based on inventory.
    * @param networkType the type of simulated communication protocol(**tcp**, **javarmi**, **udp**, and **mockNetwork*)
    */
-  public Simulator(Factory factory, UnderlayType networkType) {
+  public Simulator(Factory factory, NetworkProtocol networkType) {
     this.factory = factory;
     this.isReady = new HashMap<>();
     int startPort = 2000;
@@ -112,7 +112,7 @@ public class Simulator implements Orchestrator {
   /**
    * Generate new instances for the nodes and add them to the network.
    */
-  private void generateNodesInstances(UnderlayType networkType) {
+  private void generateNodesInstances(NetworkProtocol networkType) {
     this.allMiddleLayers = new HashMap<>();
 
     // generate nodes, and middle layers instances
@@ -135,7 +135,7 @@ public class Simulator implements Orchestrator {
       MiddleLayer middleLayer = node.getValue();
       String address = node.getKey().getKey();
       int port = node.getKey().getValue();
-      if (networkType != UnderlayType.MOCK_NETWORK) {
+      if (networkType != NetworkProtocol.MOCK_NETWORK) {
         middleLayer.setUnderlay(UnderlayFactory.newUnderlay(networkType, port, middleLayer));
       } else {
         LocalUnderlay underlay = UnderlayFactory.getMockUnderlay(address, port, middleLayer, allLocalUnderlay);

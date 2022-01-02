@@ -1,8 +1,8 @@
 package scenario.integrita.events;
 
+import network.packets.Event;
 import node.BaseNode;
 import scenario.integrita.historytree.HistoryTreeNode;
-import underlay.packets.Event;
 
 /**
  * Push event encapsulates a client-side push request to the server.

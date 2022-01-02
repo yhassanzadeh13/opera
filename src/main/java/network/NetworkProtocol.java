@@ -1,9 +1,9 @@
 package network;
 
 /**
- * consists of type of the underlays.
+ * Available list of networking protocols. 
  */
-public enum UnderlayType {
+public enum NetworkProtocol {
   TCP_PROTOCOL("tcp"),
   UDP_PROTOCOL("udp"),
   JAVA_RMI("javarmi"),
@@ -11,7 +11,7 @@ public enum UnderlayType {
 
   public final String label;
 
-  UnderlayType(String label) {
+  NetworkProtocol(String label) {
     this.label = label;
   }
 }

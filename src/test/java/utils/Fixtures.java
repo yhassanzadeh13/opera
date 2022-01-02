@@ -30,7 +30,7 @@ public class Fixtures {
    * @param count total number of nodes.
    * @return list of created fixture nodes.
    */
-  public static ArrayList<network.FixtureNode> nodeListFixture(UnderlayType underlayName, int count) {
+  public static ArrayList<network.FixtureNode> nodeListFixture(NetworkProtocol underlayName, int count) {
     ArrayList<network.FixtureNode> nodes = new ArrayList<>();
     ArrayList<UUID> allId = identifierListFixture(count);
     HashMap<UUID, AbstractMap.SimpleEntry<String, Integer>> allFullAddresses = new HashMap<>();

@@ -41,7 +41,7 @@ public class UnderlayFactory {
    * @param middleLayer  middle layer of the underlay
    * @return new underlay instance according to the given type
    */
-  public static Underlay newUnderlay(UnderlayType underlayName, int port, MiddleLayer middleLayer) {
+  public static Underlay newUnderlay(NetworkProtocol underlayName, int port, MiddleLayer middleLayer) {
     Underlay underlay;
     switch (underlayName) {
       case JAVA_RMI:

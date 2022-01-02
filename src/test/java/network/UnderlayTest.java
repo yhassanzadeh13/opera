@@ -2,12 +2,10 @@ package network;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static utils.Fixtures.identifierListFixture;
 import static utils.Fixtures.nodeListFixture;
 
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
-import java.sql.Time;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 
 import metrics.NoopCollector;
 import network.local.LocalUnderlay;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import utils.NoopOrchestrator;
 
@@ -28,21 +25,21 @@ public class UnderlayTest {
 
   @Test
   void tcpTest() {
-    ArrayList<FixtureNode> tcpNodes = nodeListFixture(UnderlayType.TCP_PROTOCOL, 20);
+    ArrayList<FixtureNode> tcpNodes = nodeListFixture(NetworkProtocol.TCP_PROTOCOL, 20);
     assure(tcpNodes);
     stopNodes(tcpNodes);
   }
 
   @Test
   void udpTest() {
-    ArrayList<FixtureNode> udpNodes = nodeListFixture(UnderlayType.UDP_PROTOCOL, 20);
+    ArrayList<FixtureNode> udpNodes = nodeListFixture(NetworkProtocol.UDP_PROTOCOL, 20);
     assure(udpNodes);
     stopNodes(udpNodes);
   }
 
   @Test
   void rmiTest() {
-    ArrayList<FixtureNode> javaRmiNodes = nodeListFixture(UnderlayType.JAVA_RMI, 20);
+    ArrayList<FixtureNode> javaRmiNodes = nodeListFixture(NetworkProtocol.JAVA_RMI, 20);
     assure(javaRmiNodes);
     stopNodes(javaRmiNodes);
   }
