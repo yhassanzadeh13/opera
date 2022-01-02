@@ -1,9 +1,9 @@
 package scenario.pov.events;
 
+import network.packets.Event;
 import node.BaseNode;
 import scenario.pov.Block;
 import scenario.pov.LightChainNode;
-import underlay.packets.Event;
 
 
 /**
@@ -12,7 +12,7 @@ import underlay.packets.Event;
  */
 public class SubmitBlockEvent implements Event {
 
-  private Block block;
+  private final Block block;
 
   public SubmitBlockEvent(Block block) {
     this.block = block;

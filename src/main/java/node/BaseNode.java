@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import metrics.MetricsCollector;
-import underlay.MiddleLayer;
-import underlay.packets.Event;
+import network.MiddleLayer;
+import network.packets.Event;
 
 
 /**

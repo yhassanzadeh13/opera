@@ -2,10 +2,10 @@ package scenario.pov.events;
 
 import java.util.List;
 
+import network.packets.Event;
 import node.BaseNode;
 import scenario.pov.LightChainNode;
 import scenario.pov.Transaction;
-import underlay.packets.Event;
 
 
 /**

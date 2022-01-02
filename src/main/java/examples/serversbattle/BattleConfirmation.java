@@ -2,8 +2,8 @@ package examples.serversbattle;
 
 import java.util.UUID;
 
+import network.packets.Event;
 import node.BaseNode;
-import underlay.packets.Event;
 
 /**
  * Is an event to confirm the battle invitations.

@@ -1,9 +1,9 @@
 package examples.helloservers;
 
+import network.NetworkProtocol;
 import simulator.Factory;
 import simulator.Recipe;
 import simulator.Simulator;
-import underlay.UnderlayType;
 import utils.generator.UniformGenerator;
 
 /**
@@ -22,7 +22,7 @@ public class Main {
     final String nameSpace = "example-helloservers";
     Factory factory = new Factory();
     factory.addRecipe(new Recipe(new MyNode(), nameSpace, 5));
-    Simulator simulator = new Simulator(factory, UnderlayType.MOCK_NETWORK);
+    Simulator simulator = new Simulator(factory, NetworkProtocol.MOCK_NETWORK);
     simulator.churnSimulation(100000, new UniformGenerator(500, 1000), new UniformGenerator(2000, 3000));
   }
 }

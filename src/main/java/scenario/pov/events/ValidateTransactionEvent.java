@@ -1,9 +1,9 @@
 package scenario.pov.events;
 
+import network.packets.Event;
 import node.BaseNode;
 import scenario.pov.LightChainNode;
 import scenario.pov.Transaction;
-import underlay.packets.Event;
 
 
 /**
@@ -12,7 +12,7 @@ import underlay.packets.Event;
  */
 public class ValidateTransactionEvent implements Event {
 
-  private Transaction transaction;
+  private final Transaction transaction;
 
   public ValidateTransactionEvent(Transaction tx) {
     this.transaction = tx;

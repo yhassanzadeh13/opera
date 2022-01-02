@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import metrics.MetricsCollector;
+import network.MiddleLayer;
+import network.packets.Event;
 import node.BaseNode;
 import scenario.integrita.events.PushResp;
 import scenario.integrita.historytree.HistoryTreeNode;
 import scenario.integrita.historytree.NodeAddress;
 import scenario.integrita.utils.StatusCode;
-import underlay.MiddleLayer;
-import underlay.packets.Event;
 
 /**
  * Integrita server implementation.

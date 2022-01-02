@@ -1,9 +1,9 @@
 package scenario.integrita;
 
+import network.NetworkProtocol;
 import simulator.Factory;
 import simulator.Recipe;
 import simulator.Simulator;
-import underlay.UnderlayType;
 
 /**
  * Integrita simulation.
@@ -25,7 +25,7 @@ public class Main {
     factory.addRecipe(new Recipe(new Client(), nameSpace, 1));
     factory.addRecipe(new Recipe(new Server(), nameSpace, 1));
 
-    Simulator simulator = new Simulator(factory, UnderlayType.MOCK_NETWORK);
+    Simulator simulator = new Simulator(factory, NetworkProtocol.MOCK_NETWORK);
     simulator.constantSimulation(10000);
   }
 }

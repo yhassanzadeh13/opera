@@ -1,9 +1,9 @@
 package examples.serversbattle;
 
+import network.NetworkProtocol;
 import simulator.Factory;
 import simulator.Recipe;
 import simulator.Simulator;
-import underlay.UnderlayType;
 
 /**
  * Servers battle is a simulator with 4 nodes.
@@ -19,7 +19,7 @@ public class Main {
     final String nameSpace = "example-contestant";
     Factory factory = new Factory();
     factory.addRecipe(new Recipe(new Contestant(), nameSpace, 4));
-    Simulator simulator = new Simulator(factory, UnderlayType.TCP_PROTOCOL);
+    Simulator simulator = new Simulator(factory, NetworkProtocol.TCP_PROTOCOL);
     simulator.constantSimulation(10000);
   }
 }

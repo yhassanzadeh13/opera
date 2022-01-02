@@ -1,8 +1,8 @@
 package scenario.integrita.events;
 
+import network.packets.Event;
 import node.BaseNode;
 import scenario.integrita.utils.StatusCode;
-import underlay.packets.Event;
 
 /**
  * PushResp encapsulates the server-side reply to a client's push request.
