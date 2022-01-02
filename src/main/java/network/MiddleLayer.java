@@ -167,10 +167,10 @@ public class MiddleLayer {
   /**
    * Terminates the node in a new thread.
    */
-  public void stop(String address, int port) {
+  public void stop() {
     new Thread(() -> {
       overlay.onStop();
-      boolean success = underlay.terminate(address, port);
+      boolean success = underlay.terminate();
       if (success) {
         log.info("[MiddleLayer] node " + getAddress(nodeId) + " is terminating");
       } else {

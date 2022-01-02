@@ -102,16 +102,14 @@ public class UdpUnderlay extends Underlay {
    * @return whether the termination was successful.
    */
   @Override
-  public boolean terminate(String address, int port) {
+  public boolean terminate() {
     try {
       // Unbind from the local port.
       udpSocket.close();
       // Close the listener thread.
       listenerThread.join();
-      log.debug("[TCPUnderlay] node " + address + ":" + port + " is begin terminated");
     } catch (InterruptedException e) {
       System.err.println("[UDPUnderlay] Could not terminate.");
-      log.error("[UDPUnderlay] Could not terminate node " + address + ":" + port);
       e.printStackTrace();
       return false;
     }

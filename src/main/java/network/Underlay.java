@@ -64,6 +64,6 @@ public abstract class Underlay {
    *
    * @return true iff the termination was successful.
    */
-  public abstract boolean terminate(String address, int port);
+  public abstract boolean terminate();
 
 }

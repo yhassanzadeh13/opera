@@ -116,7 +116,7 @@ public class JavaRmiUnderlay extends Underlay {
    * Terminates the Java RMI underlay service.
    */
   @Override
-  public boolean terminate(String address, int port) {
+  public boolean terminate() {
     try {
       Naming.unbind("//" + getFullAddress() + "/node");
     } catch (Exception e) {

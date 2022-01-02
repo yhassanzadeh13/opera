@@ -2,17 +2,21 @@ package network;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static utils.Fixtures.identifierListFixture;
 
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import metrics.NoopCollector;
+import network.local.LocalUnderlay;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
-import network.local.LocalUnderlay;
 import utils.NoopOrchestrator;
 
 /**
@@ -24,53 +28,47 @@ public class UnderlayTest {
 
   @AfterAll
   static void terminate() {
-    for (Map.Entry<AbstractMap.SimpleEntry<String, Integer>, Underlay> entry : allUnderlays.entrySet()) {
-      entry.getValue().terminate(entry.getKey().getKey(), entry.getKey().getValue());
+    for (Underlay underlay : allUnderlays.values()) {
+      underlay.terminate();
     }
   }
 
-  ArrayList<FixtureNode> initializeUnderlayTest(UnderlayType underlayName) {
+  ArrayList<FixtureNode> nodeListFixture(UnderlayType underlayName) {
     final int NodeCount = 50; // total number of nodes in test
-    ArrayList<FixtureNode> instances = new ArrayList<>();
-    ArrayList<UUID> allId = new ArrayList<>();
+    ArrayList<FixtureNode> nodes = new ArrayList<>();
+    ArrayList<UUID> allId = identifierListFixture(NodeCount);
     HashMap<UUID, AbstractMap.SimpleEntry<String, Integer>> allFullAddresses = new HashMap<>();
     HashMap<AbstractMap.SimpleEntry<String, Integer>, Boolean> isReady = new HashMap<>();
 
-    // generate IDs
+
     for (int i = 0; i < NodeCount; i++) {
-      allId.add(UUID.randomUUID());
-    }
+      UUID id = allId.get(i);
 
-    try {
-      for (int i = 0; i < NodeCount; i++) {
-        UUID id = allId.get(i);
+      MiddleLayer middleLayer = new MiddleLayer(id,
+          allFullAddresses,
+          isReady,
+          new NoopOrchestrator(),
+          new NoopCollector());
 
-        MiddleLayer middleLayer = new MiddleLayer(id,
-            allFullAddresses,
-            isReady,
-            new NoopOrchestrator(),
-            new NoopCollector());
-        FixtureNode node = new FixtureNode(id, allId, middleLayer);
-        middleLayer.setOverlay(node);
-        Underlay underlay = UnderlayFactory.newUnderlay(underlayName, 0, middleLayer);
-        int port = underlay.getPort();
-        allFullAddresses.put(id, new AbstractMap.SimpleEntry<>(underlay.getAddress(), port));
-        middleLayer.setUnderlay(underlay);
-        instances.add(node);
-        allUnderlays.put(new AbstractMap.SimpleEntry<>(underlay.getAddress(), port), underlay);
-      }
-    } catch (Exception e) {
-      System.err.println(e.getMessage());
-      e.printStackTrace();
+      FixtureNode node = new FixtureNode(id, allId, middleLayer);
+      middleLayer.setOverlay(node);
+      Underlay underlay = UnderlayFactory.newUnderlay(underlayName, 0, middleLayer);
+      assert underlay != null;
+      int port = underlay.getPort();
+      allFullAddresses.put(id, new AbstractMap.SimpleEntry<>(underlay.getAddress(), port));
+      middleLayer.setUnderlay(underlay);
+
+      nodes.add(node);
+      allUnderlays.put(new AbstractMap.SimpleEntry<>(underlay.getAddress(), port), underlay);
     }
 
 
-    return instances;
+    return nodes;
   }
 
   @Test
   void atestTcp() {
-    ArrayList<FixtureNode> tcpNodes = initializeUnderlayTest(UnderlayType.TCP_PROTOCOL);
+    ArrayList<FixtureNode> tcpNodes = nodeListFixture(UnderlayType.TCP_PROTOCOL);
     assure(tcpNodes);
   }
 
@@ -81,7 +79,7 @@ public class UnderlayTest {
 
     // start all instances
     for (FixtureNode node : instances) {
-      new Thread(()->{
+      new Thread(() -> {
         node.onStart();
         countDownLatch.countDown();
       }).start();
@@ -102,14 +100,14 @@ public class UnderlayTest {
   @Test
   void btestUdp() {
     // generate middle layers
-    ArrayList<FixtureNode> udpNodes = initializeUnderlayTest(UnderlayType.UDP_PROTOCOL);
+    ArrayList<FixtureNode> udpNodes = nodeListFixture(UnderlayType.UDP_PROTOCOL);
     assure(udpNodes);
   }
 
   @Test
   void ctestRmi() {
     // generate middle layers
-    ArrayList<FixtureNode> javaRmiNodes = initializeUnderlayTest(UnderlayType.JAVA_RMI);
+    ArrayList<FixtureNode> javaRmiNodes = nodeListFixture(UnderlayType.JAVA_RMI);
     assure(javaRmiNodes);
   }
 

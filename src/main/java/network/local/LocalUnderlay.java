@@ -12,11 +12,9 @@ import network.packets.Request;
  */
 
 public class LocalUnderlay extends Underlay {
-
-
   private final String selfAddress;
   private final int port;
-  private HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allUnderlay;
+  private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allUnderlay;
 
   /**
    * Constructor of LocalUnderlay.
@@ -31,13 +29,8 @@ public class LocalUnderlay extends Underlay {
     this.allUnderlay = allUnderlay;
   }
 
-  public void setAllUnderlay(HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allUnderlay) {
-    this.allUnderlay = allUnderlay;
-  }
-
   @Override
-  public boolean terminate(String address, int port) {
-    allUnderlay.remove(new SimpleEntry<>(address, port));
+  public boolean terminate() {
     return true;
   }
 

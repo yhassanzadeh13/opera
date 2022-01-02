@@ -94,7 +94,7 @@ public class TcpUnderlay extends Underlay {
    * @return whether the termination was successful.
    */
   @Override
-  public boolean terminate(String address, int port) {
+  public boolean terminate() {
     try {
       // Terminating cached sockets and streams
       for (ObjectOutputStream o : this.streamCache.values()) {
@@ -107,7 +107,6 @@ public class TcpUnderlay extends Underlay {
       serverSocket.close();
       // Terminate the listener thread.
       listenerThread.join();
-      log.debug("[TCPUnderlay] node " + address + ":" + port + " is begin terminated");
     } catch (Exception e) {
       System.err.println("[TCPUnderlay] Could not terminate.");
       e.printStackTrace();
