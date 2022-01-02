@@ -1,7 +1,7 @@
 package network;
 
 /**
- * Available list of networking protocols. 
+ * Available list of networking protocols.
  */
 public enum NetworkProtocol {
   TCP_PROTOCOL("tcp"),

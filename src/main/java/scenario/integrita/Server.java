@@ -12,6 +12,7 @@ import scenario.integrita.events.PushResp;
 import scenario.integrita.historytree.HistoryTreeNode;
 import scenario.integrita.historytree.NodeAddress;
 import scenario.integrita.utils.StatusCode;
+
 /**
  * Integrita server implementation.
  */
