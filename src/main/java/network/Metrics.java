@@ -11,60 +11,60 @@ import metrics.MetricsCollector;
 import utils.SimulatorUtils;
 
 /**
- * Encapsulates metrics collectors for middlelayer of network.
+ * Encapsulates metrics collectors for the network layer.
  */
-public class MiddleLayerMetricsCollector {
-  public static final String SUBSYSTEM_MIDDLELAYER = "middlelayer";
+public class Metrics {
+  public static final String SUBSYSTEM_NETWORK = "network";
   private static final ReentrantLock lock = new ReentrantLock();
   private static MetricsCollector metricsCollector;
 
   /**
-   * Atomically initiates metric collector for middlelayer exactly once.
+   * Atomically initiates metric collector for the networking layer exactly once.
    *
    * @param metricsCollector root metric collector.
    */
-  public MiddleLayerMetricsCollector(MetricsCollector metricsCollector) {
+  public Metrics(MetricsCollector metricsCollector) {
     if (!lock.tryLock()) {
       // another thread is initiating
       return;
     }
 
-    if (MiddleLayerMetricsCollector.metricsCollector != null) {
+    if (Metrics.metricsCollector != null) {
       // already initialized
       lock.unlock();
       return;
     }
 
-    MiddleLayerMetricsCollector.metricsCollector = metricsCollector;
+    Metrics.metricsCollector = metricsCollector;
 
     // registers metrics
     // TODO: add exception handling
-    // TODO: expose metrics into middleware collector.
-    MiddleLayerMetricsCollector.metricsCollector.histogram().register(
+    // TODO: expose metrics into network collector.
+    Metrics.metricsCollector.histogram().register(
         Name.PROPAGATION_DELAY,
         Constants.Namespace.NETWORK,
-        SUBSYSTEM_MIDDLELAYER,
+        SUBSYSTEM_NETWORK,
         HelpMsg.PROPAGATION_DELAY,
         Constants.Histogram.DEFAULT_HISTOGRAM);
 
     //TODO: decouple this into sent and received bucket sizes.
-    MiddleLayerMetricsCollector.metricsCollector.histogram().register(
+    Metrics.metricsCollector.histogram().register(
         Name.PACKET_SIZE,
         Constants.Namespace.NETWORK,
-        SUBSYSTEM_MIDDLELAYER,
+        SUBSYSTEM_NETWORK,
         HelpMsg.PACKET_SIZE,
         Constants.Histogram.DEFAULT_HISTOGRAM);
 
-    MiddleLayerMetricsCollector.metricsCollector.counter().register(
+    Metrics.metricsCollector.counter().register(
         Name.MESSAGE_SENT_TOTAL,
         Constants.Namespace.NETWORK,
-        SUBSYSTEM_MIDDLELAYER,
+        SUBSYSTEM_NETWORK,
         HelpMsg.MESSAGE_SENT_TOTAL);
 
-    MiddleLayerMetricsCollector.metricsCollector.counter().register(
+    Metrics.metricsCollector.counter().register(
         Name.MESSAGE_RECEIVED_TOTAL,
         Constants.Namespace.NETWORK,
-        SUBSYSTEM_MIDDLELAYER,
+        SUBSYSTEM_NETWORK,
         HelpMsg.MESSAGE_RECEIVED_TOTAL);
 
     lock.unlock();
@@ -80,15 +80,15 @@ public class MiddleLayerMetricsCollector {
    * @param size       size of message in bytes.
    */
   public void onMessageReceived(UUID receiverId, UUID senderId, int size, Timestamp sentTimeStamp) {
-    MiddleLayerMetricsCollector.metricsCollector.counter().inc(Name.MESSAGE_RECEIVED_TOTAL, receiverId);
+    Metrics.metricsCollector.counter().inc(Name.MESSAGE_RECEIVED_TOTAL, receiverId);
     LocalDateTime sentTime = sentTimeStamp.toLocalDateTime();
     LocalDateTime receivedTime = LocalDateTime.now();
     Duration propagationDelay = Duration.between(sentTime, receivedTime);
 
-    MiddleLayerMetricsCollector.metricsCollector.histogram().observe(Name.PROPAGATION_DELAY,
+    Metrics.metricsCollector.histogram().observe(Name.PROPAGATION_DELAY,
         receiverId,
         propagationDelay.toMillis());
-    MiddleLayerMetricsCollector.metricsCollector.histogram().observe(Name.PACKET_SIZE, senderId, size);
+    Metrics.metricsCollector.histogram().observe(Name.PACKET_SIZE, senderId, size);
   }
 
   /**
@@ -99,7 +99,7 @@ public class MiddleLayerMetricsCollector {
    * @param receiverId identifier of receiver.
    */
   public void onMessageSent(UUID senderId, UUID receiverId) {
-    MiddleLayerMetricsCollector.metricsCollector.counter().inc(Name.MESSAGE_SENT_TOTAL, senderId);
+    Metrics.metricsCollector.counter().inc(Name.MESSAGE_SENT_TOTAL, senderId);
   }
 
   /**

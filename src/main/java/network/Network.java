@@ -30,7 +30,7 @@ public class Network {
   private final UUID nodeId;
   // TODO : make the communication between the nodes and the simulator (the master node) through the network
   private final Orchestrator orchestrator;
-  private final MiddleLayerMetricsCollector metricsCollector;
+  private final Metrics metricsCollector;
   private final LatencyGenerator latencyGenerator;
   private Underlay underlay;
   private BaseNode overlay;
@@ -57,7 +57,7 @@ public class Network {
     this.nodeId = nodeId;
     this.allFullAddresses = allFullAddresses;
     this.orchestrator = orchestrator;
-    this.metricsCollector = new MiddleLayerMetricsCollector(metricsCollector);
+    this.metricsCollector = new Metrics(metricsCollector);
     this.latencyGenerator = new LatencyGenerator();
   }
 
