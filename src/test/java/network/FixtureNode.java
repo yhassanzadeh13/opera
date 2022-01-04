@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import metrics.MetricsCollector;
 import node.BaseNode;
 import network.packets.Event;
+import node.Identity;
 
 /**
  * A basic BaseNode to check whether Underlays coded correctly or not.
@@ -25,7 +26,7 @@ public class FixtureNode implements BaseNode {
 
 
   @Override
-  public void onCreate(ArrayList<UUID> allId) {
+  public void onCreate(ArrayList<Identity> identities) {
   }
 
   @Override
