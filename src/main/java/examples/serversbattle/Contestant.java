@@ -7,11 +7,11 @@ import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
 import metrics.MetricsCollector;
+import network.Network;
 import network.packets.Event;
 import node.BaseNode;
 import node.Identity;
 import simulator.Simulator;
-import underlay.Network;
 
 /**
  * Contestants are nodes that participate the battles. Which fight over their level.
