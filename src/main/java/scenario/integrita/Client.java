@@ -7,6 +7,7 @@ import metrics.MetricsCollector;
 import network.Network;
 import network.packets.Event;
 import node.BaseNode;
+import node.Identity;
 import scenario.integrita.events.Push;
 import scenario.integrita.historytree.HistoryTreeNode;
 
@@ -17,7 +18,7 @@ import scenario.integrita.historytree.HistoryTreeNode;
 public class Client implements BaseNode {
   UUID id;
   Network network;
-  ArrayList<UUID> ids; // all ids inclding self
+  ArrayList<Identity> identities;
 
   public Client() {
 
@@ -29,20 +30,20 @@ public class Client implements BaseNode {
   }
 
   @Override
-  public void onCreate(ArrayList<UUID> allId) {
-    this.ids = allId;
+  public void onCreate(ArrayList<Identity> identities) {
+    this.identities = identities;
     this.network.ready();
   }
 
   @Override
   public void onStart() {
-    for (UUID receiver : ids) {
-      if (receiver.equals(this.id)) {
+    for (Identity receiver : this.identities) {
+      if (receiver.getIdentifier().equals(this.id)) {
         continue;
       }
       // create an empty node
       Push pushMsg = new Push(new HistoryTreeNode(), "Hello");
-      network.send(receiver, pushMsg);
+      network.send(receiver.getIdentifier(), pushMsg);
     }
   }
 
