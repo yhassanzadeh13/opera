@@ -9,7 +9,6 @@ import node.BaseNode;
  * The Event interface is a base interface for the events that the nodes will
  * communicate with each other through.
  */
-
 public interface Event extends Serializable {
 
   /**

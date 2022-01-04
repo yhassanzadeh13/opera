@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import metrics.MetricsCollector;
-import network.MiddleLayer;
+import network.Network;
 import network.packets.Event;
 import node.BaseNode;
 import scenario.integrita.events.Push;
@@ -16,14 +16,14 @@ import scenario.integrita.historytree.HistoryTreeNode;
  */
 public class Client implements BaseNode {
   UUID id;
-  MiddleLayer network;
+  Network network;
   ArrayList<UUID> ids; // all ids inclding self
 
   public Client() {
 
   }
 
-  public Client(UUID selfId, MiddleLayer network) {
+  public Client(UUID selfId, Network network) {
     this.id = selfId;
     this.network = network;
   }
@@ -58,7 +58,7 @@ public class Client implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(UUID selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics) {
+  public BaseNode newInstance(UUID selfId, String nameSpace, Network network, MetricsCollector metrics) {
     Client client = new Client(selfId, network);
     return client;
   }

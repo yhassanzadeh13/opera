@@ -5,7 +5,7 @@ import java.util.UUID;
 import metrics.MetricsCollector;
 import node.BaseNode;
 import node.Identity;
-import network.MiddleLayer;
+import network.Network;
 import network.packets.Event;
 
 /**

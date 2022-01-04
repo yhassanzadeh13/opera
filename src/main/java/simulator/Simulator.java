@@ -10,7 +10,7 @@ import java.util.concurrent.CountDownLatch;
 
 import metrics.MetricsCollector;
 import metrics.opera.OperaCollector;
-import network.MiddleLayer;
+import network.Network;
 import network.NetworkProtocol;
 import network.UnderlayFactory;
 import network.local.LocalUnderlay;

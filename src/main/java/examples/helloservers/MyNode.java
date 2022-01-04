@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import metrics.MetricsCollector;
-import network.MiddleLayer;
+import network.Network;
 import network.packets.Event;
 import node.BaseNode;
 import node.Identity;

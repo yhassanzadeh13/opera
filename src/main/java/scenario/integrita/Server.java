@@ -5,34 +5,36 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import metrics.MetricsCollector;
-import network.MiddleLayer;
+import network.Network;
 import network.packets.Event;
 import node.BaseNode;
+import node.Identity;
 import scenario.integrita.events.PushResp;
 import scenario.integrita.historytree.HistoryTreeNode;
 import scenario.integrita.historytree.NodeAddress;
 import scenario.integrita.utils.StatusCode;
+import underlay.Network;
 
 /**
  * Integrita server implementation.
  */
 public class Server implements BaseNode {
   UUID id;
-  MiddleLayer network;
-  ArrayList<UUID> ids; // all ids including self
+  Network network;
+  ArrayList<Identity> ids; // all ids including self
   HashMap<NodeAddress, HistoryTreeNode> db = new HashMap<>();
 
   public Server() {
   }
 
-  public Server(UUID selfId, MiddleLayer network) {
+  public Server(UUID selfId, Network network) {
     this.id = selfId;
     this.network = network;
   }
 
   @Override
-  public void onCreate(ArrayList<UUID> allId) {
-    this.ids = allId;
+  public void onCreate(ArrayList<Identity> identities) {
+    this.ids = identities;
     this.network.ready();
   }
 
@@ -55,7 +57,7 @@ public class Server implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(UUID selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics) {
+  public BaseNode newInstance(UUID selfId, String nameSpace, Network network, MetricsCollector metrics) {
     Server server = new Server(selfId, network);
     return server;
   }

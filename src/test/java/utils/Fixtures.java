@@ -40,19 +40,19 @@ public class Fixtures {
     for (int i = 0; i < count; i++) {
       UUID id = allId.get(i);
 
-      MiddleLayer middleLayer = new MiddleLayer(id,
+      Network network = new Network(id,
           allFullAddresses,
           isReady,
           new NoopOrchestrator(),
           new NoopCollector());
 
-      network.FixtureNode node = new FixtureNode(id, allId, middleLayer);
-      middleLayer.setOverlay(node);
-      Underlay underlay = UnderlayFactory.newUnderlay(underlayName, 0, middleLayer);
+      network.FixtureNode node = new FixtureNode(id, allId, network);
+      network.setOverlay(node);
+      Underlay underlay = UnderlayFactory.newUnderlay(underlayName, 0, network);
       assert underlay != null;
       int port = underlay.getPort();
       allFullAddresses.put(id, new AbstractMap.SimpleEntry<>(underlay.getAddress(), port));
-      middleLayer.setUnderlay(underlay);
+      network.setUnderlay(underlay);
 
       nodes.add(node);
     }

@@ -6,7 +6,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import metrics.MetricsCollector;
-import network.MiddleLayer;
+import network.Network;
 import network.packets.Event;
 import node.BaseNode;
 import node.Identity;

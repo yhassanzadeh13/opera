@@ -1,12 +1,11 @@
 package node;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.UUID;
 
 import metrics.MetricsCollector;
+import network.packets.Event;
 import underlay.Network;
-import underlay.packets.Event;
 
 
 /**
