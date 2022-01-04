@@ -6,12 +6,12 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import metrics.MetricsCollector;
+import network.MiddleLayer;
+import network.packets.Event;
 import node.BaseNode;
 import node.Identity;
 import org.apache.log4j.Logger;
 import scenario.pov.events.*;
-import underlay.Network;
-import underlay.packets.Event;
 
 
 /**
@@ -181,9 +181,9 @@ public class LightChainNode implements BaseNode {
   /**
    * creates a new instance of LightChainNode.
    *
-   * @param selfId  the ID of the new node
+   * @param selfId    the ID of the new node
    * @param nameSpace string tag to virtually group the nodes (with identical tags)
-   * @param network communication network for the new node
+   * @param network   communication network for the new node
    * @return a new instance of LightChainNode
    */
   @Override

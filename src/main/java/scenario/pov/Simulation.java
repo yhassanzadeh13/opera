@@ -1,9 +1,9 @@
 package scenario.pov;
 
+import network.NetworkProtocol;
 import simulator.Factory;
 import simulator.Recipe;
 import simulator.Simulator;
-import underlay.UnderlayType;
 
 /**
  * Simulation uses simulator to simulate an event with given number of given node and in a given duration of time.
@@ -17,7 +17,7 @@ public class Simulation {
     final String nameSpace = "demo-lightchain";
     Factory factory = new Factory();
     factory.addRecipe(new Recipe(new LightChainNode(), nameSpace, 21));
-    Simulator simulator = new Simulator(factory, UnderlayType.MOCK_NETWORK);
+    Simulator simulator = new Simulator(factory, NetworkProtocol.MOCK_NETWORK);
     simulator.constantSimulation(duration);
   }
 

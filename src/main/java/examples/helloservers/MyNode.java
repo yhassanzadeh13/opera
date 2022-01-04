@@ -5,10 +5,10 @@ import java.util.Random;
 import java.util.UUID;
 
 import metrics.MetricsCollector;
+import network.MiddleLayer;
+import network.packets.Event;
 import node.BaseNode;
 import node.Identity;
-import underlay.Network;
-import underlay.packets.Event;
 
 /**
  * MyNode is a base node to be fixture node for the hello servers simulation.

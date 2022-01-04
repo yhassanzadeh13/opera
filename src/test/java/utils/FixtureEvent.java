@@ -1,7 +1,7 @@
 package utils;
 
 import node.BaseNode;
-import underlay.packets.Event;
+import network.packets.Event;
 
 /**
  * A basic Event to use to check whether Utils coded correctly.

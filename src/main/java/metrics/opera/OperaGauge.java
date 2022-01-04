@@ -22,7 +22,7 @@ public class OperaGauge extends OperaMetric implements GaugeCollector {
    * @param name        name of gauge metric.
    * @param namespace   namespace of gauge metric, normally refers to a distinct class of opera, e.g., middleware.
    * @param subsystem   either the same as namespace for monolith classes, or the subclass for which we collect metrics,
-   *                    e.g., latency generator within middleware.
+   *                    e.g., network.latency generator within middleware.
    * @param helpMessage a hint message describing what this metric represents.
    * @throws IllegalArgumentException when a different metric type (e.g., histogram) with the same name has already
    *                                  been registered.

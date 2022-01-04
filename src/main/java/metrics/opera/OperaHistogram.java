@@ -43,7 +43,7 @@ public class OperaHistogram extends OperaMetric implements HistogramCollector {
    * @param name        name of histogram metric.
    * @param namespace   namespace of histogram metric, normally refers to a distinct class of opera, e.g., middleware.
    * @param subsystem   either the same as namespace for monolith classes, or the subclass for which we collect metrics,
-   *                    e.g., latency generator within middleware.
+   *                    e.g., network.latency generator within middleware.
    * @param helpMessage a hint message describing what this metric represents.
    * @param buckets     histogram buckets. The buckets are cumulative,
    *                    i.e., each bucket has a length label that accumulates all
