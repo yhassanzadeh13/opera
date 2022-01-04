@@ -13,7 +13,6 @@ import scenario.integrita.events.PushResp;
 import scenario.integrita.historytree.HistoryTreeNode;
 import scenario.integrita.historytree.NodeAddress;
 import scenario.integrita.utils.StatusCode;
-import underlay.Network;
 
 /**
  * Integrita server implementation.
@@ -58,7 +57,6 @@ public class Server implements BaseNode {
 
   @Override
   public BaseNode newInstance(UUID selfId, String nameSpace, Network network, MetricsCollector metrics) {
-    Server server = new Server(selfId, network);
-    return server;
+    return new Server(selfId, network);
   }
 }
