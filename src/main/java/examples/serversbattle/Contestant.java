@@ -9,7 +9,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import metrics.MetricsCollector;
 import network.MiddleLayer;
 import network.packets.Event;
-
 import node.BaseNode;
 import simulator.Simulator;
 
