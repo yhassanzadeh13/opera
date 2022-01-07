@@ -17,6 +17,7 @@ public class MyNode implements BaseNode {
   private UUID selfId;
   private ArrayList<UUID> allId;
   private MiddleLayer network;
+  private static final Random rng = new Random();
   private MetricsCollector metricsCollector; // TODO: enable metrics
 
   MyNode(UUID selfId, MiddleLayer network, MetricsCollector metricsCollector) {
@@ -31,7 +32,7 @@ public class MyNode implements BaseNode {
 
 
   @Override
-  public void onCreate(ArrayList<UUID> allId) {
+  public void onCreate(final ArrayList<UUID> allId) {
     this.allId = allId;
     network.ready();
   }
@@ -50,8 +51,7 @@ public class MyNode implements BaseNode {
     if (allId.isEmpty()) {
       return;
     }
-    Random rand = new Random();
-    int ind = rand.nextInt(allId.size());
+    int ind = rng.nextInt(allId.size());
     SendHello helloMessage = new SendHello(msg, selfId, allId.get(ind));
     network.send(allId.get(ind), helloMessage);
   }
@@ -63,8 +63,7 @@ public class MyNode implements BaseNode {
   @Override
   public void onNewMessage(UUID originId, Event msg) {
     try {
-      Random rand = new Random();
-      Thread.sleep(rand.nextInt(1000));
+      Thread.sleep(rng.nextInt(1000));
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
