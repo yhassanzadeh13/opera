@@ -65,6 +65,19 @@
                         </dependency>
                     </dependencies>
                 </plugin>
+                <plugin>
+                    <groupId>com.github.spotbugs</groupId>
+                    <artifactId>spotbugs-maven-plugin</artifactId>
+                    <version>4.5.2.0</version>
+                    <dependencies>
+                        <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
+                        <dependency>
+                            <groupId>com.github.spotbugs</groupId>
+                            <artifactId>spotbugs</artifactId>
+                            <version>4.5.3</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -79,6 +92,14 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-maven-plugin -->
+        <dependency>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-maven-plugin</artifactId>
+            <version>3.1.0-RC6</version>
         </dependency>
 
         <dependency>

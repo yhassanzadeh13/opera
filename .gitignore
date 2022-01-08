@@ -12,3 +12,7 @@ doc/
 target/
 *.iml
 out/
+
+infer-out/tmp/
+
+infer-out/

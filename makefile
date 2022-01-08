@@ -2,6 +2,8 @@ lint:
 	@mvn checkstyle:checkstyle
 lint-verbose:
 	@mvn -e checkstyle:checkstyle
+check:
+	@mvn spotbugs:check
 test:
 	@mvn clean install
 	@mvn compile
