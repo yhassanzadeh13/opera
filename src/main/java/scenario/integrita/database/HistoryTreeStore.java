@@ -2,9 +2,7 @@ package scenario.integrita.database;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
-import org.w3c.dom.Node;
 import scenario.integrita.historytree.HistoryTreeNode;
 import scenario.integrita.historytree.NodeAddress;
 import scenario.integrita.user.User;
@@ -18,6 +16,8 @@ public class HistoryTreeStore implements Store {
   public HashMap<NodeAddress, HistoryTreeNode> historyTreeNodes;
 
   public HistoryTreeStore() {
+    this.users = new ArrayList<>();
+    this.historyTreeNodes = new HashMap<>();
   }
 
   public HistoryTreeStore(ArrayList<User> users, HashMap<NodeAddress, HistoryTreeNode> historyTreeNodes) {
@@ -32,10 +32,16 @@ public class HistoryTreeStore implements Store {
   }
 
   @Override
-  public boolean delete(NodeAddress nodeAddress) {
-    if (historyTreeNodes.containsKey(nodeAddress)){
-      historyTreeNodes.remove(nodeAddress);
+  public boolean insertAll(ArrayList<HistoryTreeNode> historyTreeNodes) {
+    for (HistoryTreeNode node : historyTreeNodes) {
+      this.insert(node);
     }
+    return true;
+  }
+
+  @Override
+  public boolean delete(NodeAddress nodeAddress) {
+    historyTreeNodes.remove(nodeAddress);
     return true;
   }
 
@@ -45,5 +51,9 @@ public class HistoryTreeStore implements Store {
 //      return null;
 //    }
     return historyTreeNodes.get(nodeAddress);
+  }
+
+  public Integer totalNodes() {
+    return this.historyTreeNodes.size();
   }
 }
