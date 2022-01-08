@@ -6,4 +6,12 @@ package scenario.integrita.user;
 public class User {
   public Integer UID;
 //  @TODO add signature verification key
+
+
+  public User(Integer UID) {
+    this.UID = UID;
+  }
+
+  public User() {
+  }
 }
