@@ -77,6 +77,10 @@
                             <version>4.5.3</version>
                         </dependency>
                     </dependencies>
+                    <configuration>
+                        <xmlOutput>true</xmlOutput>
+                        <failOnError>true</failOnError>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
