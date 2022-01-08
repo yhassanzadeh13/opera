@@ -80,6 +80,7 @@
                     <configuration>
                         <xmlOutput>true</xmlOutput>
                         <failOnError>true</failOnError>
+                        <failThreshold>Low</failThreshold>
                     </configuration>
                 </plugin>
             </plugins>
