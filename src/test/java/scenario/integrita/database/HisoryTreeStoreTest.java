@@ -1,9 +1,12 @@
 package scenario.integrita.database;
 
+import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import scenario.integrita.historytree.HistoryTreeNode;
@@ -18,7 +21,9 @@ public class HisoryTreeStoreTest {
     HistoryTreeStore historyTreeStore = new HistoryTreeStore();
 
     // add 3 users
-    historyTreeStore.users.addAll(Arrays.asList(new User(1), new User(2), new User(3)));
+    historyTreeStore.users.put( 1, new User(1));
+    historyTreeStore.users.put( 2, new User(2));
+    historyTreeStore.users.put( 2, new User(2));
 
     // create three nodes, two of which have the same address
     HistoryTreeNode historyTreeNode1 = new HistoryTreeNode(new NodeAddress(0, 1), OperationType.Insert, 1);
