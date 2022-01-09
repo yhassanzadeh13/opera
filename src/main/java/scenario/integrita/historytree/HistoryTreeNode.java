@@ -11,7 +11,7 @@ import scenario.integrita.utils.OperationType;
 public class HistoryTreeNode {
   public NodeAddress addr;
   public OperationType op;
-  public byte[] hash;
+  public String hash;
   public byte[] signature;
   /*
   the id of the owning user
@@ -29,12 +29,12 @@ public class HistoryTreeNode {
 
   @Override
   public String toString() {
-    return "HistoryTreeNode{" +
-            "addr=" + addr +
-            ", op='" + op + '\'' +
-            ", hash=" + Arrays.toString(hash) +
-            ", signature=" + Arrays.toString(signature) +
-            ", userId=" + userId +
-            '}';
+    return "HistoryTreeNode{"
+            + "addr=" + addr
+            + ", op='" + op + '\''
+            + ", hash=" + hash
+            + ", signature=" + Arrays.toString(signature)
+            + ", userId=" + userId
+            + '}';
   }
 }
