@@ -5,12 +5,12 @@ public class Signature {
   public void init(){
   // @TODO generate keys
   }
-  public byte[] sing(byte[] msg) {
+  public static byte[] sing(String msg, byte[] signature_key) {
     // @TODO sign using the generated keys
     byte[] result = new byte[0];
     return result;
   }
-  public boolean verify(){
+  public static boolean verify(String msg, byte[] signature, byte[] verification_key){
     // @TODO verify using the generated keys
     return true;
   }
