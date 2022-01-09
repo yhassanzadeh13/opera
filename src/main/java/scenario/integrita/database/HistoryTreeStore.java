@@ -25,8 +25,8 @@ public class HistoryTreeStore implements Store {
     this.historyTreeNodes = historyTreeNodes;
   }
 
-  public byte[] getVerificationKey(int user_index) {
-    return users.get(user_index).verification_key;
+  public byte[] getVerificationKey(int userIndex) {
+    return users.get(userIndex).verificationKey;
   }
 
   @Override
@@ -51,9 +51,9 @@ public class HistoryTreeStore implements Store {
 
   @Override
   public HistoryTreeNode get(NodeAddress nodeAddress) {
-//    if (!historyTreeNodes.containsKey(nodeAddress)) {
-//      return null;
-//    }
+    //    if (!historyTreeNodes.containsKey(nodeAddress)) {
+    //      return null;
+    //    }
     return historyTreeNodes.get(nodeAddress);
   }
 

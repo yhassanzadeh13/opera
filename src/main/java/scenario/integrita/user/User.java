@@ -1,11 +1,11 @@
 package scenario.integrita.user;
 
 /**
- * contains user-related information
+ * contains user-related information.
  */
 public class User {
   public Integer id;
-  public byte[] verification_key;
+  public byte[] verificationKey;
 
   public User(Integer id) {
     this.id = id;
