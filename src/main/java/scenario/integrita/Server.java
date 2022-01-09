@@ -1,16 +1,19 @@
 package scenario.integrita;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 
+import groovy.lang.Tuple;
 import metrics.MetricsCollector;
 import network.MiddleLayer;
 import network.packets.Event;
 import node.BaseNode;
+import org.apache.commons.lang3.tuple.Pair;
+import scenario.integrita.database.HistoryTreeStore;
 import scenario.integrita.events.PushResp;
 import scenario.integrita.historytree.HistoryTreeNode;
 import scenario.integrita.historytree.NodeAddress;
+import scenario.integrita.signature.Signature;
 import scenario.integrita.utils.StatusCode;
 
 /**
@@ -20,7 +23,11 @@ public class Server implements BaseNode {
   UUID id;
   MiddleLayer network;
   ArrayList<UUID> ids; // all ids including self
-  HashMap<NodeAddress, HistoryTreeNode> db = new HashMap<>();
+  HistoryTreeStore db;
+  int totalServers;
+  int index;
+  NodeAddress status;
+  byte[] signVerificationKey;
 
   public Server() {
   }
@@ -34,6 +41,54 @@ public class Server implements BaseNode {
   public void onCreate(ArrayList<UUID> allId) {
     this.ids = allId;
     this.network.ready();
+  }
+
+  public Tuple push(HistoryTreeNode historyTreeNode) {
+    // @TODO check the user membership via signature
+
+    // check whether the node is submitted to the right server
+    int serverIndex = NodeAddress.mapServerIndex(historyTreeNode.addr, totalServers);
+    if (serverIndex != this.index) {
+      return new Tuple(new Object[]{StatusCode.Reject, null});
+    }
+
+    // the different between the label of supplied node and the status of the server
+    // should be equal to the total number of servers
+    int diff = NodeAddress.toLabel(historyTreeNode.addr) - NodeAddress.toLabel(this.status);
+    if (diff != totalServers) {
+      return new Tuple(new Object[]{StatusCode.Reject, null});
+    }
+
+    if (NodeAddress.isLeaf(historyTreeNode.addr)) {
+      //  @TODO check the hash value
+      // @TODO retrieve user vk and verify the signature
+
+    }
+
+    if (NodeAddress.isTreeDigest(historyTreeNode.addr)) {
+      // verify signature
+      String msg = historyTreeNode.hash + historyTreeNode.addr.position;
+      if (!Signature.verify(msg, historyTreeNode.signature, this.db.getVerificationKey(historyTreeNode.userId))) {
+        new Tuple(new Object[]{StatusCode.Reject, null});
+      }
+    }
+
+    // update the database
+    db.historyTreeNodes.put(historyTreeNode.addr, historyTreeNode);
+
+    // TODO clean up the database
+    // remove tree digests of the old operations
+    // except the first operation
+
+    // update the state variable
+    this.status = historyTreeNode.addr;
+
+    if (NodeAddress.isTreeDigest(historyTreeNode.addr)) {
+      String msg = historyTreeNode.hash + historyTreeNode.addr.position;
+      byte[] signature= Signature.sing(msg, signVerificationKey);
+      return new Tuple(new Object[]{StatusCode.Accept, signature});
+    }
+    return new Tuple(new Object[]{StatusCode.Accept, null});
   }
 
   // BaseNode interface implementation ------------
