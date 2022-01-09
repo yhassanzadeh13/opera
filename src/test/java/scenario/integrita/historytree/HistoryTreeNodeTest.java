@@ -3,13 +3,14 @@ package scenario.integrita.historytree;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class HistoryTreeNodeTest {
 
   @Test
   void testIsValid() {
-    assertFalse(NodeAddress.isValid(new NodeAddress(0, 0)));
+    Assertions.assertFalse(NodeAddress.isValid(new NodeAddress(0, 0)));
     assertFalse(NodeAddress.isValid(new NodeAddress(1, -1)));
     assertFalse(NodeAddress.isValid(new NodeAddress(4, 3)));
     assertFalse(NodeAddress.isValid(new NodeAddress(3, 3)));

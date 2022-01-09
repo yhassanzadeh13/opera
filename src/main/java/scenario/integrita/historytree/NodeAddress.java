@@ -7,8 +7,8 @@ package scenario.integrita.historytree;
  * level ranges from 0 to log2(position)+1.
  */
 public class NodeAddress {
-  int position;
-  int level;
+  public int position;
+  public int level;
 
   public NodeAddress() {
 
@@ -68,6 +68,16 @@ public class NodeAddress {
   }
 
   /**
+   * checks if the supplied address `addr` belongs to a history tree root.
+   */
+  public static boolean isLeaf(NodeAddress addr) {
+    if (!isValid(addr)) {
+      return false;
+    }
+    return (addr.level == 0);
+  }
+
+  /**
    * implements the L function of Integrita.
    *
    * @param addr a node address
@@ -90,10 +100,31 @@ public class NodeAddress {
    * @return the index of the server
    */
   public static int mapServerIndex(NodeAddress addr, int totalNumberServer) {
+    // TODO totalNumberServer should be non zero
     int index = Math.floorMod(toLabel(addr), totalNumberServer);
     if (index == 0) {
       index = totalNumberServer;
     }
     return index;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    NodeAddress other = (NodeAddress) obj;
+    return (position == other.position) && (level == other.level);
+  }
+
+  @Override
+  public int hashCode() {
+    return toLabel(this);
   }
 }
