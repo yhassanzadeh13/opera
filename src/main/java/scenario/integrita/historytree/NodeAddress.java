@@ -18,8 +18,7 @@ public class NodeAddress {
     this.position = position;
     this.level = level;
   }
-
-  //Compare only account numbers
+  
   @Override
   public boolean equals(Object obj) {
     if (this == obj)
