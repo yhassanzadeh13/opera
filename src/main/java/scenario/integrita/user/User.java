@@ -4,12 +4,13 @@ package scenario.integrita.user;
  * contains user-related information
  */
 public class User {
-  public Integer UID;
+  public Integer id;
+  public byte[] verification_key;
 //  @TODO add signature verification key
 
 
-  public User(Integer UID) {
-    this.UID = UID;
+  public User(Integer id) {
+    this.id = id;
   }
 
   public User() {
