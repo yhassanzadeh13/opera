@@ -12,17 +12,21 @@ import scenario.integrita.user.User;
  */
 public class HistoryTreeStore implements Store {
 
-  public ArrayList<User> users;
+  public HashMap<Integer, User> users;
   public HashMap<NodeAddress, HistoryTreeNode> historyTreeNodes;
 
   public HistoryTreeStore() {
-    this.users = new ArrayList<>();
+    this.users = new HashMap<>();
     this.historyTreeNodes = new HashMap<>();
   }
 
-  public HistoryTreeStore(ArrayList<User> users, HashMap<NodeAddress, HistoryTreeNode> historyTreeNodes) {
+  public HistoryTreeStore(HashMap<Integer, User> users, HashMap<NodeAddress, HistoryTreeNode> historyTreeNodes) {
     this.users = users;
     this.historyTreeNodes = historyTreeNodes;
+  }
+
+  public byte[] getVerificationKey(int user_index) {
+    return users.get(user_index).verification_key;
   }
 
   @Override
@@ -56,4 +60,5 @@ public class HistoryTreeStore implements Store {
   public Integer totalNodes() {
     return this.historyTreeNodes.size();
   }
+
 }
