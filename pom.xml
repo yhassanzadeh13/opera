@@ -78,6 +78,7 @@
                         </dependency>
                     </dependencies>
                     <configuration>
+                        <effort>Max</effort>
                         <xmlOutput>true</xmlOutput>
                         <failOnError>true</failOnError>
                         <failThreshold>Low</failThreshold>
