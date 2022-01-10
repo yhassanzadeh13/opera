@@ -50,14 +50,6 @@ jobs:
       - name: run tests
         run: mvn test
 
-  check:
-    name: spotbugs linting
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: run spotbugs
-        run: mvn spotbugs:check
-
 
 
 #  sonar:
