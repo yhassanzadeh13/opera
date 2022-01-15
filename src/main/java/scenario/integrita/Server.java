@@ -88,7 +88,7 @@ public class Server implements BaseNode {
     this.status = historyTreeNode.addr;
 
     if (NodeAddress.isTreeDigest(historyTreeNode.addr)) {
-      String msg = historyTreeNode.hash + historyTreeNode.addr.position;
+      String msg = historyTreeNode.toLeaf();
       byte[] signature = Signature.sign(msg, signVerificationKey);
       return new Tuple(new Object[]{StatusCode.Accept, signature});
     }
