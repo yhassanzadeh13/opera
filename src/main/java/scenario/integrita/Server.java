@@ -8,7 +8,6 @@ import metrics.MetricsCollector;
 import network.MiddleLayer;
 import network.packets.Event;
 import node.BaseNode;
-import org.apache.commons.lang3.tuple.Pair;
 import scenario.integrita.database.HistoryTreeStore;
 import scenario.integrita.events.PushResp;
 import scenario.integrita.historytree.HistoryTreeNode;
@@ -27,7 +26,7 @@ public class Server implements BaseNode {
   int totalServers;
   int index;
   NodeAddress status;
-  byte[] signVerificationKey;
+  byte[] signVerificationKey; // server's vk
 
   public Server() {
   }
@@ -52,7 +51,7 @@ public class Server implements BaseNode {
       return new Tuple(new Object[]{StatusCode.Reject, null});
     }
 
-    // the different between the label of supplied node and the status of the server
+    // the difference between the label of supplied node and the status of the server
     // should be equal to the total number of servers
     int diff = NodeAddress.toLabel(historyTreeNode.addr) - NodeAddress.toLabel(this.status);
     if (diff != totalServers) {
@@ -62,12 +61,17 @@ public class Server implements BaseNode {
     if (NodeAddress.isLeaf(historyTreeNode.addr)) {
       //  @TODO check the hash value
       // @TODO retrieve user vk and verify the signature
-
+      byte[] vk = db.getVerificationKey(historyTreeNode.userId);
+      String msg = historyTreeNode.toLeaf();
+      boolean res = Signature.verify(msg, historyTreeNode.signature, vk);
+      if (res == false) {
+        return new Tuple(new Object[]{StatusCode.Reject, null});
+      }
     }
 
     if (NodeAddress.isTreeDigest(historyTreeNode.addr)) {
       // verify signature
-      String msg = historyTreeNode.hash + historyTreeNode.addr.position;
+      String msg = historyTreeNode.toLeaf();
       if (!Signature.verify(msg, historyTreeNode.signature, this.db.getVerificationKey(historyTreeNode.userId))) {
         new Tuple(new Object[]{StatusCode.Reject, null});
       }
@@ -85,7 +89,7 @@ public class Server implements BaseNode {
 
     if (NodeAddress.isTreeDigest(historyTreeNode.addr)) {
       String msg = historyTreeNode.hash + historyTreeNode.addr.position;
-      byte[] signature= Signature.sing(msg, signVerificationKey);
+      byte[] signature = Signature.sign(msg, signVerificationKey);
       return new Tuple(new Object[]{StatusCode.Accept, signature});
     }
     return new Tuple(new Object[]{StatusCode.Accept, null});
