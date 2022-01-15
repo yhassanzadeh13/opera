@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class HistoryTreeStoreTreeNodeTest {
+public class HistoryTreeNodeTest {
 
   @Test
   void testIsValid() {
