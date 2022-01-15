@@ -2,6 +2,7 @@ package scenario.integrita.database;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import scenario.integrita.historytree.HistoryTreeNode;
 import scenario.integrita.historytree.NodeAddress;
@@ -57,9 +58,20 @@ public class HistoryTreeStore implements Store {
     return historyTreeNodes.get(nodeAddress);
   }
 
-  public Integer totalNodes() {
-
+  public int totalNodes() {
     return this.historyTreeNodes.size();
+  }
+
+  /**
+   * erases all the past nodes whose `position` precede the position of the supplied `addr`
+   * @param addr
+   */
+  public void cleanDigests(NodeAddress addr){
+    for (Map.Entry<NodeAddress, HistoryTreeNode> e : historyTreeNodes.entrySet()){
+      if (NodeAddress.isTreeDigest(e.getKey()) && (e.getKey().position < addr.position) && (e.getKey().position != 1)){
+        historyTreeNodes.remove(e.getKey());
+      }
+    }
   }
 
 }
