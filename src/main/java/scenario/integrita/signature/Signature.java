@@ -5,7 +5,7 @@ public class Signature {
   public void init(){
   // @TODO generate keys
   }
-  public static byte[] sing(String msg, byte[] signature_key) {
+  public static byte[] sign(String msg, byte[] signature_key) {
     // @TODO sign using the generated keys
     byte[] result = new byte[0];
     return result;
