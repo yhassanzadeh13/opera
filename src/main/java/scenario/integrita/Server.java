@@ -78,11 +78,14 @@ public class Server implements BaseNode {
     }
 
     // update the database
-    db.historyTreeNodes.put(historyTreeNode.addr, historyTreeNode);
+    if (!NodeAddress.isTemporary(historyTreeNode.addr)) {
+      db.historyTreeNodes.put(historyTreeNode.addr, historyTreeNode);
+    }
 
     // TODO clean up the database
     // remove tree digests of the old operations
     // except the first operation
+    db.cleanDigests(historyTreeNode.addr);
 
     // update the state variable
     this.status = historyTreeNode.addr;
