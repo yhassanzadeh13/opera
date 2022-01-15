@@ -129,23 +129,4 @@ public class NodeAddress {
     return index;
   }
 
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    NodeAddress other = (NodeAddress) obj;
-    return (position == other.position) && (level == other.level);
-  }
-
-  @Override
-  public int hashCode() {
-    return toLabel(this);
-  }
 }
