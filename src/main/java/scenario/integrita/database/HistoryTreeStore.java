@@ -26,7 +26,7 @@ public class HistoryTreeStore implements Store {
   }
 
   public byte[] getVerificationKey(int user_index) {
-    return users.get(user_index).verification_key;
+    return users.get(user_index).verificationKey;
   }
 
   @Override
@@ -58,6 +58,7 @@ public class HistoryTreeStore implements Store {
   }
 
   public Integer totalNodes() {
+
     return this.historyTreeNodes.size();
   }
 
