@@ -1,12 +1,9 @@
 package scenario.integrita.database;
 
-import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import scenario.integrita.historytree.HistoryTreeNode;

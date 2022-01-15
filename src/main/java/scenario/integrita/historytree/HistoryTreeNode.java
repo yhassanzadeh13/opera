@@ -18,6 +18,15 @@ public class HistoryTreeNode {
    */
   public Integer userId;
 
+  /**
+   * constructor.
+   *
+   * @param addr node address
+   *
+   * @param op type of operation
+   *
+   * @param userId the id of the author
+   */
   public HistoryTreeNode(NodeAddress addr, OperationType op, Integer userId) {
     this.addr = addr;
     this.op = op;
