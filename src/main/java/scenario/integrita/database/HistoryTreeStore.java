@@ -60,6 +60,12 @@ public class HistoryTreeStore implements Store {
     return this.historyTreeNodes.size();
   }
 
+  public boolean insert(User user) {
+    // TODO check duplicates
+    users.put(user.id, user);
+    return true;
+  }
+
   /**
    * erases all the past nodes whose `position` precede the position of the supplied `addr` exclusively
    *
