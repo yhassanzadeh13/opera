@@ -22,7 +22,8 @@ public class Server implements BaseNode {
   // Integrita related fields
   int index; // server's index
   int totalServers; // total number of servers
-  byte[] signVerificationKey; // server's vk
+  byte[] vk; // server's verification key
+  byte[] sk; // server's signature key
   HistoryTreeStore db;
   NodeAddress status; // the last node address seen by the server
 
@@ -41,6 +42,18 @@ public class Server implements BaseNode {
     this.network = network;
   }
 
+  public Server(int index, int totalServers) {
+    this.index = index;
+    this.totalServers = totalServers;
+
+    this.db = new HistoryTreeStore();
+
+    // generate signature keys
+    byte[][] keys = Signature.keyGen();
+    this.sk = keys[0];
+    this.vk = keys[1];
+  }
+
   // Integrita RPCs ---------------------------------------------------------------------
   public Tuple push(HistoryTreeNode historyTreeNode) {
     // @TODO check the user membership via signature
@@ -53,7 +66,7 @@ public class Server implements BaseNode {
 
     // the difference between the label of supplied node and the status of the server
     // should be equal to the total number of servers
-    if (this.status != null){
+    if (this.status != null) {
       int diff = NodeAddress.toLabel(historyTreeNode.addr) - NodeAddress.toLabel(this.status);
       if (diff != totalServers) {
         return new Tuple(new Object[]{StatusCode.Reject, null});
@@ -98,7 +111,7 @@ public class Server implements BaseNode {
     // server should sign tree digests
     if (NodeAddress.isTreeDigest(historyTreeNode.addr)) {
       String msg = historyTreeNode.toLeaf();
-      byte[] signature = Signature.sign(msg, signVerificationKey);
+      byte[] signature = Signature.sign(msg, vk);
       return new Tuple(new Object[]{StatusCode.Accept, signature});
     }
 
