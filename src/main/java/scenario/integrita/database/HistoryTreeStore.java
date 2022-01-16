@@ -3,6 +3,7 @@ package scenario.integrita.database;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import scenario.integrita.historytree.HistoryTreeNode;
 import scenario.integrita.historytree.NodeAddress;
@@ -67,11 +68,22 @@ public class HistoryTreeStore implements Store {
    * @param addr
    */
   public void cleanDigests(NodeAddress addr){
-    for (Map.Entry<NodeAddress, HistoryTreeNode> e : historyTreeNodes.entrySet()){
-      if (NodeAddress.isTreeDigest(e.getKey()) && (e.getKey().position < addr.position) && (e.getKey().position != 1)){
-        historyTreeNodes.remove(e.getKey());
+    Set<NodeAddress> keySet = historyTreeNodes.keySet();
+    for ( NodeAddress k : keySet){
+      if (NodeAddress.isTreeDigest(k) && (k.position < addr.position) && (k.position != 1)){
+        historyTreeNodes.remove(k);
       }
     }
+  }
+
+  /**
+   * checks if nodeAddress belongs to HistoryTreeStore object
+   * @param nodeAddress
+   * @return
+   */
+  public boolean contains(NodeAddress nodeAddress){
+    boolean exists = historyTreeNodes.containsKey(nodeAddress);
+    return exists;
   }
 
 }
