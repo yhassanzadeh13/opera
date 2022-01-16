@@ -19,26 +19,6 @@ public class NodeAddress {
     this.level = level;
   }
 
-  //Compare only account numbers
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    NodeAddress other = (NodeAddress) obj;
-    if ((position != other.position) || (level != other.level))
-      return false;
-    return true;
-  }
-
-  @Override
-  public int hashCode() {
-    return toLabel(this);
-  }
-
   /**
    * checks whether the address fields are valid.
    */
@@ -49,7 +29,7 @@ public class NodeAddress {
     if (addr.level < 0) {
       return false;
     }
-    double maxLevel = Math.ceil(Math.log(addr.position) / Math.log(2));
+    double maxLevel = maxLevel(addr.position);
     return !(addr.level > maxLevel);
   }
 
@@ -97,6 +77,10 @@ public class NodeAddress {
     return (addr.level == 0);
   }
 
+  public static int maxLevel(int position) {
+    int maxLev = (int) Math.ceil(Math.log(position) / Math.log(2));
+    return maxLev;
+  }
 
   /**
    * implements the L function of Integrita.
@@ -107,7 +91,7 @@ public class NodeAddress {
   public static int toLabel(NodeAddress addr) {
     int sum = 0;
     for (int j = 1; j < addr.position; j++) {
-      sum = sum + (int) Math.ceil(Math.log(j) / Math.log(2)) + 1;
+      sum = sum + maxLevel(addr.position) + 1;
     }
     sum = sum + addr.level + 1;
     return sum;
@@ -128,5 +112,25 @@ public class NodeAddress {
     }
     return index;
   }
+
+  //Compare only account numbers
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    NodeAddress other = (NodeAddress) obj;
+    return (position == other.position) && (level == other.level);
+  }
+
+  @Override
+  public int hashCode() {
+    return toLabel(this);
+  }
+
+
 
 }
