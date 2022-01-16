@@ -19,14 +19,21 @@ import scenario.integrita.utils.StatusCode;
  * Integrita server implementation.
  */
 public class Server implements BaseNode {
+  // Integrita related fields
+  int index; // server's index
+  int totalServers; // total number of servers
+  byte[] signVerificationKey; // server's vk
+  HistoryTreeStore db;
+  NodeAddress status; // the last node address seen by the server
+
+  // simulator related properties
   UUID id;
   MiddleLayer network;
-  ArrayList<UUID> ids; // all ids including self
-  HistoryTreeStore db;
-  int totalServers;
-  int index;
-  NodeAddress status;
-  byte[] signVerificationKey; // server's vk
+  // all UUIDs including self
+  ArrayList<UUID> ids;
+
+
+
 
   public Server() {
   }
