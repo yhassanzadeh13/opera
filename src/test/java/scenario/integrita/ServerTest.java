@@ -15,10 +15,8 @@ public class ServerTest {
   @Test
   public void pushTestServerIndex() {
     // set up a server
-    Server s = new Server();
-    s.index = 1;
-    s.totalServers = 4;
-    s.db.insert(new User());
+    Server s = new Server(1, 4);
+    s.db.insert(new User(1, new byte[0]));
     // create a history tree node whose index maps to the server's index
     HistoryTreeNode historyTreeNode = new HistoryTreeNode(new NodeAddress(1, 0), OperationType.Insert, 1);
     Tuple res = s.push(historyTreeNode);
