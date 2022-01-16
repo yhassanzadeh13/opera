@@ -58,6 +58,8 @@ public class Server implements BaseNode {
       return new Tuple(new Object[]{StatusCode.Reject, null});
     }
 
+    // verify user-side signature on the leaf
+    // needed for the authorization
     if (NodeAddress.isLeaf(historyTreeNode.addr)) {
       //  @TODO check the hash value
       // @TODO retrieve user vk and verify the signature
@@ -69,6 +71,7 @@ public class Server implements BaseNode {
       }
     }
 
+    // verify user-side signature on the tree digest
     if (NodeAddress.isTreeDigest(historyTreeNode.addr)) {
       // verify signature
       String msg = historyTreeNode.toLeaf();
@@ -77,12 +80,11 @@ public class Server implements BaseNode {
       }
     }
 
-    // update the database
+    // update the database just for non-empty nodes
     if (!NodeAddress.isTemporary(historyTreeNode.addr)) {
       db.historyTreeNodes.put(historyTreeNode.addr, historyTreeNode);
     }
 
-    // TODO clean up the database
     // remove tree digests of the old operations
     // except the first operation
     db.cleanDigests(historyTreeNode.addr);
@@ -90,11 +92,14 @@ public class Server implements BaseNode {
     // update the state variable
     this.status = historyTreeNode.addr;
 
+    // server should sign tree digests
     if (NodeAddress.isTreeDigest(historyTreeNode.addr)) {
       String msg = historyTreeNode.toLeaf();
       byte[] signature = Signature.sign(msg, signVerificationKey);
       return new Tuple(new Object[]{StatusCode.Accept, signature});
     }
+
+    // if nothing goes wrong, then the push request is done successfully
     return new Tuple(new Object[]{StatusCode.Accept, null});
   }
 
