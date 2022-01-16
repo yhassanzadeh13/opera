@@ -53,10 +53,13 @@ public class Server implements BaseNode {
 
     // the difference between the label of supplied node and the status of the server
     // should be equal to the total number of servers
-    int diff = NodeAddress.toLabel(historyTreeNode.addr) - NodeAddress.toLabel(this.status);
-    if (diff != totalServers) {
-      return new Tuple(new Object[]{StatusCode.Reject, null});
+    if (this.status != null){
+      int diff = NodeAddress.toLabel(historyTreeNode.addr) - NodeAddress.toLabel(this.status);
+      if (diff != totalServers) {
+        return new Tuple(new Object[]{StatusCode.Reject, null});
+      }
     }
+
 
     // verify user-side signature on the leaf
     // needed for the authorization
