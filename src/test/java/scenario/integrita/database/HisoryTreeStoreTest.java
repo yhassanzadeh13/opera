@@ -1,5 +1,6 @@
 package scenario.integrita.database;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -15,13 +16,14 @@ public class HisoryTreeStoreTest {
 
   /**
    * populates a HistoryTreeStore with all the nodes of a history tree at its vth version
+   *
    * @param v
    * @return
    */
-  public HistoryTreeStore initHistoryTreeStore(int v){
+  public HistoryTreeStore initHistoryTreeStore(int v) {
     HistoryTreeStore historyTreeStore = new HistoryTreeStore();
-    for (int p=1; p<=v ; p++){
-      for(int l=0; l<= NodeAddress.maxLevel(p); l++){
+    for (int p = 1; p <= v; p++) {
+      for (int l = 0; l <= NodeAddress.maxLevel(p); l++) {
         HistoryTreeNode historyTreeNode = new HistoryTreeNode(new NodeAddress(p, l), OperationType.Insert, 1);
         historyTreeStore.insert(historyTreeNode);
       }
@@ -29,14 +31,15 @@ public class HisoryTreeStoreTest {
     return historyTreeStore;
 
   }
+
   @Test
   public void TestInsertDeleteGet() {
     HistoryTreeStore historyTreeStore = new HistoryTreeStore();
 
     // add 3 users
-    historyTreeStore.users.put( 1, new User(1));
-    historyTreeStore.users.put( 2, new User(2));
-    historyTreeStore.users.put( 2, new User(2));
+    historyTreeStore.users.put(1, new User(1));
+    historyTreeStore.users.put(2, new User(2));
+    historyTreeStore.users.put(2, new User(2));
 
     // create three nodes, two of which have the same address
     HistoryTreeNode historyTreeNode1 = new HistoryTreeNode(new NodeAddress(0, 1), OperationType.Insert, 1);
@@ -58,14 +61,20 @@ public class HisoryTreeStoreTest {
   }
 
   @Test
-  public void testCleanTreeDigest(){
+  public void testCleanTreeDigest() {
     HistoryTreeStore historyTreeStore = initHistoryTreeStore(5);
-    assertTrue(historyTreeStore.contains(new NodeAddress(1,0)));
-    assertTrue(historyTreeStore.contains(new NodeAddress(2,NodeAddress.maxLevel(2))));
-    assertTrue(historyTreeStore.contains(new NodeAddress(3,NodeAddress.maxLevel(3))));
-    assertTrue(historyTreeStore.contains(new NodeAddress(4,NodeAddress.maxLevel(4))));
-    assertTrue(historyTreeStore.contains(new NodeAddress(5,NodeAddress.maxLevel(5))));
-    historyTreeStore.cleanDigests(new NodeAddress(3,0));
-
+    // check the inclusion of all the tree digests up to version 5 of the tree
+    assertTrue(historyTreeStore.contains(new NodeAddress(1, 0)));
+    assertTrue(historyTreeStore.contains(new NodeAddress(2, NodeAddress.maxLevel(2))));
+    assertTrue(historyTreeStore.contains(new NodeAddress(3, NodeAddress.maxLevel(3))));
+    assertTrue(historyTreeStore.contains(new NodeAddress(4, NodeAddress.maxLevel(4))));
+    assertTrue(historyTreeStore.contains(new NodeAddress(5, NodeAddress.maxLevel(5))));
+    historyTreeStore.cleanDigests(new NodeAddress(4, 0));
+    // tree digests of 2nd, and 3rd operations should be deleted
+    assertTrue(historyTreeStore.contains(new NodeAddress(1, 0)));
+    assertFalse(historyTreeStore.contains(new NodeAddress(2, NodeAddress.maxLevel(2))));
+    assertFalse(historyTreeStore.contains(new NodeAddress(3, NodeAddress.maxLevel(3))));
+    assertTrue(historyTreeStore.contains(new NodeAddress(4, NodeAddress.maxLevel(4))));
+    assertTrue(historyTreeStore.contains(new NodeAddress(5, NodeAddress.maxLevel(5))));
   }
 }
