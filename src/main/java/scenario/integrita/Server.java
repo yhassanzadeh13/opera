@@ -32,9 +32,7 @@ public class Server implements BaseNode {
   // all UUIDs including self
   ArrayList<UUID> ids;
 
-
-
-
+  // Constructors -------------------------------------------------------------------------
   public Server() {
   }
 
@@ -43,12 +41,7 @@ public class Server implements BaseNode {
     this.network = network;
   }
 
-  @Override
-  public void onCreate(ArrayList<UUID> allId) {
-    this.ids = allId;
-    this.network.ready();
-  }
-
+  // Integrita RPCs ---------------------------------------------------------------------
   public Tuple push(HistoryTreeNode historyTreeNode) {
     // @TODO check the user membership via signature
 
@@ -110,7 +103,14 @@ public class Server implements BaseNode {
     return new Tuple(new Object[]{StatusCode.Accept, null});
   }
 
-  // BaseNode interface implementation ------------
+  // BaseNode interface implementation ---------------------------------------------------
+
+  @Override
+  public void onCreate(ArrayList<UUID> allId) {
+    this.ids = allId;
+    this.network.ready();
+  }
+
   @Override
   public void onStart() {
 
