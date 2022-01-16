@@ -16,15 +16,19 @@ public class ServerTest {
   public void pushTestServerIndex() {
     // set up a server
     Server s = new Server(1, 4);
+    // add a user
     s.db.insert(new User(1, new byte[0]));
+
     // create a history tree node whose index maps to the server's index
     HistoryTreeNode historyTreeNode = new HistoryTreeNode(new NodeAddress(1, 0), OperationType.Insert, 1);
     Tuple res = s.push(historyTreeNode);
     assertTrue(res.get(0) == StatusCode.Accept);
 
-
-
     // create a history tree node whose index does not map to the server's index
+    HistoryTreeNode falseHistoryTreeNode = new HistoryTreeNode(new NodeAddress(2, 0), OperationType.Insert, 1);
+    res = s.push(falseHistoryTreeNode);
+    assertTrue(res.get(0) == StatusCode.Reject);
+    
   }
 
   @Test
