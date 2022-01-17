@@ -14,7 +14,7 @@ import node.BaseNode;
 import org.apache.log4j.Logger;
 import simulator.Orchestrator;
 import simulator.Simulator;
-import utils.SimulatorUtils;
+import metrics.PrometheusServer;
 
 /**
  * Represents a mediator between the overlay and the underlay. The requests coming from the underlay are directed
@@ -150,10 +150,6 @@ public class MiddleLayer {
       overlay.onNewMessage(request.getOriginalId(), request.getEvent());
     }
 
-  }
-
-  private String receivedBucketHash(UUID id) {
-    return SimulatorUtils.hashPairOfNodes(id, nodeId);
   }
 
   /**

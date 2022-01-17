@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import metrics.Constants;
 import metrics.MetricsCollector;
-import utils.SimulatorUtils;
+import metrics.PrometheusServer;
 
 /**
  * Encapsulates metrics collectors for middlelayer of network.
@@ -100,18 +100,6 @@ public class MiddleLayerMetricsCollector {
    */
   public void onMessageSent(UUID senderId, UUID receiverId) {
     MiddleLayerMetricsCollector.metricsCollector.counter().inc(Name.MESSAGE_SENT_TOTAL, senderId);
-  }
-
-  /**
-   * Uniquely hashes the pair of (senderId, receiverId) into a hash value that is used to keep track of
-   * propagation delay.
-   *
-   * @param senderId   identifier of sender.
-   * @param receiverId identifier of receiver.
-   * @return hash value of the (senderId, receiverId)
-   */
-  private String delayBucketHash(UUID senderId, UUID receiverId) {
-    return SimulatorUtils.hashPairOfNodes(senderId, receiverId);
   }
 
   private static class Name {

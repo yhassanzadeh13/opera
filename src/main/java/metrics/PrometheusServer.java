@@ -1,4 +1,4 @@
-package utils;
+package metrics;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,13 +14,9 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.prometheus.client.exporter.HTTPServer;
 
 /**
- * static class for providing various utils related to the simulator.
+ * Encapsulates connecting to the prometheus server for sake of metrics collection.
  */
-public class SimulatorUtils {
-
-  public static String hashPairOfNodes(UUID a, UUID b) {
-    return a.toString() + b.toString();
-  }
+public class PrometheusServer {
 
   /**
    * Configure the simulator with prometheus and grafana by running the docker provided under dockprom
