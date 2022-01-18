@@ -3,7 +3,6 @@ package network.latency;
 import java.util.HashMap;
 import java.util.UUID;
 
-import metrics.PrometheusServer;
 import utils.generator.GaussianGenerator;
 
 /**

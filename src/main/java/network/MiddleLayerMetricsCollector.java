@@ -8,7 +8,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import metrics.Constants;
 import metrics.MetricsCollector;
-import metrics.PrometheusServer;
 
 /**
  * Encapsulates metrics collectors for middlelayer of network.

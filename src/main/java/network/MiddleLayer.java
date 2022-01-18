@@ -14,7 +14,6 @@ import node.BaseNode;
 import org.apache.log4j.Logger;
 import simulator.Orchestrator;
 import simulator.Simulator;
-import metrics.PrometheusServer;
 
 /**
  * Represents a mediator between the overlay and the underlay. The requests coming from the underlay are directed

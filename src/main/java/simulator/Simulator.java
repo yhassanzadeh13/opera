@@ -17,7 +17,7 @@ import network.local.LocalUnderlay;
 import node.BaseNode;
 import org.apache.log4j.Logger;
 import utils.SimpleEntryComparable;
-import metrics.PrometheusServer;
+import metrics.PrometheusClient;
 import utils.generator.BaseGenerator;
 
 
@@ -55,7 +55,7 @@ public class Simulator implements Orchestrator {
     this.allId = generateIds(factory.getTotalNodes());
     this.allFullAddresses = generateFullAddressed(factory.getTotalNodes(), startPort + 1);
 
-    PrometheusServer.configurePrometheus();
+    PrometheusClient.start();
 
     // CountDownLatch for awaiting the start of the simulation until all nodes are ready
     count = new CountDownLatch(factory.getTotalNodes());
