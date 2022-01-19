@@ -55,7 +55,13 @@ public class Simulator implements Orchestrator {
     this.allId = generateIds(factory.getTotalNodes());
     this.allFullAddresses = generateFullAddressed(factory.getTotalNodes(), startPort + 1);
 
-    PrometheusClient.start();
+    try {
+      PrometheusClient.start();
+    } catch (IllegalStateException e)  {
+      log.fatal(e);
+      System.exit(1);
+    }
+
 
     // CountDownLatch for awaiting the start of the simulation until all nodes are ready
     count = new CountDownLatch(factory.getTotalNodes());

@@ -4,13 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.util.*;
+import java.util.concurrent.TimeUnit;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.prometheus.client.exporter.HTTPServer;
 
 /**
@@ -21,38 +16,49 @@ public class PrometheusClient {
    * Collected metrics are exposed on this port for prometheus server to read.
    * To verify metrics are collected correctly by Opera, check "localhost:2000/metric".
    */
-  private static final int EXPOSED_PORT = 2000;
+  private static final int EXPOSED_PORT = 9000;
 
   /**
-   * Configure the simulator with prometheus and grafana by running the docker provided under dockprom
-   * By default, it uses 2000 as a metrics exposer port.
+   * Command to run the docker compose file for prometheus and grafana.
    */
-  public static void start() {
+  private static final String DOCKER_COMPOSE_UP = "docker-compose up -d";
+
+  /**
+   * Directory where docker file for prometheus and grafana exist.
+   */
+  private static final String DOCKER_DIRECTORY = "./dockerprom";
+
+  /**
+   * Startup timeout for prometheus and grafana containers.
+   */
+  private static final int STARTUP_TIMEOUT = 5;
+
+  /**
+   * Starts up metrics containers for metrics collection (prometheus), and metrics illustration (grafana).
+   *
+   * @throws IllegalStateException facing any checked exception while running metrics containers.
+   */
+  public static void start() throws IllegalStateException {
     try {
-      // run the docker
-      String cmd = "docker-compose up -d";
+      // TODO: this can be further simplified with docker cli for java.
       ProcessBuilder builder = new ProcessBuilder();
-      builder.directory(new File("./dockprom"));
-      builder.command("sh", "-c", cmd);
+      builder.directory(new File(DOCKER_DIRECTORY));
+      builder.command("sh", "-c", DOCKER_COMPOSE_UP);
       Process proc = builder.start();
-      proc.waitFor();
 
-      BufferedReader buffer = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-      String steam;
-      while ((steam = buffer.readLine()) != null) {
-        System.out.println(steam);
-      }
+      // waits till docker compose run terminates gracefully,
+      // hence signaling containers are running.
+      proc.waitFor(STARTUP_TIMEOUT, TimeUnit.SECONDS);
+    } catch (IOException | InterruptedException e) {
+      throw new IllegalStateException("could not start metrics containers", e);
+    }
 
-      // prepare the prometheus connection
-      try {
-        // initialize prometheus HTTP server
-        HTTPServer server = new HTTPServer(EXPOSED_PORT);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
 
-    } catch (Exception e) {
-      e.printStackTrace();
+    try {
+      // exposes metrics client for prometheus server
+      HTTPServer server = new HTTPServer(EXPOSED_PORT);
+    } catch (IOException e) {
+      throw new IllegalStateException("could not startup prometheus http client", e);
     }
   }
 }
