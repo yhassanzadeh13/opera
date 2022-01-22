@@ -91,7 +91,7 @@ public class NodeAddress {
   public static int toLabel(NodeAddress addr) {
     int sum = 0;
     for (int j = 1; j < addr.position; j++) {
-      sum = sum + maxLevel(addr.position) + 1;
+      sum = sum + maxLevel(j) + 1;
     }
     sum = sum + addr.level + 1;
     return sum;
