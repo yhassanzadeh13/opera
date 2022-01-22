@@ -14,6 +14,7 @@ public class HistoryTreeStore implements Store {
   public HashMap<Integer, User> users;
   public HashMap<NodeAddress, HistoryTreeNode> historyTreeNodes;
 
+  // constructor ----------------------------------------------
   public HistoryTreeStore() {
     this.users = new HashMap<>();
     this.historyTreeNodes = new HashMap<>();
@@ -24,10 +25,50 @@ public class HistoryTreeStore implements Store {
     this.historyTreeNodes = historyTreeNodes;
   }
 
-  public byte[] getVerificationKey(int user_index) {
-    return users.get(user_index).vk;
+
+  // getters and setters ---------------------------
+  public byte[] getVerificationKey(int userIndex) {
+    return users.get(userIndex).vk;
   }
 
+  // utility methods -----------------------------
+  public int totalNodes() {
+    return this.historyTreeNodes.size();
+  }
+
+  /**
+   * inserts a user to the database.
+   */
+  public boolean insertUser(User user) {
+    // TODO check duplicates
+    users.put(user.id, user);
+    return true;
+  }
+
+  /**
+   * erases all the past nodes whose `position` precede the position of the supplied `addr` exclusively.
+   */
+  public void cleanDigests(NodeAddress addr) {
+    Set<NodeAddress> keySet = historyTreeNodes.keySet();
+    Iterator<Map.Entry<NodeAddress, HistoryTreeNode>> it = historyTreeNodes.entrySet().iterator();
+    while (it.hasNext()) {
+      Map.Entry<NodeAddress, HistoryTreeNode> entry = it.next();
+      boolean isTreeDigest = NodeAddress.isTreeDigest(entry.getKey());
+      if (isTreeDigest && (entry.getKey().position < addr.position) && (entry.getKey().position != 1)) {
+        it.remove();
+      }
+    }
+  }
+
+  /**
+   * checks if nodeAddress belongs to HistoryTreeStore object.
+   */
+  public boolean contains(NodeAddress nodeAddress) {
+    boolean exists = historyTreeNodes.containsKey(nodeAddress);
+    return exists;
+  }
+
+  // store API -----------------
   @Override
   public boolean insert(HistoryTreeNode historyTreeNode) {
     historyTreeNodes.put(historyTreeNode.addr, historyTreeNode);
@@ -50,47 +91,6 @@ public class HistoryTreeStore implements Store {
 
   @Override
   public HistoryTreeNode get(NodeAddress nodeAddress) {
-//    if (!historyTreeNodes.containsKey(nodeAddress)) {
-//      return null;
-//    }
     return historyTreeNodes.get(nodeAddress);
   }
-
-  public int totalNodes() {
-    return this.historyTreeNodes.size();
-  }
-
-  public boolean insert(User user) {
-    // TODO check duplicates
-    users.put(user.id, user);
-    return true;
-  }
-
-  /**
-   * erases all the past nodes whose `position` precede the position of the supplied `addr` exclusively
-   *
-   * @param addr
-   */
-  public void cleanDigests(NodeAddress addr) {
-    Set<NodeAddress> keySet = historyTreeNodes.keySet();
-
-    for (Iterator<Map.Entry<NodeAddress, HistoryTreeNode>> it = historyTreeNodes.entrySet().iterator(); it.hasNext(); ) {
-      Map.Entry<NodeAddress, HistoryTreeNode> entry = it.next();
-      if (NodeAddress.isTreeDigest(entry.getKey()) && (entry.getKey().position < addr.position) && (entry.getKey().position != 1)) {
-        it.remove();
-      }
-    }
-  }
-
-  /**
-   * checks if nodeAddress belongs to HistoryTreeStore object
-   *
-   * @param nodeAddress
-   * @return
-   */
-  public boolean contains(NodeAddress nodeAddress) {
-    boolean exists = historyTreeNodes.containsKey(nodeAddress);
-    return exists;
-  }
-
 }

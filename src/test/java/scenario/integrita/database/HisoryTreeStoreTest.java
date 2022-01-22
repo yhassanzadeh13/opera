@@ -37,9 +37,9 @@ public class HisoryTreeStoreTest {
     HistoryTreeStore historyTreeStore = new HistoryTreeStore();
 
     // add 3 users
-    historyTreeStore.insert(new User(1));
-    historyTreeStore.insert(new User(2));
-    historyTreeStore.insert(new User(3));
+    historyTreeStore.insertUser(new User(1));
+    historyTreeStore.insertUser(new User(2));
+    historyTreeStore.insertUser(new User(3));
 
     // create three nodes, two of which have the same address
     HistoryTreeNode historyTreeNode1 = new HistoryTreeNode(new NodeAddress(0, 1), OperationType.Insert, 1);

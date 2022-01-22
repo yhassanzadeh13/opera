@@ -34,14 +34,24 @@ public class Server implements BaseNode {
   ArrayList<UUID> ids;
 
   // Constructors -------------------------------------------------------------------------
+
+  /**
+   * Constructor.
+   */
   public Server() {
   }
 
+  /**
+   * Constructor.
+   */
   public Server(UUID selfId, MiddleLayer network) {
     this.id = selfId;
     this.network = network;
   }
 
+  /**
+   * Constructor.
+   */
   public Server(int index, int totalServers) {
     this.index = index;
     this.totalServers = totalServers;
@@ -53,13 +63,18 @@ public class Server implements BaseNode {
     this.sk = keys[0];
     this.vk = keys[1];
   }
-  // getters and setters
+
+  // getters and setters ---------------------
 
   public NodeAddress getStatus() {
     return status;
   }
 
   // Integrita RPCs ---------------------------------------------------------------------
+
+  /**
+   * receives a HistoryTreeNode and updates its local db accordingly.
+   */
   public Tuple push(HistoryTreeNode historyTreeNode) {
     // @TODO check the user membership via signature
 
