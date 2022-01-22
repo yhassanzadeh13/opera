@@ -24,10 +24,21 @@ public class ServerTest {
     Tuple res = s.push(historyTreeNode);
     assertTrue(res.get(0) == StatusCode.Accept);
 
-    // create a history tree node whose index does not map to the server's index
+    // create a history tree node whose address does not map to the server's index
     HistoryTreeNode falseHistoryTreeNode = new HistoryTreeNode(new NodeAddress(2, 0), OperationType.Insert, 1);
     res = s.push(falseHistoryTreeNode);
     assertTrue(res.get(0) == StatusCode.Reject);
+
+    // create a history tree node whose address is not the next expected one
+    falseHistoryTreeNode = new HistoryTreeNode(new NodeAddress(3, 0), OperationType.Insert, 1);
+    res = s.push(falseHistoryTreeNode);
+    assertTrue(res.get(0) == StatusCode.Reject);
+
+    // create a history tree node whose address is the next expected one
+    falseHistoryTreeNode = new HistoryTreeNode(new NodeAddress(3, 1), OperationType.Insert, 1);
+    res = s.push(falseHistoryTreeNode);
+    assertTrue(res.get(0) == StatusCode.Accept);
+
     
   }
 
