@@ -96,7 +96,7 @@ public class Server implements BaseNode {
     }
 
     // update the database just for non-temporary nodes
-    if (!NodeAddress.isTemporary(historyTreeNode.addr)) {
+    if (!NodeAddress.isTemporary(historyTreeNode.addr) || NodeAddress.isTreeDigest(historyTreeNode.addr)) {
       db.historyTreeNodes.put(historyTreeNode.addr, historyTreeNode);
     }
 
