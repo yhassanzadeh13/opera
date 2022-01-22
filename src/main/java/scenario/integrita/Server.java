@@ -73,7 +73,6 @@ public class Server implements BaseNode {
       }
     }
 
-
     // verify user-side signature on the leaf
     // needed for the authorization
     if (NodeAddress.isLeaf(historyTreeNode.addr)) {
@@ -96,7 +95,7 @@ public class Server implements BaseNode {
       }
     }
 
-    // update the database just for non-empty nodes
+    // update the database just for non-temporary nodes
     if (!NodeAddress.isTemporary(historyTreeNode.addr)) {
       db.historyTreeNodes.put(historyTreeNode.addr, historyTreeNode);
     }
