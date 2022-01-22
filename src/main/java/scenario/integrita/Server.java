@@ -53,6 +53,11 @@ public class Server implements BaseNode {
     this.sk = keys[0];
     this.vk = keys[1];
   }
+  // getters and setters
+
+  public NodeAddress getStatus() {
+    return status;
+  }
 
   // Integrita RPCs ---------------------------------------------------------------------
   public Tuple push(HistoryTreeNode historyTreeNode) {
