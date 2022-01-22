@@ -38,6 +38,10 @@ public class ServerTest {
     falseHistoryTreeNode = new HistoryTreeNode(new NodeAddress(3, 1), OperationType.Insert, 1);
     res = s.push(falseHistoryTreeNode);
     assertTrue(res.get(0) == StatusCode.Accept);
+    assertTrue(s.db.totalNodes() == 1); // the temporary node should not be stored
+
+    // TODO unit test for signature verification
+
 
     
   }
