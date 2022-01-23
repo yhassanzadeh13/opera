@@ -36,6 +36,10 @@ public class HistoryTreeStore implements Store {
     return this.historyTreeNodes.size();
   }
 
+  public int totalUsers(){
+    return this.users.size();
+  }
+
   public boolean insertAllUsers(ArrayList<User> users) {
     for (User u : users) {
       this.insert(u);
