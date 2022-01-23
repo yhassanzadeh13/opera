@@ -11,8 +11,8 @@ import scenario.integrita.user.User;
  */
 public class HistoryTreeStore implements Store {
 
-  public HashMap<Integer, User> users;
-  public HashMap<NodeAddress, HistoryTreeNode> historyTreeNodes;
+  private final HashMap<Integer, User> users;
+  private final HashMap<NodeAddress, HistoryTreeNode> historyTreeNodes;
 
   // constructor ----------------------------------------------
   public HistoryTreeStore() {
@@ -36,12 +36,17 @@ public class HistoryTreeStore implements Store {
     return this.historyTreeNodes.size();
   }
 
-  /**
-   * inserts a user to the database.
-   */
-  public boolean insertUser(User user) {
-    // TODO check duplicates
-    users.put(user.id, user);
+  public boolean insertAllUsers(ArrayList<User> users) {
+    for (User u : users) {
+      this.insert(u);
+    }
+    return true;
+  }
+
+  public boolean insertAllNodes(ArrayList<HistoryTreeNode> historyTreeNodes) {
+    for (HistoryTreeNode node : historyTreeNodes) {
+      this.insert(node);
+    }
     return true;
   }
 
@@ -68,7 +73,8 @@ public class HistoryTreeStore implements Store {
     return exists;
   }
 
-  // store API -----------------
+  // ------------------- store API -----------------
+
   @Override
   public boolean insert(HistoryTreeNode historyTreeNode) {
     historyTreeNodes.put(historyTreeNode.addr, historyTreeNode);
@@ -76,11 +82,20 @@ public class HistoryTreeStore implements Store {
   }
 
   @Override
-  public boolean insertAll(ArrayList<HistoryTreeNode> historyTreeNodes) {
-    for (HistoryTreeNode node : historyTreeNodes) {
-      this.insert(node);
-    }
+  public boolean insert(User user) {
+    // TODO check duplicates
+    users.put(user.id, user);
     return true;
+  }
+
+  @Override
+  public HistoryTreeNode get(NodeAddress nodeAddress) {
+    return historyTreeNodes.get(nodeAddress);
+  }
+
+  @Override
+  public User get(User user) {
+    return users.get(user.id);
   }
 
   @Override
@@ -90,7 +105,13 @@ public class HistoryTreeStore implements Store {
   }
 
   @Override
-  public HistoryTreeNode get(NodeAddress nodeAddress) {
-    return historyTreeNodes.get(nodeAddress);
+  public boolean delete(User user) {
+    users.remove(user.id);
+    return true;
   }
+
+//  @Override
+//  public boolean contains(User user);
+//  boolean contains(HistoryTreeNode historyTreeNode);
+
 }
