@@ -101,8 +101,8 @@ public class HistoryTreeStore implements Store {
   }
 
   @Override
-  public User get(User user) {
-    return users.get(user.id);
+  public User get(Integer id) {
+    return users.get(id);
   }
 
   @Override
