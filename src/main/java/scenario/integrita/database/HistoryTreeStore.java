@@ -81,6 +81,9 @@ public class HistoryTreeStore implements Store {
 
   @Override
   public boolean insert(HistoryTreeNode historyTreeNode) {
+    if (this.contains(historyTreeNode)){
+      return false;
+    }
     historyTreeNodes.put(historyTreeNode.addr, historyTreeNode);
     return true;
   }
