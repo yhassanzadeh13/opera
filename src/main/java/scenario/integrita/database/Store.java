@@ -15,7 +15,7 @@ public interface Store {
   boolean insert(User user);
 
   HistoryTreeNode get(NodeAddress nodeAddress);
-  User get(User user);
+  User get(Integer id);
 
   boolean delete(NodeAddress nodeAddress);
   boolean delete(User user);
