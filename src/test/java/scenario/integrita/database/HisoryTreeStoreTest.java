@@ -53,11 +53,15 @@ public class HisoryTreeStoreTest {
     // duplicates are not allowed
     assertTrue((historyTreeStore.totalNodes() == 2));
 
+    // test contains method
+    assertTrue(historyTreeStore.contains(historyTreeNode1));
+    assertTrue(historyTreeStore.contains(historyTreeNode3));
+
     historyTreeStore.delete(historyTreeNode1.addr);
     // check the correct deletion
     assertTrue((historyTreeStore.totalNodes() == 1));
     // only historyTreeNode3 is left
-    assertTrue((historyTreeStore.get(historyTreeNode3.addr) == historyTreeNode3));
+    assertTrue(historyTreeStore.contains(historyTreeNode3));
   }
 
   @Test
