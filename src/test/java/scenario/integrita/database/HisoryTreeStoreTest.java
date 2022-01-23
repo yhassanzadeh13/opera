@@ -71,6 +71,7 @@ public class HisoryTreeStoreTest {
     assertTrue(historyTreeStore.get(historyTreeNode3.addr) == historyTreeNode3);
   }
 
+  @Test
   public void TestUsers() {
     HistoryTreeStore historyTreeStore = new HistoryTreeStore();
 
