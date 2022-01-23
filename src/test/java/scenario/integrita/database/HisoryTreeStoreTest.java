@@ -79,10 +79,8 @@ public class HisoryTreeStoreTest {
     User u1 = new User(1);
     User u2 = new User(2);
     User u3 = new User(3);
-    historyTreeStore.insert(u1);
-    historyTreeStore.insert(u1);
-    historyTreeStore.insert(u2);
-    historyTreeStore.insert(u3);
+    historyTreeStore.insertAllUsers(new ArrayList<User>(Arrays.asList(u1, u1, u2, u3)));
+
 
     // check whether the inserted users are correctly included
     // insertion of historyTreeNode1 should get through but not historyTreeNode2
@@ -102,8 +100,6 @@ public class HisoryTreeStoreTest {
     // check the correct deletion
     assertFalse(historyTreeStore.contains(u3));
   }
-
-
 
   @Test
   public void testCleanTreeDigest() {
