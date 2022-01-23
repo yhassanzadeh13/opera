@@ -110,8 +110,16 @@ public class HistoryTreeStore implements Store {
     return true;
   }
 
-//  @Override
-//  public boolean contains(User user);
-//  boolean contains(HistoryTreeNode historyTreeNode);
+  @Override
+  public boolean contains(User user) {
+    boolean exists = this.users.containsKey(user.id);
+    return exists;
+  }
+
+  @Override
+  public boolean contains(HistoryTreeNode historyTreeNode) {
+    boolean exists = this.historyTreeNodes.containsKey(historyTreeNode.addr);
+    return exists;
+  }
 
 }
