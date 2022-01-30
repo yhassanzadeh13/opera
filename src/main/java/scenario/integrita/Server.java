@@ -145,24 +145,21 @@ public class Server implements BaseNode {
    * The method returns a tuple, where the first item is the retrieve history tree node.
    * The second item is a server-side signature in case that the retrieved node is a tree digest.
    * Otherwise, the second item is null.
-   * @param user
-   * @param nodeAddress
-   * @return
    */
-  public Tuple pull(User user, NodeAddress nodeAddress){
+  public Tuple pull(User user, NodeAddress nodeAddress) {
     // check whether user is authorized
-    if (!this.db.contains(user)){
+    if (!this.db.contains(user)) {
       return new Tuple(new Object[]{null, null});
     }
 
-    if (!this.db.contains(nodeAddress)){
+    if (!this.db.contains(nodeAddress)) {
       return new Tuple(new Object[]{null, null});
     }
 
     HistoryTreeNode res = this.db.get(nodeAddress);
     byte[] singauture = new byte[0];
-    if (NodeAddress.isTreeDigest(nodeAddress)){
-      singauture = Signature.sign(res.hash,this.sk);
+    if (NodeAddress.isTreeDigest(nodeAddress)) {
+      singauture = Signature.sign(res.hash, this.sk);
     }
     return new Tuple(new Object[]{res, singauture});
 
