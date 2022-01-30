@@ -13,6 +13,7 @@ import scenario.integrita.events.PushResp;
 import scenario.integrita.historytree.HistoryTreeNode;
 import scenario.integrita.historytree.NodeAddress;
 import scenario.integrita.signature.Signature;
+import scenario.integrita.user.User;
 import scenario.integrita.utils.StatusCode;
 
 /**
@@ -136,6 +137,26 @@ public class Server implements BaseNode {
 
     // if nothing goes wrong, then the push request is done successfully
     return new Tuple(new Object[]{StatusCode.Accept, null});
+  }
+
+  public Tuple pull(User user, NodeAddress nodeAddress){
+    // check whether user is authorized
+    if (!this.db.contains(user)){
+      return new Tuple(new Object[]{null, null});
+    }
+
+    if (!this.db.contains(nodeAddress)){
+      return new Tuple(new Object[]{null, null});
+    }
+
+    HistoryTreeNode res = this.db.get(nodeAddress);
+    byte[] singauture = new byte[0];
+    if (NodeAddress.isTreeDigest(nodeAddress)){
+      singauture = Signature.sign(res.hash,this.sk);
+    }
+    return new Tuple(new Object[]{res, singauture});
+
+
   }
 
   // BaseNode interface implementation ---------------------------------------------------
