@@ -1,9 +1,8 @@
 package scenario.integrita.database;
 
-import java.util.ArrayList;
-
 import scenario.integrita.historytree.HistoryTreeNode;
 import scenario.integrita.historytree.NodeAddress;
+import scenario.integrita.user.User;
 
 /**
  * storage api.
@@ -12,10 +11,20 @@ public interface Store {
 
   boolean insert(HistoryTreeNode historyTreeNode);
 
-  boolean insertAll(ArrayList<HistoryTreeNode> historyTreeNodes);
+  boolean insert(User user);
+
+  HistoryTreeNode get(NodeAddress nodeAddress);
+
+  User get(Integer id);
 
   boolean delete(NodeAddress nodeAddress);
 
-  HistoryTreeNode get(NodeAddress nodeAddress);
+  boolean delete(User user);
+
+  boolean contains(User user);
+
+  boolean contains(HistoryTreeNode historyTreeNode);
+
+  boolean contains(NodeAddress nodeAddress);
 
 }
