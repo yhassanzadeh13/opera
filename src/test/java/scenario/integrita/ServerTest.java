@@ -65,28 +65,4 @@ public class ServerTest {
     // TODO check server signature on tree digests
     assertTrue(s.getStatus() == node4.addr);
   }
-
-  @Test
-  public void pushTestLabelDistance() {
-    // set server's status
-
-    // create a history tree node whose index has more than N difference from the server's status
-  }
-
-  @Test
-  public void pushTestTemporaryNodes() {
-    // create a temporary history tree node
-    // push it to the server
-    // the db should not change
-  }
-
-  @Test
-  public void pushTestInsertTreeDigest() {
-    // populate a server with proper nodes of the history tree
-    // create a tree digest
-    // push it to the server
-    // check internal state of the server
-    // the size of db
-    // the state variable
-  }
 }
