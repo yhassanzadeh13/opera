@@ -67,26 +67,25 @@ public class ServerTest {
   }
 
   @Test
-  public void pushTestLabelDistance() {
-    // set server's status
+  public void pullTest() {
+    // set up a server
+    Server s = new Server(1, 4);
+    // add a user
+    User user1 = new User(1, new byte[0]);
+    s.db.insert(user1);
 
-    // create a history tree node whose index has more than N difference from the server's status
-  }
+    // create a history tree node whose index maps to the server's index
+    NodeAddress nodeAddress1 = new NodeAddress(1, 0);
+    HistoryTreeNode node1 = new HistoryTreeNode(nodeAddress1, OperationType.Insert, 1);
+    Tuple pushRes = s.push(node1);
+    assertTrue(pushRes.get(0) == StatusCode.Accept);
+    assertTrue(s.getStatus() == node1.addr);
 
-  @Test
-  public void pushTestTemporaryNodes() {
-    // create a temporary history tree node
-    // push it to the server
-    // the db should not change
-  }
 
-  @Test
-  public void pushTestInsertTreeDigest() {
-    // populate a server with proper nodes of the history tree
-    // create a tree digest
-    // push it to the server
-    // check internal state of the server
-    // the size of db
-    // the state variable
+    Tuple pullRes = s.pull(user1, nodeAddress1);
+    assertTrue(pullRes.get(0) == node1);
+    assertTrue(pullRes.get(1) != null);
+
+
   }
 }
