@@ -36,10 +36,13 @@ public class HistoryTreeStore implements Store {
     return this.historyTreeNodes.size();
   }
 
-  public int totalUsers(){
+  public int totalUsers() {
     return this.users.size();
   }
 
+  /**
+   * adds all the users supplied by `users` to the `HistoryTreeStore` object.
+   */
   public boolean insertAllUsers(ArrayList<User> users) {
     for (User u : users) {
       this.insert(u);
@@ -47,6 +50,9 @@ public class HistoryTreeStore implements Store {
     return true;
   }
 
+  /**
+   * inserts all the history nodes contained in the `historyTreeNodes` into the `HistoryTreeStore` instance.
+   */
   public boolean insertAllNodes(ArrayList<HistoryTreeNode> historyTreeNodes) {
     for (HistoryTreeNode node : historyTreeNodes) {
       this.insert(node);
@@ -69,19 +75,11 @@ public class HistoryTreeStore implements Store {
     }
   }
 
-  /**
-   * checks if nodeAddress belongs to HistoryTreeStore object.
-   */
-  public boolean contains(NodeAddress nodeAddress) {
-    boolean exists = historyTreeNodes.containsKey(nodeAddress);
-    return exists;
-  }
-
   // ------------------- store API -----------------
 
   @Override
   public boolean insert(HistoryTreeNode historyTreeNode) {
-    if (this.contains(historyTreeNode)){
+    if (this.contains(historyTreeNode)) {
       return false;
     }
     historyTreeNodes.put(historyTreeNode.addr, historyTreeNode);
@@ -126,6 +124,15 @@ public class HistoryTreeStore implements Store {
   @Override
   public boolean contains(HistoryTreeNode historyTreeNode) {
     boolean exists = this.historyTreeNodes.containsKey(historyTreeNode.addr);
+    return exists;
+  }
+
+  /**
+   * checks if nodeAddress belongs to HistoryTreeStore object.
+   */
+  @Override
+  public boolean contains(NodeAddress nodeAddress) {
+    boolean exists = historyTreeNodes.containsKey(nodeAddress);
     return exists;
   }
 

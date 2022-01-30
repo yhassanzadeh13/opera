@@ -5,7 +5,7 @@ package scenario.integrita.user;
  */
 public class User {
   public Integer id;
-  public byte[] vk;
+  public byte[] vk; // signature verification key
 
   // constructors ------------------
   public User(Integer id) {
