@@ -139,6 +139,16 @@ public class Server implements BaseNode {
     return new Tuple(new Object[]{StatusCode.Accept, null});
   }
 
+  /**
+   * implements the pull algorithm based on Integrita specification.
+   * by this method, a user can retrieve a specific node of history tree from the server.
+   * The method returns a tuple, where the first item is the retrieve history tree node.
+   * The second item is a server-side signature in case that the retrieved node is a tree digest.
+   * Otherwise, the second item is null.
+   * @param user
+   * @param nodeAddress
+   * @return
+   */
   public Tuple pull(User user, NodeAddress nodeAddress){
     // check whether user is authorized
     if (!this.db.contains(user)){
