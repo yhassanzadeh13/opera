@@ -68,6 +68,7 @@ public class Server implements BaseNode {
   // getters and setters ---------------------
 
   public NodeAddress getStatus() {
+    //    TODO add signature
     return status;
   }
 
