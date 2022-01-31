@@ -113,6 +113,8 @@ public class HistoryTreeStore implements Store {
   public boolean delete(User user) {
     users.remove(user.id);
     return true;
+  public HistoryTreeNode get(NodeAddress nodeAddress) {
+    return historyTreeNodes.get(nodeAddress);
   }
 
   @Override
