@@ -21,10 +21,8 @@ public class HistoryTreeNode {
   /**
    * constructor.
    *
-   * @param addr node address
-   *
-   * @param op type of operation
-   *
+   * @param addr   node address
+   * @param op     type of operation
    * @param userId the id of the author
    */
   public HistoryTreeNode(NodeAddress addr, OperationType op, Integer userId) {
@@ -45,5 +43,12 @@ public class HistoryTreeNode {
             + ", signature=" + Arrays.toString(signature)
             + ", userId=" + userId
             + '}';
+  }
+
+  /**
+   * returns node's hash value concatenated with its position in the tree.
+   */
+  public String toLeaf() {
+    return hash + addr.position;
   }
 }

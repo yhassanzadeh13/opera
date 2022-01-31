@@ -9,12 +9,13 @@ import network.packets.Event;
 import node.BaseNode;
 import scenario.integrita.events.Push;
 import scenario.integrita.historytree.HistoryTreeNode;
+import scenario.integrita.user.User;
 
 
 /**
  * Integrita client implementation.
  */
-public class Client implements BaseNode {
+public class Client extends User implements BaseNode {
   UUID id;
   MiddleLayer network;
   ArrayList<UUID> ids; // all ids inclding self
