@@ -18,7 +18,7 @@ public class ServerTest {
     // set up a server
     Server s = new Server(1, 4);
     // add a user
-    s.db.insertUser(new User(1, new byte[0]));
+    s.db.insert(new User(1, new byte[0]));
 
     // create a history tree node whose index maps to the server's index
     HistoryTreeNode node1 = new HistoryTreeNode(new NodeAddress(1, 0), OperationType.Insert, 1);
