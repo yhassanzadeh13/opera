@@ -1,18 +1,21 @@
 package scenario.integrita.user;
 
-public class MockUser implements BaseUser{
+/**
+ * implementation of a mock user.
+ */
+public class MockUser implements BaseUser {
   @Override
-  public int Read() {
+  public int read() {
     return 0;
   }
 
   @Override
-  public int Write() {
+  public int write() {
     return 0;
   }
 
   @Override
-  public int UpdateStatus() {
+  public int updateStatus() {
     return 0;
   }
 
