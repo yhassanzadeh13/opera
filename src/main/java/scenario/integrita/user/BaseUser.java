@@ -10,14 +10,14 @@ public interface BaseUser {
    *
    * @return read run time in milliseconds
    */
-  int read();
+  int read(int from, int to);
 
   /**
    * Integrita Write protocol.
    *
    * @return Write runtime in milliseconds
    */
-  int write();
+  int write(int opNum);
 
   /**
    * Integrita UpdateStatus protocol.
