@@ -9,6 +9,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.concurrent.CountDownLatch;
 
 import metrics.MetricsCollector;
+import metrics.PrometheusClient;
 import metrics.opera.OperaCollector;
 import network.MiddleLayer;
 import network.NetworkProtocol;
@@ -17,7 +18,6 @@ import network.local.LocalUnderlay;
 import node.BaseNode;
 import org.apache.log4j.Logger;
 import utils.SimpleEntryComparable;
-import metrics.PrometheusClient;
 import utils.generator.BaseGenerator;
 
 
@@ -57,7 +57,7 @@ public class Simulator implements Orchestrator {
 
     try {
       PrometheusClient.start();
-    } catch (IllegalStateException e)  {
+    } catch (IllegalStateException e) {
       log.fatal(e);
       System.exit(1);
     }
