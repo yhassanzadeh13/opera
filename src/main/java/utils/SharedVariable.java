@@ -1,7 +1,5 @@
 package utils;
 
-//import java.util.*;
-
 import java.util.AbstractMap;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -143,18 +141,14 @@ public class SharedVariable {
    * @param name   name of the variable
    * @return value if there is a value for the given name null otherwise.
    */
-  public AbstractMap.SimpleEntry<UUID, Object> read(UUID nodeId, String name) throws NullPointerException {
+  public AbstractMap.SimpleEntry<UUID, Object> read(UUID nodeId, String name) throws IllegalArgumentException {
     if (!variablesIds.containsKey(name)) {
-      Simulator.getLogger().error("[SharedVariable] Read: no variable with name " + name + " is registered");
-      new ClassNotFoundException("[SharedVariable] Read: no variable with name " + name + " is registered");
+      throw new IllegalArgumentException("no variable with name " + name + " is registered to read on shared variable");
     }
-    int variableId = variablesIds.get(name);
 
+    int variableId = variablesIds.get(name);
     if (!nodeQueues.get(nodeId).containsKey(variableId)) {
-      Simulator.getLogger().error("[SharedVariable] Read: the node with ID " + nodeId + " does not have "
-          + "access to the variable with name " + name);
-      throw new NullPointerException("[SharedVariable] Read: the node with ID " + nodeId + " does not have "
-          + "access to the variable with name " + name);
+      throw new IllegalArgumentException("node id: " + nodeId + " does not have access to the variable with name: " + name);
     }
     if (nodeQueues.get(nodeId).get(variableId).isEmpty()) {
       Simulator.getLogger().debug("[SharedVariable] Read: no present values for variable with name " + name);
