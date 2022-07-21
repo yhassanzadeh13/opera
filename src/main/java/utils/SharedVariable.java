@@ -174,21 +174,17 @@ public class SharedVariable {
   /**
    * Checks whether there is a value with that variable name or not.
    *
-   * @param nodeId Id of the node
+   * @param nodeId id of the node
    * @param name   name of the variable
    * @return true if empty false otherwise
    */
-  public boolean isEmpty(UUID nodeId, String name) {
+  public boolean isEmpty(UUID nodeId, String name) throws IllegalArgumentException {
     if (!variablesIds.containsKey(name)) {
-      Simulator.getLogger().error("[SharedVariable] Read: no variable with name " + name + " is registered");
-      new ClassNotFoundException("[SharedVariable] Read: no variable with name " + name + " is registered");
+      throw new IllegalArgumentException("no variable with name " + name + " is registered");
     }
     int variableId = variablesIds.get(name);
     if (!nodeQueues.get(nodeId).containsKey(variableId)) {
-      Simulator.getLogger().error("[SharedVariable] Read: the node with ID " + nodeId + " does not have "
-          + "access to the variable with name " + name);
-      throw new NullPointerException("[SharedVariable] Read: the node with ID " + nodeId + " does not have "
-          + "access to the variable with name " + name);
+      throw new IllegalArgumentException("node: " + nodeId + " does not have access to the variable with name: " + name);
     }
     return nodeQueues.get(nodeId).get(variableId).isEmpty();
   }
