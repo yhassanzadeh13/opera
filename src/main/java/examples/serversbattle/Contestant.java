@@ -16,8 +16,7 @@ import simulator.Simulator;
  * Contestants are nodes that participate the battles. Which fight over their level.
  */
 public class Contestant implements BaseNode {
-
-
+  private static final Random random = new Random();
   public boolean isFighting;
   public boolean isWaiting;
   ReentrantLock lock = new ReentrantLock();
@@ -42,13 +41,19 @@ public class Contestant implements BaseNode {
 
   @Override
   public void onCreate(ArrayList<UUID> allId) {
-    Random rand = new Random();
-    this.healthLevel = rand.nextInt(30) + 1;
-    Simulator.getLogger().info("Contestant " + this.selfId + "was initialized with level " + this.healthLevel);
-    this.isFighting = false;
-    this.isWaiting = false;
-    this.allId = allId;
-    network.ready();
+    try {
+      this.lock.lock(); // to provide inconsistent synchronized access to allId.
+
+      this.healthLevel = random.nextInt(30) + 1;
+      Simulator.getLogger().info("Contestant " + this.selfId + "was initialized with level " + this.healthLevel);
+      this.isFighting = false;
+      this.isWaiting = false;
+      this.allId = (ArrayList<UUID>) allId.clone();
+      network.ready();
+    } finally {
+      this.lock.unlock();
+    }
+
   }
 
   @Override
@@ -82,8 +87,8 @@ public class Contestant implements BaseNode {
       }
       return;
     }
-    Random rand = new Random();
-    int duration = rand.nextInt(2000) + 500;
+
+    int duration = random.nextInt(2000) + 500;
     this.isWaiting = false;
     Collections.shuffle(this.allId);
     int ind = 0;
@@ -150,8 +155,8 @@ public class Contestant implements BaseNode {
     if (this.isFighting) {
       network.send(opponent, new BattleResult(this.selfId, opponent, true));
     } else if (opponentLevel > 0 && this.healthLevel > 0) {
-      lock.lock();
       try {
+        lock.lock();
         this.isFighting = true;
       } finally {
         lock.unlock();
