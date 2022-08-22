@@ -32,6 +32,12 @@ public class PrometheusClient {
   private static final int STARTUP_TIMEOUT = 5;
 
   /**
+   * HTTP server collecting metrics and connecting to Prometheus.
+   */
+  private static HTTPServer server;
+
+
+  /**
    * Starts up metrics containers for metrics collection (prometheus), and metrics illustration (grafana).
    *
    * @throws IllegalStateException facing any checked exception while running metrics containers.
@@ -54,9 +60,16 @@ public class PrometheusClient {
 
     try {
       // exposes metrics client for prometheus server
-      HTTPServer server = new HTTPServer(EXPOSED_PORT);
+      server = new HTTPServer(EXPOSED_PORT);
     } catch (IOException e) {
       throw new IllegalStateException("could not startup prometheus http client", e);
     }
+  }
+
+  /**
+   * Stops the HTTP server.
+   */
+  public static void stop() {
+    server.stop();
   }
 }

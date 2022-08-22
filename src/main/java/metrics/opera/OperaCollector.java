@@ -1,5 +1,6 @@
 package metrics.opera;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import metrics.CounterCollector;
 import metrics.GaugeCollector;
 import metrics.HistogramCollector;
@@ -24,16 +25,19 @@ public class OperaCollector implements MetricsCollector {
   }
 
   @Override
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "it is meant to expose internal state")
   public HistogramCollector histogram() {
     return this.histogram;
   }
 
   @Override
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "it is meant to expose internal state")
   public GaugeCollector gauge() {
     return this.gauge;
   }
 
   @Override
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "it is meant to expose internal state")
   public CounterCollector counter() {
     return this.counter;
   }

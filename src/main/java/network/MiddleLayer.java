@@ -53,7 +53,7 @@ public class MiddleLayer {
     }
 
     this.nodeId = nodeId;
-    this.allFullAddresses = allFullAddresses;
+    this.allFullAddresses = (HashMap<UUID, SimpleEntry<String, Integer>>) allFullAddresses.clone();
     this.orchestrator = orchestrator;
     this.metricsCollector = new MiddleLayerMetricsCollector(metricsCollector);
     this.latencyGenerator = new LatencyGenerator();
@@ -126,8 +126,6 @@ public class MiddleLayer {
    * Called by the underlay to collect the response from the overlay.
    */
   public void receive(Request request) {
-    // check the readiness of the overlay
-    SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(nodeId);
     this.metricsCollector.onMessageReceived(nodeId,
         request.getOriginalId(),
         request.getEvent().size(),
