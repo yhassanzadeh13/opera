@@ -9,8 +9,7 @@ import network.packets.Request;
 /**
  * Represents the Java RMI Service implementation.
  */
-public class JavaRmiHost extends UnicastRemoteObject implements network.javarmi.JavaRmiService {
-
+public class JavaRmiHost implements network.javarmi.JavaRmiService {
   private final JavaRmiUnderlay underlay;
 
   public JavaRmiHost(JavaRmiUnderlay underlay) throws RemoteException {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import events.StopStartEvent;
 import metrics.MetricsCollector;
 import network.latency.LatencyGenerator;
@@ -42,8 +43,9 @@ public class MiddleLayer {
    * @param orchestrator     Orchestrator for the middle layer
    * @param metricsCollector Metrics collector for the middle layer
    */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of allFullAddresses")
   public MiddleLayer(UUID nodeId,
-                     HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses,
+                     HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses, // TODO: change to an array of address info
                      HashMap<SimpleEntry<String, Integer>, Boolean> isReady, // TODO: isReady can be removed.
                      Orchestrator orchestrator,
                      MetricsCollector metricsCollector) {
