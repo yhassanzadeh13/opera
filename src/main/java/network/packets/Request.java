@@ -40,6 +40,6 @@ public class Request implements Serializable {
   }
 
   public Timestamp getSentTimeStamp() {
-    return sentTimeStamp;
+    return new Timestamp(this.sentTimeStamp.getTime());
   }
 }

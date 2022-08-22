@@ -61,26 +61,22 @@ public class LocalUnderlay extends Underlay {
    */
   @Override
   public boolean sendMessage(String address, int port, Request request) {
-    SimpleEntry fullAddress = new SimpleEntry<>(address, port);
+    SimpleEntry<String, Integer> fullAddress = new SimpleEntry<>(address, port);
     if (!allUnderlay.containsKey(fullAddress)) {
       log.error("[LocalUnderlay] " + address + ": Node is not found");
       return false;
     }
-    try {
-      Underlay destinationUnderlay = allUnderlay.get(fullAddress);
 
-      // handle the request in a separated thread
-      new Thread() {
-        @Override
-        public void run() {
-          destinationUnderlay.dispatchRequest(request);
-        }
-      }.start();
-      return true;
-    } catch (NullPointerException e) {
-      log.error("[LocalUnderlay] Middle layer instance not found ");
-      return false;
-    }
+    Underlay destinationUnderlay = allUnderlay.get(fullAddress);
+
+    // handle the request in a separated thread
+    new Thread() {
+      @Override
+      public void run() {
+        destinationUnderlay.dispatchRequest(request);
+      }
+    }.start();
+    return true;
   }
 
   /**
