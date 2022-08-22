@@ -1,5 +1,7 @@
 package metrics;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Global constants used across codebase.
  */
@@ -22,6 +24,7 @@ public class Constants {
    * Contains default constant values for histogram collectors.
    */
   public static class Histogram {
+    @SuppressFBWarnings(value = "MS_MUTABLE_ARRAY", justification = "not a concern with current architecture")
     public static final double[] DEFAULT_HISTOGRAM = new double[]{Double.MAX_VALUE};
   }
 }
