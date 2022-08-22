@@ -53,7 +53,7 @@ public class MiddleLayer {
     }
 
     this.nodeId = nodeId;
-    this.allFullAddresses = (HashMap<UUID, SimpleEntry<String, Integer>>) allFullAddresses.clone();
+    this.allFullAddresses = allFullAddresses;
     this.orchestrator = orchestrator;
     this.metricsCollector = new MiddleLayerMetricsCollector(metricsCollector);
     this.latencyGenerator = new LatencyGenerator();
@@ -85,7 +85,6 @@ public class MiddleLayer {
   public boolean send(UUID destinationId, Event event) {
     // check the readiness of the destination node
     SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(destinationId);
-
 
     // wrap the event by request class
     Request request = new Request(event, this.nodeId, destinationId);
