@@ -2,7 +2,6 @@ package network.javarmi;
 
 import java.rmi.RemoteException;
 import java.rmi.server.RemoteObject;
-import java.rmi.server.UnicastRemoteObject;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import network.packets.Request;
