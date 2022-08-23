@@ -3,6 +3,7 @@ package scenario.integrita;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import groovy.lang.Tuple;
 import metrics.MetricsCollector;
 import network.MiddleLayer;
@@ -23,14 +24,17 @@ public class Server implements BaseNode {
   int index; // server's index
   int totalServers; // total number of servers
   byte[] vk; // server's verification key
+  @SuppressFBWarnings(value = "URF_UNREAD_FIELD", justification = "skipping unread fields error, work-in-progress")
   byte[] sk; // server's signature key
   HistoryTreeStore db;
   NodeAddress status; // the last node address seen by the server
 
   // simulator related properties
+  @SuppressFBWarnings(value = "URF_UNREAD_FIELD", justification = "skipping unread fields error, work-in-progress")
   UUID id;
   MiddleLayer network;
   // all UUIDs including self
+  @SuppressFBWarnings(value = "URF_UNREAD_FIELD", justification = "skipping unread fields error, work-in-progress")
   ArrayList<UUID> ids;
 
   // Constructors -------------------------------------------------------------------------
@@ -44,6 +48,7 @@ public class Server implements BaseNode {
   /**
    * Constructor.
    */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of network")
   public Server(UUID selfId, MiddleLayer network) {
     this.id = selfId;
     this.network = network;
@@ -141,6 +146,7 @@ public class Server implements BaseNode {
   // BaseNode interface implementation ---------------------------------------------------
 
   @Override
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of allId")
   public void onCreate(ArrayList<UUID> allId) {
     this.ids = allId;
     this.network.ready();

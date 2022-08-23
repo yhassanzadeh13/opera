@@ -3,6 +3,7 @@ package scenario.integrita;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import metrics.MetricsCollector;
 import network.MiddleLayer;
 import network.packets.Event;
@@ -24,12 +25,14 @@ public class Client extends User implements BaseNode {
 
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of MiddleLayer")
   public Client(UUID selfId, MiddleLayer network) {
     this.id = selfId;
     this.network = network;
   }
 
   @Override
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of allId")
   public void onCreate(ArrayList<UUID> allId) {
     this.ids = allId;
     this.network.ready();

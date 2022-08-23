@@ -3,6 +3,7 @@ package network.local;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import network.Underlay;
 import network.packets.Request;
 
@@ -14,6 +15,7 @@ import network.packets.Request;
 public class LocalUnderlay extends Underlay {
   private final String selfAddress;
   private final int port;
+  // TODO: replace it with a network Hub.
   private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allUnderlay;
 
   /**
@@ -23,6 +25,7 @@ public class LocalUnderlay extends Underlay {
    * @param port        port of the Underlay
    * @param allUnderlay hashmap of all underlays
    */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of allUnderlays")
   public LocalUnderlay(String selfAddress, int port, HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allUnderlay) {
     this.selfAddress = selfAddress;
     this.port = port;

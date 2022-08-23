@@ -10,7 +10,6 @@ import scenario.integrita.user.User;
  * storage unit of the history tree. It contains methods to persist and update a database of history tree nodes.
  */
 public class HistoryTreeStore implements Store {
-
   private final HashMap<Integer, User> users;
   private final HashMap<NodeAddress, HistoryTreeNode> historyTreeNodes;
 
@@ -19,12 +18,6 @@ public class HistoryTreeStore implements Store {
     this.users = new HashMap<>();
     this.historyTreeNodes = new HashMap<>();
   }
-
-  public HistoryTreeStore(HashMap<Integer, User> users, HashMap<NodeAddress, HistoryTreeNode> historyTreeNodes) {
-    this.users = users;
-    this.historyTreeNodes = historyTreeNodes;
-  }
-
 
   // getters and setters ---------------------------
   public byte[] getVerificationKey(int userIndex) {
@@ -64,7 +57,6 @@ public class HistoryTreeStore implements Store {
    * erases all the past nodes whose `position` precede the position of the supplied `addr` exclusively.
    */
   public void cleanDigests(NodeAddress addr) {
-    Set<NodeAddress> keySet = historyTreeNodes.keySet();
     Iterator<Map.Entry<NodeAddress, HistoryTreeNode>> it = historyTreeNodes.entrySet().iterator();
     while (it.hasNext()) {
       Map.Entry<NodeAddress, HistoryTreeNode> entry = it.next();

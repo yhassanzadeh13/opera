@@ -1,6 +1,7 @@
 package scenario.integrita.historytree;
 
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import scenario.integrita.utils.OperationType;
@@ -8,7 +9,7 @@ import scenario.integrita.utils.OperationType;
 /**
  * implementation of a decentralized history tree as instructed in Integrita.
  */
-public class HistoryTreeNode {
+public class HistoryTreeNode implements Serializable {
   public NodeAddress addr;
   public OperationType op;
   public String hash;
