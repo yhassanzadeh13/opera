@@ -1,12 +1,14 @@
 package scenario.integrita.historytree;
 
+import java.io.Serializable;
+
 /**
  * holds the address of a node of the history tree.
  * position represents the operation number.
  * level indicates at which height of the history tree the node is located.
  * level ranges from 0 to log2(position)+1.
  */
-public class NodeAddress {
+public class NodeAddress implements Serializable {
   public int position;
   public int level;
 

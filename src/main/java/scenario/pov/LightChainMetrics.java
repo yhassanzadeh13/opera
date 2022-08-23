@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import metrics.Constants;
 import metrics.MetricsCollector;
 
@@ -17,6 +18,7 @@ public class LightChainMetrics {
   private static final String SUBSYSTEM_LIGHTCHAIN = "lightchain";
   private static MetricsCollector metricsCollector;
   private static UUID collectorID;
+  // TODO: move this to a singleton object.
   private static HashMap<Integer, List<UUID>> blockInventory;
 
   /**
@@ -25,6 +27,7 @@ public class LightChainMetrics {
    * @param metricsCollector an instance of metric collector. Supposed to be the same instance over all invocations by
    *                         different nodes. Though only the first invocation goes through.
    */
+  @SuppressFBWarnings(value = "LI_LAZY_INIT_STATIC", justification = "we properly manage instantiation of blockInventory")
   public LightChainMetrics(MetricsCollector metricsCollector) {
     if (!lock.tryLock()) {
       // another thread is initiating

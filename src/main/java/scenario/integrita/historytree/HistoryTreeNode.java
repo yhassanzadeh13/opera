@@ -4,6 +4,7 @@ package scenario.integrita.historytree;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import scenario.integrita.signature.Signature;
 import scenario.integrita.utils.OperationType;
 
 /**
@@ -33,6 +34,15 @@ public class HistoryTreeNode implements Serializable {
   }
 
   public HistoryTreeNode() {
+  }
+
+  /**
+   * Sets signature for history node.
+   *
+   * @param signature byte representation of signature.
+   */
+  public void setSignature(byte[] signature) {
+    this.signature = signature;
   }
 
   @Override
