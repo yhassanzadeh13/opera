@@ -51,7 +51,7 @@ public class HistoryTreeNode implements Serializable {
    *
    * @param hash string representation of hash.
    */
-  public void setHash(String hash) {this.hash = hash}
+  public void setHash(String hash) {this.hash = hash;}
 
   @Override
   public String toString() {
