@@ -4,8 +4,6 @@ package scenario.integrita.historytree;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import scenario.integrita.hash.Hash;
 import scenario.integrita.utils.OperationType;
 
 /**
@@ -51,7 +49,9 @@ public class HistoryTreeNode implements Serializable {
    *
    * @param hash string representation of hash.
    */
-  public void setHash(String hash) {this.hash = hash;}
+  public void setHash(String hash) {
+    this.hash = hash;
+  }
 
   @Override
   public String toString() {
