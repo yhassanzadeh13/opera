@@ -4,6 +4,8 @@ package scenario.integrita.historytree;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import scenario.integrita.hash.Hash;
 import scenario.integrita.utils.OperationType;
 
 /**
@@ -12,8 +14,8 @@ import scenario.integrita.utils.OperationType;
 public class HistoryTreeNode implements Serializable {
   public NodeAddress addr;
   public OperationType op;
-  public String hash;
-  public byte[] signature;
+  public String hash; // TODO: cast into its own object
+  public byte[] signature; // TODO: cast into its own object
   /*
   the id of the owning user
    */
@@ -43,6 +45,13 @@ public class HistoryTreeNode implements Serializable {
   public void setSignature(byte[] signature) {
     this.signature = signature;
   }
+
+  /**
+   * Sets hash for history node.
+   *
+   * @param hash string representation of hash.
+   */
+  public void setHash(String hash) {this.hash = hash}
 
   @Override
   public String toString() {
