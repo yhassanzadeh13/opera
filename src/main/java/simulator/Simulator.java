@@ -62,7 +62,6 @@ public class Simulator implements Orchestrator {
       PrometheusClient.start();
     } catch (IllegalStateException e) {
       log.fatal(e);
-      System.exit(1);
     }
 
 
@@ -81,6 +80,7 @@ public class Simulator implements Orchestrator {
    *
    * @return the simulator logger
    */
+  @SuppressFBWarnings(value = "MS_EXPOSE_REP", justification = "logger instance is supposed to be mutable externally")
   public static Logger getLogger() {
     return log;
   }
