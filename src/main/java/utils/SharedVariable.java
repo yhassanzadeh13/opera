@@ -7,6 +7,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import simulator.Simulator;
 
 /**
@@ -47,6 +48,7 @@ public class SharedVariable {
    *
    * @return the instance of the shared variable
    */
+  @SuppressFBWarnings(value = "MS_EXPOSE_REP", justification = "it is meant to expose internal state of allId")
   public static SharedVariable getInstance() {
     if (SharedVariable.instance == null) {
       instance = new SharedVariable();
