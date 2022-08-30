@@ -27,7 +27,7 @@ public class LightChainMetrics {
    * @param metricsCollector an instance of metric collector. Supposed to be the same instance over all invocations by
    *                         different nodes. Though only the first invocation goes through.
    */
-  @SuppressFBWarnings(value = "LI_LAZY_INIT_STATIC", justification = "we properly manage instantiation of blockInventory")
+  @SuppressFBWarnings(value = {"LI_LAZY_INIT_STATIC", "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"})
   public LightChainMetrics(MetricsCollector metricsCollector) {
     if (!lock.tryLock()) {
       // another thread is initiating
@@ -152,14 +152,14 @@ public class LightChainMetrics {
   }
 
   private static class LightChain {
-    public class Name {
+    public static class Name {
       public static final String TRANSACTION_COUNT = "transaction_count";
       public static final String CURRENT_BLOCK_HEIGHT = "block_height";
       public static final String TOTAL_BLOCKS_COUNT = "total_finalized_blocks";
       public static final String TOTAL_UNIQUE_BLOCKS_COUNT = "total_unique_finalized_blocks";
     }
 
-    public class HelpMsg {
+    public static class HelpMsg {
       public static final String TRANSACTION_COUNT = "total number of transactions made in system";
       public static final String CURRENT_BLOCK_HEIGHT = "last finalized block height";
       public static final String TOTAL_BLOCKS_COUNT = "total finalized blocks";

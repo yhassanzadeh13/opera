@@ -4,8 +4,8 @@ import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -218,7 +218,6 @@ public class Simulator implements Orchestrator {
    */
   @Override
   public void done(UUID nodeId) {
-    // logging
     log.info(getAddress(nodeId) + ": node is terminating...");
 
     // mark the nodes as not ready
@@ -226,13 +225,14 @@ public class Simulator implements Orchestrator {
     SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(nodeId);
 
     // stop the nodes on a new thread
-    try {
-      MiddleLayer middleLayer = this.allMiddleLayers.get(fullAddress);
-      middleLayer.stop();
-    } catch (NullPointerException e) {
-      log.error("[simulator.simulator] Cannot find node " + getAddress(nodeId));
+    MiddleLayer middleLayer = this.allMiddleLayers.get(fullAddress);
+    if (middleLayer == null) {
+      log.error("[simulator.simulator] cannot find node " + getAddress(nodeId));
       log.debug("[simulator.simulator] Node " + getAddress(nodeId) + " has already been terminate");
+    } else {
+      middleLayer.stop();
     }
+
 
     // add the offline nodes list
     this.offlineNodes.add(nodeId);
