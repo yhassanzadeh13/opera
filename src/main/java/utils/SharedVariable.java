@@ -19,10 +19,7 @@ public class SharedVariable {
 
   // singleton instance
   private static SharedVariable instance = null;
-  private final ConcurrentHashMap<UUID,
-      ConcurrentHashMap<Integer,
-          ArrayDeque<SimpleEntryComparable<UUID,
-              Object>>>> nodeQueues;
+  private final ConcurrentHashMap<UUID, ConcurrentHashMap<Integer, ArrayDeque<SimpleEntryComparable<UUID, Object>>>> nodeQueues;
   // for each variable ID, hold the cluster of that variable
   private final ArrayList<ArrayList<UUID>> clusters;
   // for each new variable, assign a new id for it
@@ -75,9 +72,7 @@ public class SharedVariable {
 
     // add new queue for all nodes
     for (UUID nodeId : allId) {
-      if (!nodeQueues.containsKey(nodeId)) {
-        nodeQueues.put(nodeId, new ConcurrentHashMap<>());
-      }
+      nodeQueues.putIfAbsent(nodeId, new ConcurrentHashMap<>());
       nodeQueues.get(nodeId).put(variableId, new ArrayDeque<>());
     }
 
