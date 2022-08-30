@@ -48,7 +48,7 @@ public class SharedVariable {
    *
    * @return the instance of the shared variable
    */
-  @SuppressFBWarnings(value = "MS_EXPOSE_REP", justification = "it is meant to expose internal state of allId")
+  @SuppressFBWarnings(value = {"MS_EXPOSE_REP", "LI_LAZY_INIT_STATIC"})
   public static SharedVariable getInstance() {
     if (SharedVariable.instance == null) {
       instance = new SharedVariable();
