@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.concurrent.CountDownLatch;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import metrics.MetricsCollector;
 import metrics.PrometheusClient;
 import metrics.opera.OperaCollector;
@@ -28,7 +29,8 @@ import utils.generator.BaseGenerator;
  */
 public class Simulator implements Orchestrator {
   private static final Random rand = new Random();
-  public static Logger log = Logger.getLogger(Simulator.class.getName());
+  // TODO: define looger name
+  private static final Logger log = Logger.getLogger(Simulator.class.getName());
   private final ArrayList<UUID> allId;
   private final HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses;
   private final HashMap<SimpleEntry<String, Integer>, Boolean> isReady;
@@ -48,6 +50,7 @@ public class Simulator implements Orchestrator {
    * @param factory     factory object to create nodes based on inventory.
    * @param networkType the type of simulated communication protocol(**tcp**, **javarmi**, **udp**, and **mockNetwork*)
    */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to access externally mutable object, factory")
   public Simulator(Factory factory, NetworkProtocol networkType) {
     this.factory = factory;
     this.isReady = new HashMap<>();
@@ -275,24 +278,7 @@ public class Simulator implements Orchestrator {
   public void churnSimulation(long lifeTime, BaseGenerator interArrivalGen, BaseGenerator sessionLengthGenerator) {
     // initialize all nodes
     this.start();
-    System.out.println("Simulation started");
     getLogger().info("Simulation started");
-
-    // TODO: move these to a churn simulator unit so that one can register labels via
-    // the simulator's constructor.
-    // register a prometheus histogram for session length
-    double[] labels = new double[10];
-    for (int i = 1; i <= 10; i++) {
-      labels[10 - i] = sessionLengthGenerator.mn
-          + (double) (sessionLengthGenerator.mx - sessionLengthGenerator.mn) / i + 0.001;
-    }
-    // this.metricsCollector.histogram().register(sessionMetric, labels);
-
-    // register a prometheus histogram for inter arrival time
-    for (int i = 1; i <= 10; i++) {
-      labels[10 - i] = interArrivalGen.mn + (double) (interArrivalGen.mx - interArrivalGen.mn) / i + 0.001;
-    }
-    // this.metricsCollector.histogram().register(arrivalMetric, labels);
 
     // hold the current online nodes, with their termination time stamp.
     this.onlineNodes = new PriorityQueue<>();
@@ -355,7 +341,6 @@ public class Simulator implements Orchestrator {
     }
 
     log.info("Simulation duration finished");
-    System.out.println("Simulation duration finished");
 
     // stop the simulation.
     this.terminate();
@@ -367,7 +352,7 @@ public class Simulator implements Orchestrator {
    * @return nodes' UUIDs
    **/
   public ArrayList<UUID> getAllId() {
-    return this.allId;
+    return (ArrayList<UUID>) this.allId.clone();
   }
 
 }
