@@ -18,12 +18,11 @@ public class MyNode implements BaseNode {
   private ArrayList<UUID> allId;
   private MiddleLayer network;
   private static final Random rng = new Random();
-  private MetricsCollector metricsCollector; // TODO: enable metrics
 
+  // TODO: enable metrics
   MyNode(UUID selfId, MiddleLayer network, MetricsCollector metricsCollector) {
     this.selfId = selfId;
     this.network = network;
-    this.metricsCollector = metricsCollector;
   }
 
   public MyNode() {
@@ -33,7 +32,7 @@ public class MyNode implements BaseNode {
 
   @Override
   public void onCreate(final ArrayList<UUID> allId) {
-    this.allId = allId;
+    this.allId = (ArrayList<UUID>) allId.clone();
     network.ready();
   }
 

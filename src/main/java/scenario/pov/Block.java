@@ -4,12 +4,13 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Block is a serializable object which consist of uuid, owner, validators, height, prevBlock, and transactions.
  *
  */
 public class Block implements Serializable {
-
   private UUID uuid;
   private UUID owner;
   private List<UUID> validators;
@@ -26,6 +27,7 @@ public class Block implements Serializable {
    * @param validators List of unique IDs of the validators.
    * @param transactions List of unique IDs of the transactions.
    */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of network")
   public Block(UUID uuid, Integer height, UUID owner, UUID prevBlock, List<UUID> validators, List<UUID> transactions) {
     this.uuid = uuid;
     this.height = height;

@@ -5,6 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import network.packets.Request;
 
 /**
@@ -21,6 +22,7 @@ public class UdpListener implements Runnable {
   // Owned resource by the `UDPUnderlay`. Used to dispatch the received
   // responses to the main thread.
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of listen socket")
   public UdpListener(DatagramSocket listenSocket, UdpUnderlay underlay) {
     this.listenSocket = listenSocket;
     this.underlay = underlay;

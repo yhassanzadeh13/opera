@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import network.packets.Request;
 import simulator.Simulator;
 
@@ -12,12 +13,12 @@ import simulator.Simulator;
  * Represents a thread that handles an incoming tcp request and emits a response.
  */
 public class TcpHandler implements Runnable {
-
   // tcp stream. We use this two-way stream to read the request and send back the response.
   private final Socket incomingConnection;
   // tcp underlay.
   private final TcpUnderlay underlay;
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of incomingConnection")
   public TcpHandler(Socket incomingConnection, TcpUnderlay underlay) {
     this.incomingConnection = incomingConnection;
     this.underlay = underlay;

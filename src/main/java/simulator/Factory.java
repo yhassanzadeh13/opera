@@ -2,6 +2,8 @@ package simulator;
 
 import java.util.ArrayList;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Factory supports creating several types of nodes each with a certain instances.
  */
@@ -28,6 +30,8 @@ public class Factory {
     this.total += r.getTotal();
   }
 
+
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "it is meant to access externally mutable object, recipes")
   public ArrayList<Recipe> getRecipes() {
     return recipes;
   }

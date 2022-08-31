@@ -1,5 +1,6 @@
 package network;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import network.packets.Request;
 import org.apache.log4j.Logger;
 import simulator.Simulator;
@@ -35,6 +36,7 @@ public abstract class Underlay {
    * @param middleLayer middle layer for underlay.
    * @return true iff the initialization was successful.
    */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of MiddleLayer")
   public final boolean initialize(int port, MiddleLayer middleLayer) {
     this.middleLayer = middleLayer;
     return initUnderlay(port);

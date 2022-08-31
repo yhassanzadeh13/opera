@@ -3,6 +3,7 @@ package network.udp;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import network.packets.Request;
 
 
@@ -10,7 +11,6 @@ import network.packets.Request;
  * Represents a thread that handles a udp request and emits a response.
  */
 public class UdpHandler implements Runnable {
-
   // The udp socket that the response will be sent through.
   private final DatagramSocket udpSocket;
   // The received request to handle.
@@ -31,6 +31,7 @@ public class UdpHandler implements Runnable {
    * @param clientPort    Port of the Client
    * @param underlay      Underlay for the Handler
    */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of clientAddress, and udpSocket")
   public UdpHandler(DatagramSocket udpSocket,
                     Request request,
                     InetAddress clientAddress,

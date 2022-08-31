@@ -5,6 +5,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Implements a routine that continuously listens a local tcp port and delegates the handling
  * of each received request to a `TCPHandler` thread.
@@ -16,6 +18,7 @@ public class TcpListener implements Runnable {
   // Owned resource by the `TCPUnderlay`.
   private final TcpUnderlay underlay;
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of serverSocket")
   public TcpListener(ServerSocket serverSocket, TcpUnderlay underlay) {
     this.serverSocket = serverSocket;
     this.underlay = underlay;

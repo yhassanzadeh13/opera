@@ -5,6 +5,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import metrics.MetricsCollector;
 import network.MiddleLayer;
 import network.packets.Event;
@@ -28,7 +29,7 @@ import scenario.pov.events.*;
  * one type of nodes.
  */
 public class LightChainNode implements BaseNode {
-
+  private static final Random random = new Random();
   final int transactionInsertions = 100;
   final int blockIterations = 50;
   final int numValidators = 1;
@@ -67,6 +68,7 @@ public class LightChainNode implements BaseNode {
    * @param uuid    ID of the node
    * @param network used to communicate with other nodes
    */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to access externally mutable object, network")
   public LightChainNode(UUID uuid, MiddleLayer network, MetricsCollector metrics) {
     this.uuid = uuid;
     this.network = network;
@@ -88,6 +90,7 @@ public class LightChainNode implements BaseNode {
     this.totalTransactionCount = 0;
   }
 
+  // TODO: do we need this?
   public LightChainNode() {
 
   }
@@ -103,8 +106,8 @@ public class LightChainNode implements BaseNode {
    * @param allId the IDs of type UUID for all the nodes in the cluster
    */
   @Override
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to access externally mutable object, allId")
   public void onCreate(ArrayList<UUID> allId) {
-
     logger.info("node " + this.uuid + " has been created.");
 
     this.allId = allId;
@@ -287,9 +290,9 @@ public class LightChainNode implements BaseNode {
     }
 
     int count = 0;
-    for (UUID key : this.transactionValidationCount.keySet()) {
+    for (Map.Entry<UUID, Integer> e : this.transactionValidationCount.entrySet()) {
 
-      if (this.transactionValidationCount.get(key) != this.numValidators) {
+      if (e.getValue() != this.numValidators) {
         count += 1;
       }
     }
@@ -446,9 +449,8 @@ public class LightChainNode implements BaseNode {
       randomIndexes.add(i);
     }
 
-    Random rand = new Random();
     for (int i = this.numValidators + 1; i < this.allId.size(); ++i) {
-      int j = rand.nextInt(i + 1);
+      int j = random.nextInt(i + 1);
       if (j < this.numValidators) {
         randomIndexes.set(j, i);
       }
@@ -545,6 +547,7 @@ public class LightChainNode implements BaseNode {
    *
    * @param requestedTransactions List of requested transactions.
    */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to access externally mutable object, requestedTransactions")
   public void deliverTransactions(List<Transaction> requestedTransactions) {
     logger.info("Requested Transactions received by node " + this.uuid);
     this.requestedTransactions = requestedTransactions;

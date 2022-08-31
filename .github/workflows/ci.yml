@@ -3,36 +3,53 @@ name: CI
 on:
   push:
     branches:
-     - master
+      - master
   pull_request:
     branches:
       - master
 jobs:
+
   lint:
-    name: CheckStyle (Linter)
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Run CheckStyle
-      run: mvn checkstyle:checkstyle
-  build:
-    name: Unit Tests
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: clean
-      run: mvn clean install
-    - name: compile project
-      run: mvn compile
-    - name: run tests
-      run: mvn test
-  spotbugs:
-    name: SpotBugs (Linter)
+    name: checkstyle linter
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: run spotbugs
-        run: mvn spotbugs:check
+      - name: Run CheckStyle
+        run: mvn checkstyle:checkstyle
+
+  build:
+    name: build with spotbugs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.9
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.9
+      - uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Build with Maven
+        run: mvn -B verify spotbugs:check
+      - uses: jwgmeligmeyling/spotbugs-github-action@master
+        with:
+          path: '**/spotbugsXml.xml'
+
+  test:
+    name: unit testing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: clean
+        run: mvn clean install
+      - name: compile project
+        run: mvn compile
+      - name: run tests
+        run: mvn test
+
 
 
 #  sonar:

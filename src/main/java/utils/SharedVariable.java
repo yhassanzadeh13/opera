@@ -1,7 +1,5 @@
 package utils;
 
-//import java.util.*;
-
 import java.util.AbstractMap;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -9,6 +7,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import simulator.Simulator;
 
 /**
@@ -20,10 +19,7 @@ public class SharedVariable {
 
   // singleton instance
   private static SharedVariable instance = null;
-  private final ConcurrentHashMap<UUID,
-      ConcurrentHashMap<Integer,
-          ArrayDeque<SimpleEntryComparable<UUID,
-              Object>>>> nodeQueues;
+  private final ConcurrentHashMap<UUID, ConcurrentHashMap<Integer, ArrayDeque<SimpleEntryComparable<UUID, Object>>>> nodeQueues;
   // for each variable ID, hold the cluster of that variable
   private final ArrayList<ArrayList<UUID>> clusters;
   // for each new variable, assign a new id for it
@@ -49,6 +45,7 @@ public class SharedVariable {
    *
    * @return the instance of the shared variable
    */
+  @SuppressFBWarnings(value = {"MS_EXPOSE_REP", "LI_LAZY_INIT_STATIC"})
   public static SharedVariable getInstance() {
     if (SharedVariable.instance == null) {
       instance = new SharedVariable();
@@ -75,9 +72,7 @@ public class SharedVariable {
 
     // add new queue for all nodes
     for (UUID nodeId : allId) {
-      if (!nodeQueues.containsKey(nodeId)) {
-        nodeQueues.put(nodeId, new ConcurrentHashMap<>());
-      }
+      nodeQueues.putIfAbsent(nodeId, new ConcurrentHashMap<>());
       nodeQueues.get(nodeId).put(variableId, new ArrayDeque<>());
     }
 
@@ -143,18 +138,14 @@ public class SharedVariable {
    * @param name   name of the variable
    * @return value if there is a value for the given name null otherwise.
    */
-  public AbstractMap.SimpleEntry<UUID, Object> read(UUID nodeId, String name) throws NullPointerException {
+  public AbstractMap.SimpleEntry<UUID, Object> read(UUID nodeId, String name) throws IllegalArgumentException {
     if (!variablesIds.containsKey(name)) {
-      Simulator.getLogger().error("[SharedVariable] Read: no variable with name " + name + " is registered");
-      new ClassNotFoundException("[SharedVariable] Read: no variable with name " + name + " is registered");
+      throw new IllegalArgumentException("no variable with name " + name + " is registered to read on shared variable");
     }
-    int variableId = variablesIds.get(name);
 
+    int variableId = variablesIds.get(name);
     if (!nodeQueues.get(nodeId).containsKey(variableId)) {
-      Simulator.getLogger().error("[SharedVariable] Read: the node with ID " + nodeId + " does not have "
-          + "access to the variable with name " + name);
-      throw new NullPointerException("[SharedVariable] Read: the node with ID " + nodeId + " does not have "
-          + "access to the variable with name " + name);
+      throw new IllegalArgumentException("node id: " + nodeId + " does not have access to the variable with name: " + name);
     }
     if (nodeQueues.get(nodeId).get(variableId).isEmpty()) {
       Simulator.getLogger().debug("[SharedVariable] Read: no present values for variable with name " + name);
@@ -180,21 +171,17 @@ public class SharedVariable {
   /**
    * Checks whether there is a value with that variable name or not.
    *
-   * @param nodeId Id of the node
+   * @param nodeId id of the node
    * @param name   name of the variable
    * @return true if empty false otherwise
    */
-  public boolean isEmpty(UUID nodeId, String name) {
+  public boolean isEmpty(UUID nodeId, String name) throws IllegalArgumentException {
     if (!variablesIds.containsKey(name)) {
-      Simulator.getLogger().error("[SharedVariable] Read: no variable with name " + name + " is registered");
-      new ClassNotFoundException("[SharedVariable] Read: no variable with name " + name + " is registered");
+      throw new IllegalArgumentException("no variable with name " + name + " is registered");
     }
     int variableId = variablesIds.get(name);
     if (!nodeQueues.get(nodeId).containsKey(variableId)) {
-      Simulator.getLogger().error("[SharedVariable] Read: the node with ID " + nodeId + " does not have "
-          + "access to the variable with name " + name);
-      throw new NullPointerException("[SharedVariable] Read: the node with ID " + nodeId + " does not have "
-          + "access to the variable with name " + name);
+      throw new IllegalArgumentException("node: " + nodeId + " does not have access to the variable with name: " + name);
     }
     return nodeQueues.get(nodeId).get(variableId).isEmpty();
   }

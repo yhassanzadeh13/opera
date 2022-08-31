@@ -3,7 +3,6 @@ package network.latency;
 import java.util.HashMap;
 import java.util.UUID;
 
-import utils.SimulatorUtils;
 import utils.generator.GaussianGenerator;
 
 /**
@@ -32,11 +31,15 @@ public class LatencyGenerator {
       nodeA = nodeB;
       nodeB = tmp;
     }
-    String hash = SimulatorUtils.hashPairOfNodes(nodeA, nodeB);
+    String hash = hashPairOfNodes(nodeA, nodeB);
     if (!this.nodesSimulatedLatency.containsKey(hash)) {
       GaussianGenerator generator = new GaussianGenerator(MeanLatency, StdLatency);
       this.nodesSimulatedLatency.put(hash, Math.abs(generator.next()));
     }
     return this.nodesSimulatedLatency.get(hash);
+  }
+
+  private static String hashPairOfNodes(UUID a, UUID b) {
+    return a.toString() + b.toString();
   }
 }

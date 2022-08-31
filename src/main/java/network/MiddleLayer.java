@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import events.StopStartEvent;
 import metrics.MetricsCollector;
 import network.latency.LatencyGenerator;
@@ -14,7 +15,6 @@ import node.BaseNode;
 import org.apache.log4j.Logger;
 import simulator.Orchestrator;
 import simulator.Simulator;
-import utils.SimulatorUtils;
 
 /**
  * Represents a mediator between the overlay and the underlay. The requests coming from the underlay are directed
@@ -43,8 +43,9 @@ public class MiddleLayer {
    * @param orchestrator     Orchestrator for the middle layer
    * @param metricsCollector Metrics collector for the middle layer
    */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of allFullAddresses")
   public MiddleLayer(UUID nodeId,
-                     HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses,
+                     HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses, // TODO: change to an array of address info
                      HashMap<SimpleEntry<String, Integer>, Boolean> isReady, // TODO: isReady can be removed.
                      Orchestrator orchestrator,
                      MetricsCollector metricsCollector) {
@@ -87,7 +88,6 @@ public class MiddleLayer {
     // check the readiness of the destination node
     SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(destinationId);
 
-
     // wrap the event by request class
     Request request = new Request(event, this.nodeId, destinationId);
     String destinationAddress = fullAddress.getKey();
@@ -127,8 +127,6 @@ public class MiddleLayer {
    * Called by the underlay to collect the response from the overlay.
    */
   public void receive(Request request) {
-    // check the readiness of the overlay
-    SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(nodeId);
     this.metricsCollector.onMessageReceived(nodeId,
         request.getOriginalId(),
         request.getEvent().size(),
@@ -150,10 +148,6 @@ public class MiddleLayer {
       overlay.onNewMessage(request.getOriginalId(), request.getEvent());
     }
 
-  }
-
-  private String receivedBucketHash(UUID id) {
-    return SimulatorUtils.hashPairOfNodes(id, nodeId);
   }
 
   /**

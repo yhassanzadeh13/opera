@@ -13,7 +13,7 @@ public class SimulatorMetricsCollector {
   private static final String SUBSYSTEM_CHURN = "churn";
   private static final String NAMESPACE_SIMULATOR = "simulator";
   private static final UUID collectorID = UUID.randomUUID();
-  private static MetricsCollector metricsCollector;
+  private MetricsCollector metricsCollector;
 
   /**
    * Creates a metric collector for core simulator functionalities.
@@ -21,17 +21,16 @@ public class SimulatorMetricsCollector {
    * @param metricsCollector root metric collector of opera.
    */
   public SimulatorMetricsCollector(MetricsCollector metricsCollector) {
-    SimulatorMetricsCollector.metricsCollector = metricsCollector;
+    this.metricsCollector = metricsCollector;
 
-
-    SimulatorMetricsCollector.metricsCollector.histogram().register(
+    this.metricsCollector.histogram().register(
         Name.SESSION_LENGTH,
         NAMESPACE_SIMULATOR,
         SUBSYSTEM_CHURN,
         HelpMsg.SESSION_LENGTH,
         Constants.Histogram.DEFAULT_HISTOGRAM);
 
-    SimulatorMetricsCollector.metricsCollector.histogram().register(
+    this.metricsCollector.histogram().register(
         Name.INTER_ARRIVAL,
         NAMESPACE_SIMULATOR,
         SUBSYSTEM_CHURN,
@@ -47,7 +46,7 @@ public class SimulatorMetricsCollector {
    * @param sessionLength its session length.
    */
   public void onNewSessionLengthGenerated(UUID id, int sessionLength) {
-    metricsCollector.histogram().observe(Name.SESSION_LENGTH, id, sessionLength);
+    this.metricsCollector.histogram().observe(Name.SESSION_LENGTH, id, sessionLength);
   }
 
   /**
@@ -60,7 +59,7 @@ public class SimulatorMetricsCollector {
   public void onNewInterArrivalGenerated(int interArrival) {
     // Since inter arrival time is a global parameter, we record it by the collector id which
     // is a global identifier.
-    metricsCollector.histogram().observe(Name.INTER_ARRIVAL, collectorID, interArrival);
+    this.metricsCollector.histogram().observe(Name.INTER_ARRIVAL, collectorID, interArrival);
   }
 
   private static class Name {
