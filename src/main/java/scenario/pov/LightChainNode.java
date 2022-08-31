@@ -29,7 +29,7 @@ import scenario.pov.events.*;
  * one type of nodes.
  */
 public class LightChainNode implements BaseNode {
-  private final static Random random = new Random();
+  private static final Random random = new Random();
   final int transactionInsertions = 100;
   final int blockIterations = 50;
   final int numValidators = 1;
