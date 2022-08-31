@@ -290,9 +290,9 @@ public class LightChainNode implements BaseNode {
     }
 
     int count = 0;
-    for (UUID key : this.transactionValidationCount.keySet()) {
+    for (Map.Entry<UUID, Integer> e : this.transactionValidationCount.entrySet()) {
 
-      if (this.transactionValidationCount.get(key) != this.numValidators) {
+      if (e.getValue() != this.numValidators) {
         count += 1;
       }
     }
