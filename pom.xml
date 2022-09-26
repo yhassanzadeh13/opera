@@ -183,6 +183,11 @@
             <artifactId>jackson-dataformat-yaml</artifactId>
             <version>2.11.3</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.multiformats</groupId>
+            <artifactId>java-multibase</artifactId>
+            <version>v1.0.0</version>
+        </dependency>
 
     </dependencies>
 
