@@ -8,6 +8,7 @@ import metrics.MetricsCollector;
 import network.MiddleLayer;
 import network.packets.Event;
 import node.BaseNode;
+import node.Identifier;
 import scenario.integrita.events.Push;
 import scenario.integrita.historytree.HistoryTreeNode;
 import scenario.integrita.user.User;
@@ -17,30 +18,30 @@ import scenario.integrita.user.User;
  * Integrita client implementation.
  */
 public class Client extends User implements BaseNode {
-  UUID id;
+  Identifier id;
   MiddleLayer network;
-  ArrayList<UUID> ids; // all ids inclding self
+  ArrayList<Identifier> ids; // all ids inclding self
 
   public Client() {
 
   }
 
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of MiddleLayer")
-  public Client(UUID selfId, MiddleLayer network) {
+  public Client(Identifier selfId, MiddleLayer network) {
     this.id = selfId;
     this.network = network;
   }
 
   @Override
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of allId")
-  public void onCreate(ArrayList<UUID> allId) {
+  public void onCreate(ArrayList<Identifier> allId) {
     this.ids = allId;
     this.network.ready();
   }
 
   @Override
   public void onStart() {
-    for (UUID receiver : ids) {
+    for (Identifier receiver : ids) {
       if (receiver.equals(this.id)) {
         continue;
       }
@@ -56,13 +57,13 @@ public class Client extends User implements BaseNode {
   }
 
   @Override
-  public void onNewMessage(UUID originId, Event msg) {
+  public void onNewMessage(Identifier originId, Event msg) {
     System.out.println("Sender UUID: " + originId.toString() + " message " + msg.logMessage());
 
   }
 
   @Override
-  public BaseNode newInstance(UUID selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics) {
+  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics) {
     Client client = new Client(selfId, network);
     return client;
   }

@@ -2,25 +2,24 @@ package examples.helloservers;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.UUID;
 
 import metrics.MetricsCollector;
 import network.MiddleLayer;
 import network.packets.Event;
 import node.BaseNode;
+import node.Identifier;
 
 /**
  * MyNode is a basenode to be fixture node for the hello servers simulation.
  */
 public class MyNode implements BaseNode {
-  private static final String MESSAGE_COUNT = "MessageCnt";
-  private UUID selfId;
-  private ArrayList<UUID> allId;
+  private Identifier selfId;
+  private ArrayList<Identifier> allId;
   private MiddleLayer network;
   private static final Random rng = new Random();
 
   // TODO: enable metrics
-  MyNode(UUID selfId, MiddleLayer network, MetricsCollector metricsCollector) {
+  MyNode(Identifier selfId, MiddleLayer network, MetricsCollector metricsCollector) {
     this.selfId = selfId;
     this.network = network;
   }
@@ -31,8 +30,8 @@ public class MyNode implements BaseNode {
 
 
   @Override
-  public void onCreate(final ArrayList<UUID> allId) {
-    this.allId = (ArrayList<UUID>) allId.clone();
+  public void onCreate(final ArrayList<Identifier> allId) {
+    this.allId = (ArrayList<Identifier>) allId.clone();
     network.ready();
   }
 
@@ -51,7 +50,7 @@ public class MyNode implements BaseNode {
       return;
     }
     int ind = rng.nextInt(allId.size());
-    SendHello helloMessage = new SendHello(msg, selfId, allId.get(ind));
+    HelloEvent helloMessage = new HelloEvent(msg, selfId, allId.get(ind));
     network.send(allId.get(ind), helloMessage);
   }
 
@@ -60,7 +59,7 @@ public class MyNode implements BaseNode {
   }
 
   @Override
-  public void onNewMessage(UUID originId, Event msg) {
+  public void onNewMessage(Identifier originId, Event msg) {
     try {
       Thread.sleep(rng.nextInt(1000));
     } catch (InterruptedException e) {
@@ -70,7 +69,7 @@ public class MyNode implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(UUID selfId, String nameSpace, MiddleLayer network, MetricsCollector metricsCollector) {
+  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network, MetricsCollector metricsCollector) {
     return new MyNode(selfId, network, metricsCollector);
   }
 }

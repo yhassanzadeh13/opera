@@ -1,7 +1,6 @@
 package node;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import metrics.MetricsCollector;
 import network.MiddleLayer;
@@ -9,52 +8,47 @@ import network.packets.Event;
 
 
 /**
- * The BaseNode interface is a base interface for the node class to use for the simulator.simulator.
- * onStart: to initial the node. It receives the UUID for all the nodes in the cluster.
- * onStop: is called whenever the node wants to terminate. It is used for collecting garbage
- * and possibly obtain certain log.
- * onNewMessage: is used for communication between the node itself and other nodes
+ * Any node implementation should implement this interface.
  */
 
 public interface BaseNode {
 
 
   /**
-   * When node is created, simulator.simulator activates it and initializes the node parameters.
+   * This method is called when a new node is created. It is used to initialize the node.
    *
-   * @param allId the IDs of type UUID for all the nodes in the cluster
+   * @param allId the identifier of all nodes in the simulation. This includes the current node.
    */
-  void onCreate(ArrayList<UUID> allId);
+  void onCreate(ArrayList<Identifier> allId);
 
   /**
-   * Activated by the simulator.simulator after all the nodes in the cluster become ready
+   * This method is called when all nodes involved in the simulation have been created, and are ready to start.
+   * It is used to start the node.
    */
   void onStart();
 
   /**
-   * Activated by the simulator.simulator just before the node shuts down.
+   * This method is called when the node wants to terminate. It is used to collect garbage and possibly obtain certain log.
    */
   void onStop();
 
   /**
-   * A channel for a node to receive a new event from other nodes.
-   * The node will receive all the message through this method.
+   * This method is called when a new message is received by the node.
    *
    * @param originId the ID of the sender node
    * @param msg      the content of the message
    */
-  void onNewMessage(UUID originId, Event msg);
+  void onNewMessage(Identifier originId, Event msg);
 
   /**
-   * This method serves as a factory for new node instances.
-   * It is supposed to return a new instance of the special node class
+   * Creates a new instance of the node.
    *
-   * @param selfId  the ID of the new node
+   * @param selfId    the ID of the new node
    * @param nameSpace string tag to virtually group the nodes (with identical tags)
-   * @param network communication network for the new node.
-   * @param metrics metrics collector for the node.
+   * @param network   communication network for the new node.
+   * @param metrics   metrics collector for the node.
    * @return a new instance of the special node class.
    */
-  BaseNode newInstance(UUID selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics);
+  BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics);
 
 }

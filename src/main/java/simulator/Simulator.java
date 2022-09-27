@@ -17,6 +17,8 @@ import network.NetworkProtocol;
 import network.UnderlayFactory;
 import network.local.LocalUnderlay;
 import node.BaseNode;
+import node.Identifier;
+import node.IdentifierGenerator;
 import org.apache.log4j.Logger;
 import utils.SimpleEntryComparable;
 import utils.generator.BaseGenerator;
@@ -31,18 +33,18 @@ public class Simulator implements Orchestrator {
   private static final Random rand = new Random();
   // TODO: define looger name
   private static final Logger log = Logger.getLogger(Simulator.class.getName());
-  private final ArrayList<UUID> allId;
-  private final HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses;
+  private final ArrayList<Identifier> allId;
+  private final HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses;
   private final HashMap<SimpleEntry<String, Integer>, Boolean> isReady;
   private final Factory factory;
-  private final ArrayList<UUID> offlineNodes = new ArrayList<>();
+  private final ArrayList<Identifier> offlineNodes = new ArrayList<>();
   private final CountDownLatch count;
   private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
   private final MetricsCollector metricsCollector;
   private final SimulatorMetricsCollector simulatorMetricsCollector;
 
   private HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers;
-  private PriorityQueue<SimpleEntryComparable<Long, UUID>> onlineNodes = new PriorityQueue<>();
+  private PriorityQueue<SimpleEntryComparable<Long, Identifier>> onlineNodes = new PriorityQueue<>();
 
   /**
    * Initializes a new simulation.
@@ -86,26 +88,26 @@ public class Simulator implements Orchestrator {
   }
 
   /**
-   * Generate new random UUID for the nodes.
+   * Generate new random identifier for the nodes.
    *
    * @param n number of nodes
    * @return ArrayList of random n ids
    */
-  private ArrayList<UUID> generateIds(int n) {
+  private ArrayList<Identifier> generateIds(int n) {
     log.info("Generating IDs for " + n + " node..");
 
-    ArrayList<UUID> tmp = new ArrayList<>();
+    ArrayList<Identifier> tmp = new ArrayList<>();
     for (int i = 0; i < n; i++) {
-      tmp.add(UUID.randomUUID());
+      tmp.add(IdentifierGenerator.newIdentifier());
     }
 
     return tmp;
   }
 
-  private HashMap<UUID, SimpleEntry<String, Integer>> generateFullAddressed(int n, int startPort) {
+  private HashMap<Identifier, SimpleEntry<String, Integer>> generateFullAddressed(int n, int startPort) {
     log.info("Generating full Addresses for " + n + " node..");
 
-    HashMap<UUID, SimpleEntry<String, Integer>> tmp = new HashMap<>();
+    HashMap<Identifier, SimpleEntry<String, Integer>> tmp = new HashMap<>();
     try {
       String address = Inet4Address.getLocalHost().getHostAddress();
       for (int i = 0; i < n; i++) {
@@ -128,7 +130,7 @@ public class Simulator implements Orchestrator {
     int globalIndex = 0;
     for (Recipe r : this.factory.getRecipes()) {
       for (int i = 0; i < r.getTotal(); i++) {
-        UUID id = allId.get(globalIndex++);
+        Identifier id = allId.get(globalIndex++);
 
         isReady.put(this.allFullAddresses.get(id), false);
         MiddleLayer middleLayer = new MiddleLayer(id, this.allFullAddresses, isReady, this, this.metricsCollector);
@@ -194,7 +196,7 @@ public class Simulator implements Orchestrator {
    * @param nodeId ID of the node
    */
   @Override
-  public void ready(UUID nodeId) {
+  public void ready(Identifier nodeId) {
     this.isReady.put(this.allFullAddresses.get(nodeId), true);
     // log.info(nodeId + ": node is ready");
 
@@ -206,7 +208,7 @@ public class Simulator implements Orchestrator {
     }
   }
 
-  public MiddleLayer getMiddleLayer(UUID id) {
+  public MiddleLayer getMiddleLayer(Identifier id) {
     SimpleEntry<String, Integer> address = this.allFullAddresses.get(id);
     return this.allMiddleLayers.get(address);
   }
@@ -217,7 +219,7 @@ public class Simulator implements Orchestrator {
    * @param nodeId ID of the node
    */
   @Override
-  public void done(UUID nodeId) {
+  public void done(Identifier nodeId) {
     log.info(getAddress(nodeId) + ": node is terminating...");
 
     // mark the nodes as not ready
@@ -263,7 +265,7 @@ public class Simulator implements Orchestrator {
     this.terminate();
   }
 
-  public String getAddress(UUID nodeId) {
+  public String getAddress(Identifier nodeId) {
     SimpleEntry<String, Integer> address = allFullAddresses.get(nodeId);
     return address.getKey() + ":" + address.getValue();
   }
@@ -285,7 +287,7 @@ public class Simulator implements Orchestrator {
 
     // assign initial terminate time stamp for all nodes
     long time = System.currentTimeMillis();
-    for (UUID id : this.allId) {
+    for (Identifier id : this.allId) {
       if (isReady.get(this.allFullAddresses.get(id))) {
         int sessionLength = sessionLengthGenerator.next();
         log.info("[simulator.simulator] new session for node " + getAddress(id) + ": " + sessionLength + " ms");
@@ -304,7 +306,7 @@ public class Simulator implements Orchestrator {
         if (System.currentTimeMillis() > onlineNodes.peek().getKey()) {
           // terminate the node with the nearest termination time (if the time met)
           // `done` will add the node to the offline nodes
-          UUID id = Objects.requireNonNull(onlineNodes.poll()).getValue();
+          Identifier id = Objects.requireNonNull(onlineNodes.poll()).getValue();
           log.info("[simulator.simulator] Deactivating node " + getAddress(id));
           this.done(id);
         }
@@ -316,7 +318,7 @@ public class Simulator implements Orchestrator {
         }
 
         int ind = rand.nextInt(this.offlineNodes.size());
-        UUID id = this.offlineNodes.get(ind);
+        Identifier id = this.offlineNodes.get(ind);
         log.info("[simulator.simulator] Activating node " + getAddress(id));
         this.offlineNodes.remove(ind);
 
@@ -349,10 +351,10 @@ public class Simulator implements Orchestrator {
   /**
    * get all nodes ID.
    *
-   * @return nodes' UUIDs
+   * @return nodes' identifier.
    **/
-  public ArrayList<UUID> getAllId() {
-    return (ArrayList<UUID>) this.allId.clone();
+  public ArrayList<Identifier> getAllId() {
+    return (ArrayList<Identifier>) this.allId.clone();
   }
 
 }

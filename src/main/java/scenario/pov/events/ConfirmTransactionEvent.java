@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import network.packets.Event;
 import node.BaseNode;
+import node.Identifier;
 import scenario.pov.LightChainNode;
 
 
@@ -12,9 +13,9 @@ import scenario.pov.LightChainNode;
  */
 public class ConfirmTransactionEvent implements Event {
 
-  private final UUID transactionUuid;
+  private final Identifier transactionUuid;
 
-  public ConfirmTransactionEvent(UUID transactionUuid) {
+  public ConfirmTransactionEvent(Identifier transactionUuid) {
     this.transactionUuid = transactionUuid;
   }
 

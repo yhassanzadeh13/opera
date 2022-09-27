@@ -8,6 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import metrics.Constants;
 import metrics.MetricsCollector;
+import node.Identifier;
 
 /**
  * Encapsulates metrics collectors for middlelayer of network.
@@ -78,7 +79,7 @@ public class MiddleLayerMetricsCollector {
    * @param senderId   identifier of sender.
    * @param size       size of message in bytes.
    */
-  public void onMessageReceived(UUID receiverId, UUID senderId, int size, Timestamp sentTimeStamp) {
+  public void onMessageReceived(Identifier receiverId, Identifier senderId, int size, Timestamp sentTimeStamp) {
     MiddleLayerMetricsCollector.metricsCollector.counter().inc(Name.MESSAGE_RECEIVED_TOTAL, receiverId);
     LocalDateTime sentTime = sentTimeStamp.toLocalDateTime();
     LocalDateTime receivedTime = LocalDateTime.now();
@@ -97,7 +98,8 @@ public class MiddleLayerMetricsCollector {
    * @param senderId   identifier of sender.
    * @param receiverId identifier of receiver.
    */
-  public void onMessageSent(UUID senderId, UUID receiverId) {
+  public void onMessageSent(Identifier senderId, Identifier receiverId) {
+    // TODO: remove redundant parameters.
     MiddleLayerMetricsCollector.metricsCollector.counter().inc(Name.MESSAGE_SENT_TOTAL, senderId);
   }
 

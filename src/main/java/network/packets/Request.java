@@ -4,14 +4,16 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.UUID;
 
+import node.Identifier;
+
 /**
  * Represents a serializable request packet what wrap an event.
  */
 public class Request implements Serializable {
   private final Timestamp sentTimeStamp;
   private final Event event;
-  private final UUID originalId;
-  private final UUID destinationId;
+  private final Identifier originalId;
+  private final Identifier destinationId;
 
   /**
    * Constructor for the Request.
@@ -20,7 +22,7 @@ public class Request implements Serializable {
    * @param originalId    sender of the request
    * @param destinationId reciever of the request
    */
-  public Request(Event event, UUID originalId, UUID destinationId) {
+  public Request(Event event, Identifier originalId, Identifier destinationId) {
     this.event = event;
     this.originalId = originalId;
     this.destinationId = destinationId;
@@ -31,11 +33,11 @@ public class Request implements Serializable {
     return event;
   }
 
-  public UUID getOriginalId() {
+  public Identifier getOriginalId() {
     return originalId;
   }
 
-  public UUID getDestinationId() {
+  public Identifier getDestinationId() {
     return destinationId;
   }
 

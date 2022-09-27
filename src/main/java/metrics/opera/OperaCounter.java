@@ -1,10 +1,9 @@
 package metrics.opera;
 
-import java.util.UUID;
-
 import io.prometheus.client.Counter;
 import metrics.Constants;
 import metrics.CounterCollector;
+import node.Identifier;
 import simulator.Simulator;
 
 /**
@@ -20,7 +19,7 @@ public class OperaCounter extends OperaMetric implements CounterCollector {
    * @param value value by which metric is increased.
    * @return True in case of success
    */
-  public synchronized boolean inc(String name, UUID id, double value) {
+  public synchronized boolean inc(String name, Identifier id, double value) {
     Counter metric = getMetric(name);
     if (metric == null) {
       return false;
@@ -29,18 +28,18 @@ public class OperaCounter extends OperaMetric implements CounterCollector {
     return true;
   }
 
-  public boolean inc(String name, UUID id) {
+  public boolean inc(String name, Identifier id) {
     return inc(name, id, 1.0);
   }
 
   /**
-   * Returns current sum value of counter for given metric and UUID.
+   * Returns current sum value of counter for given metric and identifier.
    *
    * @param name name of metric.
    * @param id   identifier of node.
    * @return value of counter metric if exists, null otherwise.
    */
-  public double get(String name, UUID id) {
+  public double get(String name, Identifier id) {
     Counter metric = getMetric(name);
     if (metric == null) {
       return 0;
@@ -83,23 +82,15 @@ public class OperaCounter extends OperaMetric implements CounterCollector {
    * @throws IllegalArgumentException when a different metric type (e.g., histogram) with the
    *                                  same name has already been registered.
    */
-  public void register(String name, String namespace, String subsystem, String helpMessage)
-      throws IllegalArgumentException {
+  public void register(String name, String namespace, String subsystem, String helpMessage) throws IllegalArgumentException {
     if (collectors.containsKey(name)) {
       if (collectorsTypes.get(name) != Type.COUNTER) {
-        throw new IllegalArgumentException("metrics name already taken with another type: "
-            + name + " type: " + collectorsTypes.get(name));
+        throw new IllegalArgumentException("metrics name already taken with another type: " + name + " type: " + collectorsTypes.get(name));
       }
       // collector already registered
       return;
     }
-    collectors.put(name, Counter.build()
-        .namespace(namespace)
-        .subsystem(subsystem)
-        .name(name)
-        .help(helpMessage)
-        .labelNames(Constants.UUID)
-        .register());
+    collectors.put(name, Counter.build().namespace(namespace).subsystem(subsystem).name(name).help(helpMessage).labelNames(Constants.UUID).register());
     collectorsTypes.put(name, Type.COUNTER);
   }
 }

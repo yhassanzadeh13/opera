@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import network.packets.Event;
 import node.BaseNode;
+import node.Identifier;
 import scenario.pov.LightChainNode;
 
 
@@ -12,9 +13,9 @@ import scenario.pov.LightChainNode;
  */
 public class ConfirmBlockEvent implements Event {
 
-  private final UUID blockUuid;
+  private final Identifier blockUuid;
 
-  public ConfirmBlockEvent(UUID blockUuid) {
+  public ConfirmBlockEvent(Identifier blockUuid) {
     this.blockUuid = blockUuid;
   }
 

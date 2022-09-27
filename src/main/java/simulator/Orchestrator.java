@@ -2,6 +2,8 @@ package simulator;
 
 import java.util.UUID;
 
+import node.Identifier;
+
 /**
  * Orchestrator is an interface for Simulator.
  * ready: Called when Orchestrator is ready to operate.
@@ -9,7 +11,7 @@ import java.util.UUID;
  * getSimulatedLatency: Getter for Orchestrator network.latency.
  */
 public interface Orchestrator {
-  void ready(UUID nodeId);
+  void ready(Identifier nodeId);
 
-  void done(UUID nodeId);
+  void done(Identifier nodeId);
 }

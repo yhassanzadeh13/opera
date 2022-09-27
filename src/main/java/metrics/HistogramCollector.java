@@ -1,8 +1,7 @@
 package metrics;
 
-import java.util.UUID;
-
 import io.prometheus.client.Histogram;
+import node.Identifier;
 
 /**
  * The CounterCollector interface is a base interface of counter collector to use for metric collector.
@@ -14,10 +13,9 @@ import io.prometheus.client.Histogram;
  * register: is called to register new Histogram
  */
 public interface HistogramCollector {
-  void observe(String name, UUID id, double v);
+  void observe(String name, Identifier id, double v);
 
   Histogram get(String name) throws IllegalArgumentException;
 
-  void register(String name, String namespace, String subsystem, String helpMessage, double[] buckets)
-      throws IllegalArgumentException;
+  void register(String name, String namespace, String subsystem, String helpMessage, double[] buckets) throws IllegalArgumentException;
 }

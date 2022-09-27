@@ -6,18 +6,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 import metrics.MetricsCollector;
 import node.BaseNode;
 import network.packets.Event;
+import node.Identifier;
 
 /**
  * A basic BaseNode to check whether Underlays coded correctly or not.
  */
 public class FixtureNode implements BaseNode {
-  private final UUID selfId;
-  private final ArrayList<UUID> allId;
+  private final Identifier selfId;
+  private final ArrayList<Identifier> allId;
   private final MiddleLayer network;
   public AtomicInteger receivedMessages = new AtomicInteger(0);
 
 
-  public FixtureNode(UUID selfId, ArrayList<UUID> allId, MiddleLayer network) {
+  public FixtureNode(Identifier selfId, ArrayList<Identifier> allId, MiddleLayer network) {
     this.selfId = selfId;
     this.network = network;
     this.allId = allId;
@@ -25,12 +26,12 @@ public class FixtureNode implements BaseNode {
 
 
   @Override
-  public void onCreate(ArrayList<UUID> allId) {
+  public void onCreate(ArrayList<Identifier> allId) {
   }
 
   @Override
   public void onStart() {
-    for (UUID id : allId) {
+    for (Identifier id : allId) {
       if (id != selfId) {
         network.send(id, new FixtureEvent());
       }
@@ -42,12 +43,12 @@ public class FixtureNode implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(UUID selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics) {
+  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics) {
     return null;
   }
 
   @Override
-  public void onNewMessage(UUID originId, Event msg) {
+  public void onNewMessage(Identifier originId, Event msg) {
     this.receivedMessages.incrementAndGet();
   }
 }
