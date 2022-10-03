@@ -17,11 +17,11 @@ public class HelloEvent implements Event, Serializable {
   Identifier targetId;
 
   /**
-   * Constructor of a Sendhello object.
+   * Constructor.
    *
    * @param msg        message to send.
-   * @param originalId Id of the sendeer node.
-   * @param targetId   Id of the reciever node.
+   * @param originalId identifier of sender.
+   * @param targetId   identifier of receiver..
    */
   public HelloEvent(String msg, Identifier originalId, Identifier targetId) {
     this.msg = msg;

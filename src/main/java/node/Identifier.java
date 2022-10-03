@@ -8,7 +8,7 @@ import io.ipfs.multibase.Multibase;
 /**
  * Represents a 32-byte unique identifier.
  */
-public class Identifier implements Serializable {
+public class Identifier implements Serializable, Comparable<Identifier> {
   public static final int Size = 32;
   private final byte[] value;
 

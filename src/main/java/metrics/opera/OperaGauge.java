@@ -1,10 +1,9 @@
 package metrics.opera;
 
-import java.util.UUID;
-
 import io.prometheus.client.Gauge;
 import metrics.Constants;
 import metrics.GaugeCollector;
+import node.Identifier;
 import simulator.Simulator;
 
 
@@ -43,13 +42,13 @@ public class OperaGauge extends OperaMetric implements GaugeCollector {
         .subsystem(subsystem)
         .name(name)
         .help(helpMessage)
-        .labelNames(Constants.UUID)
+        .labelNames(Constants.IDENTIFIER)
         .register());
     collectorsTypes.put(name, Type.GAUGE);
   }
 
   @Override
-  public boolean set(String name, UUID id, double v) {
+  public boolean set(String name, Identifier id, double v) {
     Gauge metric = getMetric(name);
     if (metric == null) {
       return false;
@@ -59,7 +58,7 @@ public class OperaGauge extends OperaMetric implements GaugeCollector {
   }
 
   @Override
-  public double get(String name, UUID id) {
+  public double get(String name, Identifier id) {
     Gauge metric = getMetric(name);
     if (metric == null) {
       return 0;

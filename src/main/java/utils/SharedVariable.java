@@ -3,11 +3,12 @@ package utils;
 import java.util.AbstractMap;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import node.Identifier;
+import node.IdentifierGenerator;
 import simulator.Simulator;
 
 /**
@@ -19,16 +20,16 @@ public class SharedVariable {
 
   // singleton instance
   private static SharedVariable instance = null;
-  private final ConcurrentHashMap<UUID, ConcurrentHashMap<Integer, ArrayDeque<SimpleEntryComparable<UUID, Object>>>> nodeQueues;
+  private final ConcurrentHashMap<Identifier, ConcurrentHashMap<Integer, ArrayDeque<SimpleEntryComparable<Identifier, Object>>>> nodeQueues;
   // for each variable ID, hold the cluster of that variable
-  private final ArrayList<ArrayList<UUID>> clusters;
+  private final ArrayList<ArrayList<Identifier>> clusters;
   // for each new variable, assign a new id for it
   private final ConcurrentHashMap<String, Integer> variablesIds;
   // for each variable, keep the lock holder
-  private final ArrayList<UUID> lockHolders;
+  private final ArrayList<Identifier> lockHolders;
   // for every variable, hold a latch that tell us if a node is currently writing
   private final ArrayList<ReentrantLock> lock;
-  private final UUID fixtureOwner;
+  private final Identifier fixtureOwner;
 
   private SharedVariable() {
     nodeQueues = new ConcurrentHashMap<>();
@@ -36,7 +37,7 @@ public class SharedVariable {
     variablesIds = new ConcurrentHashMap<>();
     lockHolders = new ArrayList<>();
     lock = new ArrayList<>();
-    fixtureOwner = UUID.randomUUID();
+    fixtureOwner = IdentifierGenerator.newIdentifier();
 
   }
 
@@ -60,7 +61,7 @@ public class SharedVariable {
    * @param allId the IDs of the nodes that should have access to this variable
    * @return false if variable already registered, true otherwise
    */
-  public boolean register(String name, ArrayList<UUID> allId) {
+  public boolean register(String name, ArrayList<Identifier> allId) {
     if (variablesIds.containsKey(name)) {
       Simulator.getLogger().debug("[SharedVariable] a variable with name " + name + " is already registered");
       return false;
@@ -71,7 +72,7 @@ public class SharedVariable {
     clusters.add(allId);
 
     // add new queue for all nodes
-    for (UUID nodeId : allId) {
+    for (Identifier nodeId : allId) {
       nodeQueues.putIfAbsent(nodeId, new ConcurrentHashMap<>());
       nodeQueues.get(nodeId).put(variableId, new ArrayDeque<>());
     }
@@ -85,11 +86,11 @@ public class SharedVariable {
   /**
    * Requesting the writing lock for a variable.
    *
-   * @param nodeId Id of the node
-   * @param name   name of the variable
-   * @return true if node equal to fixture owner or nodeID
+   * @param nodeId identifier of the node.
+   * @param name   name of the variable.
+   * @return true if node equal to fixture owner or nodeID.
    */
-  public synchronized boolean requestLock(UUID nodeId, String name) {
+  public synchronized boolean requestLock(Identifier nodeId, String name) {
     int variableId = variablesIds.get(name);
     lock.get(variableId).lock();
     if (getOwner(name).equals(fixtureOwner) || getOwner(name).equals(nodeId)) {
@@ -110,7 +111,7 @@ public class SharedVariable {
    * @param variable variable to overwrite
    * @return Ture in case of success, False otherwise.
    */
-  public synchronized boolean write(UUID senderId, String name, Object variable) {
+  public synchronized boolean write(Identifier senderId, String name, Object variable) {
     if (!variablesIds.containsKey(name)) {
       Simulator.getLogger().debug("[SharedVariable] Write: no variable with name " + name + " is registered");
       return false;
@@ -121,7 +122,7 @@ public class SharedVariable {
       lock.get(variableId).unlock();
       return false;
     }
-    for (UUID nodeId : clusters.get(variableId)) {
+    for (Identifier nodeId : clusters.get(variableId)) {
       if (nodeId != senderId) {
         nodeQueues.get(nodeId).get(variableId).addLast(new SimpleEntryComparable<>(senderId, variable));
       }
@@ -138,7 +139,7 @@ public class SharedVariable {
    * @param name   name of the variable
    * @return value if there is a value for the given name null otherwise.
    */
-  public AbstractMap.SimpleEntry<UUID, Object> read(UUID nodeId, String name) throws IllegalArgumentException {
+  public AbstractMap.SimpleEntry<Identifier, Object> read(Identifier nodeId, String name) throws IllegalArgumentException {
     if (!variablesIds.containsKey(name)) {
       throw new IllegalArgumentException("no variable with name " + name + " is registered to read on shared variable");
     }
@@ -160,10 +161,10 @@ public class SharedVariable {
    * @param name name of the variable
    * @return owner of the variable
    */
-  public UUID getOwner(String name) {
+  public Identifier getOwner(String name) {
     int variableId = variablesIds.get(name);
     lock.get(variableId).lock();
-    UUID owner = lockHolders.get(variableId);
+    Identifier owner = lockHolders.get(variableId);
     lock.get(variableId).unlock();
     return owner;
   }
@@ -175,7 +176,7 @@ public class SharedVariable {
    * @param name   name of the variable
    * @return true if empty false otherwise
    */
-  public boolean isEmpty(UUID nodeId, String name) throws IllegalArgumentException {
+  public boolean isEmpty(Identifier nodeId, String name) throws IllegalArgumentException {
     if (!variablesIds.containsKey(name)) {
       throw new IllegalArgumentException("no variable with name " + name + " is registered");
     }
@@ -189,10 +190,10 @@ public class SharedVariable {
   /**
    * releases lock for given name and ID.
    *
-   * @param nodeId Id of the node
-   * @param name   name of the variable
+   * @param nodeId identifier of the node.
+   * @param name   name of the variable.
    */
-  public void releaseLock(UUID nodeId, String name) {
+  public void releaseLock(Identifier nodeId, String name) {
     if (getOwner(name).equals(nodeId)) {
       int variableId = variablesIds.get(name);
       lockHolders.set(variableId, fixtureOwner);

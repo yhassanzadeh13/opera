@@ -1,7 +1,6 @@
 package scenario.integrita;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import metrics.MetricsCollector;

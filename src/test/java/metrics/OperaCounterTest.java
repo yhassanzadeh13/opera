@@ -1,17 +1,20 @@
 package metrics;
 
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import metrics.opera.OperaCollector;
+import node.Identifier;
+import node.IdentifierGenerator;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.Fixtures;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 class OperaCounterTest {
@@ -39,8 +42,8 @@ class OperaCounterTest {
    * increments value of counter several times, and evaluates final value.
    */
   @Test
-  void singleNodeTest(){
-    UUID id = UUID.randomUUID();
+  void singleNodeTest() {
+    Identifier id = IdentifierGenerator.newIdentifier();
     long total = 0;
     for (int i = 0; i < ITERATIONS; i++) {
       int v = rand.nextInt(1000);
@@ -58,15 +61,15 @@ class OperaCounterTest {
   @Test
   void multiNodeTest() {
     AtomicInteger assertionErrorCount = new AtomicInteger();
-    ArrayList<UUID> allId = Fixtures.identifierListFixture(THREAD_CNT);
+    ArrayList<Identifier> allId = Fixtures.identifierListFixture(THREAD_CNT);
     CountDownLatch counterIncThread = new CountDownLatch(THREAD_CNT);
 
-    for (UUID nodeId : allId) {
+    for (Identifier nodeId : allId) {
       new Thread(() -> {
-        for(int j = 0; j < ITERATIONS; j++) {
+        for (int j = 0; j < ITERATIONS; j++) {
           try {
             assertTrue(metricsCollector.counter().inc(TEST_COUNTER, nodeId));
-          } catch (AssertionError e){
+          } catch (AssertionError e) {
             assertionErrorCount.incrementAndGet();
           }
         }
@@ -83,8 +86,8 @@ class OperaCounterTest {
 
     assertEquals(0, assertionErrorCount.get(), "unsuccessful threads");
 
-    for (UUID nodeId : allId) {
-     assertEquals(ITERATIONS, metricsCollector.counter().get(TEST_COUNTER, nodeId));
+    for (Identifier nodeId : allId) {
+      assertEquals(ITERATIONS, metricsCollector.counter().get(TEST_COUNTER, nodeId));
     }
   }
 }

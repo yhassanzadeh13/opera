@@ -1,17 +1,20 @@
 package metrics;
 
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import metrics.opera.OperaCollector;
+import node.Identifier;
+import node.IdentifierGenerator;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.Fixtures;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class OperaGaugeTest {
   private static final String TEST_GAUGE = "test_gauge";
@@ -41,7 +44,7 @@ class OperaGaugeTest {
    */
   @Test
   void singleNodeTest() {
-    UUID id = UUID.randomUUID();
+    Identifier id = IdentifierGenerator.newIdentifier();
 
     long finalValue = 0;
 
@@ -65,7 +68,7 @@ class OperaGaugeTest {
   @Test
   void multiNodeTest() {
     AtomicInteger assertionErrorCount = new AtomicInteger();
-    ArrayList<UUID> allId = Fixtures.identifierListFixture(THREAD_CNT);
+    ArrayList<Identifier> allId = Fixtures.identifierListFixture(THREAD_CNT);
     CountDownLatch gaugeSetThreads = new CountDownLatch(THREAD_CNT);
 
     for (int i = 0; i < allId.size(); i++) {
@@ -94,6 +97,5 @@ class OperaGaugeTest {
     for (int i = 0; i < allId.size(); i++) {
       assertEquals(metricsCollector.gauge().get(TEST_GAUGE, allId.get(i)), i);
     }
-
   }
 }

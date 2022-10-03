@@ -1,6 +1,6 @@
 package utils;
 
-import java.util.UUID;
+import node.Identifier;
 import simulator.Orchestrator;
 
 
@@ -11,12 +11,12 @@ import simulator.Orchestrator;
 public class NoopOrchestrator implements Orchestrator {
 
   @Override
-  public void ready(UUID nodeId) {
+  public void ready(Identifier nodeId) {
 
   }
 
   @Override
-  public void done(UUID nodeId) {
+  public void done(Identifier nodeId) {
 
   }
 }

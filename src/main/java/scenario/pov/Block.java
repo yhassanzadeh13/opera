@@ -2,30 +2,29 @@ package scenario.pov;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import node.Identifier;
 
 /**
  * Block is a serializable object which consist of uuid, owner, validators, height, prevBlock, and transactions.
- *
  */
 public class Block implements Serializable {
-  private Identifier identifier;
-  private Identifier owner;
-  private List<Identifier> validators;
-  private Integer height;
-  private Identifier prevBlock;
-  private List<Identifier> transactions;
+  private final Identifier identifier;
+  private final Identifier owner;
+  private final List<Identifier> validators;
+  private final Integer height;
+  private final Identifier prevBlock;
+  private final List<Identifier> transactions;
 
-  /** Constructor of the block object.
+  /**
+   * Constructor of the block object.
    *
-   * @param identifier unique Id of the block.
-   * @param height height of the block.
-   * @param owner  Unique Id of the owner of the block.
-   * @param prevBlock Unique Id of the previous block.
-   * @param validators List of unique IDs of the validators.
+   * @param identifier   unique Id of the block.
+   * @param height       height of the block.
+   * @param owner        Unique Id of the owner of the block.
+   * @param prevBlock    Unique Id of the previous block.
+   * @param validators   List of unique IDs of the validators.
    * @param transactions List of unique IDs of the transactions.
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of network")

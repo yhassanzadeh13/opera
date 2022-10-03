@@ -1,27 +1,34 @@
 package network;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static utils.Fixtures.nodeListFixture;
-
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static utils.Fixtures.nodeListFixture;
+
 import metrics.NoopCollector;
 import network.local.LocalUnderlay;
+import node.Identifier;
 import org.junit.jupiter.api.Test;
+import utils.Fixtures;
 import utils.NoopOrchestrator;
 
 /**
  * Test the communication and termination of every network underlay.
  */
 public class UnderlayTest {
+
+  private static void stopNodes(ArrayList<FixtureNode> nodes) {
+    for (FixtureNode node : nodes) {
+      node.onStop();
+    }
+  }
 
   @Test
   void tcpTest() {
@@ -43,13 +50,6 @@ public class UnderlayTest {
     assure(javaRmiNodes);
     stopNodes(javaRmiNodes);
   }
-
-  private static void stopNodes(ArrayList<FixtureNode> nodes) {
-    for (FixtureNode node: nodes) {
-      node.onStop();
-    }
-  }
-
 
   // TODO: add documentations
   void assure(ArrayList<FixtureNode> instances) {
@@ -85,14 +85,9 @@ public class UnderlayTest {
     HashMap<AbstractMap.SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
     // generate middle layers
     ArrayList<FixtureNode> instances = new ArrayList<>();
-    ArrayList<UUID> allId = new ArrayList<>();
-    HashMap<UUID, AbstractMap.SimpleEntry<String, Integer>> allFullAddresses = new HashMap<>();
+    ArrayList<Identifier> allId = Fixtures.identifierListFixture(NodeCount);
+    HashMap<Identifier, AbstractMap.SimpleEntry<String, Integer>> allFullAddresses = new HashMap<>();
     HashMap<AbstractMap.SimpleEntry<String, Integer>, Boolean> isReady = new HashMap<>();
-
-    // generate IDs
-    for (int i = 0; i < NodeCount; i++) {
-      allId.add(UUID.randomUUID());
-    }
 
     // generate full addresses
     try {
@@ -102,13 +97,12 @@ public class UnderlayTest {
         allFullAddresses.put(allId.get(i), new AbstractMap.SimpleEntry<>(address, i));
         isReady.put(new AbstractMap.SimpleEntry<>(address, i), true);
       }
-
     } catch (UnknownHostException e) {
       e.printStackTrace();
     }
 
     for (int i = 0; i < NodeCount; i++) {
-      UUID id = allId.get(i);
+      Identifier id = allId.get(i);
       String address = allFullAddresses.get(id).getKey();
       int port = allFullAddresses.get(id).getValue();
 

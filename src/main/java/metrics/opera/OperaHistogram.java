@@ -70,7 +70,7 @@ public class OperaHistogram extends OperaMetric implements HistogramCollector {
         .namespace(namespace)
         .name(name)
         .help(helpMessage)
-        .labelNames(Constants.UUID)
+        .labelNames(Constants.IDENTIFIER)
         .register());
     collectorsTypes.put(name, Type.HISTOGRAM);
   }

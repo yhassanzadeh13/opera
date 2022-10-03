@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import io.prometheus.client.Gauge;
 import io.prometheus.client.Histogram;
+import node.Identifier;
 
 /**
  * Noop Collector is a no operation metric collector.
@@ -27,7 +28,7 @@ public class NoopCollector implements MetricsCollector {
   static class NoopHistogram implements HistogramCollector {
 
     @Override
-    public void observe(String name, UUID id, double v) {
+    public void observe(String name, Identifier id, double v) {
     }
 
     @Override
@@ -49,12 +50,12 @@ public class NoopCollector implements MetricsCollector {
     }
 
     @Override
-    public boolean set(String name, UUID id, double v) {
+    public boolean set(String name, Identifier id, double v) {
       return false;
     }
 
     @Override
-    public double get(String name, UUID id) {
+    public double get(String name, Identifier id) {
       return 0;
     }
 
@@ -67,17 +68,17 @@ public class NoopCollector implements MetricsCollector {
   static class NoopCounter implements CounterCollector {
 
     @Override
-    public boolean inc(String name, UUID id, double v) {
+    public boolean inc(String name, Identifier id, double v) {
       return false;
     }
 
     @Override
-    public boolean inc(String name, UUID id) {
+    public boolean inc(String name, Identifier id) {
       return false;
     }
 
     @Override
-    public double get(String name, UUID id) {
+    public double get(String name, Identifier id) {
       return 0;
     }
 

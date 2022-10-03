@@ -8,6 +8,8 @@ import java.util.UUID;
 import metrics.NoopCollector;
 import network.*;
 import network.FixtureNode;
+import node.Identifier;
+import node.IdentifierGenerator;
 
 public class Fixtures {
   /**
@@ -15,10 +17,10 @@ public class Fixtures {
    * @param count number of identifiers.
    * @return identifier list.
    */
-  public static ArrayList<UUID> identifierListFixture(int count) {
-    ArrayList<UUID> allId = new ArrayList<>();
+  public static ArrayList<Identifier> identifierListFixture(int count) {
+    ArrayList<Identifier> allId = new ArrayList<>();
     while (allId.size() != count) {
-      allId.add(UUID.randomUUID());
+      allId.add(IdentifierGenerator.newIdentifier());
     }
 
     return allId;
@@ -32,13 +34,13 @@ public class Fixtures {
    */
   public static ArrayList<network.FixtureNode> nodeListFixture(NetworkProtocol underlayName, int count) {
     ArrayList<network.FixtureNode> nodes = new ArrayList<>();
-    ArrayList<UUID> allId = identifierListFixture(count);
-    HashMap<UUID, AbstractMap.SimpleEntry<String, Integer>> allFullAddresses = new HashMap<>();
+    ArrayList<Identifier> allId = identifierListFixture(count);
+    HashMap<Identifier, AbstractMap.SimpleEntry<String, Integer>> allFullAddresses = new HashMap<>();
     HashMap<AbstractMap.SimpleEntry<String, Integer>, Boolean> isReady = new HashMap<>();
 
 
     for (int i = 0; i < count; i++) {
-      UUID id = allId.get(i);
+      Identifier id = allId.get(i);
 
       MiddleLayer middleLayer = new MiddleLayer(id,
           allFullAddresses,

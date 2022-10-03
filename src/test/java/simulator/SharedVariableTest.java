@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
+
+import node.Identifier;
+import node.IdentifierGenerator;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -23,17 +26,17 @@ class SharedVariableTest {
   static final int ITERATIONS = 30;
 
   static JDKRandomGenerator rand = new JDKRandomGenerator();
-  static HashMap<UUID, Long> values = new HashMap<>();
+  static HashMap<Identifier, Long> values = new HashMap<>();
   CountDownLatch count;
 
   @Test
   void read_write() {
     // test unregistered variable
-    Assertions.assertFalse(SharedVariable.getInstance().write(UUID.randomUUID(), "Test", 5));
+    Assertions.assertFalse(SharedVariable.getInstance().write(IdentifierGenerator.newIdentifier(), "Test", 5));
 
-    ArrayList<UUID> allId = new ArrayList<>();
+    ArrayList<Identifier> allId = new ArrayList<>();
     while (allId.size() != THREAD_CNT) {
-      allId.add(UUID.randomUUID());
+      allId.add(IdentifierGenerator.newIdentifier());
     }
     count = new CountDownLatch(THREAD_CNT);
 
@@ -69,10 +72,10 @@ class SharedVariableTest {
     }
 
     assertTrue(SharedVariable.getInstance().register("Count", allId));
-    for (UUID id : allId) {
+    for (Identifier id : allId) {
       values.put(id, 1L);
     }
-    for (UUID id : allId) {
+    for (Identifier id : allId) {
       new Thread(() -> threadTest(id, ITERATIONS)).start();
     }
     try {
@@ -81,7 +84,7 @@ class SharedVariableTest {
       e.printStackTrace();
     }
     long sample = -1;
-    for (UUID nodeId : allId) {
+    for (Identifier nodeId : allId) {
       long x = 1;
       while (!SharedVariable.getInstance().isEmpty(nodeId, "Count")) {
         x = (long) SharedVariable.getInstance().read(nodeId, "Count").getValue();
@@ -95,7 +98,7 @@ class SharedVariableTest {
     }
   }
 
-  private void threadTest(UUID nodeId, int iterations) {
+  private void threadTest(Identifier nodeId, int iterations) {
     while (iterations-- > 0) {
       assertFalse(SharedVariable.getInstance().write(nodeId, "Count", 1));
       if (rand.nextBoolean()) {
