@@ -1,10 +1,9 @@
 package metrics.opera;
 
-import java.util.UUID;
-
 import io.prometheus.client.Histogram;
 import metrics.Constants;
 import metrics.HistogramCollector;
+import node.Identifier;
 
 /**
  * OperaHistogram provides a prometheus-based histogram collector.
@@ -13,14 +12,14 @@ public class OperaHistogram extends OperaMetric implements HistogramCollector {
 
 
   /**
-   * Record a new value for the histogram with a specific name and id.
+   * Record a new value for the histogram with a specific name and identifier.
    *
    * @param name name of the metric.
    * @param id   identifier of the node.
    * @param v    value to be recorder in histogram.
    */
   @Override
-  public void observe(String name, UUID id, double v) throws IllegalArgumentException {
+  public void observe(String name, Identifier id, double v) throws IllegalArgumentException {
     Histogram metric = get(name);
     metric.labels(id.toString()).observe(v);
   }
@@ -54,24 +53,16 @@ public class OperaHistogram extends OperaMetric implements HistogramCollector {
    *                                  with the same name has already been registered.
    */
   @Override
-  public void register(String name, String namespace, String subsystem, String helpMessage, double[] buckets)
-      throws IllegalArgumentException {
+  public void register(String name, String namespace, String subsystem, String helpMessage, double[] buckets) throws IllegalArgumentException {
 
     if (collectors.containsKey(name)) {
       if (collectorsTypes.get(name) != Type.HISTOGRAM) {
-        throw new IllegalArgumentException("Metrics name already taken with another type: "
-            + name + " type: " + collectorsTypes.get(name));
+        throw new IllegalArgumentException("Metrics name already taken with another type: " + name + " type: " + collectorsTypes.get(name));
       }
       // collector already registered
       return;
     }
-    collectors.put(name, Histogram.build()
-        .buckets(buckets)
-        .namespace(namespace)
-        .name(name)
-        .help(helpMessage)
-        .labelNames(Constants.UUID)
-        .register());
+    collectors.put(name, Histogram.build().buckets(buckets).namespace(namespace).name(name).help(helpMessage).labelNames(Constants.IDENTIFIER).register());
     collectorsTypes.put(name, Type.HISTOGRAM);
   }
 }

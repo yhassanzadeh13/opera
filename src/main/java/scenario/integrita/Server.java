@@ -1,7 +1,6 @@
 package scenario.integrita;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import groovy.lang.Tuple;
@@ -9,6 +8,7 @@ import metrics.MetricsCollector;
 import network.MiddleLayer;
 import network.packets.Event;
 import node.BaseNode;
+import node.Identifier;
 import scenario.integrita.database.HistoryTreeStore;
 import scenario.integrita.events.PushResp;
 import scenario.integrita.historytree.HistoryTreeNode;
@@ -31,11 +31,11 @@ public class Server implements BaseNode {
 
   // simulator related properties
   @SuppressFBWarnings(value = "URF_UNREAD_FIELD", justification = "skipping unread fields error, work-in-progress")
-  UUID id;
+  Identifier id;
   MiddleLayer network;
-  // all UUIDs including self
+  // all identifiers including self
   @SuppressFBWarnings(value = "URF_UNREAD_FIELD", justification = "skipping unread fields error, work-in-progress")
-  ArrayList<UUID> ids;
+  ArrayList<Identifier> ids;
 
   // Constructors -------------------------------------------------------------------------
 
@@ -49,7 +49,7 @@ public class Server implements BaseNode {
    * Constructor.
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of network")
-  public Server(UUID selfId, MiddleLayer network) {
+  public Server(Identifier selfId, MiddleLayer network) {
     this.id = selfId;
     this.network = network;
   }
@@ -106,7 +106,7 @@ public class Server implements BaseNode {
       byte[] vk = db.getVerificationKey(historyTreeNode.userId);
       String msg = historyTreeNode.toLeaf();
       boolean res = Signature.verify(msg, historyTreeNode.signature, vk);
-      if (res == false) {
+      if (!res) {
         return new Tuple(new Object[]{StatusCode.Reject, null});
       }
     }
@@ -147,7 +147,7 @@ public class Server implements BaseNode {
 
   @Override
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of allId")
-  public void onCreate(ArrayList<UUID> allId) {
+  public void onCreate(ArrayList<Identifier> allId) {
     this.ids = allId;
     this.network.ready();
   }
@@ -163,14 +163,14 @@ public class Server implements BaseNode {
   }
 
   @Override
-  public void onNewMessage(UUID originId, Event msg) {
-    System.out.println("Sender UUID: " + originId.toString() + " message " + msg.logMessage());
+  public void onNewMessage(Identifier originId, Event msg) {
+    System.out.println("Sender identifier: " + originId.toString() + " message " + msg.logMessage());
     PushResp pushResp = new PushResp(StatusCode.Accept, "Hello Back");
     network.send(originId, pushResp);
   }
 
   @Override
-  public BaseNode newInstance(UUID selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics) {
+  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics) {
     Server server = new Server(selfId, network);
     return server;
   }

@@ -1,12 +1,12 @@
 package network;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
 import network.latency.LatencyGenerator;
+import node.Identifier;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.junit.jupiter.api.Test;
 import utils.Fixtures;
@@ -17,7 +17,7 @@ public class LatencyGeneratorTest {
 
   @Test
   void TestDelayBidirectional() {
-    ArrayList<UUID> ids = Fixtures.identifierListFixture(NODE_CNT);
+    ArrayList<Identifier> ids = Fixtures.identifierListFixture(NODE_CNT);
     LatencyGenerator latencyGenerator = new LatencyGenerator();
 
     for (int i = 0; i < NODE_CNT; i++) {
@@ -33,7 +33,7 @@ public class LatencyGeneratorTest {
   void TestDelayDistribution() {
     final int ITERATIONS = 20000;
     final int EPS = 10;
-    ArrayList<UUID> ids = Fixtures.identifierListFixture(NODE_CNT);
+    ArrayList<Identifier> ids = Fixtures.identifierListFixture(NODE_CNT);
     LatencyGenerator latencyGenerator = new LatencyGenerator();
     JDKRandomGenerator rand = new JDKRandomGenerator();
 

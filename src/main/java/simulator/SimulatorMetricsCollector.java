@@ -1,10 +1,10 @@
 package simulator;
 
 
-import java.util.UUID;
-
 import metrics.Constants;
 import metrics.MetricsCollector;
+import node.Identifier;
+import node.IdentifierGenerator;
 
 /**
  * SimulatorMetricsCollector is the metrics collector for the core simulator's functionalities.
@@ -12,8 +12,9 @@ import metrics.MetricsCollector;
 public class SimulatorMetricsCollector {
   private static final String SUBSYSTEM_CHURN = "churn";
   private static final String NAMESPACE_SIMULATOR = "simulator";
-  private static final UUID collectorID = UUID.randomUUID();
-  private MetricsCollector metricsCollector;
+
+  private static final Identifier collectorID = IdentifierGenerator.newIdentifier();
+  private final MetricsCollector metricsCollector;
 
   /**
    * Creates a metric collector for core simulator functionalities.
@@ -45,7 +46,7 @@ public class SimulatorMetricsCollector {
    * @param id            identifier of node.
    * @param sessionLength its session length.
    */
-  public void onNewSessionLengthGenerated(UUID id, int sessionLength) {
+  public void onNewSessionLengthGenerated(Identifier id, int sessionLength) {
     this.metricsCollector.histogram().observe(Name.SESSION_LENGTH, id, sessionLength);
   }
 

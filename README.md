@@ -30,7 +30,7 @@ Docker is available for free on its [official website](https://docs.docker.com/g
 ### simulator Setup <a name="setup"></a>
 load the simulator.simulator package to your project.
 ### Integrating node class <a name="node"></a>
-Your node class should implement `BaseNode` interface from the simulator.simulator package. Every node is supposed to have a unique `UUID` ID.
+Your node class should implement `BaseNode` interface from the simulator.simulator package. Every node is supposed to have a unique `Identifier`.
 which will be generated and be passed to the node by the `simulator.simulator`. <br>
 Five methods needs to be overridden:
 - `onCreat`: this is where you can setup your node. All nodes' `onCreat` method will be called before any other node start processing.
@@ -39,7 +39,7 @@ Five methods needs to be overridden:
 - `onStart`: to start the node's initial process. After all te nodes in the cluster are ready. the node `onStart` method will be called by the simulator.
 - `onStop`: this method will be called by the simulator once the node terminate. This method can be used for garbage collection.
 - `onNewMessage`: the node will receive all the event requests through this class. Every event request will be received in a separated thread.
-- `newInstance`: this method serves as a node factory method. For a given `UUID`, and a network layer `MiddleLayer`, it should return a new node instance.
+- `newInstance`: this method serves as a node factory method. For a given `Identifier`, and a network layer `MiddleLayer`, it should return a new node instance.
 
 ### Integrating communication events <a name="event"></a>
 All the event classes in the network should implement the `Event` interface from the `simulator.simulator` package.
@@ -94,8 +94,8 @@ You can directly access Prometheus on `localhost:9090`, and Grafana on `localhos
 #### Example of visualizing the default metrics
 Access Grafana on `localhost:3030`. The default username and password is `admin`.
 Create a new dashboard, and add a new panel.
-Enter your metric in Matrics field. In order to obtain metrics for a specific
-node, specify the corresponding UUID for that node. From Visualization, specify
+Enter your metric in `Metrics` field. In order to obtain metrics for a specific
+node, specify the corresponding Identifier for that node. From Visualization, specify
 the type of visualization that you want to obtain.
 
 **Example of obtaining the session length metric for a specific node**

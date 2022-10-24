@@ -1,9 +1,8 @@
 package scenario.pov.events;
 
-import java.util.UUID;
-
 import network.packets.Event;
 import node.BaseNode;
+import node.Identifier;
 import scenario.pov.LightChainNode;
 
 
@@ -13,9 +12,9 @@ import scenario.pov.LightChainNode;
  */
 public class GetLatestBlockEvent implements Event {
 
-  private final UUID requester;
+  private final Identifier requester;
 
-  public GetLatestBlockEvent(UUID requester) {
+  public GetLatestBlockEvent(Identifier requester) {
     this.requester = requester;
   }
 

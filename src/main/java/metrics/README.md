@@ -6,7 +6,7 @@ implemented using [Prometheus](https://prometheus.io/).
 ### Registering new metric
 All metric classes are static and registering new metric
 can be done by calling the 'register' method and passing 
-the metric name, and the `UUID` of the node, which will be used
+the metric name, and the `Identifier` of the node, which will be used
 a label in Prometheus metrics. 
 
 ### Running Prometheus

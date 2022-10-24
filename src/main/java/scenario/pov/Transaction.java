@@ -3,32 +3,32 @@ package scenario.pov;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import node.Identifier;
 
 /**
- * Transaction is a serializable object which consist of uuid, owner, validators, and prevBlock.
+ * Transaction representation in Proof-of-Validation.
  */
 public class Transaction implements Serializable {
-  private UUID uuid;
-  private UUID owner;
-  private List<UUID> validators;
+  private final Identifier identifier;
+  private final Identifier owner;
+  private final List<Identifier> validators;
   private boolean collected;
 
-  private Block prevBlock;
+  private final Block prevBlock;
 
   /**
    * Constructor of Transaction.
    *
-   * @param uuid Unique ID of the transaction.
-   * @param owner Unique ID of the owner of the transaction.
-   * @param prevBlock Unique ID of the previous Block.
-   * @param validators list of unique ID of the validators of the transaction.
+   * @param identifier Unique identifier of the transaction.
+   * @param owner      Unique identifier of the owner of the transaction.
+   * @param prevBlock  Unique identifier of the previous Block.
+   * @param validators list of unique identifier of the validators of the transaction.
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to access externally mutable object, validators")
-  public Transaction(UUID uuid, UUID owner, Block prevBlock, List<UUID> validators) {
-    this.uuid = uuid;
+  public Transaction(Identifier identifier, Identifier owner, Block prevBlock, List<Identifier> validators) {
+    this.identifier = identifier;
     this.owner = owner;
     this.prevBlock = prevBlock;
     this.validators = validators;
@@ -43,11 +43,11 @@ public class Transaction implements Serializable {
     this.collected = true;
   }
 
-  public UUID getId() {
-    return this.uuid;
+  public Identifier getId() {
+    return this.identifier;
   }
 
-  public UUID getOwner() {
+  public Identifier getOwner() {
     return this.owner;
   }
 

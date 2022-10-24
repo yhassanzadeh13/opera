@@ -2,34 +2,34 @@ package scenario.pov;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import node.Identifier;
 
 /**
- * Block is a serializable object which consist of uuid, owner, validators, height, prevBlock, and transactions.
- *
+ * Block representation in Proof-of-Validation.
  */
 public class Block implements Serializable {
-  private UUID uuid;
-  private UUID owner;
-  private List<UUID> validators;
-  private Integer height;
-  private UUID prevBlock;
-  private List<UUID> transactions;
+  private final Identifier identifier;
+  private final Identifier owner;
+  private final List<Identifier> validators;
+  private final Integer height;
+  private final Identifier prevBlock;
+  private final List<Identifier> transactions;
 
-  /** Constructor of the block object.
+  /**
+   * Constructor of the block object.
    *
-   * @param uuid unique Id of the block.
-   * @param height height of the block.
-   * @param owner  Unique Id of the owner of the block.
-   * @param prevBlock Unique Id of the previous block.
-   * @param validators List of unique IDs of the validators.
-   * @param transactions List of unique IDs of the transactions.
+   * @param identifier   unique identifier of the block.
+   * @param height       height of the block.
+   * @param owner        Unique identifier of the owner of the block.
+   * @param prevBlock    Unique identifier of the previous block.
+   * @param validators   List of unique identifiers of the validators.
+   * @param transactions List of unique identifiers of the transactions.
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of network")
-  public Block(UUID uuid, Integer height, UUID owner, UUID prevBlock, List<UUID> validators, List<UUID> transactions) {
-    this.uuid = uuid;
+  public Block(Identifier identifier, Integer height, Identifier owner, Identifier prevBlock, List<Identifier> validators, List<Identifier> transactions) {
+    this.identifier = identifier;
     this.height = height;
     this.owner = owner;
     this.prevBlock = prevBlock;
@@ -37,11 +37,11 @@ public class Block implements Serializable {
     this.transactions = transactions;
   }
 
-  public UUID getId() {
-    return this.uuid;
+  public Identifier getId() {
+    return this.identifier;
   }
 
-  public UUID getOwner() {
+  public Identifier getOwner() {
     return this.owner;
   }
 
@@ -49,7 +49,7 @@ public class Block implements Serializable {
     return this.height;
   }
 
-  public UUID getPrev() {
+  public Identifier getPrev() {
     return this.prevBlock;
   }
 }

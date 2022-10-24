@@ -86,9 +86,9 @@ public class LocalUnderlay extends Underlay {
    * associate a middle layer to a specific node.
    *
    * @param address  address of the node
-   * @param port     ID of the node
+   * @param port     identifier of the node
    * @param underlay underlay to add.
-   * @return true if ID was found and instance was added successfully. False, otherwise.
+   * @return true if identifier was found and instance was added successfully. False, otherwise.
    */
   public boolean addInstance(String address, int port, LocalUnderlay underlay) {
     allUnderlay.put(new SimpleEntry<>(address, port), underlay);

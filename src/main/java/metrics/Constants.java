@@ -7,7 +7,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 public class Constants {
 
-  public static final String UUID = "uuid";
+  public static final String IDENTIFIER = "id";
 
   /**
    * General namespaces used for metric collection. By the general we mean those

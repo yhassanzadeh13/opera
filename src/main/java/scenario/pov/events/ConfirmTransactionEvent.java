@@ -1,9 +1,8 @@
 package scenario.pov.events;
 
-import java.util.UUID;
-
 import network.packets.Event;
 import node.BaseNode;
+import node.Identifier;
 import scenario.pov.LightChainNode;
 
 
@@ -12,10 +11,10 @@ import scenario.pov.LightChainNode;
  */
 public class ConfirmTransactionEvent implements Event {
 
-  private final UUID transactionUuid;
+  private final Identifier transactionId;
 
-  public ConfirmTransactionEvent(UUID transactionUuid) {
-    this.transactionUuid = transactionUuid;
+  public ConfirmTransactionEvent(Identifier transactionId) {
+    this.transactionId = transactionId;
   }
 
   @Override
@@ -23,7 +22,7 @@ public class ConfirmTransactionEvent implements Event {
 
     LightChainNode node = (LightChainNode) hostNode;
 
-    node.confirmTransactionValidation(this.transactionUuid);
+    node.confirmTransactionValidation(this.transactionId);
 
     return true;
   }

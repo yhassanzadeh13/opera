@@ -1,8 +1,8 @@
 package network.latency;
 
 import java.util.HashMap;
-import java.util.UUID;
 
+import node.Identifier;
 import utils.generator.GaussianGenerator;
 
 /**
@@ -18,20 +18,20 @@ public class LatencyGenerator {
   }
 
   /**
-   * get the simulated delay based on the normal distribution extracted from the AWS.
+   * get the simulated delay based on the normal distribution extracted from the AWS simulations.
    *
    * @param nodeA         first node
    * @param nodeB         second node
-   * @param bidirectional True, if simulated network.latency from A to B is the same as from B to A
-   * @return new simulated network.latency
+   * @param bidirectional True, if simulated latency from A to B is the same as from B to A, false otherwise.
+   * @return new simulated latency.
    */
-  public int getSimulatedLatency(UUID nodeA, UUID nodeB, boolean bidirectional) {
+  public int getSimulatedLatency(Identifier nodeA, Identifier nodeB, boolean bidirectional) {
     if (bidirectional && nodeA.compareTo(nodeB) < 0) {
-      UUID tmp = nodeA;
+      Identifier tmp = nodeA;
       nodeA = nodeB;
       nodeB = tmp;
     }
-    String hash = hashPairOfNodes(nodeA, nodeB);
+    String hash = concat(nodeA, nodeB);
     if (!this.nodesSimulatedLatency.containsKey(hash)) {
       GaussianGenerator generator = new GaussianGenerator(MeanLatency, StdLatency);
       this.nodesSimulatedLatency.put(hash, Math.abs(generator.next()));
@@ -39,7 +39,7 @@ public class LatencyGenerator {
     return this.nodesSimulatedLatency.get(hash);
   }
 
-  private static String hashPairOfNodes(UUID a, UUID b) {
+  private static String concat(Identifier a, Identifier b) {
     return a.toString() + b.toString();
   }
 }

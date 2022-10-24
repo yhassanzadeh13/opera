@@ -3,12 +3,13 @@ package scenario.pov;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import metrics.Constants;
 import metrics.MetricsCollector;
+import node.Identifier;
+import node.IdentifierGenerator;
 
 /**
  * Metrics collector for LightChain simulations.
@@ -17,9 +18,10 @@ public class LightChainMetrics {
   private static final ReentrantLock lock = new ReentrantLock();
   private static final String SUBSYSTEM_LIGHTCHAIN = "lightchain";
   private static MetricsCollector metricsCollector;
-  private static UUID collectorID;
+  // TODO: collector id should be removed.
+  private static Identifier collectorID;
   // TODO: move this to a singleton object.
-  private static HashMap<Integer, List<UUID>> blockInventory;
+  private static HashMap<Integer, List<Identifier>> blockInventory;
 
   /**
    * Initializes LightChainMetrics collector.
@@ -44,12 +46,12 @@ public class LightChainMetrics {
     LightChainMetrics.metricsCollector = metricsCollector;
 
 
-    // We currently represent each time series by a UUID representing a node.
+    // We currently represent each time series by an identifier representing a node.
     // For LightChain however, we only monitor the overall progress of the system,
-    // and not per node. Hence, we add a collector ID that represents the lable of the
+    // and not per node. Hence, we add a collector ID that represents the label of the
     // sole time series for LightChain metrics.
     // TODO replace this with an option for registering metrics without label.
-    collectorID = UUID.randomUUID();
+    collectorID = IdentifierGenerator.newIdentifier();
 
     LightChainMetrics.metricsCollector.counter().register(
         LightChain.Name.TRANSACTION_COUNT,
@@ -105,7 +107,7 @@ public class LightChainMetrics {
    * @param blockId     identifier of the newly generated finalized block.
    * @param nodeId      identifier of node generating finalized block height.
    */
-  public void onNewFinalizedBlock(int blockHeight, UUID blockId, UUID nodeId) {
+  public void onNewFinalizedBlock(int blockHeight, Identifier blockId, Identifier nodeId) {
     onBlockHeightUpdated(blockHeight, nodeId);
 
     if (!blockInventory.containsKey(blockHeight)) {
@@ -118,7 +120,7 @@ public class LightChainMetrics {
       return;
     }
 
-    List<UUID> blockIdsAtHeight = blockInventory.get(blockHeight);
+    List<Identifier> blockIdsAtHeight = blockInventory.get(blockHeight);
     if (blockIdsAtHeight.contains(blockId)) {
       // duplicate block
       return;
@@ -147,7 +149,7 @@ public class LightChainMetrics {
    * @param blockHeight new generated finalized block height
    * @param nodeId      the node identifier that generated the finalized block.
    */
-  private void onBlockHeightUpdated(int blockHeight, UUID nodeId) {
+  private void onBlockHeightUpdated(int blockHeight, Identifier nodeId) {
     metricsCollector.gauge().set(LightChain.Name.CURRENT_BLOCK_HEIGHT, nodeId, blockHeight);
   }
 

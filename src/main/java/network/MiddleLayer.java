@@ -3,7 +3,6 @@ package network;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import events.StopStartEvent;
@@ -12,6 +11,7 @@ import network.latency.LatencyGenerator;
 import network.packets.Event;
 import network.packets.Request;
 import node.BaseNode;
+import node.Identifier;
 import org.apache.log4j.Logger;
 import simulator.Orchestrator;
 import simulator.Simulator;
@@ -25,8 +25,8 @@ import simulator.Simulator;
 public class MiddleLayer {
   private static final Logger log = Logger.getLogger(MiddleLayer.class.getName()); // todo: logger should be passed down
   //TODO add bucket size to the default metrics
-  private final HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses;
-  private final UUID nodeId;
+  private final HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses;
+  private final Identifier nodeId;
   // TODO : make the communication between the nodes and the simulator (the master node) through the network
   private final Orchestrator orchestrator;
   private final MiddleLayerMetricsCollector metricsCollector;
@@ -37,15 +37,15 @@ public class MiddleLayer {
   /**
    * Constructor of MiddleLayer.
    *
-   * @param nodeId           Id of the node
+   * @param nodeId           identifier of the node
    * @param allFullAddresses Hashmap of the all addresses
    * @param isReady          Hashmap of whether nodes are ready or not
    * @param orchestrator     Orchestrator for the middle layer
    * @param metricsCollector Metrics collector for the middle layer
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of allFullAddresses")
-  public MiddleLayer(UUID nodeId,
-                     HashMap<UUID, SimpleEntry<String, Integer>> allFullAddresses, // TODO: change to an array of address info
+  public MiddleLayer(Identifier nodeId,
+                     HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses, // TODO: change to an array of address info
                      HashMap<SimpleEntry<String, Integer>, Boolean> isReady, // TODO: isReady can be removed.
                      Orchestrator orchestrator,
                      MetricsCollector metricsCollector) {
@@ -80,11 +80,11 @@ public class MiddleLayer {
   /**
    * Called by the overlay to send requests to the underlay.
    *
-   * @param destinationId destenation node unique id.
+   * @param destinationId destination node unique identifier.
    * @param event         the event.
    * @return true if event was sent successfully. false, otherwise.
    */
-  public boolean send(UUID destinationId, Event event) {
+  public boolean send(Identifier destinationId, Event event) {
     // check the readiness of the destination node
     SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(destinationId);
 
@@ -118,7 +118,7 @@ public class MiddleLayer {
   }
 
 
-  public String getAddress(UUID nodeId) {
+  public String getAddress(Identifier nodeId) {
     SimpleEntry<String, Integer> address = allFullAddresses.get(nodeId);
     return address.getKey() + ":" + address.getValue();
   }
@@ -205,7 +205,7 @@ public class MiddleLayer {
    *
    * @param allId List of IDs of all nodes.
    */
-  public void create(ArrayList<UUID> allId) {
+  public void create(ArrayList<Identifier> allId) {
     log.info("[MiddleLayer] creating node " + getAddress(nodeId));
     new Thread(() -> overlay.onCreate(allId)).start();
   }

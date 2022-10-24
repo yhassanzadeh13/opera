@@ -1,6 +1,7 @@
 package network.packets;
 
-import java.util.UUID;
+
+import node.Identifier;
 
 /**
  * This method is for the package Simulator level and is not supposed to be accessed by the nodes.
@@ -9,11 +10,9 @@ import java.util.UUID;
  */
 
 class Message {
-
-
-  private UUID originalId;
-  private UUID targetId;
-  private byte[] payload;
+  private final Identifier originalId;
+  private final Identifier targetId;
+  private final byte[] payload;
 
   /**
    * Constructor for the Message.
@@ -23,7 +22,7 @@ class Message {
    * @param payload    the marshaled version of the Event
    */
 
-  public Message(UUID originalId, UUID targetId, byte[] payload) {
+  public Message(Identifier originalId, Identifier targetId, byte[] payload) {
     this.originalId = originalId;
     this.targetId = targetId;
     this.payload = payload;
@@ -34,7 +33,7 @@ class Message {
    *
    * @return ID of the sender node
    */
-  public UUID getOriginalId() {
+  public Identifier getOriginalId() {
     return originalId;
   }
 
@@ -43,7 +42,7 @@ class Message {
    *
    * @return ID of the sender node
    */
-  public UUID getTargetId() {
+  public Identifier getTargetId() {
     return targetId;
   }
 
@@ -55,6 +54,4 @@ class Message {
   public byte[] getMessage() {
     return payload;
   }
-
-
 }

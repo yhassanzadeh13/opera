@@ -1,28 +1,28 @@
 package examples.helloservers;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 import network.packets.Event;
 import node.BaseNode;
+import node.Identifier;
 
 /**
- * Sendhello is an event which enables node to send "Thank You" if the message is "Hello"
+ * HelloEvent is an event which enables node to send "Thank You" if the message is "Hello"
  * else sends "Hello" message back to that node.
  */
-public class SendHello implements Event, Serializable {
+public class HelloEvent implements Event, Serializable {
   String msg;
-  UUID originalId;
-  UUID targetId;
+  Identifier originalId;
+  Identifier targetId;
 
   /**
-   * Constructor of a Sendhello object.
+   * Constructor.
    *
    * @param msg        message to send.
-   * @param originalId Id of the sendeer node.
-   * @param targetId   Id of the reciever node.
+   * @param originalId identifier of sender.
+   * @param targetId   identifier of receiver..
    */
-  public SendHello(String msg, UUID originalId, UUID targetId) {
+  public HelloEvent(String msg, Identifier originalId, Identifier targetId) {
     this.msg = msg;
     this.originalId = originalId;
     this.targetId = targetId;
@@ -36,19 +36,19 @@ public class SendHello implements Event, Serializable {
     this.msg = msg;
   }
 
-  public UUID getOriginalId() {
+  public Identifier getOriginalId() {
     return originalId;
   }
 
-  public void setOriginalId(UUID originalId) {
+  public void setOriginalId(Identifier originalId) {
     this.originalId = originalId;
   }
 
-  public UUID getTargetId() {
+  public Identifier getTargetId() {
     return targetId;
   }
 
-  public void setTargetId(UUID targetId) {
+  public void setTargetId(Identifier targetId) {
     this.targetId = targetId;
   }
 

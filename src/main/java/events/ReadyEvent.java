@@ -1,24 +1,23 @@
 package events;
 
-import java.util.UUID;
-
 import network.packets.Event;
 import node.BaseNode;
+import node.Identifier;
 
 /**
  * Ready Event is an event which can be used to declare a node is ready.
  */
 public class ReadyEvent implements Event {
-  private final UUID nodeId;
+  private final Identifier nodeId;
   private final String fullAddress;
 
   /**
    * create new ready event.
    *
-   * @param nodeId      UUID of the node
+   * @param nodeId      identifier of the node
    * @param fullAddress full address of the node
    */
-  ReadyEvent(UUID nodeId, String fullAddress) {
+  ReadyEvent(Identifier nodeId, String fullAddress) {
     this.nodeId = nodeId;
     this.fullAddress = fullAddress;
   }
