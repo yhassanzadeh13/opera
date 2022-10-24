@@ -1,8 +1,6 @@
 package simulator;
 
 
-import java.util.UUID;
-
 import metrics.Constants;
 import metrics.MetricsCollector;
 import node.Identifier;
@@ -16,7 +14,7 @@ public class SimulatorMetricsCollector {
   private static final String NAMESPACE_SIMULATOR = "simulator";
 
   private static final Identifier collectorID = IdentifierGenerator.newIdentifier();
-  private MetricsCollector metricsCollector;
+  private final MetricsCollector metricsCollector;
 
   /**
    * Creates a metric collector for core simulator functionalities.

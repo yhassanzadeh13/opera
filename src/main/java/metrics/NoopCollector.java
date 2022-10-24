@@ -1,7 +1,5 @@
 package metrics;
 
-import java.util.UUID;
-
 import io.prometheus.client.Gauge;
 import io.prometheus.client.Histogram;
 import node.Identifier;

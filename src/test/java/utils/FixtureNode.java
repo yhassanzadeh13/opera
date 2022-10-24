@@ -1,11 +1,11 @@
 package utils;
 
 import java.util.ArrayList;
-import java.util.UUID;
+
 import metrics.MetricsCollector;
-import node.BaseNode;
 import network.MiddleLayer;
 import network.packets.Event;
+import node.BaseNode;
 import node.Identifier;
 
 /**

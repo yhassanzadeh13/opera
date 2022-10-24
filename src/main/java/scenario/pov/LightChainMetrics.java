@@ -46,9 +46,9 @@ public class LightChainMetrics {
     LightChainMetrics.metricsCollector = metricsCollector;
 
 
-    // We currently represent each time series by a UUID representing a node.
+    // We currently represent each time series by an identifier representing a node.
     // For LightChain however, we only monitor the overall progress of the system,
-    // and not per node. Hence, we add a collector ID that represents the lable of the
+    // and not per node. Hence, we add a collector ID that represents the label of the
     // sole time series for LightChain metrics.
     // TODO replace this with an option for registering metrics without label.
     collectorID = IdentifierGenerator.newIdentifier();

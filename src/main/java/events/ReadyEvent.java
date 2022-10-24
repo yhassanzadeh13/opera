@@ -14,7 +14,7 @@ public class ReadyEvent implements Event {
   /**
    * create new ready event.
    *
-   * @param nodeId      UUID of the node
+   * @param nodeId      identifier of the node
    * @param fullAddress full address of the node
    */
   ReadyEvent(Identifier nodeId, String fullAddress) {

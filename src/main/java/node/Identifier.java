@@ -17,6 +17,16 @@ public class Identifier implements Serializable, Comparable<Identifier> {
   }
 
   /**
+   * Converts identifier from its byte representation to Base58BTC.
+   *
+   * @param identifier input identifier in byte representation.
+   * @return Base58BTC representation of identifier.
+   */
+  private static String pretty(byte[] identifier) {
+    return Multibase.encode(Multibase.Base.Base58BTC, identifier);
+  }
+
+  /**
    * Returns if objects equal.
    *
    * @param o an identifier object.
@@ -58,23 +68,12 @@ public class Identifier implements Serializable, Comparable<Identifier> {
   }
 
   /**
-   * Converts identifier from its byte representation to Base58BTC.
-   *
-   * @param identifier input identifier in byte representation.
-   * @return Base58BTC representation of identifier.
-   */
-  private static String pretty(byte[] identifier) {
-    return Multibase.encode(Multibase.Base.Base58BTC, identifier);
-  }
-
-  /**
    * Compares this identifier with the other identifier.
    *
    * @param other represents other identifier to compared to.
-   * @return 0 if two identifiers are equal, 1 if this identifier is greater than other,
-   * -1 if other identifier is greater than this.
+   * @return 0 if two identifiers are equal, 1 if this identifier is greater than other, -1 if other identifier is greater than this.
    */
-  public int comparedTo(Identifier other) {
+  public int compareTo(Identifier other) {
     int result = Arrays.compare(this.value, other.value);
     return Integer.compare(result, 0);
   }

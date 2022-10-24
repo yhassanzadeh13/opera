@@ -193,7 +193,7 @@ public class Simulator implements Orchestrator {
   /**
    * Should be called by the node to declare itself ready for simulation.
    *
-   * @param nodeId ID of the node
+   * @param nodeId identifier of the node
    */
   @Override
   public void ready(Identifier nodeId) {
@@ -216,7 +216,7 @@ public class Simulator implements Orchestrator {
   /**
    * Should be called by the node when it is done with the simulation and want to terminate.
    *
-   * @param nodeId ID of the node
+   * @param nodeId identifier of the node
    */
   @Override
   public void done(Identifier nodeId) {
@@ -349,7 +349,7 @@ public class Simulator implements Orchestrator {
   }
 
   /**
-   * get all nodes ID.
+   * get all nodes identifier.
    *
    * @return nodes' identifier.
    **/

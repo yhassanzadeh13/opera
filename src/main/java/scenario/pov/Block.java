@@ -7,7 +7,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import node.Identifier;
 
 /**
- * Block is a serializable object which consist of uuid, owner, validators, height, prevBlock, and transactions.
+ * Block representation in Proof-of-Validation.
  */
 public class Block implements Serializable {
   private final Identifier identifier;
@@ -20,12 +20,12 @@ public class Block implements Serializable {
   /**
    * Constructor of the block object.
    *
-   * @param identifier   unique Id of the block.
+   * @param identifier   unique identifier of the block.
    * @param height       height of the block.
-   * @param owner        Unique Id of the owner of the block.
-   * @param prevBlock    Unique Id of the previous block.
-   * @param validators   List of unique IDs of the validators.
-   * @param transactions List of unique IDs of the transactions.
+   * @param owner        Unique identifier of the owner of the block.
+   * @param prevBlock    Unique identifier of the previous block.
+   * @param validators   List of unique identifiers of the validators.
+   * @param transactions List of unique identifiers of the transactions.
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of network")
   public Block(Identifier identifier, Integer height, Identifier owner, Identifier prevBlock, List<Identifier> validators, List<Identifier> transactions) {

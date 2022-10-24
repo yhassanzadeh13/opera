@@ -1,7 +1,5 @@
 package simulator;
 
-import java.util.UUID;
-
 import node.Identifier;
 
 /**

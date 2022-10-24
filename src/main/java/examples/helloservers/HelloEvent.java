@@ -1,7 +1,6 @@
 package examples.helloservers;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 import network.packets.Event;
 import node.BaseNode;

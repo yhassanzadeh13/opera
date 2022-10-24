@@ -1,10 +1,9 @@
 package network;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.ArrayList;
-import java.util.UUID;
 
 import network.latency.LatencyGenerator;
 import node.Identifier;

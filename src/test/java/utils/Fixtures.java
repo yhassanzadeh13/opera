@@ -3,17 +3,17 @@ package utils;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 
 import metrics.NoopCollector;
-import network.*;
 import network.FixtureNode;
+import network.*;
 import node.Identifier;
 import node.IdentifierGenerator;
 
 public class Fixtures {
   /**
    * Test fixture for creating and returning identifier list.
+   *
    * @param count number of identifiers.
    * @return identifier list.
    */
@@ -28,8 +28,9 @@ public class Fixtures {
 
   /**
    * Creates list of fixture nodes with specified underlay.
+   *
    * @param underlayName underlay protocol name.
-   * @param count total number of nodes.
+   * @param count        total number of nodes.
    * @return list of created fixture nodes.
    */
   public static ArrayList<network.FixtureNode> nodeListFixture(NetworkProtocol underlayName, int count) {

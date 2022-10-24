@@ -37,7 +37,7 @@ public class MiddleLayer {
   /**
    * Constructor of MiddleLayer.
    *
-   * @param nodeId           Id of the node
+   * @param nodeId           identifier of the node
    * @param allFullAddresses Hashmap of the all addresses
    * @param isReady          Hashmap of whether nodes are ready or not
    * @param orchestrator     Orchestrator for the middle layer
@@ -80,7 +80,7 @@ public class MiddleLayer {
   /**
    * Called by the overlay to send requests to the underlay.
    *
-   * @param destinationId destenation node unique id.
+   * @param destinationId destination node unique identifier.
    * @param event         the event.
    * @return true if event was sent successfully. false, otherwise.
    */

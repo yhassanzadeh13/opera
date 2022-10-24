@@ -1,7 +1,5 @@
 package scenario.pov.events;
 
-import java.util.UUID;
-
 import network.packets.Event;
 import node.BaseNode;
 import node.Identifier;

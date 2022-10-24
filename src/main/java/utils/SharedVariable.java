@@ -106,7 +106,7 @@ public class SharedVariable {
    * write a new value to the distributed shared memory with the given name.
    * In case the name is assigned with another type, the variable will be overwritten.
    *
-   * @param senderId node UUID
+   * @param senderId node Identifier.
    * @param name     name of the value
    * @param variable variable to overwrite
    * @return Ture in case of success, False otherwise.
@@ -135,7 +135,7 @@ public class SharedVariable {
   /**
    * read the value of a DSM variable.
    *
-   * @param nodeId the reader node ID
+   * @param nodeId the reader node identifier.
    * @param name   name of the variable
    * @return value if there is a value for the given name null otherwise.
    */
@@ -146,7 +146,7 @@ public class SharedVariable {
 
     int variableId = variablesIds.get(name);
     if (!nodeQueues.get(nodeId).containsKey(variableId)) {
-      throw new IllegalArgumentException("node id: " + nodeId + " does not have access to the variable with name: " + name);
+      throw new IllegalArgumentException("node identifier: " + nodeId + " does not have access to the variable with name: " + name);
     }
     if (nodeQueues.get(nodeId).get(variableId).isEmpty()) {
       Simulator.getLogger().debug("[SharedVariable] Read: no present values for variable with name " + name);
@@ -172,7 +172,7 @@ public class SharedVariable {
   /**
    * Checks whether there is a value with that variable name or not.
    *
-   * @param nodeId id of the node
+   * @param nodeId identifier of the node.
    * @param name   name of the variable
    * @return true if empty false otherwise
    */
@@ -188,7 +188,7 @@ public class SharedVariable {
   }
 
   /**
-   * releases lock for given name and ID.
+   * releases lock for given name and identifier.
    *
    * @param nodeId identifier of the node.
    * @param name   name of the variable.

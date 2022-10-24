@@ -1,11 +1,11 @@
 package network;
 
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import metrics.MetricsCollector;
-import node.BaseNode;
 import network.packets.Event;
+import node.BaseNode;
 import node.Identifier;
 
 /**

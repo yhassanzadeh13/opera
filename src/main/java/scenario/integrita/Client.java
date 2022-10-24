@@ -57,7 +57,7 @@ public class Client extends User implements BaseNode {
 
   @Override
   public void onNewMessage(Identifier originId, Event msg) {
-    System.out.println("Sender UUID: " + originId.toString() + " message " + msg.logMessage());
+    System.out.println("Sender identifier: " + originId.toString() + " message " + msg.logMessage());
 
   }
 

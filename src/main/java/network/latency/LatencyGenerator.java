@@ -26,7 +26,7 @@ public class LatencyGenerator {
    * @return new simulated latency.
    */
   public int getSimulatedLatency(Identifier nodeA, Identifier nodeB, boolean bidirectional) {
-    if (bidirectional && nodeA.comparedTo(nodeB) < 0) {
+    if (bidirectional && nodeA.compareTo(nodeB) < 0) {
       Identifier tmp = nodeA;
       nodeA = nodeB;
       nodeB = tmp;

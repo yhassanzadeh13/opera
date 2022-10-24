@@ -67,7 +67,7 @@ public class LightChainNode implements BaseNode {
   /**
    * Constructor of LightChain Node.
    *
-   * @param identifier    ID of the node
+   * @param identifier    identifier of the node
    * @param network used to communicate with other nodes
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to access externally mutable object, network")
@@ -99,13 +99,13 @@ public class LightChainNode implements BaseNode {
 
   /**
    * On the creation of a LightChain node, first the node checks if it is a registry node or not.
-   * A registry node is the node of UUID placed in index 0 of allID list.
+   * A registry node is the node of Identifier placed in index 0 of allID list.
    * This convention is pre-defined for LightChainNode.
-   * So the node checks if its UUID matches the UUID of the 0-index element of allID.
+   * So the node checks if its Identifier matches the UUID of the 0-index element of allID.
    * If it matches then it sets isRegistry variable to true, or false otherwise.
    * If the node is the registry node, then it appends the genesis block to its list of blocks.
    *
-   * @param allId the IDs of type UUID for all the nodes in the cluster
+   * @param allId the IDs of type Identifier for all the nodes in the cluster
    */
   @Override
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to access externally mutable object, allId")
@@ -355,7 +355,7 @@ public class LightChainNode implements BaseNode {
 
   /**
    * This function is invoked when a validator wants to confirm their validation of a transaction. The LightChain node
-   * maintains a map with a counter for every transaction it creates. This function receives the UUID of the transaction
+   * maintains a map with a counter for every transaction it creates. This function receives the Identifier of the transaction
    * that is being verified, and it increases its counter. Once the counter of a transaction is equal to the number of
    * validators, this means the transaction has been validated and is ready to be inserted. So this function attempts
    * to insert the transaction into the network by sending submit transaction event to the registry node.
@@ -385,22 +385,22 @@ public class LightChainNode implements BaseNode {
   }
 
   /**
-   * getter of registery node's ID.
+   * getter of registry node's ID.
    *
-   * @return the UUID of the registry node.
+   * @return the Identifier of the registry node.
    */
   public Identifier getRegistryId() {
     return this.allId.get(0);
   }
 
   /**
-   * Confirms validation of the block with its UUID.
+   * Confirms validation of the block with its Identifier.
    *
-   * @param blockUuid UUID of the block.
+   * @param blockId Identifier of the block.
    */
-  public void confirmBlockValidation(Identifier blockUuid) {
+  public void confirmBlockValidation(Identifier blockId) {
 
-    if (!blockValidationCount.containsKey(blockUuid)) {
+    if (!blockValidationCount.containsKey(blockId)) {
       try {
         throw new Exception("Confirming a non-existing transaction");
       } catch (Exception e) {
@@ -408,13 +408,13 @@ public class LightChainNode implements BaseNode {
       }
     }
     this.blockValidationLock.writeLock().lock();
-    Integer prevCount = blockValidationCount.get(blockUuid);
-    blockValidationCount.put(blockUuid, prevCount + 1);
+    Integer prevCount = blockValidationCount.get(blockId);
+    blockValidationCount.put(blockId, prevCount + 1);
     this.blockValidationLock.writeLock().unlock();
 
     if (prevCount + 1 == this.numValidators) {
-      logger.info("node " + this.identifier + " Inserting its block " + blockUuid);
-      this.network.send(this.getRegistryId(), new SubmitBlockEvent(this.blocks.get(blockUuid)));
+      logger.info("node " + this.identifier + " Inserting its block " + blockId);
+      this.network.send(this.getRegistryId(), new SubmitBlockEvent(this.blocks.get(blockId)));
     }
   }
 
@@ -439,7 +439,7 @@ public class LightChainNode implements BaseNode {
    * This function randomly chooses validators of a certain transaction using the Reservoir Sampling Algorithm
    * see https://www.geeksforgeeks.org/reservoir-sampling/
    *
-   * @return a list of UUID's of randomly chosen nodes from the network
+   * @return a list of Identifiers of randomly chosen nodes from the network
    */
   public List<Identifier> getValidators() {
 

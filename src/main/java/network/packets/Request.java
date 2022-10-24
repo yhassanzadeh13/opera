@@ -2,7 +2,6 @@ package network.packets;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.UUID;
 
 import node.Identifier;
 
