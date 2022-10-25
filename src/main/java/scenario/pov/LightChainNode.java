@@ -7,12 +7,13 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import metrics.MetricsCollector;
+import modules.logger.Logger;
+import modules.logger.OperaLogger;
 import network.MiddleLayer;
 import network.packets.Event;
 import node.BaseNode;
 import node.Identifier;
 import node.IdentifierGenerator;
-import org.apache.log4j.Logger;
 import scenario.pov.events.*;
 
 
@@ -39,12 +40,11 @@ public class LightChainNode implements BaseNode {
   final int transactionInsertionDelay = 1000; // (ms)
   final int blockInsertionDelay = 2000; // (ms)
   final int updateWaitTime = 500; // (ms)
-
+  private static final Logger logger = OperaLogger.getLogger(LightChainNode.class.getCanonicalName());;
   private List<Identifier> allId;
   private Identifier identifier;
   private MiddleLayer network;
   private boolean isRegistry;
-  private Logger logger;
   private Map<Identifier, Transaction> transactions;
   private Map<Identifier, Block> blocks;
   private Map<Identifier, Integer> transactionValidationCount;
@@ -67,8 +67,8 @@ public class LightChainNode implements BaseNode {
   /**
    * Constructor of LightChain Node.
    *
-   * @param identifier    identifier of the node
-   * @param network used to communicate with other nodes
+   * @param identifier identifier of the node
+   * @param network    used to communicate with other nodes
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to access externally mutable object, network")
   public LightChainNode(Identifier identifier, MiddleLayer network, MetricsCollector metrics) {
@@ -80,7 +80,6 @@ public class LightChainNode implements BaseNode {
     this.blockValidationCount = new HashMap<>();
     this.transactionValidationLock = new ReentrantReadWriteLock();
     this.blockValidationLock = new ReentrantReadWriteLock();
-    this.logger = Logger.getLogger(LightChainNode.class.getName());
     this.lightChainMetrics = new LightChainMetrics(metrics);
 
     // for registry nodes
@@ -94,7 +93,6 @@ public class LightChainNode implements BaseNode {
 
   // TODO: do we need this?
   public LightChainNode() {
-
   }
 
   /**
@@ -135,15 +133,16 @@ public class LightChainNode implements BaseNode {
       }
 
 
-      logger.info("[Registry] The Registry node is " + this.identifier);
-      this.appendBlock(
-          new Block(IdentifierGenerator.newIdentifier(),
-              0,
-              this.identifier,
-              IdentifierGenerator.newIdentifier(),
-              new ArrayList<>(),
-              new ArrayList<>()));
-      logger.info("[Registry] Genesis Block has been appended");
+      logger.info("the registry node is created, node id {}", this.identifier);
+      Block genesisBlock = new Block(
+          IdentifierGenerator.newIdentifier(),
+          0,
+          this.identifier,
+          IdentifierGenerator.newIdentifier(),
+          new ArrayList<>(),
+          new ArrayList<>());
+      this.appendBlock(genesisBlock);
+      logger.info("genesis block is created, block id {}", genesisBlock.getId());
     }
 
     network.ready();
@@ -158,7 +157,7 @@ public class LightChainNode implements BaseNode {
     if (this.isRegistry) {
       return;
     }
-    logger.info("node " + this.identifier + " has started.");
+    logger.info("lightchain node {} starts", this.identifier);
 
     new Thread(this::startTransactionInsertions).start();
 
@@ -211,8 +210,6 @@ public class LightChainNode implements BaseNode {
         e.printStackTrace();
       }
     }
-    logger.info("[Registry] New Block appended to Ledger");
-    //  this.blockLock.writeLock().lock();
 
     this.insertedBlocks.add(block);
     this.maximumHeight = Math.max(this.maximumHeight, block.getHeight());
@@ -234,13 +231,9 @@ public class LightChainNode implements BaseNode {
     }
     this.heightToUniquePrev.get(block.getHeight()).put(block.getPrev(), old + 1);
 
-    logger.info("[Registry] maximum height found so far is " + this.maximumHeight);
-    logger.info("[Registry] currently " + this.insertedBlocks.size()
-        + " blocks are inserted totally");
-
+    logger.info("registry node reporting: new block is added to the ledger, block id {}, height {}, maximum height {}, total blocks in registry {}",
+        block.getId(), block.getHeight(), this.maximumHeight, this.insertedBlocks.size());
     this.lightChainMetrics.onNewFinalizedBlock(block.getHeight(), block.getId(), block.getOwner());
-
-    // this.blockLock.writeLock().unlock();
   }
 
   /**
