@@ -67,12 +67,12 @@ public class LightChainNode implements BaseNode {
   /**
    * Constructor of LightChain Node.
    *
-   * @param identifier identifier of the node
+   * @param nodeId identifier of the node
    * @param network    used to communicate with other nodes
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to access externally mutable object, network")
-  public LightChainNode(Identifier identifier, MiddleLayer network, MetricsCollector metrics) {
-    this.identifier = identifier;
+  public LightChainNode(Identifier nodeId, MiddleLayer network, MetricsCollector metrics) {
+    this.identifier = nodeId;
     this.network = network;
     this.transactions = new HashMap<>();
     this.blocks = new HashMap<>();
@@ -81,8 +81,7 @@ public class LightChainNode implements BaseNode {
     this.transactionValidationLock = new ReentrantReadWriteLock();
     this.blockValidationLock = new ReentrantReadWriteLock();
     this.lightChainMetrics = new LightChainMetrics(metrics);
-    this.logger = OperaLogger.getLogger(LightChainNode.class.getCanonicalName());
-    this.logger.addPrefix("node-" + identifier.toString());
+    this.logger = OperaLogger.getLoggerForNodeComponent(LightChainNode.class.getCanonicalName(), nodeId, "lightchain-node");
 
     // for registry nodes
     this.availableTransactions = new ArrayList<>();
@@ -111,11 +110,11 @@ public class LightChainNode implements BaseNode {
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to access externally mutable object, allId")
   public void onCreate(ArrayList<Identifier> allId) {
     logger.info("node created");
-
     this.allId = allId;
 
     // ensure that number of validators is small than number of nodes
     if (numValidators > this.allId.size() - 1) {
+      // TODO: throw exception.
       this.logger.fatal("number of validators {} is greater than number of nodes {}", numValidators, this.allId.size() - 1);
     }
 
@@ -130,10 +129,10 @@ public class LightChainNode implements BaseNode {
       }
 
 
-      logger.info("the registry node is created", this.identifier);
+      this.logger.info("the registry node is created");
       Block genesisBlock = new Block(IdentifierGenerator.newIdentifier(), 0, this.identifier, IdentifierGenerator.newIdentifier(), new ArrayList<>(), new ArrayList<>());
       this.appendBlock(genesisBlock);
-      logger.info("genesis block is created, block id {}", genesisBlock.getId());
+      this.logger.info("genesis block is created, block id {}", genesisBlock.getId());
     }
 
     network.ready();
@@ -144,14 +143,13 @@ public class LightChainNode implements BaseNode {
    */
   @Override
   public void onStart() {
-
     if (this.isRegistry) {
       return;
     }
     logger.info("lightchain node starts");
 
+    // TODO: keep track of threads and stop them on stop.
     new Thread(this::startTransactionInsertions).start();
-
     new Thread(this::startBlockInsertion).start();
   }
 
@@ -218,7 +216,7 @@ public class LightChainNode implements BaseNode {
     }
     this.heightToUniquePrev.get(block.getHeight()).put(block.getPrev(), old + 1);
 
-    logger.info("registry node reporting: new block is added to the ledger, block id {}, height {}, maximum height {}, total blocks in registry {}", block.getId(), block.getHeight(), this.maximumHeight, this.insertedBlocks.size());
+    this.logger.info("registry node added new block to the ledger, block id {}, height {}, maximum height {}, total blocks in registry {}", block.getId(), block.getHeight(), this.maximumHeight, this.insertedBlocks.size());
     this.lightChainMetrics.onNewFinalizedBlock(block.getHeight(), block.getId(), block.getOwner());
   }
 
@@ -237,12 +235,12 @@ public class LightChainNode implements BaseNode {
   public void startTransactionInsertions() {
     for (int i = 0; i < this.transactionInsertions; ++i) {
 
-      logger.info("inserting transaction number {}", i + 1);
+      this.logger.info("inserting transaction number {}", i + 1);
 
       // update the latest block
       Identifier latestBlockId = this.requestLatestBlock();
 
-      logger.info("latest block id {} updated", latestBlockId);
+      this.logger.info("latest block id {} updated", latestBlockId);
 
       // get the validators
       List<Identifier> validators = this.getValidators();
@@ -256,7 +254,7 @@ public class LightChainNode implements BaseNode {
       for (Identifier validator : validators) {
         // send an asynchronous validation request
         network.send(validator, new ValidateTransactionEvent(tx));
-        logger.info("requesting validator {} for transaction {}", validator, tx.getId());
+        this.logger.info("requesting validator {} for transaction {}", validator, tx.getId());
       }
 
       // wait for some time in between insertions
@@ -283,17 +281,16 @@ public class LightChainNode implements BaseNode {
    * This function handles the collection of transactions and casting them into blocks and then inserting these blocks.
    * to the registry
    */
-  public void startBlockInsertion() {
-
+  public void startBlockInsertion() throws IllegalStateException {
     for (int i = 0; i < this.blockIterations; ++i) {
 
       try {
         Thread.sleep(this.blockInsertionDelay);
       } catch (InterruptedException e) {
-        e.printStackTrace();
+        throw new IllegalStateException("block insertion thread interrupted", e);
       }
 
-      logger.info("block collection attempt for node {} is {}", this.identifier, i + 1);
+      this.logger.info("block collection attempt is {}", i + 1);
 
       this.requestTransactions();
       this.requestLatestBlock();
@@ -306,7 +303,7 @@ public class LightChainNode implements BaseNode {
       }
 
       if (collectedTransaction.isEmpty()) {
-        logger.info("transaction collection attempt for node {} is {}", this.identifier, i + 1);
+        this.logger.info("transaction collection attempt is {}",  i + 1);
         continue;
       }
 
@@ -320,7 +317,7 @@ public class LightChainNode implements BaseNode {
       for (Identifier validator : validators) {
         // send an asynchronous validation request
         network.send(validator, new ValidateBlockEvent(block));
-        logger.info("node {} is requesting validator {} for block {}", this.identifier, validator, block.getId());
+        this.logger.info("node is requesting validator {} for block {}", validator, block.getId());
       }
     }
   }
@@ -343,13 +340,13 @@ public class LightChainNode implements BaseNode {
     this.transactionValidationLock.writeLock().lock();
     Integer validationCount = transactionValidationCount.get(txId);
     validationCount = validationCount + 1;
-    logger.info("node {} received confirmation for transaction {} from validator, validation count is {}", this.identifier, txId, validationCount + 1);
+    this.logger.info("node received confirmation for transaction {} from validator, validation count is {}", txId, validationCount + 1);
     transactionValidationCount.put(txId, validationCount);
     this.transactionValidationLock.writeLock().unlock();
 
     if (validationCount + 1 >= this.numValidators) {
       // TODO: we should remove transaction from the validation count map and add its id to a processed transaction map.
-      logger.info("node {} is inserting transaction {} on the overlay network", this.identifier, txId);
+      this.logger.info("node is inserting transaction {} on the overlay network", txId);
       this.network.send(this.getRegistryId(), new SubmitTransactionEvent(this.transactions.get(txId)));
     }
   }
@@ -377,13 +374,13 @@ public class LightChainNode implements BaseNode {
     this.blockValidationLock.writeLock().lock();
     Integer validationCount = blockValidationCount.get(blockId);
     validationCount = validationCount + 1;
-    logger.info("node {} received confirmation for block {} from validator, validation count is {}", this.identifier, blockId, validationCount + 1);
+    this.logger.info("node received confirmation for block {} from validator, validation count is {}", blockId, validationCount + 1);
     blockValidationCount.put(blockId, validationCount);
     this.blockValidationLock.writeLock().unlock();
 
     if (validationCount + 1 >= this.numValidators) {
       // TODO: we should remove block from the validation count map and add its id to a processed block map.
-      logger.info("node {} is inserting block {} on the overlay network", this.identifier, blockId);
+      this.logger.info("node is inserting block {} on the overlay network", this.identifier, blockId);
       this.network.send(this.getRegistryId(), new SubmitBlockEvent(this.blocks.get(blockId)));
     }
   }
@@ -413,7 +410,7 @@ public class LightChainNode implements BaseNode {
   // TODO: this function must be a random persistent oracle, not a random function.
   public List<Identifier> getValidators() {
 
-    logger.info("fetching validators for node {}", this.identifier);
+    logger.info("fetching validators for node");
 
     // add the first numValidators nodes
     List<Integer> randomIndexes = new ArrayList<>();
@@ -452,7 +449,7 @@ public class LightChainNode implements BaseNode {
    * @param block block to update the node
    */
   public void updateLatestBlock(Block block) {
-    logger.info("latest block updated to {}", block.getId());
+    this.logger.info("latest block updated to {}", block.getId());
     this.latestBlock = block;
     this.blockLatch.countDown();
   }
@@ -476,12 +473,12 @@ public class LightChainNode implements BaseNode {
    */
   public Identifier requestLatestBlock() {
 
-    logger.info("node " + this.identifier + " requesting latest block");
+    this.logger.info("node requesting latest block");
 
     blockLatch = new CountDownLatch(1);
     network.send(this.getRegistryId(), new GetLatestBlockEvent(this.identifier));
 
-    logger.info("node" + this.identifier + " waiting for latest block");
+    this.logger.info("node is waiting for latest block");
 
     try {
       blockLatch.await();
@@ -489,7 +486,7 @@ public class LightChainNode implements BaseNode {
       e.printStackTrace();
     }
 
-    logger.info("Node + " + this.identifier + ": latest block received");
+    this.logger.info("latest block received: {}", this.latestBlock.getId());
 
     return this.latestBlock.getId();
   }
@@ -523,7 +520,7 @@ public class LightChainNode implements BaseNode {
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to access externally mutable object, requestedTransactions")
   public void deliverTransactions(List<Transaction> requestedTransactions) {
-    logger.info("Requested Transactions received by node " + this.identifier);
+    this.logger.info("requested Transactions received"); // todo: adding transaction ids to the log.
     this.requestedTransactions = requestedTransactions;
     this.transactionLatch.countDown();
   }

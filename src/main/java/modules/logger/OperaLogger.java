@@ -1,5 +1,6 @@
 package modules.logger;
 
+import node.Identifier;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -17,7 +18,16 @@ public class OperaLogger {
    * @param className class name for which a logger is created.
    * @return logger for the class.
    */
-  public static Logger getLogger(String className) {
-    return new Logger(LoggerFactory.getLogger(LOGGER_NAME + "." + className));
+  public static Logger getLoggerForNodeComponent(String className, Identifier nodeId, String component) {
+    Logger logger = new Logger(LoggerFactory.getLogger(LOGGER_NAME + "." + className));
+    logger.addPrefix("node_id: " + nodeId.toString());
+    logger.addPrefix("component: " + component);
+    return logger;
+  }
+
+  public static Logger getLoggerForSimulator(String className) {
+    Logger logger = new Logger(LoggerFactory.getLogger(LOGGER_NAME + "." + className));
+    logger.addPrefix("simulator-");
+    return logger;
   }
 }

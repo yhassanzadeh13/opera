@@ -16,7 +16,6 @@ import simulator.Simulator;
  * tcp underlay implementation.
  */
 public class TcpUnderlay extends Underlay {
-
   private final HashSet<Socket> socketCache = new HashSet<>();
   private final HashMap<String, ObjectOutputStream> streamCache = new HashMap<>();
   // The thread that continuously listens for incoming connection in the background.
