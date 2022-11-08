@@ -67,8 +67,8 @@ public class LightChainNode implements BaseNode {
   /**
    * Constructor of LightChain Node.
    *
-   * @param nodeId identifier of the node
-   * @param network    used to communicate with other nodes
+   * @param nodeId  identifier of the node
+   * @param network used to communicate with other nodes
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to access externally mutable object, network")
   public LightChainNode(Identifier nodeId, MiddleLayer network, MetricsCollector metrics) {
@@ -303,7 +303,7 @@ public class LightChainNode implements BaseNode {
       }
 
       if (collectedTransaction.isEmpty()) {
-        this.logger.info("transaction collection attempt is {}",  i + 1);
+        this.logger.info("transaction collection attempt is {}", i + 1);
         continue;
       }
 
@@ -532,23 +532,19 @@ public class LightChainNode implements BaseNode {
    *
    * @param transaction transaction to be inserted into the network
    */
-  public void addTransaction(Transaction transaction) {
+  public void addTransaction(Transaction transaction) throws IllegalStateException {
     if (!this.isRegistry) {
-      try {
-        throw new Exception("Add Transaction is called from a non-registry node");
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+      throw new IllegalStateException("add Transaction is called from a non-registry node");
     }
-    logger.info("[Registry] new transaction inserted into network.");
 
+
+    // TODO: do we need lock?
     //  this.transactionLock.writeLock().lock();
 
     this.availableTransactions.add(transaction);
     this.totalTransactionCount += 1;
-    logger.info("[Registry] currently " + this.availableTransactions.size() + " transactions are available");
-    logger.info("[Registry] total number of transactions inserted so far " + this.totalTransactionCount);
-
+    logger.info("new transaction inserted on the registry node, available transactions: {} total transactions: {}",
+        this.availableTransactions.size(), this.totalTransactionCount);
     this.lightChainMetrics.onNewTransactions(1);
 
     //  this.transactionLock.writeLock().unlock();
@@ -562,32 +558,26 @@ public class LightChainNode implements BaseNode {
    * @param requiredNumber the required number of transactions
    * @return a list of transactions matching the number required
    */
-  public List<Transaction> collectTransactions(Identifier requester, Integer requiredNumber) {
-
+  public List<Transaction> collectTransactions(Identifier requester, Integer requiredNumber) throws IllegalStateException {
     if (!this.isRegistry) {
-      try {
-        throw new Exception("Collect Transaction is called from a non-registry node");
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+      throw new IllegalStateException("collect transactions is called from a non-registry node");
     }
+
+    // TODO: do we need lock?
+
     //   this.transactionLock.writeLock().lock();
-
     List<Transaction> requestedTransactions = new ArrayList<>();
-    // a failed collection attempts
     if (this.availableTransactions.size() < requiredNumber) {
-
-      logger.info("[Registry] number of available transactions is less than requested by node " + requester + ", required number: " + requiredNumber + ", available number: " + this.availableTransactions.size());
-
+      logger.info("number of available transactions ({}) in registry is less than requested ({}) by node ({})",
+          this.availableTransactions.size(), requiredNumber, requester);
       //    this.transactionLock.writeLock().unlock();
-
       network.send(requester, new DeliverTransactionsEvent(requestedTransactions));
-
       return requestedTransactions;
     }
 
-    for (int i = 0; i < this.availableTransactions.size(); ++i) {
-      requestedTransactions.add(this.availableTransactions.get(i));
+    // TODO: revisit this part
+    for (Transaction availableTransaction : this.availableTransactions) {
+      requestedTransactions.add(availableTransaction);
     }
 
     List<Transaction> temporary = new ArrayList<>();
@@ -609,17 +599,11 @@ public class LightChainNode implements BaseNode {
    * @param requester of the node requesting the latest block so that its request can be delivered
    * @return the latest block on the ledger
    */
-  public Block getLatestBlock(Identifier requester) {
-
-
+  public Block getLatestBlock(Identifier requester) throws IllegalStateException {
     if (!this.isRegistry) {
-      try {
-        throw new Exception("Add Transaction is called from a non-registry node");
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+      throw new IllegalStateException("get latest block is called from a non-registry node");
     }
-    logger.info("[Registry] Getting Latest Block for node " + requester);
+    logger.debug("registry received a request for latest block from node {}", requester);
 
     Block latestBlock;
 
@@ -640,14 +624,13 @@ public class LightChainNode implements BaseNode {
         chosenBlock = this.insertedBlocks.get(i);
       }
     }
-    logger.info("[Registry] " + this.insertedBlocks.size() + " blocks found");
+    logger.debug("registry found {} block as the latest block for request of node {}", chosenBlock.getId(), requester);
 
     // this.blockLock.readLock().unlock();
 
-    logger.info("[Registry] Sending Latest Block " + latestBlock.getId() + " to node " + requester);
     this.network.send(requester, new DeliverLatestBlockEvent(latestBlock));
+    this.logger.info("registry delivered latest block {} to node {}", latestBlock.getId(), requester);
 
     return chosenBlock;
   }
-
 }
