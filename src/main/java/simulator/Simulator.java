@@ -33,7 +33,7 @@ public class Simulator implements Orchestrator {
   /**
    * Timeout for waiting for all nodes to be ready in milliseconds.
    */
-  private final int READY_TIMEOUT_MS = 1000;
+  private final int readyTimeoutMs = 1000;
   private static final Random rand = new Random();
   private static final Logger log = OperaLogger.getLoggerForSimulator(Simulator.class.getName());
   private final ArrayList<Identifier> allId;
@@ -162,13 +162,13 @@ public class Simulator implements Orchestrator {
     boolean isAllReady = false;
 
     try {
-      isAllReady = allNodesReady.await(READY_TIMEOUT_MS, TimeUnit.MILLISECONDS);
+      isAllReady = allNodesReady.await(readyTimeoutMs, TimeUnit.MILLISECONDS);
     } catch (InterruptedException e) {
       log.fatal("interrupted while waiting for nodes to be ready", e);
     }
 
     if (!isAllReady) {
-      log.fatal("{} ms timeout on starting all nodes", READY_TIMEOUT_MS);
+      log.fatal("{} ms timeout on starting all nodes", readyTimeoutMs);
     }
 
     // start all nodes in new threads

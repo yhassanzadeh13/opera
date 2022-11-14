@@ -45,11 +45,9 @@ public class MiddleLayer {
    * @param metricsCollector Metrics collector for the middle layer
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of allFullAddresses")
-  public MiddleLayer(Identifier nodeId,
-                     HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses, // TODO: change to an array of address info
+  public MiddleLayer(Identifier nodeId, HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses, // TODO: change to an array of address info
                      HashMap<SimpleEntry<String, Integer>, Boolean> isReady, // TODO: isReady can be removed.
-                     Orchestrator orchestrator,
-                     MetricsCollector metricsCollector) throws IllegalStateException{
+                     Orchestrator orchestrator, MetricsCollector metricsCollector) throws IllegalStateException {
 
     if (orchestrator == null) {
       throw new IllegalArgumentException("orchestrator cannot be null");
@@ -67,12 +65,12 @@ public class MiddleLayer {
     return underlay;
   }
 
-  public Identifier getNodeId () {
-    return nodeId;
-  }
-
   public void setUnderlay(Underlay underlay) {
     this.underlay = underlay;
+  }
+
+  public Identifier getNodeId() {
+    return nodeId;
   }
 
   public BaseNode getOverlay() {
@@ -129,10 +127,7 @@ public class MiddleLayer {
    * Called by the underlay to collect the response from the overlay.
    */
   public void receive(Request request) {
-    this.metricsCollector.onMessageReceived(nodeId,
-        request.getOriginalId(),
-        request.getEvent().size(),
-        request.getSentTimeStamp());
+    this.metricsCollector.onMessageReceived(nodeId, request.getOriginalId(), request.getEvent().size(), request.getSentTimeStamp());
 
     // TODO: add request type
     this.logger.info("event received from {}", request.getOriginalId());

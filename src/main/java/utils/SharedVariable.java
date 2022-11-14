@@ -11,16 +11,15 @@ import modules.logger.Logger;
 import modules.logger.OperaLogger;
 import node.Identifier;
 import node.IdentifierGenerator;
-import simulator.Simulator;
 
 /**
  * local static variable between the nodes with a buffer size of 1
  * (any two consecutive writing on the same variable is forbidden).
  */
 public class SharedVariable {
-  private final Logger logger = OperaLogger.getLoggerForSimulator(SharedVariable.class.getCanonicalName());
   // singleton instance
   private static SharedVariable instance = null;
+  private final Logger logger = OperaLogger.getLoggerForSimulator(SharedVariable.class.getCanonicalName());
   private final ConcurrentHashMap<Identifier, ConcurrentHashMap<Integer, ArrayDeque<SimpleEntryComparable<Identifier, Object>>>> nodeQueues;
   // for each variable ID, hold the cluster of that variable
   private final ArrayList<ArrayList<Identifier>> clusters;

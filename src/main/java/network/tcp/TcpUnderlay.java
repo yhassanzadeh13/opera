@@ -9,7 +9,6 @@ import java.util.HashSet;
 
 import network.Underlay;
 import network.packets.Request;
-import simulator.Simulator;
 
 
 /**

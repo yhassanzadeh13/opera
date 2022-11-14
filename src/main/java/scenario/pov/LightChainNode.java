@@ -216,7 +216,8 @@ public class LightChainNode implements BaseNode {
     }
     this.heightToUniquePrev.get(block.getHeight()).put(block.getPrev(), old + 1);
 
-    this.logger.info("registry node added new block to the ledger, block id {}, height {}, maximum height {}, total blocks in registry {}", block.getId(), block.getHeight(), this.maximumHeight, this.insertedBlocks.size());
+    this.logger.info("registry node added new block to the ledger, block id {}, height {}, maximum height {}, total blocks in registry {}",
+        block.getId(), block.getHeight(), this.maximumHeight, this.insertedBlocks.size());
     this.lightChainMetrics.onNewFinalizedBlock(block.getHeight(), block.getId(), block.getOwner());
   }
 

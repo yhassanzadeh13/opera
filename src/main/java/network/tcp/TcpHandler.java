@@ -8,7 +8,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
 import network.packets.Request;
-import simulator.Simulator;
 
 
 /**
@@ -21,6 +20,12 @@ public class TcpHandler implements Runnable {
   private final TcpUnderlay underlay;
   private final Logger logger;
 
+  /**
+   * Creates a new tcp handler.
+   *
+   * @param incomingConnection the incoming tcp connection.
+   * @param underlay           the tcp underlay.
+   */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of incomingConnection")
   public TcpHandler(Socket incomingConnection, TcpUnderlay underlay) {
     this.incomingConnection = incomingConnection;
@@ -46,11 +51,9 @@ public class TcpHandler implements Runnable {
       underlay.dispatchRequest(request);
     } catch (IOException e) {
       this.logger.fatal("could not read the request from the incoming connection.", e);
-      return;
     } catch (ClassNotFoundException e) {
       // TODO: this must be an IllegalStateException.
       this.logger.fatal("could not find target class for received message", e);
-      return;
     }
   }
 }

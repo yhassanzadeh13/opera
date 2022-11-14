@@ -28,6 +28,12 @@ public class Client extends User implements BaseNode {
 
   }
 
+  /**
+   * Constructor of Client.
+   *
+   * @param selfId identifier of the node.
+   * @param network network of the node.
+   */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of MiddleLayer")
   public Client(Identifier selfId, MiddleLayer network) {
     this.id = selfId;

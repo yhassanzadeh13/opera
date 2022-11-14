@@ -7,7 +7,6 @@ import network.javarmi.JavaRmiUnderlay;
 import network.local.LocalUnderlay;
 import network.tcp.TcpUnderlay;
 import network.udp.UdpUnderlay;
-import node.Identifier;
 
 /**
  * UnderlayFactory is a factory which consists of Underlays.
