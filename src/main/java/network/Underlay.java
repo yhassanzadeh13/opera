@@ -61,9 +61,10 @@ public abstract class Underlay {
   /**
    * Terminates the node.
    *
-   * @return true iff the termination was successful.
+   * @throws IllegalStateException if it could not terminate the node.
    */
-  public abstract boolean terminate();
+  // TODO: add timeout
+  public abstract void terminate() throws IllegalStateException;
 
   public Identifier getNodeId() {
     return middleLayer.getNodeId();

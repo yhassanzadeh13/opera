@@ -36,8 +36,7 @@ public class TcpUnderlay extends Underlay {
       // Create the tcp socket at the given port.
       serverSocket = new ServerSocket(port);
     } catch (IOException e) {
-      System.err.println("[TCPUnderlay] Could not initialize at the given port.");
-      e.printStackTrace();
+      // TODO: throw illegal state exception.
       return false;
     }
     // Create & start the listening thread which will continuously listen for incoming connections
@@ -73,7 +72,7 @@ public class TcpUnderlay extends Underlay {
         requestStream = new ObjectOutputStream(remote.getOutputStream());
         streamCache.put(fullAddress, requestStream);
       } catch (IOException e) {
-        Simulator.getLogger().error(e.getMessage());
+        // TODO: throw illegal state exception.
         return false;
       }
     }
@@ -81,7 +80,7 @@ public class TcpUnderlay extends Underlay {
     try {
       requestStream.writeObject(request);
     } catch (IOException e) {
-      System.err.println("[TCPUnderlay] Could not send the request.");
+      // TODO: throw illegal state exception.
       return false;
     }
     return true;
@@ -90,28 +89,22 @@ public class TcpUnderlay extends Underlay {
   /**
    * Terminates the underlay by unbinding the listener from the port.
    *
-   * @return whether the termination was successful.
+   * @throws IllegalStateException if it could not terminate the node.
    */
   @Override
-  public boolean terminate() {
+  public void terminate() throws IllegalStateException {
     try {
-      // Terminating cached sockets and streams
       for (ObjectOutputStream o : this.streamCache.values()) {
         o.close();
       }
       for (Socket s : this.socketCache) {
         s.close();
       }
-      // Unbind from the local port.
       serverSocket.close();
-      // Terminate the listener thread.
       listenerThread.join();
-    } catch (Exception e) {
-      System.err.println("[TCPUnderlay] Could not terminate.");
-      e.printStackTrace();
-      return false;
+    } catch (IOException | InterruptedException e) {
+      throw new IllegalStateException("could not terminate tcp underlay", e);
     }
-    return true;
   }
 
   @Override

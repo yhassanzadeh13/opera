@@ -11,7 +11,6 @@ import network.packets.Request;
  * udp underlay implementation.
  */
 public class UdpUnderlay extends Underlay {
-
   /**
    * The nature of udp requires us to predefine the maximum size of a packet that could be transferred. This parameter
    * defines the maximum size of a packet in bytes.
@@ -48,8 +47,7 @@ public class UdpUnderlay extends Underlay {
     try {
       udpSocket = new DatagramSocket(port);
     } catch (SocketException e) {
-      System.err.println("[UDPUnderlay] Could not initialize at the given port.");
-      e.printStackTrace();
+      // TODO: throw exception.
       return false;
     }
     // Create the listener thread that will continuously listen to the udp packets.
@@ -74,14 +72,13 @@ public class UdpUnderlay extends Underlay {
     try {
       destAddress = Inet4Address.getByName(address);
     } catch (UnknownHostException e) {
-      System.err.println("[UDPUnderlay] Could not find the host with the address " + address);
-      e.printStackTrace();
+      // TODO: throw illegal state exception.
       return false;
     }
     // Serialize the request.
     byte[] requestBytes = UdpUtils.serialize(request);
     if (requestBytes == null) {
-      System.err.println("[UDPUnderlay] Invalid request.");
+      // TODO: throw illegal state exception.
       return false;
     }
     // Then, send the request.
@@ -89,8 +86,7 @@ public class UdpUnderlay extends Underlay {
     try {
       udpSocket.send(requestPacket);
     } catch (IOException e) {
-      log.debug("[UDPUnderlay] Could not send the request.");
-      //e.printStackTrace();
+      // TODO: throw illegal state exception.
       return false;
     }
     return true;
@@ -99,20 +95,15 @@ public class UdpUnderlay extends Underlay {
   /**
    * Terminates the underlay by unbinding the listener from the port.
    *
-   * @return whether the termination was successful.
+   * @throws IllegalStateException if it could not terminate the node.
    */
   @Override
-  public boolean terminate() {
+  public void terminate() throws IllegalStateException {
     try {
-      // Unbind from the local port.
       udpSocket.close();
-      // Close the listener thread.
       listenerThread.join();
     } catch (InterruptedException e) {
-      System.err.println("[UDPUnderlay] Could not terminate.");
-      e.printStackTrace();
-      return false;
+      throw new IllegalStateException("could not terminate udp underlay.", e);
     }
-    return true;
   }
 }

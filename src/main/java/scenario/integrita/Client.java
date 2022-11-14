@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import metrics.MetricsCollector;
+import modules.logger.Logger;
+import modules.logger.OperaLogger;
 import network.MiddleLayer;
 import network.packets.Event;
 import node.BaseNode;
@@ -17,6 +19,7 @@ import scenario.integrita.user.User;
  * Integrita client implementation.
  */
 public class Client extends User implements BaseNode {
+  private Logger logger;
   Identifier id;
   MiddleLayer network;
   ArrayList<Identifier> ids; // all ids inclding self
@@ -29,6 +32,7 @@ public class Client extends User implements BaseNode {
   public Client(Identifier selfId, MiddleLayer network) {
     this.id = selfId;
     this.network = network;
+    this.logger = OperaLogger.getLoggerForNodeComponent(this.getClass().getCanonicalName(), selfId, "integrita_client");
   }
 
   @Override
@@ -57,13 +61,11 @@ public class Client extends User implements BaseNode {
 
   @Override
   public void onNewMessage(Identifier originId, Event msg) {
-    System.out.println("Sender identifier: " + originId.toString() + " message " + msg.logMessage());
-
+    this.logger.info("received message from {} with content {}", originId, msg.logMessage());
   }
 
   @Override
   public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics) {
-    Client client = new Client(selfId, network);
-    return client;
+    return new Client(selfId, network);
   }
 }

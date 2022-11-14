@@ -81,16 +81,6 @@ public class Simulator implements Orchestrator {
   }
 
   /**
-   * getter for the simulator logger of log4j.
-   *
-   * @return the simulator logger
-   */
-  @SuppressFBWarnings(value = "MS_EXPOSE_REP", justification = "logger instance is supposed to be mutable externally")
-  public static Logger getLogger() {
-    return log;
-  }
-
-  /**
    * Generate new random identifier for the nodes.
    *
    * @param n number of nodes

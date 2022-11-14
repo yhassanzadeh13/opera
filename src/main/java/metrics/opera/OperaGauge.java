@@ -3,14 +3,17 @@ package metrics.opera;
 import io.prometheus.client.Gauge;
 import metrics.Constants;
 import metrics.GaugeCollector;
+import modules.logger.Logger;
+import modules.logger.OperaLogger;
 import node.Identifier;
-import simulator.Simulator;
 
 
 /**
  * OperaGauge implements a wrapper for collecting gauge metrics. Metrics for each node are collected separately.
  */
 public class OperaGauge extends OperaMetric implements GaugeCollector {
+  private final Logger logger = OperaLogger.getLoggerForSimulator(this.getClass().getName());
+
   /**
    * Registers a gauge. This method is expected to be executed by several instances of nodes assuming a decentralized
    * metrics registration. However, only the first invocation gets through and registers the metric.
@@ -75,13 +78,11 @@ public class OperaGauge extends OperaMetric implements GaugeCollector {
   @Override
   public Gauge getMetric(String name) {
     if (!collectors.containsKey(name)) {
-      Simulator.getLogger().error("[SimulatorGauge] could not find a metric with name " + name);
-      System.err.println("[SimulatorGauge] could not find a metric with name " + name);
+      logger.fatal("gauge metric not registered {} ", name);
       return null;
     }
     if (collectorsTypes.get(name) != Type.GAUGE) {
-      Simulator.getLogger().error("[SimulatorGauge] metric registered with the name " + name + " is not a Gauge");
-      System.err.println("[SimulatorGauge] metric registered with the name " + name + " is not a Gauge");
+      logger.fatal("metric type mismatch (not gauge) {} ", name);
       return null;
     }
     return (Gauge) collectors.get(name);

@@ -166,11 +166,10 @@ public class MiddleLayer {
   public void stop() {
     new Thread(() -> {
       overlay.onStop();
-      boolean success = underlay.terminate();
-      if (success) {
-        this.logger.info("node terminated");
-      } else {
-        this.logger.error("could not terminate node on {}", getAddress(nodeId));
+      try {
+        underlay.terminate();
+      } catch (IllegalStateException e) {
+        logger.fatal("failed to terminate the underlay", e);
       }
     }).start();
   }
