@@ -1,5 +1,6 @@
 package modules.logger;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
@@ -38,6 +39,7 @@ public class Logger {
    *
    * @param message message to be logged.
    */
+  @SuppressFBWarnings(value = "DM_EXIT", justification = "expected to exit the program")
   public void fatal(String message) {
     if (this.prefix != null) {
       this.logger.error(this.fatal, this.prefix + message);
@@ -53,6 +55,7 @@ public class Logger {
    * @param message message to be logged.
    * @param t       throwable to be logged.
    */
+  @SuppressFBWarnings(value = "DM_EXIT", justification = "expected to exit the program")
   public void fatal(String message, Throwable t) {
     if (this.prefix != null) {
       this.logger.error(this.fatal, this.prefix + message, t);
@@ -69,6 +72,7 @@ public class Logger {
    * @param message message to be logged.
    * @param args    arguments to be logged.
    */
+  @SuppressFBWarnings(value = "DM_EXIT", justification = "expected to exit the program")
   public void fatal(String message, Object... args) {
     if (this.prefix != null) {
       this.logger.error(this.fatal, this.prefix + message, args);
@@ -86,6 +90,7 @@ public class Logger {
    * @param t       throwable to be logged.
    * @param args    arguments to be logged.
    */
+  @SuppressFBWarnings(value = "DM_EXIT", justification = "expected to exit the program")
   public void fatal(String message, Throwable t, Object... args) {
     if (this.prefix != null) {
       this.logger.error(this.fatal, this.prefix + message, t, args);

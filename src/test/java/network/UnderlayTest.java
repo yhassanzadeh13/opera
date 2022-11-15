@@ -55,7 +55,6 @@ public class UnderlayTest {
   void assure(ArrayList<FixtureNode> instances) {
     CountDownLatch countDownLatch = new CountDownLatch(instances.size());
 
-
     // start all instances
     for (FixtureNode node : instances) {
       new Thread(() -> {
