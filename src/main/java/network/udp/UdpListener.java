@@ -24,6 +24,12 @@ public class UdpListener implements Runnable {
   // Owned resource by the `UDPUnderlay`. Used to dispatch the received
   // responses to the main thread.
 
+  /**
+   * Constructor of the `UDPListener`.
+   *
+   * @param listenSocket Socket of the Listener
+   * @param underlay     Underlay for the Listener
+   */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of listen socket")
   public UdpListener(DatagramSocket listenSocket, UdpUnderlay underlay) {
     this.listenSocket = listenSocket;

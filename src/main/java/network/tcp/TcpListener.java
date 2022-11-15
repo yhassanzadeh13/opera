@@ -20,6 +20,12 @@ public class TcpListener implements Runnable {
   // Owned resource by the `TCPUnderlay`.
   private final TcpUnderlay underlay;
 
+  /**
+   * Constructor of the `TCPListener`.
+   *
+   * @param serverSocket Socket of the Listener.
+   * @param underlay   Underlay for the Listener.
+   */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of serverSocket")
   public TcpListener(ServerSocket serverSocket, TcpUnderlay underlay) {
     this.serverSocket = serverSocket;
