@@ -3,6 +3,7 @@ package network.udp;
 import java.io.IOException;
 import java.net.*;
 
+import modules.logger.Logger;
 import network.Underlay;
 import network.packets.Request;
 

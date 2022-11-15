@@ -6,6 +6,8 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import modules.logger.Logger;
+import modules.logger.OperaLogger;
 import network.packets.Request;
 
 /**
@@ -14,7 +16,7 @@ import network.packets.Request;
  * thread.
  */
 public class UdpListener implements Runnable {
-
+  private Logger logger;
   // Owned resource by the `UDPUnderlay`.
   private final DatagramSocket listenSocket;
   // Owned resource by the `UDPUnderlay`.
@@ -26,6 +28,7 @@ public class UdpListener implements Runnable {
   public UdpListener(DatagramSocket listenSocket, UdpUnderlay underlay) {
     this.listenSocket = listenSocket;
     this.underlay = underlay;
+    this.logger = OperaLogger.getLoggerForNodeComponent(UdpListener.class.getCanonicalName(), this.underlay.getNodeId(), "udp-listener");
   }
 
   @Override
@@ -41,16 +44,18 @@ public class UdpListener implements Runnable {
         Object packetObject = UdpUtils.deserialize(packet.getData(), packet.getLength());
         // handle the request in a new `UDPHandler` thread.
         Request request = (Request) packetObject;
+
+        this.logger.debug("received a new incoming request from " + packet.getAddress().getHostAddress());
         new Thread(new UdpHandler(listenSocket, request, packet.getAddress(), packet.getPort(), underlay)).start();
         // TODO: manage the termination of the handler threads.
-
       } catch (SocketException e) {
         // Once the listener socket is closed by an outside thread, this point will be reached, and
         // we will stop listening.
+
+        this.logger.debug("listener socket closed.");
         return;
       } catch (IOException e) {
-        System.err.println("[UDPListener] Could not acquire the packet.");
-        e.printStackTrace();
+        this.logger.fatal("could not accept incoming connection.", e);
       }
     }
   }
