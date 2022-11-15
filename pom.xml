@@ -16,9 +16,10 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.0</version>
+                    <version>3.10.1</version>
                     <configuration>
                         <debug>true</debug>
                         <verbose>true</verbose>
@@ -122,12 +123,17 @@
             <artifactId>slf4j-api</artifactId>
             <version>2.0.0-alpha0</version>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>3.0.13</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-maven-plugin -->
         <dependency>
             <groupId>com.github.spotbugs</groupId>
-            <artifactId>spotbugs-maven-plugin</artifactId>
-            <version>3.1.0-RC6</version>
+            <artifactId>spotbugs</artifactId>
+            <version>4.7.3</version>
         </dependency>
 
         <dependency>
