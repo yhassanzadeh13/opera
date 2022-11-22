@@ -33,8 +33,7 @@ public class LocalUnderlay extends Underlay {
   }
 
   @Override
-  public boolean terminate() {
-    return true;
+  public void terminate() {
   }
 
   @Override
@@ -66,7 +65,7 @@ public class LocalUnderlay extends Underlay {
   public boolean sendMessage(String address, int port, Request request) {
     SimpleEntry<String, Integer> fullAddress = new SimpleEntry<>(address, port);
     if (!allUnderlay.containsKey(fullAddress)) {
-      log.error("[LocalUnderlay] " + address + ": Node is not found");
+      // TODO: throw illegal state exception.
       return false;
     }
 

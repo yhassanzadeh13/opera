@@ -6,22 +6,31 @@ import java.net.Socket;
 import java.net.SocketException;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import modules.logger.Logger;
+import modules.logger.OperaLogger;
 
 /**
  * Implements a routine that continuously listens a local tcp port and delegates the handling
  * of each received request to a `TCPHandler` thread.
  */
 public class TcpListener implements Runnable {
-
+  private Logger logger;
   // Owned resource by the `TCPUnderlay`.
   private final ServerSocket serverSocket;
   // Owned resource by the `TCPUnderlay`.
   private final TcpUnderlay underlay;
 
+  /**
+   * Constructor of the `TCPListener`.
+   *
+   * @param serverSocket Socket of the Listener.
+   * @param underlay   Underlay for the Listener.
+   */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of serverSocket")
   public TcpListener(ServerSocket serverSocket, TcpUnderlay underlay) {
     this.serverSocket = serverSocket;
     this.underlay = underlay;
+    this.logger = OperaLogger.getLoggerForNodeComponent(TcpListener.class.getCanonicalName(), this.underlay.getNodeId(), "tcp-listener");
   }
 
   @Override
@@ -30,16 +39,18 @@ public class TcpListener implements Runnable {
       try {
         // Wait for an incoming connection.
         Socket incomingConnection = serverSocket.accept();
+        this.logger.debug("received a new incoming connection from " + incomingConnection.getInetAddress().getHostAddress());
+
         // Handle the connection in a new thread.
         // TODO: manage the termination of the handler threads.
         new Thread(new TcpHandler(incomingConnection, underlay)).start();
       } catch (SocketException e) {
         // Once the listener socket is closed by an outside thread, this point will be reached, and
         // we will stop listening.
+        this.logger.debug("listener socket closed.");
         return;
       } catch (IOException e) {
-        System.err.println("[TCPListener] Could not acquire the incoming connection.");
-        e.printStackTrace();
+        this.logger.fatal("could not accept incoming connection.", e);
       }
     }
   }

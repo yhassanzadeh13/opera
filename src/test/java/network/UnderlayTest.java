@@ -15,6 +15,7 @@ import static utils.Fixtures.nodeListFixture;
 import metrics.NoopCollector;
 import network.local.LocalUnderlay;
 import node.Identifier;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import utils.Fixtures;
 import utils.NoopOrchestrator;
@@ -55,7 +56,6 @@ public class UnderlayTest {
   void assure(ArrayList<FixtureNode> instances) {
     CountDownLatch countDownLatch = new CountDownLatch(instances.size());
 
-
     // start all instances
     for (FixtureNode node : instances) {
       new Thread(() -> {
@@ -63,14 +63,15 @@ public class UnderlayTest {
         countDownLatch.countDown();
       }).start();
     }
+
     try {
       boolean onTime = countDownLatch.await(60, TimeUnit.SECONDS);
       assertTrue(onTime, "threads are not done on time");
 
       // sleeps for 2 seconds to make sure all messages exchanged.
       Thread.sleep(20_000);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (InterruptedException e) {
+      Assertions.fail(e);
     }
 
     // check that all nodes received threadCount - 1 messages
@@ -98,7 +99,7 @@ public class UnderlayTest {
         isReady.put(new AbstractMap.SimpleEntry<>(address, i), true);
       }
     } catch (UnknownHostException e) {
-      e.printStackTrace();
+      Assertions.fail(e);
     }
 
     for (int i = 0; i < NodeCount; i++) {

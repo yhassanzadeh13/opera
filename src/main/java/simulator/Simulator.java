@@ -2,16 +2,17 @@ package simulator;
 
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import metrics.MetricsCollector;
 import metrics.PrometheusClient;
 import metrics.opera.OperaCollector;
+import modules.logger.Logger;
+import modules.logger.OperaLogger;
 import network.MiddleLayer;
 import network.NetworkProtocol;
 import network.UnderlayFactory;
@@ -19,7 +20,6 @@ import network.local.LocalUnderlay;
 import node.BaseNode;
 import node.Identifier;
 import node.IdentifierGenerator;
-import org.apache.log4j.Logger;
 import utils.SimpleEntryComparable;
 import utils.generator.BaseGenerator;
 
@@ -30,15 +30,18 @@ import utils.generator.BaseGenerator;
  * Simulator can simulate in two ways: churn-based, time-based.
  */
 public class Simulator implements Orchestrator {
+  /**
+   * Timeout for waiting for all nodes to be ready in milliseconds.
+   */
+  private final int readyTimeoutMs = 1000;
   private static final Random rand = new Random();
-  // TODO: define looger name
-  private static final Logger log = Logger.getLogger(Simulator.class.getName());
+  private static final Logger log = OperaLogger.getLoggerForSimulator(Simulator.class.getName());
   private final ArrayList<Identifier> allId;
   private final HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses;
   private final HashMap<SimpleEntry<String, Integer>, Boolean> isReady;
   private final Factory factory;
   private final ArrayList<Identifier> offlineNodes = new ArrayList<>();
-  private final CountDownLatch count;
+  private final CountDownLatch allNodesReady;
   private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
   private final MetricsCollector metricsCollector;
   private final SimulatorMetricsCollector simulatorMetricsCollector;
@@ -63,12 +66,12 @@ public class Simulator implements Orchestrator {
     try {
       PrometheusClient.start();
     } catch (IllegalStateException e) {
-      log.fatal(e);
+      log.fatal("prometheus client failed to start", e);
     }
 
 
     // CountDownLatch for awaiting the start of the simulation until all nodes are ready
-    count = new CountDownLatch(factory.getTotalNodes());
+    allNodesReady = new CountDownLatch(factory.getTotalNodes());
 
     // initializes metrics collector
     this.metricsCollector = new OperaCollector();
@@ -78,46 +81,39 @@ public class Simulator implements Orchestrator {
   }
 
   /**
-   * getter for the simulator logger of log4j.
-   *
-   * @return the simulator logger
-   */
-  @SuppressFBWarnings(value = "MS_EXPOSE_REP", justification = "logger instance is supposed to be mutable externally")
-  public static Logger getLogger() {
-    return log;
-  }
-
-  /**
    * Generate new random identifier for the nodes.
    *
    * @param n number of nodes
    * @return ArrayList of random n ids
    */
   private ArrayList<Identifier> generateIds(int n) {
-    log.info("Generating IDs for " + n + " node..");
+    log.info("generating identifiers of {} nodes for simulation", n);
 
-    ArrayList<Identifier> tmp = new ArrayList<>();
+    ArrayList<Identifier> identifiers = new ArrayList<>();
     for (int i = 0; i < n; i++) {
-      tmp.add(IdentifierGenerator.newIdentifier());
+      Identifier id = IdentifierGenerator.newIdentifier();
+      log.info("generated identifier {} for node#{}", id, i);
+      identifiers.add(id);
     }
 
-    return tmp;
+    return identifiers;
   }
 
   private HashMap<Identifier, SimpleEntry<String, Integer>> generateFullAddressed(int n, int startPort) {
-    log.info("Generating full Addresses for " + n + " node..");
+    log.info("generating full addresses of {} nodes for simulation", n);
 
-    HashMap<Identifier, SimpleEntry<String, Integer>> tmp = new HashMap<>();
+    // TODO: introduce address object.
+    HashMap<Identifier, SimpleEntry<String, Integer>> identifierToAddress = new HashMap<>();
     try {
+      // TODO: replace with localhost.
       String address = Inet4Address.getLocalHost().getHostAddress();
       for (int i = 0; i < n; i++) {
-        tmp.put(allId.get(i), new SimpleEntry<>(address, startPort + i));
+        identifierToAddress.put(allId.get(i), new SimpleEntry<>(address, startPort + i));
       }
     } catch (UnknownHostException e) {
-      log.error("[simulator.simulator] Could not acquire the local host name during initialization.");
-      e.printStackTrace();
+      log.fatal("failed to get localhost address", e);
     }
-    return tmp;
+    return identifierToAddress;
   }
 
   /**
@@ -162,18 +158,22 @@ public class Simulator implements Orchestrator {
    * Starts the simulator and spawns the identified number of nodes.
    */
   public void start() {
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-    LocalDateTime now = LocalDateTime.now();
-    log.info("New simulation started on " + dtf.format(now));
+    log.info("simulation started");
+    boolean isAllReady = false;
 
     try {
-      count.await();
-    } catch (Exception e) {
-      log.fatal("[simulator.simulator] Count down latch could not wait " + e.getMessage());
+      isAllReady = allNodesReady.await(readyTimeoutMs, TimeUnit.MILLISECONDS);
+    } catch (InterruptedException e) {
+      log.fatal("interrupted while waiting for nodes to be ready", e);
+    }
+
+    if (!isAllReady) {
+      log.fatal("{} ms timeout on starting all nodes", readyTimeoutMs);
     }
 
     // start all nodes in new threads
     for (MiddleLayer middleNetwork : this.allMiddleLayers.values()) {
+      // TODO: this should also have a timeout.
       middleNetwork.start();
     }
   }
@@ -182,7 +182,7 @@ public class Simulator implements Orchestrator {
    * terminates the simulator and all spawned nodes.
    */
   public void terminate() {
-    log.info("Nodes will be terminated....");
+    log.info("terminating simulation");
 
     //terminating all nodes
     while (!onlineNodes.isEmpty()) {
@@ -198,13 +198,13 @@ public class Simulator implements Orchestrator {
   @Override
   public void ready(Identifier nodeId) {
     this.isReady.put(this.allFullAddresses.get(nodeId), true);
-    // log.info(nodeId + ": node is ready");
+    log.info("node {} is ready", nodeId);
 
     // start the nodes directly if the simulation is running, or wait for all nodes to be ready in case otherwise.
-    if (this.count.getCount() <= 0) {
+    if (this.allNodesReady.getCount() <= 0) {
       this.getMiddleLayer(nodeId).start();
     } else {
-      count.countDown();
+      allNodesReady.countDown();
     }
   }
 
@@ -220,7 +220,7 @@ public class Simulator implements Orchestrator {
    */
   @Override
   public void done(Identifier nodeId) {
-    log.info(getAddress(nodeId) + ": node is terminating...");
+    log.info("node {} is done", nodeId);
 
     // mark the nodes as not ready
     isReady.put(this.allFullAddresses.get(nodeId), false);
@@ -228,19 +228,13 @@ public class Simulator implements Orchestrator {
 
     // stop the nodes on a new thread
     MiddleLayer middleLayer = this.allMiddleLayers.get(fullAddress);
-    if (middleLayer == null) {
-      log.error("[simulator.simulator] cannot find node " + getAddress(nodeId));
-      log.debug("[simulator.simulator] Node " + getAddress(nodeId) + " has already been terminate");
-    } else {
+    if (middleLayer != null) {
       middleLayer.stop();
     }
-
-
     // add the offline nodes list
     this.offlineNodes.add(nodeId);
 
-    // logging
-    log.info(getAddress(nodeId) + ": node has been terminated");
+    log.info("node {} has been stopped", nodeId);
   }
 
 
@@ -252,15 +246,15 @@ public class Simulator implements Orchestrator {
    */
   public void constantSimulation(int duration) {
     this.start();
-    getLogger().info("Simulation started");
+    log.info("constant time simulation started for a lifetime of {} ms", duration);
 
     try {
       Thread.sleep(duration);
     } catch (Exception e) {
-      e.printStackTrace();
+      log.fatal("could not continue simulation", e);
     }
 
-    log.info("Simulation duration finished");
+    log.info("constant time simulation has ended, total lifetime was {} ms", duration);
 
     this.terminate();
   }
@@ -280,7 +274,7 @@ public class Simulator implements Orchestrator {
   public void churnSimulation(long lifeTime, BaseGenerator interArrivalGen, BaseGenerator sessionLengthGenerator) {
     // initialize all nodes
     this.start();
-    getLogger().info("Simulation started");
+    log.info("churn simulation started for a lifetime of {} ms", lifeTime);
 
     // hold the current online nodes, with their termination time stamp.
     this.onlineNodes = new PriorityQueue<>();
@@ -290,7 +284,7 @@ public class Simulator implements Orchestrator {
     for (Identifier id : this.allId) {
       if (isReady.get(this.allFullAddresses.get(id))) {
         int sessionLength = sessionLengthGenerator.next();
-        log.info("[simulator.simulator] new session for node " + getAddress(id) + ": " + sessionLength + " ms");
+        log.info("generated new session length of {} ms for node {}, termination at {}", id, sessionLength, time + sessionLength);
         onlineNodes.add(new SimpleEntryComparable<>(time + sessionLength, id));
         this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
       }
@@ -307,7 +301,7 @@ public class Simulator implements Orchestrator {
           // terminate the node with the nearest termination time (if the time met)
           // `done` will add the node to the offline nodes
           Identifier id = Objects.requireNonNull(onlineNodes.poll()).getValue();
-          log.info("[simulator.simulator] Deactivating node " + getAddress(id));
+          log.info("session length is done, switching node {} to offline");
           this.done(id);
         }
       }
@@ -319,7 +313,7 @@ public class Simulator implements Orchestrator {
 
         int ind = rand.nextInt(this.offlineNodes.size());
         Identifier id = this.offlineNodes.get(ind);
-        log.info("[simulator.simulator] Activating node " + getAddress(id));
+        log.info("(arrival) switching node {} to online", id);
         this.offlineNodes.remove(ind);
 
         // creat the new node in a new thread
@@ -328,23 +322,23 @@ public class Simulator implements Orchestrator {
         middleLayer.initUnderLay();
         middleLayer.create(this.allId);
 
+        // TODO: this logic has a repetition (see earlier in the code)
         // assign a termination time
         int sessionLength = sessionLengthGenerator.next();
         this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
-        log.info("[simulator.simulator] new session for node " + getAddress(id) + ": " + sessionLength + " ms");
+        log.info("generated new session length of {} ms for node {}, termination at {}", id, sessionLength, time + sessionLength);
         this.onlineNodes.add(new SimpleEntryComparable<>(System.currentTimeMillis() + sessionLength, id));
 
         // assign a next node arrival time
         interArrivalTime = interArrivalGen.next();
         this.simulatorMetricsCollector.onNewInterArrivalGenerated(interArrivalTime);
         nextArrival = System.currentTimeMillis() + interArrivalTime;
-        log.info("[simulator.simulator] next node arrival: " + nextArrival);
+        log.info("next node {} arrival {}", id, nextArrival);
       }
     }
 
-    log.info("Simulation duration finished");
+    log.info("churn simulation has ended, total lifetime was {} ms", lifeTime);
 
-    // stop the simulation.
     this.terminate();
   }
 

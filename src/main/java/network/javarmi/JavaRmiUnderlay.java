@@ -1,20 +1,20 @@
 package network.javarmi;
 
+import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ExportException;
 
 import network.Underlay;
 import network.packets.Request;
-import simulator.Simulator;
 
 
 /**
  * Java RMI connection underlay implementation.
  */
 public class JavaRmiUnderlay extends Underlay {
-
-  // Java RMI instance running at the host machine.
   JavaRmiHost host;
   private int port;
 
@@ -26,15 +26,13 @@ public class JavaRmiUnderlay extends Underlay {
    */
   public JavaRmiService remote(String fullAddress) {
     if (host == null) {
-      System.err.println("[JavaRMIUnderlay] Host does not exist.");
       return null;
     }
     JavaRmiService remote;
     try {
       remote = (JavaRmiService) Naming.lookup("//" + fullAddress + "/node");
-    } catch (Exception e) {
-      System.err.println("[JavaRMIUnderlay] Could not connect to the remote RMI server!");
-      e.printStackTrace();
+    } catch (MalformedURLException | RemoteException | NotBoundException e) {
+      // TODO: throw illegal state exception.
       return null;
     }
     return remote;
@@ -70,10 +68,8 @@ public class JavaRmiUnderlay extends Underlay {
     } catch (ExportException e) {
       port = (port + 1) % 60000; // tries another port in this range.
       return initUnderlay(port);
-
-    } catch (Exception e) {
-      System.err.println("[JavaRMIUnderlay] Error while initializing at port " + port);
-      e.printStackTrace();
+    } catch (RemoteException e) {
+      // TODO: throw illegal state exception.
       return false;
     }
 
@@ -92,22 +88,21 @@ public class JavaRmiUnderlay extends Underlay {
   @Override
   public boolean sendMessage(String address, int port, Request request) {
     if (host == null) {
-      System.err.println("[JavaRMIUnderlay] Host does not exist.");
+      // TODO: throw illegal state exception.
       return false;
     }
     // Connect to the remote adapter.
     JavaRmiService remote = remote(address + ":" + port);
     if (remote == null) {
-      System.err.println("[JavaRMIUnderlay] Could not connect to the address: " + address + ":" + port);
+      // TODO: throw illegal state exception.
       return false;
     }
     // Use the remote handler to dispatch the request.
     try {
       remote.handleRequest(request);
       return true;
-    } catch (Exception e) {
-      System.err.println("[JavaRMIUnderlay] Could not send the message.");
-      e.printStackTrace();
+    } catch (RemoteException e) {
+      // TODO: throw illegal state exception.
       return false;
     }
   }
@@ -116,14 +111,11 @@ public class JavaRmiUnderlay extends Underlay {
    * Terminates the Java RMI underlay service.
    */
   @Override
-  public boolean terminate() {
+  public void terminate() throws IllegalStateException {
     try {
       Naming.unbind("//" + getFullAddress() + "/node");
-    } catch (Exception e) {
-      Simulator.getLogger().error("[JavaRMIUnderlay] Could not terminate.");
-      System.err.println("[JavaRMIUnderlay] Could not terminate.");
-      return false;
+    } catch (RemoteException | NotBoundException | MalformedURLException e) {
+      throw new IllegalStateException("could not unbind the RMI service", e);
     }
-    return true;
   }
 }

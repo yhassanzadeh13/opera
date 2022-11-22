@@ -5,8 +5,9 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import modules.logger.Logger;
+import modules.logger.OperaLogger;
 import network.packets.Request;
-import simulator.Simulator;
 
 
 /**
@@ -17,11 +18,19 @@ public class TcpHandler implements Runnable {
   private final Socket incomingConnection;
   // tcp underlay.
   private final TcpUnderlay underlay;
+  private final Logger logger;
 
+  /**
+   * Creates a new tcp handler.
+   *
+   * @param incomingConnection the incoming tcp connection.
+   * @param underlay           the tcp underlay.
+   */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of incomingConnection")
   public TcpHandler(Socket incomingConnection, TcpUnderlay underlay) {
     this.incomingConnection = incomingConnection;
     this.underlay = underlay;
+    this.logger = OperaLogger.getLoggerForNodeComponent(TcpHandler.class.getCanonicalName(), this.underlay.getNodeId(), "tcp-handler");
   }
 
   // TODO send back an error response when necessary.
@@ -32,7 +41,7 @@ public class TcpHandler implements Runnable {
     try {
       requestStream = new ObjectInputStream(incomingConnection.getInputStream());
     } catch (IOException e) {
-      Simulator.getLogger().error("[TCPHandler] Could not acquire the streams from the connection.");
+      this.logger.fatal("could not construct the input stream from the incoming connection.", e);
       return;
     }
     // Read the request from the connection.
@@ -40,11 +49,11 @@ public class TcpHandler implements Runnable {
     try {
       request = (Request) requestStream.readObject();
       underlay.dispatchRequest(request);
-    } catch (IOException | ClassNotFoundException e) {
-      Simulator.getLogger().error("[TCPHandler] Could not read the request.");
-      Simulator.getLogger().error(e.getMessage());
-      e.printStackTrace();
-      return;
+    } catch (IOException e) {
+      this.logger.fatal("could not read the request from the incoming connection.", e);
+    } catch (ClassNotFoundException e) {
+      // TODO: this must be an IllegalStateException.
+      this.logger.fatal("could not find target class for received message", e);
     }
   }
 }

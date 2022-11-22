@@ -7,19 +7,19 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import modules.logger.Logger;
+import modules.logger.OperaLogger;
 import node.Identifier;
 import node.IdentifierGenerator;
-import simulator.Simulator;
 
 /**
  * local static variable between the nodes with a buffer size of 1
  * (any two consecutive writing on the same variable is forbidden).
  */
 public class SharedVariable {
-  // for each node ID, hold an array list of all the variables' queues ordered by the variables IDs
-
   // singleton instance
   private static SharedVariable instance = null;
+  private final Logger logger = OperaLogger.getLoggerForSimulator(SharedVariable.class.getCanonicalName());
   private final ConcurrentHashMap<Identifier, ConcurrentHashMap<Integer, ArrayDeque<SimpleEntryComparable<Identifier, Object>>>> nodeQueues;
   // for each variable ID, hold the cluster of that variable
   private final ArrayList<ArrayList<Identifier>> clusters;
@@ -63,7 +63,7 @@ public class SharedVariable {
    */
   public boolean register(String name, ArrayList<Identifier> allId) {
     if (variablesIds.containsKey(name)) {
-      Simulator.getLogger().debug("[SharedVariable] a variable with name " + name + " is already registered");
+      // TODO: throw illegal state exception
       return false;
     }
     // add cluster and assign a new ID
@@ -113,7 +113,7 @@ public class SharedVariable {
    */
   public synchronized boolean write(Identifier senderId, String name, Object variable) {
     if (!variablesIds.containsKey(name)) {
-      Simulator.getLogger().debug("[SharedVariable] Write: no variable with name " + name + " is registered");
+      // TODO: throw illegal state exception
       return false;
     }
     int variableId = variablesIds.get(name);
@@ -149,7 +149,7 @@ public class SharedVariable {
       throw new IllegalArgumentException("node identifier: " + nodeId + " does not have access to the variable with name: " + name);
     }
     if (nodeQueues.get(nodeId).get(variableId).isEmpty()) {
-      Simulator.getLogger().debug("[SharedVariable] Read: no present values for variable with name " + name);
+      logger.warn("node identifier {} does not have any value for the variable with name {}", nodeId, name);
       return null;
     }
     return nodeQueues.get(nodeId).get(variableId).poll();

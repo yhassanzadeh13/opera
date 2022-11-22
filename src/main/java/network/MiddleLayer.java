@@ -7,14 +7,14 @@ import java.util.HashMap;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import events.StopStartEvent;
 import metrics.MetricsCollector;
+import modules.logger.Logger;
+import modules.logger.OperaLogger;
 import network.latency.LatencyGenerator;
 import network.packets.Event;
 import network.packets.Request;
 import node.BaseNode;
 import node.Identifier;
-import org.apache.log4j.Logger;
 import simulator.Orchestrator;
-import simulator.Simulator;
 
 /**
  * Represents a mediator between the overlay and the underlay. The requests coming from the underlay are directed
@@ -22,8 +22,9 @@ import simulator.Simulator;
  * the overlay are either directed to the underlay or to another local overlay, and the emitted response is returned
  * to the overlay.
  */
+// TODO: rename MiddleLayer to NetworkBroker
 public class MiddleLayer {
-  private static final Logger log = Logger.getLogger(MiddleLayer.class.getName()); // todo: logger should be passed down
+  private final Logger logger;
   //TODO add bucket size to the default metrics
   private final HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses;
   private final Identifier nodeId;
@@ -44,17 +45,16 @@ public class MiddleLayer {
    * @param metricsCollector Metrics collector for the middle layer
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of allFullAddresses")
-  public MiddleLayer(Identifier nodeId,
-                     HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses, // TODO: change to an array of address info
+  public MiddleLayer(Identifier nodeId, HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses, // TODO: change to an array of address info
                      HashMap<SimpleEntry<String, Integer>, Boolean> isReady, // TODO: isReady can be removed.
-                     Orchestrator orchestrator,
-                     MetricsCollector metricsCollector) {
+                     Orchestrator orchestrator, MetricsCollector metricsCollector) throws IllegalStateException {
 
     if (orchestrator == null) {
-      log.fatal("cannot initialize simulator with a null runtime");
+      throw new IllegalArgumentException("orchestrator cannot be null");
     }
 
     this.nodeId = nodeId;
+    this.logger = OperaLogger.getLoggerForNodeComponent(MiddleLayer.class.getCanonicalName(), nodeId, "middlelayer");
     this.allFullAddresses = allFullAddresses;
     this.orchestrator = orchestrator;
     this.metricsCollector = new MiddleLayerMetricsCollector(metricsCollector);
@@ -67,6 +67,10 @@ public class MiddleLayer {
 
   public void setUnderlay(Underlay underlay) {
     this.underlay = underlay;
+  }
+
+  public Identifier getNodeId() {
+    return nodeId;
   }
 
   public BaseNode getOverlay() {
@@ -97,23 +101,19 @@ public class MiddleLayer {
     int sleepTime = this.latencyGenerator.getSimulatedLatency(nodeId, destinationId, true);
     try {
       Thread.sleep(sleepTime);
-    } catch (Exception e) {
-      Simulator.getLogger().error("[MiddleLayer] Thread failed to sleep for the simulated delay, sleep time:"
-          + sleepTime);
+    } catch (InterruptedException ex) {
+      this.logger.fatal("failed to sleep thread for the simulated delay, sleep time {}", sleepTime, ex);
     }
 
     // Bounce the request up.
     boolean success = underlay.sendMessage(destinationAddress, port, request);
-
     if (success) {
-      log.info("[MiddleLayer] " + this.getAddress(nodeId) + " : node sent an event " + event.logMessage());
+      this.logger.info("sent event to {}", destinationId);
     } else {
-      log.debug("[MiddleLayer] " + this.getAddress(nodeId) + " : node could not send an event " + event.logMessage());
+      this.logger.warn("event failed to {}", destinationId);
     }
 
-    // updates metrics
     this.metricsCollector.onMessageSent(nodeId, destinationId);
-
     return success;
   }
 
@@ -127,14 +127,10 @@ public class MiddleLayer {
    * Called by the underlay to collect the response from the overlay.
    */
   public void receive(Request request) {
-    this.metricsCollector.onMessageReceived(nodeId,
-        request.getOriginalId(),
-        request.getEvent().size(),
-        request.getSentTimeStamp());
+    this.metricsCollector.onMessageReceived(nodeId, request.getOriginalId(), request.getEvent().size(), request.getSentTimeStamp());
 
-
-    log.info("[MiddleLayer] " + this.getAddress(nodeId)
-        + " : node received an event " + request.getEvent().logMessage());
+    // TODO: add request type
+    this.logger.info("event received from {}", request.getOriginalId());
 
     // check if the event is start, stop event and handle it directly
     if (request.getEvent() instanceof StopStartEvent) {
@@ -155,7 +151,7 @@ public class MiddleLayer {
    * This method will be called once the simulator send a start event to the node
    */
   public void start() {
-    log.info("[MiddleLayer] node " + getAddress(nodeId) + " is starting");
+    this.logger.info("starting node on address {}", getAddress(nodeId));
     new Thread(() -> overlay.onStart()).start();
   }
 
@@ -165,11 +161,10 @@ public class MiddleLayer {
   public void stop() {
     new Thread(() -> {
       overlay.onStop();
-      boolean success = underlay.terminate();
-      if (success) {
-        log.info("[MiddleLayer] node " + getAddress(nodeId) + " is terminating");
-      } else {
-        log.error("[MiddleLayer] node " + getAddress(nodeId) + " could not be terminated");
+      try {
+        underlay.terminate();
+      } catch (IllegalStateException e) {
+        logger.fatal("failed to terminate the underlay", e);
       }
     }).start();
   }
@@ -178,15 +173,16 @@ public class MiddleLayer {
    * declare the node as ready (called by the overlay).
    */
   public void ready() {
-    log.info("[MiddleLayer] node " + getAddress(nodeId) + " is ready");
+    this.logger.info("node is ready and has started on {}", getAddress(nodeId));
     this.orchestrator.ready(this.nodeId);
   }
 
   /**
    * request node termination (called by the overlay).
    */
+  // TODO: this method is not used. remove it.
   public void done() {
-    log.info("[MiddleLayer] node " + getAddress(nodeId) + " requests termination");
+    logger.debug("node requests termination");
     this.orchestrator.done(this.nodeId);
   }
 
@@ -194,7 +190,7 @@ public class MiddleLayer {
    * Underlay initializer.
    */
   public void initUnderLay() {
-    log.info("[MiddleLayer] initializing the underlay for node " + getAddress(nodeId));
+    logger.info("initializing middlelayer for node {} on address {}", nodeId, getAddress(nodeId));
 
     int port = this.allFullAddresses.get(this.nodeId).getValue();
     this.underlay.initUnderlay(port);
@@ -206,7 +202,7 @@ public class MiddleLayer {
    * @param allId List of IDs of all nodes.
    */
   public void create(ArrayList<Identifier> allId) {
-    log.info("[MiddleLayer] creating node " + getAddress(nodeId));
+    logger.info("creating node {} on address {}", nodeId, getAddress(nodeId));
     new Thread(() -> overlay.onCreate(allId)).start();
   }
 }

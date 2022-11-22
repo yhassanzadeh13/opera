@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import groovy.lang.Tuple;
 import metrics.MetricsCollector;
+import modules.logger.Logger;
+import modules.logger.OperaLogger;
 import network.MiddleLayer;
 import network.packets.Event;
 import node.BaseNode;
@@ -20,6 +22,7 @@ import scenario.integrita.utils.StatusCode;
  * Integrita server implementation.
  */
 public class Server implements BaseNode {
+  private Logger logger;
   // Integrita related fields
   int index; // server's index
   int totalServers; // total number of servers
@@ -52,6 +55,7 @@ public class Server implements BaseNode {
   public Server(Identifier selfId, MiddleLayer network) {
     this.id = selfId;
     this.network = network;
+    this.logger = OperaLogger.getLoggerForNodeComponent(this.getClass().getCanonicalName(), selfId, "integrita_server");
   }
 
   /**
@@ -164,14 +168,13 @@ public class Server implements BaseNode {
 
   @Override
   public void onNewMessage(Identifier originId, Event msg) {
-    System.out.println("Sender identifier: " + originId.toString() + " message " + msg.logMessage());
+    this.logger.info("received a new message from {} with content {}", originId, msg.logMessage());
     PushResp pushResp = new PushResp(StatusCode.Accept, "Hello Back");
     network.send(originId, pushResp);
   }
 
   @Override
   public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics) {
-    Server server = new Server(selfId, network);
-    return server;
+    return new Server(selfId, network);
   }
 }

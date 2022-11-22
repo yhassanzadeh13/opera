@@ -3,13 +3,15 @@ package metrics.opera;
 import io.prometheus.client.Counter;
 import metrics.Constants;
 import metrics.CounterCollector;
+import modules.logger.Logger;
+import modules.logger.OperaLogger;
 import node.Identifier;
-import simulator.Simulator;
 
 /**
  * OperaCounter implements a wrapper for collecting counter metrics. Metrics for each node are collected separately.
  */
 public class OperaCounter extends OperaMetric implements CounterCollector {
+  private final Logger logger = OperaLogger.getLoggerForSimulator(this.getClass().getName());
 
   /**
    * Increment a metric.
@@ -55,13 +57,11 @@ public class OperaCounter extends OperaMetric implements CounterCollector {
    */
   public Counter getMetric(String name) {
     if (!collectors.containsKey(name)) {
-      Simulator.getLogger().error("[SimulatorCounter] could not find a metric with name " + name);
-      System.err.println("[SimulatorCounter] could not find a metric with name " + name);
+      logger.fatal("counter metric not found {} ", name);
       return null;
     }
     if (collectorsTypes.get(name) != Type.COUNTER) {
-      Simulator.getLogger().error("[SimulatorCounter] metric registered with the name " + name + " is not a counter");
-      System.err.println("[SimulatorCounter] metric registered with the name " + name + " is not a counter");
+      logger.fatal("metric {} is not a counter metric", name);
       return null;
     }
     return (Counter) collectors.get(name);

@@ -11,9 +11,9 @@ import node.Identifier;
  * else sends "Hello" message back to that node.
  */
 public class HelloEvent implements Event, Serializable {
-  String msg;
-  Identifier originalId;
-  Identifier targetId;
+  private String msg;
+  private Identifier originalId;
+  private Identifier targetId;
 
   /**
    * Constructor.
@@ -54,7 +54,6 @@ public class HelloEvent implements Event, Serializable {
 
   @Override
   public boolean actionPerformed(BaseNode hostNode) {
-    System.out.println(originalId + " says to " + targetId + " " + msg);
     MyNode node = (MyNode) hostNode;
     if (this.msg.equals("Hello")) {
       node.sendNewMessage("Thank You");

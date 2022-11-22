@@ -2,17 +2,14 @@ package network;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import network.packets.Request;
-import org.apache.log4j.Logger;
-import simulator.Simulator;
+import node.Identifier;
 
 /**
  * Represents the underlay layer of the simulator.
  */
 
 public abstract class Underlay {
-
-  protected static final Logger log = Logger.getLogger(Simulator.class.getName());
-  private MiddleLayer middleLayer;
+  protected MiddleLayer middleLayer; // TODO: make this final.
 
   public abstract int getPort();
 
@@ -64,8 +61,12 @@ public abstract class Underlay {
   /**
    * Terminates the node.
    *
-   * @return true iff the termination was successful.
+   * @throws IllegalStateException if it could not terminate the node.
    */
-  public abstract boolean terminate();
+  // TODO: add timeout
+  public abstract void terminate() throws IllegalStateException;
 
+  public Identifier getNodeId() {
+    return middleLayer.getNodeId();
+  }
 }
