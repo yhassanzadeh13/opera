@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import metrics.MetricsCollector;
 import metrics.PrometheusClient;
-import metrics.opera.OperaCollector;
+import metrics.opera.OperaMetricsCollector;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
 import network.MiddleLayer;
@@ -74,7 +74,7 @@ public class Simulator implements Orchestrator {
     allNodesReady = new CountDownLatch(factory.getTotalNodes());
 
     // initializes metrics collector
-    this.metricsCollector = new OperaCollector();
+    this.metricsCollector = new OperaMetricsCollector();
     this.simulatorMetricsCollector = new SimulatorMetricsCollector(this.metricsCollector);
 
     this.generateNodesInstances(networkType);

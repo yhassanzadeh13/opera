@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import metrics.opera.OperaCollector;
+import metrics.opera.OperaMetricsCollector;
 import node.Identifier;
 import node.IdentifierGenerator;
 import org.apache.commons.math3.random.JDKRandomGenerator;
@@ -28,7 +28,7 @@ class OperaGaugeTest {
 
   @BeforeEach
   void setup() {
-    metricsCollector = new OperaCollector();
+    metricsCollector = new OperaMetricsCollector();
     metricsCollector.gauge().register(
         TEST_GAUGE,
         Constants.Namespace.TEST,

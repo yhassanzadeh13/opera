@@ -1,7 +1,5 @@
 package metrics;
 
-import io.prometheus.client.Gauge;
-import io.prometheus.client.Histogram;
 import node.Identifier;
 
 /**
@@ -9,81 +7,95 @@ import node.Identifier;
  */
 public class NoopCollector implements MetricsCollector {
   @Override
-  public HistogramCollector histogram() {
+  public Histogram histogram() {
     return new NoopHistogram();
   }
 
   @Override
-  public GaugeCollector gauge() {
+  public Gauge gauge() {
     return new NoopGauge();
   }
 
   @Override
-  public CounterCollector counter() {
+  public Counter counter() {
     return new NoopCounter();
   }
 
-  static class NoopHistogram implements HistogramCollector {
-
+  static class NoopHistogram implements Histogram {
+    /**
+     * Record a new value for the histogram with a specific name and identifier.
+     *
+     * @param name  name of the metric.
+     * @param id    the node id on which the metric will be registered.
+     * @param value value by which metric is recorded.
+     */
     @Override
-    public void observe(String name, Identifier id, double v) {
-    }
+    public void observe(String name, Identifier id, double value) {
 
-    @Override
-    public Histogram get(String name) {
-      return null;
-    }
-
-    @Override
-    public void register(String name, String namespace, String subsystem, String helpMessage, double[] buckets)
-        throws IllegalArgumentException {
     }
   }
 
-  static class NoopGauge implements GaugeCollector {
-
+  static class NoopGauge implements Gauge {
+    /**
+     * Set the gauge with a specific name and identifier.
+     *
+     * @param name  name of the metric.
+     * @param id    the node id on which the metric will be registered.
+     * @param value value by which metric is set.
+     */
     @Override
-    public void register(String name, String namespace, String subsystem, String helpMessage) {
-
-    }
-
-    @Override
-    public boolean set(String name, Identifier id, double v) {
-      return false;
-    }
-
-    @Override
-    public double get(String name, Identifier id) {
-      return 0;
-    }
-
-    @Override
-    public Gauge getMetric(String name) {
-      return null;
+    public void set(String name, Identifier id, double value) {
+      // do nothing
     }
   }
 
-  static class NoopCounter implements CounterCollector {
+  static class NoopCounter implements Counter {
 
+
+    /**
+     * Increment the counter with a specific name and identifier.
+     *
+     * @param name name of the metric.
+     * @param id   the node id on which the metric will be registered.
+     */
     @Override
-    public boolean inc(String name, Identifier id, double v) {
-      return false;
+    public void increment(String name, Identifier id) {
+      // do nothing
     }
 
+    /**
+     * Decrement the counter with a specific name and identifier.
+     *
+     * @param name name of the metric.
+     * @param id   the node id on which the metric will be registered.
+     */
     @Override
-    public boolean inc(String name, Identifier id) {
-      return false;
+    public void decrement(String name, Identifier id) {
+      // do nothing
     }
 
+    /**
+     * Increment the counter with a specific name and identifier by a specific value.
+     *
+     * @param name  name of the metric.
+     * @param id    the node id on which the metric will be registered.
+     * @param value value by which metric is incremented.
+     */
     @Override
-    public double get(String name, Identifier id) {
-      return 0;
+    public void increment(String name, Identifier id, double value) {
+      // do nothing
     }
 
+    /**
+     * Decrement the counter with a specific name and identifier by a specific value.
+     *
+     * @param name  name of the metric.
+     * @param id    the node id on which the metric will be registered.
+     * @param value value by which metric is decremented.
+     */
     @Override
-    public void register(String name, String namespace, String subsystem, String helpMessage) {
-
+    public void decrement(String name, Identifier id, double value) {
+      // do nothing
     }
-
   }
 }
