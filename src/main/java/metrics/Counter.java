@@ -9,10 +9,9 @@ public interface Counter {
     /**
      * Increment the counter with a specific name and identifier.
      *
-     * @param name name of the metric.
      * @param id   the node id on which the metric will be registered.
      */
-    void increment(String name, Identifier id);
+    void increment(Identifier id);
 
     /**
      * Decrement the counter with a specific name and identifier.

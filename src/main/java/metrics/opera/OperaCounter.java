@@ -24,11 +24,10 @@ public class OperaCounter implements Counter {
   /**
    * Increment the counter with a specific name and identifier.
    *
-   * @param name name of the metric.
    * @param id   the node id on which the metric will be registered.
    */
   @Override
-  public void increment(String name, Identifier id) {
+  public void increment(Identifier id) {
     this.counter.labels(id.toString()).inc();
   }
 

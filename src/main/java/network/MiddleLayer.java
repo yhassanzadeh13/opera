@@ -127,7 +127,7 @@ public class MiddleLayer {
    * Called by the underlay to collect the response from the overlay.
    */
   public void receive(Request request) {
-    this.metricsCollector.onMessageReceived(nodeId, request.getOriginalId(), request.getEvent().size(), request.getSentTimeStamp());
+    this.metricsCollector.onMessageReceived(nodeId, request.getEvent().size(), request.getSentTimeStamp());
 
     // TODO: add request type
     this.logger.info("event received from {}", request.getOriginalId());

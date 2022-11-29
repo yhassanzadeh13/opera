@@ -33,7 +33,7 @@ public class OperaHistogram implements Histogram {
   }
 
   @Override
-  public void observe(String name, Identifier id, double value) {
+  public void observe(Identifier id, double value) {
     this.histogram.labels(id.toString()).observe(value);
   }
 }

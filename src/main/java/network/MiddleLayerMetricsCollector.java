@@ -6,7 +6,10 @@ import java.time.LocalDateTime;
 import java.util.concurrent.locks.ReentrantLock;
 
 import metrics.Constants;
-import metrics.MetricsCollector;
+import metrics.Counter;
+import metrics.Histogram;
+import metrics.opera.OperaCounter;
+import metrics.opera.OperaHistogram;
 import node.Identifier;
 
 /**
@@ -14,59 +17,28 @@ import node.Identifier;
  */
 public class MiddleLayerMetricsCollector {
   public static final String SUBSYSTEM_MIDDLELAYER = "middlelayer";
-  private static final ReentrantLock lock = new ReentrantLock();
-  private static MetricsCollector metricsCollector;
+  private final ReentrantLock lock = new ReentrantLock();
+  private final Counter messageSentTotal;
+  private Histogram propagationDelay;
+  private Histogram receivedMessageSize;
+  private Histogram sentMessageSize;
+  private Counter messageReceivedTotal;
 
   /**
    * Atomically initiates metric collector for middlelayer exactly once.
-   *
-   * @param metricsCollector root metric collector.
    */
-  public MiddleLayerMetricsCollector(MetricsCollector metricsCollector) {
-    if (!lock.tryLock()) {
-      // another thread is initiating
-      return;
-    }
-
-    if (MiddleLayerMetricsCollector.metricsCollector != null) {
-      // already initialized
-      lock.unlock();
-      return;
-    }
-
-    MiddleLayerMetricsCollector.metricsCollector = metricsCollector;
-
+  public MiddleLayerMetricsCollector() {
     // registers metrics
     // TODO: add exception handling
     // TODO: expose metrics into middleware collector.
-    MiddleLayerMetricsCollector.metricsCollector.histogram().register(
-        Name.PROPAGATION_DELAY,
-        Constants.Namespace.NETWORK,
-        SUBSYSTEM_MIDDLELAYER,
-        HelpMsg.PROPAGATION_DELAY,
-        Constants.Histogram.DEFAULT_HISTOGRAM);
+    this.propagationDelay = new OperaHistogram(Name.PROPAGATION_DELAY, Constants.Namespace.NETWORK, SUBSYSTEM_MIDDLELAYER, HelpMsg.PROPAGATION_DELAY, Constants.Histogram.DEFAULT_HISTOGRAM);
 
     //TODO: decouple this into sent and received bucket sizes.
-    MiddleLayerMetricsCollector.metricsCollector.histogram().register(
-        Name.PACKET_SIZE,
-        Constants.Namespace.NETWORK,
-        SUBSYSTEM_MIDDLELAYER,
-        HelpMsg.PACKET_SIZE,
-        Constants.Histogram.DEFAULT_HISTOGRAM);
+    this.receivedMessageSize = new OperaHistogram(Name.RECEIVED_MESSAGE_SIZE, Constants.Namespace.NETWORK, SUBSYSTEM_MIDDLELAYER, HelpMsg.RECEIVED_MESSAGE_SIZE, Constants.Histogram.DEFAULT_HISTOGRAM);
 
-    MiddleLayerMetricsCollector.metricsCollector.counter().register(
-        Name.MESSAGE_SENT_TOTAL,
-        Constants.Namespace.NETWORK,
-        SUBSYSTEM_MIDDLELAYER,
-        HelpMsg.MESSAGE_SENT_TOTAL);
+    this.messageSentTotal = new OperaCounter(Name.MESSAGE_SENT_TOTAL, Constants.Namespace.NETWORK, SUBSYSTEM_MIDDLELAYER, HelpMsg.MESSAGE_SENT_TOTAL);
 
-    MiddleLayerMetricsCollector.metricsCollector.counter().register(
-        Name.MESSAGE_RECEIVED_TOTAL,
-        Constants.Namespace.NETWORK,
-        SUBSYSTEM_MIDDLELAYER,
-        HelpMsg.MESSAGE_RECEIVED_TOTAL);
 
-    lock.unlock();
   }
 
   /**
@@ -75,19 +47,42 @@ public class MiddleLayerMetricsCollector {
    * It also records size of the message in bytes.
    *
    * @param receiverId identifier of receiver.
-   * @param senderId   identifier of sender.
    * @param size       size of message in bytes.
    */
-  public void onMessageReceived(Identifier receiverId, Identifier senderId, int size, Timestamp sentTimeStamp) {
-    MiddleLayerMetricsCollector.metricsCollector.counter().inc(Name.MESSAGE_RECEIVED_TOTAL, receiverId);
-    LocalDateTime sentTime = sentTimeStamp.toLocalDateTime();
-    LocalDateTime receivedTime = LocalDateTime.now();
-    Duration propagationDelay = Duration.between(sentTime, receivedTime);
+  public void onMessageReceived(Identifier receiverId, int size, Timestamp sentTimeStamp) {
+    if (this.messageReceivedTotal == null) {
+      // register the metric if it is not registered yet.
+      try {
+        this.lock.lock();
+        this.messageReceivedTotal = new OperaCounter(Name.MESSAGE_RECEIVED_TOTAL, Constants.Namespace.NETWORK, SUBSYSTEM_MIDDLELAYER, HelpMsg.MESSAGE_RECEIVED_TOTAL);
+      } finally {
+        this.lock.unlock();
+      }
+    }
 
-    MiddleLayerMetricsCollector.metricsCollector.histogram().observe(Name.PROPAGATION_DELAY,
-        receiverId,
-        propagationDelay.toMillis());
-    MiddleLayerMetricsCollector.metricsCollector.histogram().observe(Name.PACKET_SIZE, senderId, size);
+    if (this.propagationDelay == null) {
+      // register the metric if it is not registered yet.
+      try {
+        this.lock.lock();
+        this.propagationDelay = new OperaHistogram(Name.PROPAGATION_DELAY, Constants.Namespace.NETWORK, SUBSYSTEM_MIDDLELAYER, HelpMsg.PROPAGATION_DELAY, Constants.Histogram.DEFAULT_HISTOGRAM);
+      } finally {
+        this.lock.unlock();
+      }
+    }
+
+    if (this.receivedMessageSize == null) {
+      // register the metric if it is not registered yet.
+      try {
+        this.lock.lock();
+        this.receivedMessageSize = new OperaHistogram(Name.RECEIVED_MESSAGE_SIZE, Constants.Namespace.NETWORK, SUBSYSTEM_MIDDLELAYER, HelpMsg.RECEIVED_MESSAGE_SIZE, Constants.Histogram.DEFAULT_HISTOGRAM);
+      } finally {
+        this.lock.unlock();
+      }
+    }
+
+    this.messageReceivedTotal.increment(receiverId);
+    this.propagationDelay.observe(receiverId, Duration.between(sentTimeStamp.toLocalDateTime(), LocalDateTime.now()).toMillis());
+    this.receivedMessageSize.observe(receiverId, size);
   }
 
   /**
@@ -106,14 +101,18 @@ public class MiddleLayerMetricsCollector {
     public static final String PROPAGATION_DELAY = "propagation_delay";
     public static final String MESSAGE_SENT_TOTAL = "message_sent_total";
     public static final String MESSAGE_RECEIVED_TOTAL = "message_received_total";
-    public static final String PACKET_SIZE = "packet_size";
+    public static final String RECEIVED_MESSAGE_SIZE = "received_message_size";
+
+    public static final String SENT_MESSAGE_SIZE = "sent_message_size";
   }
 
   private static class HelpMsg {
     public static final String PROPAGATION_DELAY = "inter-node network.latency";
     public static final String MESSAGE_SENT_TOTAL = "total messages sent by a node";
     public static final String MESSAGE_RECEIVED_TOTAL = "total messages received by a node";
-    public static final String PACKET_SIZE = "size of exchanged packet size";
+    public static final String RECEIVED_MESSAGE_SIZE = "size of received message by a node";
+
+    public static final String SENT_MESSAGE_SIZE = "size of sent message by a node";
   }
 
 }

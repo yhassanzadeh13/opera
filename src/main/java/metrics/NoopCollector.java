@@ -25,12 +25,11 @@ public class NoopCollector implements MetricsCollector {
     /**
      * Record a new value for the histogram with a specific name and identifier.
      *
-     * @param name  name of the metric.
      * @param id    the node id on which the metric will be registered.
      * @param value value by which metric is recorded.
      */
     @Override
-    public void observe(String name, Identifier id, double value) {
+    public void observe(Identifier id, double value) {
 
     }
   }
@@ -55,11 +54,10 @@ public class NoopCollector implements MetricsCollector {
     /**
      * Increment the counter with a specific name and identifier.
      *
-     * @param name name of the metric.
      * @param id   the node id on which the metric will be registered.
      */
     @Override
-    public void increment(String name, Identifier id) {
+    public void increment(Identifier id) {
       // do nothing
     }
 
