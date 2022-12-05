@@ -30,7 +30,7 @@ public class MiddleLayer {
   private final Identifier nodeId;
   // TODO : make the communication between the nodes and the simulator (the master node) through the network
   private final Orchestrator orchestrator;
-  private final MiddleLayerMetricsCollector metricsCollector;
+  private final MiddlewareCollector metricsCollector;
   private final LatencyGenerator latencyGenerator;
   private Underlay underlay;
   private BaseNode overlay;
@@ -57,7 +57,7 @@ public class MiddleLayer {
     this.logger = OperaLogger.getLoggerForNodeComponent(MiddleLayer.class.getCanonicalName(), nodeId, "middlelayer");
     this.allFullAddresses = allFullAddresses;
     this.orchestrator = orchestrator;
-    this.metricsCollector = new MiddleLayerMetricsCollector(metricsCollector);
+    this.metricsCollector = OperaMiddlewareCollector.getInstance();
     this.latencyGenerator = new LatencyGenerator();
   }
 
@@ -110,10 +110,10 @@ public class MiddleLayer {
     if (success) {
       this.logger.info("sent event to {}", destinationId);
     } else {
-      this.logger.warn("event failed to {}", destinationId);
+      this.logger.warn("failed to send event to {}", destinationId);
     }
 
-    this.metricsCollector.onMessageSent(nodeId, destinationId);
+    this.metricsCollector.onMessageSent(nodeId, event.size());
     return success;
   }
 

@@ -3,7 +3,6 @@ package network;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.concurrent.locks.ReentrantLock;
 
 import metrics.Constants;
 import metrics.Counter;
@@ -14,10 +13,10 @@ import node.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Encapsulates metrics collectors for middlelayer of network.
+ * Encapsulates metrics collectors for network.
  */
 // TODO: rename to middleware.
-public class MiddleLayerMetricsCollector {
+public class MiddlewareCollector {
   public final String SUBSYSTEM_MIDDLELAYER = "middlelayer";
   private final Histogram propagationDelay;
   private final Histogram receivedMessageSize;
@@ -29,7 +28,7 @@ public class MiddleLayerMetricsCollector {
   /**
    * Atomically initiates metric collector for middlelayer exactly once.
    */
-  private MiddleLayerMetricsCollector() {
+  public MiddlewareCollector() {
     // registers metrics
     // TODO: add exception handling
     // TODO: expose metrics into middleware collector.
@@ -65,13 +64,15 @@ public class MiddleLayerMetricsCollector {
 
   /**
    * onMessageSent is called whenever a new message is sent by a node.
-   * It increments the number of messages sent, as well as starts a timer for propagation delay.
+   * It increments the number of messages sent.
+   * It also records size of the message in bytes.
    *
    * @param senderId   identifier of sender.
-   * @param receiverId identifier of receiver.
+   * @param size       size of message in bytes.
    */
-  public void onMessageSent(Identifier senderId, Identifier receiverId) {
+  public void onMessageSent(Identifier senderId, int size) {
     this.messageSentTotal.increment(senderId);
+    this.sentMessageSize.observe(senderId, size);
   }
 
   private static class Name {
@@ -79,7 +80,6 @@ public class MiddleLayerMetricsCollector {
     public static final String MESSAGE_SENT_TOTAL = "message_sent_total";
     public static final String MESSAGE_RECEIVED_TOTAL = "message_received_total";
     public static final String RECEIVED_MESSAGE_SIZE = "received_message_size";
-
     public static final String SENT_MESSAGE_SIZE = "sent_message_size";
   }
 
