@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import node.Identifier;
 
 /**
@@ -20,6 +21,7 @@ public class BlockInventory {
     this.lock = new ReentrantLock();
   }
 
+  @SuppressFBWarnings(value = " MS_EXPOSE_REP", justification = "instance is exposed externally")
   public static BlockInventory getInstance() {
     return instance;
   }

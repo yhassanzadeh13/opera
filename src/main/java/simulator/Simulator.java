@@ -52,8 +52,7 @@ public class Simulator implements Orchestrator {
    * @param factory     factory object to create nodes based on inventory.
    * @param networkType the type of simulated communication protocol(**tcp**, **javarmi**, **udp**, and **mockNetwork*)
    */
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification =
-      "it is meant to access externally mutable object, " + "factory")
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "factory is externally mutable")
   public Simulator(Factory factory, NetworkProtocol networkType) {
     this.factory = factory;
     this.isReady = new HashMap<>();
