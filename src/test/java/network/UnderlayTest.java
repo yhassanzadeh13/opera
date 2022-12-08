@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static utils.Fixtures.nodeListFixture;
 
-import metrics.NoopCollector;
 import network.local.LocalUnderlay;
 import node.Identifier;
 import org.junit.jupiter.api.Assertions;
@@ -107,11 +106,7 @@ public class UnderlayTest {
       String address = allFullAddresses.get(id).getKey();
       int port = allFullAddresses.get(id).getValue();
 
-      MiddleLayer middleLayer = new MiddleLayer(id,
-          allFullAddresses,
-          isReady,
-          new NoopOrchestrator(),
-          new NoopCollector());
+      MiddleLayer middleLayer = new MiddleLayer(id, allFullAddresses, new NoopOrchestrator());
       FixtureNode node = new FixtureNode(id, allId, middleLayer);
       middleLayer.setOverlay(node);
 

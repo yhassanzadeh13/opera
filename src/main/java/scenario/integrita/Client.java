@@ -3,7 +3,6 @@ package scenario.integrita;
 import java.util.ArrayList;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import metrics.MetricsCollector;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
 import network.MiddleLayer;
@@ -71,7 +70,7 @@ public class Client extends User implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics) {
+  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network) {
     return new Client(selfId, network);
   }
 }

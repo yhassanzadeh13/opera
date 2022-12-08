@@ -3,7 +3,6 @@ package examples.helloservers;
 import java.util.ArrayList;
 import java.util.Random;
 
-import metrics.MetricsCollector;
 import network.MiddleLayer;
 import network.packets.Event;
 import node.BaseNode;
@@ -13,13 +12,13 @@ import node.Identifier;
  * MyNode is a basenode to be fixture node for the hello servers simulation.
  */
 public class MyNode implements BaseNode {
+  private static final Random rng = new Random();
   private Identifier selfId;
   private ArrayList<Identifier> allId;
   private MiddleLayer network;
-  private static final Random rng = new Random();
 
   // TODO: enable metrics
-  MyNode(Identifier selfId, MiddleLayer network, MetricsCollector metricsCollector) {
+  MyNode(Identifier selfId, MiddleLayer network) {
     this.selfId = selfId;
     this.network = network;
   }
@@ -69,7 +68,7 @@ public class MyNode implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network, MetricsCollector metricsCollector) {
-    return new MyNode(selfId, network, metricsCollector);
+  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network) {
+    return new MyNode(selfId, network);
   }
 }

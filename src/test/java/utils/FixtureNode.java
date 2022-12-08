@@ -2,7 +2,6 @@ package utils;
 
 import java.util.ArrayList;
 
-import metrics.MetricsCollector;
 import network.MiddleLayer;
 import network.packets.Event;
 import node.BaseNode;
@@ -42,7 +41,7 @@ public class FixtureNode implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network, MetricsCollector metricsCollector) {
+  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network) {
     return new FixtureNode(selfId, network);
   }
 

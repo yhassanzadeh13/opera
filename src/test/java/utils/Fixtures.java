@@ -4,7 +4,6 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import metrics.NoopCollector;
 import network.FixtureNode;
 import network.*;
 import node.Identifier;
@@ -43,11 +42,7 @@ public class Fixtures {
     for (int i = 0; i < count; i++) {
       Identifier id = allId.get(i);
 
-      MiddleLayer middleLayer = new MiddleLayer(id,
-          allFullAddresses,
-          isReady,
-          new NoopOrchestrator(),
-          new NoopCollector());
+      MiddleLayer middleLayer = new MiddleLayer(id, allFullAddresses, new NoopOrchestrator());
 
       network.FixtureNode node = new FixtureNode(id, allId, middleLayer);
       middleLayer.setOverlay(node);

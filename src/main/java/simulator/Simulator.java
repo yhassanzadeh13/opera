@@ -8,9 +8,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import metrics.MetricsCollector;
 import metrics.PrometheusClient;
-import metrics.opera.OperaCollector;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
 import network.MiddleLayer;
@@ -30,12 +28,12 @@ import utils.generator.BaseGenerator;
  * Simulator can simulate in two ways: churn-based, time-based.
  */
 public class Simulator implements Orchestrator {
+  private static final Random rand = new Random();
+  private static final Logger log = OperaLogger.getLoggerForSimulator(Simulator.class.getName());
   /**
    * Timeout for waiting for all nodes to be ready in milliseconds.
    */
   private final int readyTimeoutMs = 1000;
-  private static final Random rand = new Random();
-  private static final Logger log = OperaLogger.getLoggerForSimulator(Simulator.class.getName());
   private final ArrayList<Identifier> allId;
   private final HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses;
   private final HashMap<SimpleEntry<String, Integer>, Boolean> isReady;
@@ -43,7 +41,6 @@ public class Simulator implements Orchestrator {
   private final ArrayList<Identifier> offlineNodes = new ArrayList<>();
   private final CountDownLatch allNodesReady;
   private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
-  private final MetricsCollector metricsCollector;
   private final SimulatorMetricsCollector simulatorMetricsCollector;
 
   private HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers;
@@ -55,7 +52,7 @@ public class Simulator implements Orchestrator {
    * @param factory     factory object to create nodes based on inventory.
    * @param networkType the type of simulated communication protocol(**tcp**, **javarmi**, **udp**, and **mockNetwork*)
    */
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to access externally mutable object, factory")
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "factory is externally mutable")
   public Simulator(Factory factory, NetworkProtocol networkType) {
     this.factory = factory;
     this.isReady = new HashMap<>();
@@ -72,11 +69,7 @@ public class Simulator implements Orchestrator {
 
     // CountDownLatch for awaiting the start of the simulation until all nodes are ready
     allNodesReady = new CountDownLatch(factory.getTotalNodes());
-
-    // initializes metrics collector
-    this.metricsCollector = new OperaCollector();
-    this.simulatorMetricsCollector = new SimulatorMetricsCollector(this.metricsCollector);
-
+    this.simulatorMetricsCollector = new SimulatorMetricsCollector();
     this.generateNodesInstances(networkType);
   }
 
@@ -129,9 +122,9 @@ public class Simulator implements Orchestrator {
         Identifier id = allId.get(globalIndex++);
 
         isReady.put(this.allFullAddresses.get(id), false);
-        MiddleLayer middleLayer = new MiddleLayer(id, this.allFullAddresses, isReady, this, this.metricsCollector);
+        MiddleLayer middleLayer = new MiddleLayer(id, this.allFullAddresses, this);
 
-        BaseNode node = r.getBaseNode().newInstance(id, r.getNameSpace(), middleLayer, this.metricsCollector);
+        BaseNode node = r.getBaseNode().newInstance(id, r.getNameSpace(), middleLayer);
         middleLayer.setOverlay(node);
         this.allMiddleLayers.put(this.allFullAddresses.get(id), middleLayer);
       }
@@ -284,7 +277,10 @@ public class Simulator implements Orchestrator {
     for (Identifier id : this.allId) {
       if (isReady.get(this.allFullAddresses.get(id))) {
         int sessionLength = sessionLengthGenerator.next();
-        log.info("generated new session length of {} ms for node {}, termination at {}", id, sessionLength, time + sessionLength);
+        log.info("generated new session length of {} ms for node {}, termination at {}",
+            id,
+            sessionLength,
+            time + sessionLength);
         onlineNodes.add(new SimpleEntryComparable<>(time + sessionLength, id));
         this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
       }
@@ -326,7 +322,10 @@ public class Simulator implements Orchestrator {
         // assign a termination time
         int sessionLength = sessionLengthGenerator.next();
         this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
-        log.info("generated new session length of {} ms for node {}, termination at {}", id, sessionLength, time + sessionLength);
+        log.info("generated new session length of {} ms for node {}, termination at {}",
+            id,
+            sessionLength,
+            time + sessionLength);
         this.onlineNodes.add(new SimpleEntryComparable<>(System.currentTimeMillis() + sessionLength, id));
 
         // assign a next node arrival time

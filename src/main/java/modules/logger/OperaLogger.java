@@ -31,6 +31,18 @@ public class OperaLogger {
    * @param className class name for which a logger is created.
    * @return logger for the class.
    */
+  public static Logger getLoggerForNodeComponent(String className, Identifier nodeId) {
+    Logger logger = new Logger(LoggerFactory.getLogger(LOGGER_NAME + "." + className));
+    logger.addPrefix("node_id: " + nodeId.toString());
+    return logger;
+  }
+
+  /**
+   * Creates a logger for the given class name prefixed by the logger name.
+   *
+   * @param className class name for which a logger is created.
+   * @return logger for the class.
+   */
   public static Logger getLoggerForSimulator(String className) {
     Logger logger = new Logger(LoggerFactory.getLogger(LOGGER_NAME + "." + className));
     logger.addPrefix("simulator-");

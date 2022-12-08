@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import events.StopStartEvent;
-import metrics.MetricsCollector;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
 import network.latency.LatencyGenerator;
@@ -30,7 +29,7 @@ public class MiddleLayer {
   private final Identifier nodeId;
   // TODO : make the communication between the nodes and the simulator (the master node) through the network
   private final Orchestrator orchestrator;
-  private final MiddleLayerMetricsCollector metricsCollector;
+  private final MiddlewareCollector metricsCollector;
   private final LatencyGenerator latencyGenerator;
   private Underlay underlay;
   private BaseNode overlay;
@@ -40,14 +39,11 @@ public class MiddleLayer {
    *
    * @param nodeId           identifier of the node
    * @param allFullAddresses Hashmap of the all addresses
-   * @param isReady          Hashmap of whether nodes are ready or not
    * @param orchestrator     Orchestrator for the middle layer
-   * @param metricsCollector Metrics collector for the middle layer
    */
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of allFullAddresses")
-  public MiddleLayer(Identifier nodeId, HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses, // TODO: change to an array of address info
-                     HashMap<SimpleEntry<String, Integer>, Boolean> isReady, // TODO: isReady can be removed.
-                     Orchestrator orchestrator, MetricsCollector metricsCollector) throws IllegalStateException {
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "allFullAddresses is externally mutable")
+  public MiddleLayer(Identifier nodeId, HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses,
+                     Orchestrator orchestrator) throws IllegalStateException {
 
     if (orchestrator == null) {
       throw new IllegalArgumentException("orchestrator cannot be null");
@@ -57,7 +53,7 @@ public class MiddleLayer {
     this.logger = OperaLogger.getLoggerForNodeComponent(MiddleLayer.class.getCanonicalName(), nodeId, "middlelayer");
     this.allFullAddresses = allFullAddresses;
     this.orchestrator = orchestrator;
-    this.metricsCollector = new MiddleLayerMetricsCollector(metricsCollector);
+    this.metricsCollector = OperaMiddlewareCollector.getInstance();
     this.latencyGenerator = new LatencyGenerator();
   }
 
@@ -110,10 +106,10 @@ public class MiddleLayer {
     if (success) {
       this.logger.info("sent event to {}", destinationId);
     } else {
-      this.logger.warn("event failed to {}", destinationId);
+      this.logger.warn("failed to send event to {}", destinationId);
     }
 
-    this.metricsCollector.onMessageSent(nodeId, destinationId);
+    this.metricsCollector.onMessageSent(nodeId, event.size());
     return success;
   }
 
@@ -127,7 +123,7 @@ public class MiddleLayer {
    * Called by the underlay to collect the response from the overlay.
    */
   public void receive(Request request) {
-    this.metricsCollector.onMessageReceived(nodeId, request.getOriginalId(), request.getEvent().size(), request.getSentTimeStamp());
+    this.metricsCollector.onMessageReceived(nodeId, request.getEvent().size(), request.getSentTimeStamp());
 
     // TODO: add request type
     this.logger.info("event received from {}", request.getOriginalId());
