@@ -21,7 +21,7 @@ public class BlockInventory {
     this.lock = new ReentrantLock();
   }
 
-  @SuppressFBWarnings(value = " MS_EXPOSE_REP", justification = "instance is exposed externally")
+  @SuppressFBWarnings(value = "MS_EXPOSE_REP", justification = "instance is exposed externally")
   public static BlockInventory getInstance() {
     return instance;
   }
