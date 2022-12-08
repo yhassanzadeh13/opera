@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
  */
 // TODO: rename to middleware.
 public class MiddlewareCollector {
-  public final String SUBSYSTEM_MIDDLELAYER = "middlelayer";
+  public static final String Subsystem_Middleware = "middleware";
   private final Histogram propagationDelay;
   private final Histogram receivedMessageSize;
   private final Histogram sentMessageSize;
@@ -29,22 +29,29 @@ public class MiddlewareCollector {
    * Atomically initiates metric collector for middlelayer exactly once.
    */
   public MiddlewareCollector() {
-    // registers metrics
-    // TODO: add exception handling
-    // TODO: expose metrics into middleware collector.
-    propagationDelay = new OperaHistogram(Name.PROPAGATION_DELAY, Constants.Namespace.NETWORK, SUBSYSTEM_MIDDLELAYER,
-        HelpMsg.PROPAGATION_DELAY, Constants.Histogram.DEFAULT_HISTOGRAM);
-
-    //TODO: decouple this into sent and received bucket sizes.
-    receivedMessageSize = new OperaHistogram(Name.RECEIVED_MESSAGE_SIZE, Constants.Namespace.NETWORK,
-        SUBSYSTEM_MIDDLELAYER, HelpMsg.RECEIVED_MESSAGE_SIZE, Constants.Histogram.DEFAULT_HISTOGRAM);
-    sentMessageSize = new OperaHistogram(Name.SENT_MESSAGE_SIZE, Constants.Namespace.NETWORK, SUBSYSTEM_MIDDLELAYER,
-        HelpMsg.SENT_MESSAGE_SIZE, Constants.Histogram.DEFAULT_HISTOGRAM);
-
-    messageReceivedTotal = new OperaCounter(Name.MESSAGE_RECEIVED_TOTAL, Constants.Namespace.NETWORK,
-        SUBSYSTEM_MIDDLELAYER, HelpMsg.MESSAGE_RECEIVED_TOTAL);
-    messageSentTotal = new OperaCounter(Name.MESSAGE_SENT_TOTAL, Constants.Namespace.NETWORK, SUBSYSTEM_MIDDLELAYER,
-        HelpMsg.MESSAGE_SENT_TOTAL);
+    this.propagationDelay = new OperaHistogram(Name.PROPAGATION_DELAY,
+        Constants.Namespace.NETWORK, Subsystem_Middleware,
+        HelpMsg.PROPAGATION_DELAY,
+        Constants.Histogram.DEFAULT_HISTOGRAM,
+        Constants.IDENTIFIER);
+    this.receivedMessageSize = new OperaHistogram(Name.RECEIVED_MESSAGE_SIZE,
+        Constants.Namespace.NETWORK, Subsystem_Middleware,
+        HelpMsg.RECEIVED_MESSAGE_SIZE,
+        Constants.Histogram.DEFAULT_HISTOGRAM,
+        Constants.IDENTIFIER);
+    this.sentMessageSize = new OperaHistogram(Name.SENT_MESSAGE_SIZE,
+        Constants.Namespace.NETWORK, Subsystem_Middleware,
+        HelpMsg.SENT_MESSAGE_SIZE,
+        Constants.Histogram.DEFAULT_HISTOGRAM,
+        Constants.IDENTIFIER);
+    this.messageReceivedTotal = new OperaCounter(Name.MESSAGE_RECEIVED_TOTAL,
+        Constants.Namespace.NETWORK, Subsystem_Middleware,
+        HelpMsg.MESSAGE_RECEIVED_TOTAL,
+        Constants.IDENTIFIER);
+    this.messageSentTotal = new OperaCounter(Name.MESSAGE_SENT_TOTAL,
+        Constants.Namespace.NETWORK, Subsystem_Middleware,
+        HelpMsg.MESSAGE_SENT_TOTAL,
+        Constants.IDENTIFIER);
   }
 
   /**
@@ -67,8 +74,8 @@ public class MiddlewareCollector {
    * It increments the number of messages sent.
    * It also records size of the message in bytes.
    *
-   * @param senderId   identifier of sender.
-   * @param size       size of message in bytes.
+   * @param senderId identifier of sender.
+   * @param size     size of message in bytes.
    */
   public void onMessageSent(Identifier senderId, int size) {
     this.messageSentTotal.increment(senderId);

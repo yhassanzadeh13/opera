@@ -2,9 +2,8 @@ package simulator;
 
 
 import metrics.Constants;
-import metrics.MetricsCollector;
+import metrics.opera.OperaHistogram;
 import node.Identifier;
-import node.IdentifierGenerator;
 
 /**
  * SimulatorMetricsCollector is the metrics collector for the core simulator's functionalities.
@@ -13,26 +12,20 @@ public class SimulatorMetricsCollector {
   private static final String SUBSYSTEM_CHURN = "churn";
   private static final String NAMESPACE_SIMULATOR = "simulator";
 
-  private static final Identifier collectorID = IdentifierGenerator.newIdentifier();
-  private final MetricsCollector metricsCollector;
+  private final OperaHistogram sessionLengthHistogram;
+  private final OperaHistogram interarrivalTimeHistogram;
 
   /**
    * Creates a metric collector for core simulator functionalities.
-   *
-   * @param metricsCollector root metric collector of opera.
    */
-  public SimulatorMetricsCollector(MetricsCollector metricsCollector) {
-    this.metricsCollector = metricsCollector;
-
-    this.metricsCollector.histogram().register(
-        Name.SESSION_LENGTH,
+  public SimulatorMetricsCollector() {
+    this.sessionLengthHistogram = new OperaHistogram(Name.SESSION_LENGTH,
         NAMESPACE_SIMULATOR,
         SUBSYSTEM_CHURN,
         HelpMsg.SESSION_LENGTH,
-        Constants.Histogram.DEFAULT_HISTOGRAM);
-
-    this.metricsCollector.histogram().register(
-        Name.INTER_ARRIVAL,
+        Constants.Histogram.DEFAULT_HISTOGRAM,
+        Constants.IDENTIFIER);
+    this.interarrivalTimeHistogram = new OperaHistogram(Name.INTER_ARRIVAL,
         NAMESPACE_SIMULATOR,
         SUBSYSTEM_CHURN,
         HelpMsg.INTER_ARRIVAL,
@@ -47,7 +40,7 @@ public class SimulatorMetricsCollector {
    * @param sessionLength its session length.
    */
   public void onNewSessionLengthGenerated(Identifier id, int sessionLength) {
-    this.metricsCollector.histogram().observe(Name.SESSION_LENGTH, id, sessionLength);
+    this.sessionLengthHistogram.observe(id, sessionLength);
   }
 
   /**
@@ -60,7 +53,7 @@ public class SimulatorMetricsCollector {
   public void onNewInterArrivalGenerated(int interArrival) {
     // Since inter arrival time is a global parameter, we record it by the collector id which
     // is a global identifier.
-    this.metricsCollector.histogram().observe(Name.INTER_ARRIVAL, collectorID, interArrival);
+    this.interarrivalTimeHistogram.observe(interArrival);
   }
 
   private static class Name {

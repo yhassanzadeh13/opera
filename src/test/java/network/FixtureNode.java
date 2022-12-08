@@ -3,7 +3,6 @@ package network;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import metrics.MetricsCollector;
 import network.packets.Event;
 import node.BaseNode;
 import node.Identifier;
@@ -43,7 +42,7 @@ public class FixtureNode implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics) {
+  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network) {
     return null;
   }
 

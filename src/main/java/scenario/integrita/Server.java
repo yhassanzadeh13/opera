@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import groovy.lang.Tuple;
-import metrics.MetricsCollector;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
 import network.MiddleLayer;
@@ -174,7 +173,7 @@ public class Server implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics) {
+  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network) {
     return new Server(selfId, network);
   }
 }

@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import events.StopStartEvent;
-import metrics.MetricsCollector;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
 import network.latency.LatencyGenerator;
@@ -40,14 +39,11 @@ public class MiddleLayer {
    *
    * @param nodeId           identifier of the node
    * @param allFullAddresses Hashmap of the all addresses
-   * @param isReady          Hashmap of whether nodes are ready or not
    * @param orchestrator     Orchestrator for the middle layer
-   * @param metricsCollector Metrics collector for the middle layer
    */
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of allFullAddresses")
-  public MiddleLayer(Identifier nodeId, HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses, // TODO: change to an array of address info
-                     HashMap<SimpleEntry<String, Integer>, Boolean> isReady, // TODO: isReady can be removed.
-                     Orchestrator orchestrator, MetricsCollector metricsCollector) throws IllegalStateException {
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "allFullAddresses is externally mutable")
+  public MiddleLayer(Identifier nodeId, HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses,
+                     Orchestrator orchestrator) throws IllegalStateException {
 
     if (orchestrator == null) {
       throw new IllegalArgumentException("orchestrator cannot be null");

@@ -2,7 +2,6 @@ package node;
 
 import java.util.ArrayList;
 
-import metrics.MetricsCollector;
 import network.MiddleLayer;
 import network.packets.Event;
 
@@ -46,9 +45,8 @@ public interface BaseNode {
    * @param selfId    the ID of the new node
    * @param nameSpace string tag to virtually group the nodes (with identical tags)
    * @param network   communication network for the new node.
-   * @param metrics   metrics collector for the node.
    * @return a new instance of the special node class.
    */
-  BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network, MetricsCollector metrics);
+  BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network);
 
 }
