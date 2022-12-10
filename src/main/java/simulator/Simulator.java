@@ -8,7 +8,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import metrics.PrometheusClient;
+import metrics.integration.MetricServer;
+import metrics.integration.MetricsNetwork;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
 import network.MiddleLayer;
@@ -42,6 +43,8 @@ public class Simulator implements Orchestrator {
   private final CountDownLatch allNodesReady;
   private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
   private final SimulatorMetricsCollector simulatorMetricsCollector;
+  private final MetricsNetwork metricsNetwork;
+  private final MetricServer metricServer;
 
   private HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers;
   private PriorityQueue<SimpleEntryComparable<Long, Identifier>> onlineNodes = new PriorityQueue<>();
@@ -59,12 +62,14 @@ public class Simulator implements Orchestrator {
     int startPort = 2000;
     this.allId = generateIds(factory.getTotalNodes());
     this.allFullAddresses = generateFullAddressed(factory.getTotalNodes(), startPort + 1);
+    this.metricsNetwork = new MetricsNetwork();
+    this.metricServer = new MetricServer();
 
-    try {
-      PrometheusClient.start();
-    } catch (IllegalStateException e) {
-      log.fatal("prometheus client failed to start", e);
-    }
+//    try {
+//      PrometheusClient.start();
+//    } catch (IllegalStateException e) {
+//      log.fatal("prometheus client failed to start", e);
+//    }
 
 
     // CountDownLatch for awaiting the start of the simulation until all nodes are ready
@@ -154,6 +159,15 @@ public class Simulator implements Orchestrator {
     log.info("simulation started");
     boolean isAllReady = false;
 
+    this.metricsNetwork.runMetricsTestNet();
+
+    try {
+      this.metricServer.start();
+    } catch (IllegalStateException e) {
+      log.fatal("metric server failed to start", e);
+    }
+
+
     try {
       isAllReady = allNodesReady.await(readyTimeoutMs, TimeUnit.MILLISECONDS);
     } catch (InterruptedException e) {
@@ -180,6 +194,12 @@ public class Simulator implements Orchestrator {
     //terminating all nodes
     while (!onlineNodes.isEmpty()) {
       this.done(onlineNodes.poll().getValue());
+    }
+
+    try {
+      this.metricServer.terminate();
+    } catch (IllegalStateException e) {
+      log.fatal("metric server failed to stop", e);
     }
   }
 
