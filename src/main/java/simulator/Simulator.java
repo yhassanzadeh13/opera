@@ -159,14 +159,13 @@ public class Simulator implements Orchestrator {
     log.info("simulation started");
     boolean isAllReady = false;
 
-    this.metricsNetwork.runMetricsTestNet();
-
     try {
       this.metricServer.start();
     } catch (IllegalStateException e) {
       log.fatal("metric server failed to start", e);
     }
 
+    this.metricsNetwork.runMetricsTestNet();
 
     try {
       isAllReady = allNodesReady.await(readyTimeoutMs, TimeUnit.MILLISECONDS);
@@ -193,11 +192,15 @@ public class Simulator implements Orchestrator {
 
     //terminating all nodes
     while (!onlineNodes.isEmpty()) {
-      this.done(onlineNodes.poll().getValue());
+      Identifier id = onlineNodes.poll().getValue();
+      log.debug("terminating node {}", id);
+      this.done(id);
+      log.info("node {} terminated", id);
     }
 
     try {
       this.metricServer.terminate();
+      log.info("metric server terminated");
     } catch (IllegalStateException e) {
       log.fatal("metric server failed to stop", e);
     }
