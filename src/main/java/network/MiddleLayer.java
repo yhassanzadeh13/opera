@@ -104,7 +104,7 @@ public class MiddleLayer {
     // Bounce the request up.
     boolean success = underlay.sendMessage(destinationAddress, port, request);
     if (success) {
-      this.logger.info("sent event to {}", destinationId);
+      this.logger.debug("sent event to {}", destinationId);
     } else {
       this.logger.warn("failed to send event to {}", destinationId);
     }
@@ -126,7 +126,7 @@ public class MiddleLayer {
     this.metricsCollector.onMessageReceived(nodeId, request.getEvent().size(), request.getSentTimeStamp());
 
     // TODO: add request type
-    this.logger.info("event received from {}", request.getOriginalId());
+    this.logger.debug("event received from {}", request.getOriginalId());
 
     // check if the event is start, stop event and handle it directly
     if (request.getEvent() instanceof StopStartEvent) {
