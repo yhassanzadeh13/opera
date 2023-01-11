@@ -15,13 +15,11 @@ public class MetricServer {
    * Initiates the Prometheus Exposer HTTP Server.
    */
   public void start() throws IllegalStateException {
-
     try {
       server = new HTTPServer(SERVER_PORT);
     } catch (IOException e) {
       throw new IllegalStateException("could not start metrics server:\t" + e);
     }
-
   }
 
   /**

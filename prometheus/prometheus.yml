@@ -15,7 +15,7 @@ scrape_configs:
     scrape_interval: "5s"
     static_configs:
       - targets:
-          - "localhost:8081"
+          - "host.docker.internal:8081"
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: "prometheus"
     scrape_interval: "10s"
