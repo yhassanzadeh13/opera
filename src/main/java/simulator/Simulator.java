@@ -65,14 +65,6 @@ public class Simulator implements Orchestrator {
     this.metricsNetwork = new MetricsNetwork();
     this.metricServer = new MetricServer();
 
-//    try {
-//      PrometheusClient.start();
-//    } catch (IllegalStateException e) {
-//      log.fatal("prometheus client failed to start", e);
-//    }
-
-
-    // CountDownLatch for awaiting the start of the simulation until all nodes are ready
     allNodesReady = new CountDownLatch(factory.getTotalNodes());
     this.simulatorMetricsCollector = new SimulatorMetricsCollector();
     this.generateNodesInstances(networkType);
