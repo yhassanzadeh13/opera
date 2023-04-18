@@ -2,6 +2,8 @@ package simulator;
 
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.concurrent.CountDownLatch;
@@ -22,7 +24,6 @@ import node.IdentifierGenerator;
 import utils.SimpleEntryComparable;
 import utils.generator.BaseGenerator;
 
-
 /**
  * Simulator simulates situations between nodes with actions performed between the nodes.
  * Simulator also can create new instances for the nodes.
@@ -41,19 +42,22 @@ public class Simulator implements Orchestrator {
   private final Factory factory;
   private final ArrayList<Identifier> offlineNodes = new ArrayList<>();
   private final CountDownLatch allNodesReady;
-  private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
+  private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay =
+      new HashMap<>();
   private final SimulatorMetricsCollector simulatorMetricsCollector;
   private final MetricsNetwork metricsNetwork;
   private final MetricServer metricServer;
 
   private HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers;
-  private PriorityQueue<SimpleEntryComparable<Long, Identifier>> onlineNodes = new PriorityQueue<>();
+  private PriorityQueue<SimpleEntryComparable<Long, Identifier>> onlineNodes =
+      new PriorityQueue<>();
 
   /**
    * Initializes a new simulation.
    *
    * @param factory     factory object to create nodes based on inventory.
-   * @param networkType the type of simulated communication protocol(**tcp**, **javarmi**, **udp**, and **mockNetwork*)
+   * @param networkType the type of simulated communication protocol(**tcp**, **javarmi**,
+   *                    **udp**, and **mockNetwork*)
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "factory is externally mutable")
   public Simulator(Factory factory, NetworkProtocol networkType) {
@@ -89,7 +93,8 @@ public class Simulator implements Orchestrator {
     return identifiers;
   }
 
-  private HashMap<Identifier, SimpleEntry<String, Integer>> generateFullAddressed(int n, int startPort) {
+  private HashMap<Identifier, SimpleEntry<String, Integer>> generateFullAddressed(int n,
+                                                                                  int startPort) {
     log.info("generating full addresses of {} nodes for simulation", n);
 
     // TODO: introduce address object.
@@ -128,14 +133,16 @@ public class Simulator implements Orchestrator {
     }
 
     // generate new underlays and assign them to the nodes middles layers.
-    for (Map.Entry<SimpleEntry<String, Integer>, MiddleLayer> node : this.allMiddleLayers.entrySet()) {
+    for (Map.Entry<SimpleEntry<String, Integer>, MiddleLayer> node :
+        this.allMiddleLayers.entrySet()) {
       MiddleLayer middleLayer = node.getValue();
       String address = node.getKey().getKey();
       int port = node.getKey().getValue();
       if (networkType != NetworkProtocol.MOCK_NETWORK) {
         middleLayer.setUnderlay(UnderlayFactory.newUnderlay(networkType, port, middleLayer));
       } else {
-        LocalUnderlay underlay = UnderlayFactory.getMockUnderlay(address, port, middleLayer, allLocalUnderlay);
+        LocalUnderlay underlay = UnderlayFactory.getMockUnderlay(address, port, middleLayer,
+            allLocalUnderlay);
         middleLayer.setUnderlay(underlay);
         allLocalUnderlay.put(node.getKey(), underlay);
       }
@@ -208,7 +215,8 @@ public class Simulator implements Orchestrator {
     this.isReady.put(this.allFullAddresses.get(nodeId), true);
     log.info("node {} is ready", nodeId);
 
-    // start the nodes directly if the simulation is running, or wait for all nodes to be ready in case otherwise.
+    // start the nodes directly if the simulation is running, or wait for all nodes to be ready
+    // in case otherwise.
     if (this.allNodesReady.getCount() <= 0) {
       this.getMiddleLayer(nodeId).start();
     } else {
@@ -245,7 +253,6 @@ public class Simulator implements Orchestrator {
     log.info("node {} has been stopped", nodeId);
   }
 
-
   /**
    * Used to start the simulation.
    * It calls the onStart method for all nodes to start the simulation.
@@ -276,10 +283,13 @@ public class Simulator implements Orchestrator {
    * Simulate churn based on inter-arrival time and session length.
    *
    * @param lifeTime               duration of the simulation.
-   * @param interArrivalGen        inter-arrival generator, i.e., time between two consecutive arrivals in the system.
-   * @param sessionLengthGenerator session length generator, i.e., online duration of a node in the system.
+   * @param interArrivalGen        inter-arrival generator, i.e., time between two consecutive
+   *                               arrivals in the system.
+   * @param sessionLengthGenerator session length generator, i.e., online duration of a node in
+   *                               the system.
    */
-  public void churnSimulation(long lifeTime, BaseGenerator interArrivalGen, BaseGenerator sessionLengthGenerator) {
+  public void churnSimulation(long lifeTime, BaseGenerator interArrivalGen,
+                              BaseGenerator sessionLengthGenerator) {
     // initialize all nodes
     this.start();
     log.info("churn simulation started for a lifetime of {} ms", lifeTime);
@@ -292,10 +302,8 @@ public class Simulator implements Orchestrator {
     for (Identifier id : this.allId) {
       if (isReady.get(this.allFullAddresses.get(id))) {
         int sessionLength = sessionLengthGenerator.next();
-        log.info("generated new session length of {} ms for node {}, termination at {}",
-            id,
-            sessionLength,
-            time + sessionLength);
+        log.info("generated new session length of {} ms for node {}, termination at {}", id,
+            sessionLength, time + sessionLength);
         onlineNodes.add(new SimpleEntryComparable<>(time + sessionLength, id));
         this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
       }
@@ -312,7 +320,7 @@ public class Simulator implements Orchestrator {
           // terminate the node with the nearest termination time (if the time met)
           // `done` will add the node to the offline nodes
           Identifier id = Objects.requireNonNull(onlineNodes.poll()).getValue();
-          log.info("session length is done, switching node {} to offline");
+          log.info("session length is done, switching node {} to offline", id);
           this.done(id);
         }
       }
@@ -337,17 +345,21 @@ public class Simulator implements Orchestrator {
         // assign a termination time
         int sessionLength = sessionLengthGenerator.next();
         this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
-        log.info("generated new session length of {} ms for node {}, termination at {}",
-            id,
-            sessionLength,
-            time + sessionLength);
-        this.onlineNodes.add(new SimpleEntryComparable<>(System.currentTimeMillis() + sessionLength, id));
+        log.info("generated new session length of {} ms for node {}, termination at {}", id,
+            sessionLength, time + sessionLength);
+        this.onlineNodes.add(
+            new SimpleEntryComparable<>(System.currentTimeMillis() + sessionLength, id));
 
         // assign a next node arrival time
         interArrivalTime = interArrivalGen.next();
         this.simulatorMetricsCollector.onNewInterArrivalGenerated(interArrivalTime);
         nextArrival = System.currentTimeMillis() + interArrivalTime;
-        log.info("next node {} arrival {}", id, nextArrival);
+        Duration nextArrivalDuration = Duration.ofMillis(interArrivalTime);
+        log.info("next node {} in {} hours {} minutes {} seconds {} milliseconds", id,
+            nextArrivalDuration.toHoursPart(),
+            nextArrivalDuration.toMinutesPart(),
+            nextArrivalDuration.toSecondsPart(),
+            nextArrivalDuration.toMillis());
       }
     }
 

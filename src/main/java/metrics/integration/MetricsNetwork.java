@@ -2,7 +2,6 @@ package metrics.integration;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -39,7 +38,7 @@ public class MetricsNetwork {
   private static final String NETWORK_DRIVER_NAME = "bridge";
   // Prometheus
   private static final int PROMETHEUS_PORT = 9090;
-  private static final String PROMETHEUS = "opera_prometheus";
+  private static final String PROMETHEUS_CONTAINER_NAME = "opera_prometheus";
   private static final String PROMETHEUS_IMAGE = "prom/prometheus";
   private static final String PROMETHEUS_VOLUME = "prometheus_volume";
   private static final String PROMETHEUS_MAIN_CMD = "prom/prometheus:main";
@@ -49,7 +48,7 @@ public class MetricsNetwork {
       "prometheus_volume" + ":" + "/prometheus";
   // Grafana
   private static final int GRAFANA_PORT = 3000;
-  private static final String GRAFANA = "opera_grafana";
+  private static final String GRAFANA_CONTAINER_NAME = "opera_grafana";
   private static final String GRAFANA_VOLUME = "grafana_volume";
   private static final String GRAFANA_IMAGE = "grafana/grafana";
   private static final String GRAFANA_MAIN_CMD = "grafana/grafana:main";
@@ -105,15 +104,33 @@ public class MetricsNetwork {
 
     // Prometheus
     logger.info("creating prometheus container");
-    CreateContainerResponse prometheusContainer = createPrometheusContainer();
-    dockerClient.startContainerCmd(prometheusContainer.getId()).exec();
+    if (this.isContainerRunning(PROMETHEUS_CONTAINER_NAME)) {
+      logger.warn("prometheus container already running, skipping creation");
+    } else {
+      CreateContainerResponse prometheusContainer = this.getStoppedContainer(
+          PROMETHEUS_CONTAINER_NAME);
+      if (prometheusContainer == null) {
+        logger.info("prometheus container not found, creating new one");
+        prometheusContainer = this.createPrometheusContainer();
+      }
+      dockerClient.startContainerCmd(prometheusContainer.getId()).exec();
+      logger.info("created prometheus container");
+    }
     logger.info("created prometheus container");
 
     // Grafana
     logger.info("creating grafana container");
-    CreateContainerResponse grafanaContainer = this.createGrafanaContainer();
-    dockerClient.startContainerCmd(grafanaContainer.getId()).exec();
-    logger.info("created grafana container");
+    if (this.isContainerRunning(GRAFANA_CONTAINER_NAME)) {
+      logger.warn("grafana container already running, skipping creation");
+    } else {
+      CreateContainerResponse grafanaContainer = this.getStoppedContainer(GRAFANA_CONTAINER_NAME);
+      if (grafanaContainer == null) {
+        logger.info("grafana container not found, creating new one");
+        grafanaContainer = this.createGrafanaContainer();
+      }
+      dockerClient.startContainerCmd(grafanaContainer.getId()).exec();
+      logger.info("created grafana container");
+    }
 
     this.logger.info("prometheus is running at localhost:{}", PROMETHEUS_PORT);
     this.logger.info("grafana is running at localhost:{}", GRAFANA_PORT);
@@ -165,6 +182,7 @@ public class MetricsNetwork {
    * @throws IllegalStateException when container creation faces an illegal state.
    */
   private CreateContainerResponse createGrafanaContainer() throws IllegalStateException {
+    // pull image
     try {
       this.dockerClient.pullImageCmd(GRAFANA_IMAGE)
           .withTag(MAIN_TAG)
@@ -188,7 +206,7 @@ public class MetricsNetwork {
 
     try {
       return this.dockerClient.createContainerCmd(GRAFANA_MAIN_CMD)
-          .withName(GRAFANA)
+          .withName(GRAFANA_CONTAINER_NAME)
           .withTty(true)
           .withEnv(GRAFANA_ADMIN_USER_NAME)
           .withEnv(GRAFANA_ADMIN_PASSWORD)
@@ -196,21 +214,8 @@ public class MetricsNetwork {
           .withHostConfig(hostConfig)
           .exec();
     } catch (ConflictException ex) {
-      // Get the existing container's info instead of throwing an exception
-      List<Container> containers = this.dockerClient.listContainersCmd()
-          .withShowAll(true)
-          .withNameFilter(List.of(GRAFANA))
-          .exec();
-
-      if (containers.size() > 0) {
-        Container container = containers.get(0);
-        CreateContainerResponse response = new CreateContainerResponse();
-        response.setId(container.getId());
-        return response;
-
-      } else {
-        throw new IllegalStateException("Unable to retrieve existing grafana container: " + ex);
-      }
+      // reaching here means there is a bug in the code.
+      throw new IllegalStateException("container already exists (conflict exception)" + ex);
     }
   }
 
@@ -244,26 +249,75 @@ public class MetricsNetwork {
 
     try {
       return this.dockerClient.createContainerCmd(PROMETHEUS_MAIN_CMD)
-          .withName(PROMETHEUS)
+          .withName(PROMETHEUS_CONTAINER_NAME)
           .withTty(true)
           .withHostConfig(hostConfig)
           .exec();
     } catch (ConflictException ex) {
-      // Get the existing container's info instead of throwing an exception
-      List<Container> containers = this.dockerClient.listContainersCmd()
-          .withShowAll(true)
-          .withNameFilter(List.of(PROMETHEUS))
-          .exec();
+      // reaching here means there is a bug in the code.
+      throw new IllegalStateException("container already exists (conflict exception)" + ex);
+    }
+  }
 
-      if (containers.size() > 0) {
-        Container container = containers.get(0);
-        CreateContainerResponse response = new CreateContainerResponse();
-        response.setId(container.getId());
-        return response;
-      } else {
-        throw new IllegalStateException("Unable to retrieve existing grafana container: " + ex);
+  /**
+   * Returns a list of containers with the given name. Includes stopped containers.
+   *
+   * @param name name of container to find.
+   * @return list of containers with the given name.
+   */
+  private List<Container> findContainerWithName(String name) {
+    return this.dockerClient.listContainersCmd()
+        .withShowAll(true)
+        .withNameFilter(List.of(name))
+        .exec();
+  }
+
+  /**
+   * Returns whether the given container is running.
+   *
+   * @param container container to check.
+   * @return true if the container is running, false otherwise.
+   */
+  private boolean isContainerRunning(Container container) {
+    return "running".equalsIgnoreCase(container.getState());
+  }
+
+  /**
+   * Returns whether a container with the given name is running.
+   *
+   * @param name name of container to check.
+   * @return true if a container with the given name is running, false otherwise.
+   */
+  // TODO: write test for this.
+  private boolean isContainerRunning(String name) {
+    List<Container> containers = this.findContainerWithName(name);
+    for (Container c : containers) {
+      if (this.isContainerRunning(c)) {
+        return true;
       }
     }
+
+    return false;
+  }
+
+  /**
+   * Returns a stopped container with the given name. Returns null if no such container exists.
+   *
+   * @param name name of container to find.
+   * @return stopped container with the given name.
+   */
+  private CreateContainerResponse getStoppedContainer(String name) {
+    List<Container> containers = this.findContainerWithName(name);
+    for (Container c : containers) {
+      if (this.isContainerRunning(c)) {
+        continue;
+      }
+      CreateContainerResponse response = new CreateContainerResponse();
+      response.setId(c.getId());
+      return response;
+    }
+
+    return null;
   }
 }
 
