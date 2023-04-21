@@ -23,13 +23,15 @@ public class SimulatorMetricsCollector {
         NAMESPACE_SIMULATOR,
         SUBSYSTEM_CHURN,
         HelpMsg.SESSION_LENGTH,
-        Constants.Histogram.DEFAULT_HISTOGRAM,
+        new double[]{1, 100, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000,
+            512000, 1024000, 2048000, 4096000},
         Constants.IDENTIFIER);
     this.interarrivalTimeHistogram = new OperaHistogram(Name.INTER_ARRIVAL,
         NAMESPACE_SIMULATOR,
         SUBSYSTEM_CHURN,
         HelpMsg.INTER_ARRIVAL,
-        Constants.Histogram.DEFAULT_HISTOGRAM);
+        new double[]{1, 100, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000,
+            512000, 1024000, 2048000, 4096000});
   }
 
   /**

@@ -23,6 +23,7 @@ public class Main {
     Factory factory = new Factory();
     factory.addRecipe(new Recipe(new MyNode(), nameSpace, 5));
     Simulator simulator = new Simulator(factory, NetworkProtocol.MOCK_NETWORK);
-    simulator.churnSimulation(100000, new UniformGenerator(500, 1000), new UniformGenerator(2000, 3000));
+    simulator.churnSimulation(100000, new UniformGenerator(1000, 2000), new UniformGenerator(2000,
+        3000));
   }
 }
