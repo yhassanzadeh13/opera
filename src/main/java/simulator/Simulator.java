@@ -3,7 +3,6 @@ package simulator;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.time.Duration;
-import java.time.LocalTime;
 import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.concurrent.CountDownLatch;
@@ -22,7 +21,7 @@ import node.BaseNode;
 import node.Identifier;
 import node.IdentifierGenerator;
 import utils.SimpleEntryComparable;
-import utils.generator.BaseGenerator;
+import utils.churn.ChurnGenerator;
 
 /**
  * Simulator simulates situations between nodes with actions performed between the nodes.
@@ -288,8 +287,8 @@ public class Simulator implements Orchestrator {
    * @param sessionLengthGenerator session length generator, i.e., online duration of a node in
    *                               the system.
    */
-  public void churnSimulation(long lifeTime, BaseGenerator interArrivalGen,
-                              BaseGenerator sessionLengthGenerator) {
+  public void churnSimulation(long lifeTime, ChurnGenerator interArrivalGen,
+                              ChurnGenerator sessionLengthGenerator) {
     // initialize all nodes
     this.start();
     log.info("churn simulation started for a lifetime of {} ms", lifeTime);
