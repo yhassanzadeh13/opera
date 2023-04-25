@@ -3,8 +3,13 @@ package simulator;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.time.Duration;
-import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.PriorityQueue;
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -355,10 +360,8 @@ public class Simulator implements Orchestrator {
         nextArrival = System.currentTimeMillis() + interArrivalTime;
         Duration nextArrivalDuration = Duration.ofMillis(interArrivalTime);
         log.info("next node {} in {} hours {} minutes {} seconds {} milliseconds", id,
-            nextArrivalDuration.toHoursPart(),
-            nextArrivalDuration.toMinutesPart(),
-            nextArrivalDuration.toSecondsPart(),
-            nextArrivalDuration.toMillis());
+            nextArrivalDuration.toHoursPart(), nextArrivalDuration.toMinutesPart(),
+            nextArrivalDuration.toSecondsPart(), nextArrivalDuration.toMillis());
       }
     }
 

@@ -20,6 +20,12 @@ public class UniformGenerator implements ChurnGenerator {
    */
   private final Random rand;
 
+  /**
+   * Constructor of UniformGenerator.
+   *
+   * @param min minimum value of the distribution.
+   * @param max maximum value of the distribution.
+   */
   public UniformGenerator(int min, int max) {
     this.min = min;
     this.max = max;
