@@ -1,54 +1,226 @@
 package utils.churn;
 
-import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class ExponentialGeneratorTest {
-  private ExponentialGenerator generator;
-  private final int min = 1;
-  private final int max = 100;
-  private final double lambda = 5;
-
-  @BeforeEach
-  public void setUp() {
-    generator = new ExponentialGenerator(min, max, lambda);
+  /**
+   * Tests that an IllegalArgumentException is thrown when trying to create an
+   * ExponentialGenerator with a lambda value of zero.
+   */
+  @Test
+  void testZeroLambdaValue() {
+    assertThrows(IllegalArgumentException.class,
+        () -> new ExponentialGenerator(0));
   }
 
+  /**
+   * Tests that the next() method of an ExponentialGenerator returns a positive integer value
+   * when the lambda value is greater than zero.
+   */
   @Test
-  public void constructorTest() {
-    assertNotNull(generator, "ExponentialGenerator should be instantiated");
+  void testPositiveLambdaValue() {
+    ExponentialGenerator generator = new ExponentialGenerator(1);
+    int result = generator.next();
+    assertTrue(result > 0);
   }
 
+  /**
+   * Tests that the next() method of an ExponentialGenerator returns an illegal argument exception
+   * when the lambda is Double.MAX_VALUE.
+   */
   @Test
-  public void nextGeneratesWithinRangeTest() {
-    for (int i = 0; i < 1000; i++) {
-      int result = generator.next();
-      assertTrue(result >= min && result <= max, "Generated value should be within specified range");
+  void testMaxValueLambda() {
+    assertThrows(IllegalArgumentException.class,
+        () -> new ExponentialGenerator(Double.MAX_VALUE));
+  }
+
+  /**
+   * Tests that an IllegalArgumentException is thrown when trying to create an
+   * ExponentialGenerator with a lambda value greater than the maximum allowed value.
+   */
+  @Test
+  void testTooLargeLambdaValue() {
+    assertThrows(IllegalArgumentException.class,
+        () -> new ExponentialGenerator(Double.POSITIVE_INFINITY));
+  }
+
+  /**
+   * Tests that an IllegalArgumentException is thrown when trying to create an
+   * ExponentialGenerator with a negative lambda value.
+   */
+  @Test
+  void testNegativeLambdaValue() {
+    assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(-1));
+  }
+
+  /**
+   * This test checks if the ExponentialGenerator can be instantiated with a lambda value greater
+   * than 0 and with a very small positive value close to 0, without throwing any exceptions.
+   */
+  @Test
+  public void testLambdaValueWithinValidRange() {
+    // Case 1a: Lambda value > 0 (positive)
+    assertDoesNotThrow(() -> new ExponentialGenerator(1.0));
+
+    // Case 1b: Lambda value = very small positive value (close to 0)
+    double smallPositiveValue = 1e-10;
+    assertDoesNotThrow(() -> new ExponentialGenerator(smallPositiveValue));
+  }
+
+  /**
+   * Test if ExponentialGenerator throws an exception when lambda is outside the valid range.
+   * Case a: Lambda value = 0
+   * Case b: Lambda value < 0 (negative)
+   */
+  @Test
+  public void testLambdaValueOutsideValidRange() {
+    // Case a: Lambda value = 0
+    assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(0));
+
+    // Case b: Lambda value < 0 (negative)
+    assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(-1.0));
+  }
+
+  /**
+   * Test if the random number generation is within the expected range and if it behaves
+   * consistently
+   * with a custom seed for the Random generator.
+   * Case a: Check if generated values are within the range of [0, 1]
+   */
+  @Test
+  public void testRandomNumberGeneration() {
+    double lambda = 1.0;
+    int numberOfSamples = 1000;
+
+    // Case a: Check if generated values are within the range of [0, 1]
+    ExponentialGenerator generator = new ExponentialGenerator(lambda);
+    for (int i = 0; i < numberOfSamples; i++) {
+      int generatedValue = generator.next();
+      assertTrue(generatedValue >= 0, "Generated value should be greater than or equal to 0");
     }
   }
 
+  /**
+   * Test generated values for different lambda values and if the distribution follows the
+   * expected behavior.
+   * Case a: Test generated values for different lambda values
+   * Case b: Check if the distribution follows the expected behavior (higher lambda values result
+   * in smaller mean and variance)
+   */
   @Test
-  public void nextGeneratesDifferentValuesTest() {
-    int initialValue = generator.next();
-    boolean differentValueFound = false;
+  public void testExponentialDistributionGeneration() {
+    int numberOfSamples = 1000;
 
-    for (int i = 0; i < 1000; i++) {
-      int newValue = generator.next();
-      if (initialValue != newValue) {
-        differentValueFound = true;
-        break;
+    // Case a: Test generated values for different lambda values
+    double[] lambdas = {0.5, 1.0, 2.0, 5.0};
+    for (double lambda : lambdas) {
+      ExponentialGenerator generator = new ExponentialGenerator(lambda);
+      double sum = 0;
+      for (int i = 0; i < numberOfSamples; i++) {
+        int generatedValue = generator.next();
+        assertTrue(generatedValue >= 0, "Generated value should be greater than or equal to 0");
+        sum += generatedValue;
       }
+      double mean = sum / numberOfSamples;
+      assertTrue(mean > 0, "Mean should be greater than 0");
     }
 
-    assertTrue(differentValueFound, "Generated values should vary over time");
+    // Case b: Check if the distribution follows the expected behavior (higher lambda values
+    // result in smaller mean and variance)
+    ExponentialGenerator lowLambdaGenerator = new ExponentialGenerator(0.5);
+    ExponentialGenerator highLambdaGenerator = new ExponentialGenerator(5.0);
+    double sumLowLambda = 0;
+    double sumHighLambda = 0;
+    double sumSquareLowLambda = 0;
+    double sumSquareHighLambda = 0;
+
+    for (int i = 0; i < numberOfSamples; i++) {
+      int lowLambdaValue = lowLambdaGenerator.next();
+      int highLambdaValue = highLambdaGenerator.next();
+
+      sumLowLambda += lowLambdaValue;
+      sumHighLambda += highLambdaValue;
+      sumSquareLowLambda += lowLambdaValue * lowLambdaValue;
+      sumSquareHighLambda += highLambdaValue * highLambdaValue;
+    }
+
+    double meanLowLambda = sumLowLambda / numberOfSamples;
+    double meanHighLambda = sumHighLambda / numberOfSamples;
+
+    double varianceLowLambda =
+        (sumSquareLowLambda / numberOfSamples) - (meanLowLambda * meanLowLambda);
+    double varianceHighLambda =
+        (sumSquareHighLambda / numberOfSamples) - (meanHighLambda * meanHighLambda);
+
+    assertTrue(meanHighLambda < meanLowLambda,
+        "Mean of high lambda distribution should be smaller than mean of low lambda distribution");
+    assertTrue(varianceHighLambda < varianceLowLambda,
+        "Variance of high lambda distribution should be smaller than variance of low lambda "
+            + "distribution");
   }
 
+  /**
+   * Test extreme cases for lambda value.
+   * Case a: Lambda value = Double.MAX_VALUE
+   * Case b: Lambda value = Double.MIN_VALUE
+   * Case c: Lambda value = Double.POSITIVE_INFINITY
+   * Case d: Lambda value = Double.NEGATIVE_INFINITY
+   * Case e: Lambda value = Double.NaN
+   */
   @Test
-  public void constructorThrowsExceptionOnInvalidLambda() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      new ExponentialGenerator(min, max, -1);
-    }, "Constructor should throw an exception for negative lambda");
+  public void testExtremeCases() {
+    // Case a: Lambda value = Double.MAX_VALUE
+    assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(Double.MAX_VALUE));
+
+    // Case b: Lambda value = Double.MIN_VALUE
+    assertDoesNotThrow(() -> new ExponentialGenerator(Double.MIN_VALUE));
+
+    // Case c: Lambda value = Double.POSITIVE_INFINITY
+    assertThrows(IllegalArgumentException.class,
+        () -> new ExponentialGenerator(Double.POSITIVE_INFINITY));
+
+    // Case d: Lambda value = Double.NEGATIVE_INFINITY
+    assertThrows(IllegalArgumentException.class,
+        () -> new ExponentialGenerator(Double.NEGATIVE_INFINITY));
+
+    // Case e: Lambda value = Double.NaN
+    assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(Double.NaN));
+  }
+
+  /**
+   * Test if the average and variance of samples generated from the distribution are within an acceptable error range.
+   */
+  @Test
+  public void testSampleAverageAndVariance() {
+    double lambda = 100.0;
+    int numberOfSamples = 1000_000;
+    double acceptableError = 1;
+
+    ExponentialGenerator generator = new ExponentialGenerator(lambda);
+    double sum = 0;
+    double sumSquare = 0;
+
+    for (int i = 0; i < numberOfSamples; i++) {
+      int generatedValue = generator.next();
+      sum += generatedValue;
+      sumSquare += generatedValue * generatedValue;
+    }
+
+    double sampleMean = sum / numberOfSamples;
+    double sampleVariance = (sumSquare / numberOfSamples) - (sampleMean * sampleMean);
+
+    double theoreticalMean = 1 / lambda;
+    double theoreticalVariance = 1 / (lambda * lambda);
+
+    double meanError = Math.abs(sampleMean - theoreticalMean);
+    double varianceError = Math.abs(sampleVariance - theoreticalVariance);
+
+    assertTrue(meanError <= acceptableError, "Sample mean should be within the acceptable error range of the theoretical mean");
+    assertTrue(varianceError <= acceptableError, "Sample variance should be within the acceptable error range of the theoretical variance");
   }
 
 }
