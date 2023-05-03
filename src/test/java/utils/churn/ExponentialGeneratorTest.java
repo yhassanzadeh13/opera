@@ -14,7 +14,7 @@ public class ExponentialGeneratorTest {
   @Test
   void testZeroLambdaValue() {
     assertThrows(IllegalArgumentException.class,
-        () -> new ExponentialGenerator(0));
+        () -> new ExponentialGenerator(0, 1, 100));
   }
 
   /**
@@ -23,7 +23,7 @@ public class ExponentialGeneratorTest {
    */
   @Test
   void testPositiveLambdaValue() {
-    ExponentialGenerator generator = new ExponentialGenerator(1);
+    ExponentialGenerator generator = new ExponentialGenerator(1, 1, 100);
     int result = generator.next();
     assertTrue(result > 0);
   }
@@ -35,7 +35,7 @@ public class ExponentialGeneratorTest {
   @Test
   void testMaxValueLambda() {
     assertThrows(IllegalArgumentException.class,
-        () -> new ExponentialGenerator(Double.MAX_VALUE));
+        () -> new ExponentialGenerator(Double.MAX_VALUE, 1, 100));
   }
 
   /**
@@ -45,7 +45,7 @@ public class ExponentialGeneratorTest {
   @Test
   void testTooLargeLambdaValue() {
     assertThrows(IllegalArgumentException.class,
-        () -> new ExponentialGenerator(Double.POSITIVE_INFINITY));
+        () -> new ExponentialGenerator(Double.POSITIVE_INFINITY, 1, 100));
   }
 
   /**
@@ -54,7 +54,7 @@ public class ExponentialGeneratorTest {
    */
   @Test
   void testNegativeLambdaValue() {
-    assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(-1));
+    assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(-1, 1, 100));
   }
 
   /**
@@ -64,11 +64,11 @@ public class ExponentialGeneratorTest {
   @Test
   public void testLambdaValueWithinValidRange() {
     // Case 1a: Lambda value > 0 (positive)
-    assertDoesNotThrow(() -> new ExponentialGenerator(1.0));
+    assertDoesNotThrow(() -> new ExponentialGenerator(1.0, 1, 100));
 
     // Case 1b: Lambda value = very small positive value (close to 0)
     double smallPositiveValue = 1e-10;
-    assertDoesNotThrow(() -> new ExponentialGenerator(smallPositiveValue));
+    assertDoesNotThrow(() -> new ExponentialGenerator(smallPositiveValue, 1, 100));
   }
 
   /**
@@ -79,10 +79,10 @@ public class ExponentialGeneratorTest {
   @Test
   public void testLambdaValueOutsideValidRange() {
     // Case a: Lambda value = 0
-    assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(0));
+    assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(0, 1, 100));
 
     // Case b: Lambda value < 0 (negative)
-    assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(-1.0));
+    assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(-1.0, 1, 100));
   }
 
   /**
@@ -97,7 +97,7 @@ public class ExponentialGeneratorTest {
     int numberOfSamples = 1000;
 
     // Case a: Check if generated values are within the range of [0, 1]
-    ExponentialGenerator generator = new ExponentialGenerator(lambda);
+    ExponentialGenerator generator = new ExponentialGenerator(lambda, 1, 100);
     for (int i = 0; i < numberOfSamples; i++) {
       int generatedValue = generator.next();
       assertTrue(generatedValue >= 0, "Generated value should be greater than or equal to 0");
@@ -118,7 +118,7 @@ public class ExponentialGeneratorTest {
     // Case a: Test generated values for different lambda values
     double[] lambdas = {0.5, 1.0, 2.0, 5.0};
     for (double lambda : lambdas) {
-      ExponentialGenerator generator = new ExponentialGenerator(lambda);
+      ExponentialGenerator generator = new ExponentialGenerator(lambda, 1, 100);
       double sum = 0;
       for (int i = 0; i < numberOfSamples; i++) {
         int generatedValue = generator.next();
@@ -131,8 +131,8 @@ public class ExponentialGeneratorTest {
 
     // Case b: Check if the distribution follows the expected behavior (higher lambda values
     // result in smaller mean and variance)
-    ExponentialGenerator lowLambdaGenerator = new ExponentialGenerator(0.5);
-    ExponentialGenerator highLambdaGenerator = new ExponentialGenerator(5.0);
+    ExponentialGenerator lowLambdaGenerator = new ExponentialGenerator(0.5, 1, 100);
+    ExponentialGenerator highLambdaGenerator = new ExponentialGenerator(5.0, 1, 100);
     double sumLowLambda = 0;
     double sumHighLambda = 0;
     double sumSquareLowLambda = 0;
@@ -174,21 +174,23 @@ public class ExponentialGeneratorTest {
   @Test
   public void testExtremeCases() {
     // Case a: Lambda value = Double.MAX_VALUE
-    assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(Double.MAX_VALUE));
+    assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(Double.MAX_VALUE,
+     1, 100   ));
 
     // Case b: Lambda value = Double.MIN_VALUE
-    assertDoesNotThrow(() -> new ExponentialGenerator(Double.MIN_VALUE));
+    assertDoesNotThrow(() -> new ExponentialGenerator(Double.MIN_VALUE, 1, 100));
 
     // Case c: Lambda value = Double.POSITIVE_INFINITY
     assertThrows(IllegalArgumentException.class,
-        () -> new ExponentialGenerator(Double.POSITIVE_INFINITY));
+        () -> new ExponentialGenerator(Double.POSITIVE_INFINITY, 1, 100));
 
     // Case d: Lambda value = Double.NEGATIVE_INFINITY
     assertThrows(IllegalArgumentException.class,
-        () -> new ExponentialGenerator(Double.NEGATIVE_INFINITY));
+        () -> new ExponentialGenerator(Double.NEGATIVE_INFINITY, 1, 100));
 
     // Case e: Lambda value = Double.NaN
-    assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(Double.NaN));
+    assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(Double.NaN, 1,
+        100));
   }
 
   /**
@@ -197,10 +199,12 @@ public class ExponentialGeneratorTest {
   @Test
   public void testSampleAverageAndVariance() {
     double lambda = 100.0;
-    int numberOfSamples = 1000_000;
-    double acceptableError = 1;
+    int min = 1;
+    int max = 100;
+    int numberOfSamples = 1_000_000;
+    double acceptableError = 0.2;
 
-    ExponentialGenerator generator = new ExponentialGenerator(lambda);
+    ExponentialGenerator generator = new ExponentialGenerator(lambda, min, max);
     double sum = 0;
     double sumSquare = 0;
 
@@ -213,8 +217,8 @@ public class ExponentialGeneratorTest {
     double sampleMean = sum / numberOfSamples;
     double sampleVariance = (sumSquare / numberOfSamples) - (sampleMean * sampleMean);
 
-    double theoreticalMean = 1 / lambda;
-    double theoreticalVariance = 1 / (lambda * lambda);
+    double theoreticalMean = (1 / lambda) * (max - min) + min; // E[aX + b] = aE[X] + b
+    double theoreticalVariance = (1 / (lambda * lambda)) * (max - min) * (max - min); // Var[aX + b] = a^2Var[X]
 
     double meanError = Math.abs(sampleMean - theoreticalMean);
     double varianceError = Math.abs(sampleVariance - theoreticalVariance);

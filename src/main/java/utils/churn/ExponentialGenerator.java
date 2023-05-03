@@ -2,8 +2,6 @@ package utils.churn;
 
 import java.util.Random;
 
-import org.testcontainers.shaded.org.hamcrest.number.IsNaN;
-
 /**
  * ExponentialGenerator is a class that generates random numbers according to an exponential
  * distribution.
@@ -79,13 +77,25 @@ public class ExponentialGenerator implements ChurnGenerator {
   private final Random rand;
 
   /**
+   * The min value of the distribution, protocol parameter.
+   */
+  private final int min;
+
+  /**
+   * The max value of the distribution, protocol parameter.
+   */
+  private final int max;
+
+  /**
    * Constructor of ExponentialGenerator.
    *
    * @param lambda lambda value of the distribution, i.e., the rate parameter. It must be positive.
    *               the higher the lambda, the mean and variance of the distribution are smaller.
+   * @param min    minimum value of the distribution.
+   * @param max    maximum value of the distribution.
    */
-  public ExponentialGenerator(double lambda) {
-    this(lambda, new Random());
+  public ExponentialGenerator(double lambda, int min, int max) {
+    this(lambda, min, max, new Random());
   }
 
   /**
@@ -93,8 +103,10 @@ public class ExponentialGenerator implements ChurnGenerator {
    *
    * @param lambda lambda value of the distribution, i.e., the rate parameter. It must be positive.
    * @param rand   random generator.
+   * @param min    minimum value of the distribution.
+   * @param max    maximum value of the distribution.
    */
-  public ExponentialGenerator(double lambda, Random rand) {
+  public ExponentialGenerator(double lambda, int min, int max, Random rand) {
     if (lambda <= 0) {
       throw new IllegalArgumentException("Lambda must be positive");
     }
@@ -109,17 +121,24 @@ public class ExponentialGenerator implements ChurnGenerator {
 
     this.lambda = lambda;
     this.rand = rand;
+    this.min = min;
+    this.max = max;
   }
 
+  /**
+   * Generates the next value of the distribution as an integer between min and max.
+   *
+   * @return the next value of the distribution as an integer.
+   */
   @Override
   public int next() {
     // generates a uniform random number between 0 and 1 and adds a small value to avoid log(0)
     double u = rand.nextDouble() + 0.000_000_000_1; // to avoid log(0)
-
     // generates the next value according to the exponential distribution.
     double e = -Math.log(1 - u) / lambda;
-
+    // amplifies the value to fit the desired range.
+    e = e * (max - min) + min;
     // returns the next value as an integer.
-    return (int) Math.ceil(e);
+    return (int) Math.round(e);
   }
 }
