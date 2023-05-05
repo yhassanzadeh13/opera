@@ -13,7 +13,7 @@ import utils.churn.UniformGenerator;
  * Simulation goes like this infinitely.
  */
 public class Main {
-   /**
+  /**
    * creates a new helloservers simulation for 5 nodes.
    *
    * @param args nothing
@@ -24,6 +24,6 @@ public class Main {
     factory.addRecipe(new Recipe(new MyNode(), nameSpace, 5));
     Simulator simulator = new Simulator(factory, NetworkProtocol.MOCK_NETWORK);
     simulator.churnSimulation(100000, new UniformGenerator(1000, 2000), new UniformGenerator(2000,
-        3000));
+            3000));
   }
 }

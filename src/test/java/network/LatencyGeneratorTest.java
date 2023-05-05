@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import network.latency.LatencyGenerator;
 import node.Identifier;
 import org.apache.commons.math3.random.JDKRandomGenerator;

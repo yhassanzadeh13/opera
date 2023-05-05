@@ -174,7 +174,7 @@ public class Logger {
    * Logs the given message with info level.
    *
    * @param message message to be logged.
-   * @param args   arguments to be logged.
+   * @param args    arguments to be logged.
    */
   public void info(String message, Object... args) {
     if (this.prefix != null) {
@@ -201,7 +201,7 @@ public class Logger {
    * Logs the given message with debug level.
    *
    * @param message message to be logged.
-   * @param args   arguments to be logged.
+   * @param args    arguments to be logged.
    */
   public void debug(String message, Object... args) {
     if (this.prefix != null) {

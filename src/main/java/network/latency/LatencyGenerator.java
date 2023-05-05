@@ -17,6 +17,10 @@ public class LatencyGenerator {
     this.nodesSimulatedLatency = new HashMap<>();
   }
 
+  private static String concat(Identifier a, Identifier b) {
+    return a.toString() + b.toString();
+  }
+
   /**
    * get the simulated delay based on the normal distribution extracted from the AWS simulations.
    *
@@ -37,9 +41,5 @@ public class LatencyGenerator {
       this.nodesSimulatedLatency.put(hash, Math.abs(generator.next()));
     }
     return this.nodesSimulatedLatency.get(hash);
-  }
-
-  private static String concat(Identifier a, Identifier b) {
-    return a.toString() + b.toString();
   }
 }

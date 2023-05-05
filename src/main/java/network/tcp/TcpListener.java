@@ -14,17 +14,17 @@ import modules.logger.OperaLogger;
  * of each received request to a `TCPHandler` thread.
  */
 public class TcpListener implements Runnable {
-  private Logger logger;
   // Owned resource by the `TCPUnderlay`.
   private final ServerSocket serverSocket;
   // Owned resource by the `TCPUnderlay`.
   private final TcpUnderlay underlay;
+  private Logger logger;
 
   /**
    * Constructor of the `TCPListener`.
    *
    * @param serverSocket Socket of the Listener.
-   * @param underlay   Underlay for the Listener.
+   * @param underlay     Underlay for the Listener.
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of serverSocket")
   public TcpListener(ServerSocket serverSocket, TcpUnderlay underlay) {

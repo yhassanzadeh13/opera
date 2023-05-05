@@ -1,7 +1,7 @@
 package utils;
 
-import node.BaseNode;
 import network.packets.Event;
+import node.BaseNode;
 
 /**
  * A basic Event to use to check whether Utils coded correctly.

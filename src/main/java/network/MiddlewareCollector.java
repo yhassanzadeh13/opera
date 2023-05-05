@@ -30,28 +30,28 @@ public class MiddlewareCollector {
    */
   public MiddlewareCollector() {
     this.propagationDelay = new OperaHistogram(Name.PROPAGATION_DELAY,
-        Constants.Namespace.NETWORK, Subsystem_Middleware,
-        HelpMsg.PROPAGATION_DELAY,
-        Constants.Histogram.DEFAULT_HISTOGRAM,
-        Constants.IDENTIFIER);
+            Constants.Namespace.NETWORK, Subsystem_Middleware,
+            HelpMsg.PROPAGATION_DELAY,
+            Constants.Histogram.DEFAULT_HISTOGRAM,
+            Constants.IDENTIFIER);
     this.receivedMessageSize = new OperaHistogram(Name.RECEIVED_MESSAGE_SIZE,
-        Constants.Namespace.NETWORK, Subsystem_Middleware,
-        HelpMsg.RECEIVED_MESSAGE_SIZE,
-        Constants.Histogram.DEFAULT_HISTOGRAM,
-        Constants.IDENTIFIER);
+            Constants.Namespace.NETWORK, Subsystem_Middleware,
+            HelpMsg.RECEIVED_MESSAGE_SIZE,
+            Constants.Histogram.DEFAULT_HISTOGRAM,
+            Constants.IDENTIFIER);
     this.sentMessageSize = new OperaHistogram(Name.SENT_MESSAGE_SIZE,
-        Constants.Namespace.NETWORK, Subsystem_Middleware,
-        HelpMsg.SENT_MESSAGE_SIZE,
-        Constants.Histogram.DEFAULT_HISTOGRAM,
-        Constants.IDENTIFIER);
+            Constants.Namespace.NETWORK, Subsystem_Middleware,
+            HelpMsg.SENT_MESSAGE_SIZE,
+            Constants.Histogram.DEFAULT_HISTOGRAM,
+            Constants.IDENTIFIER);
     this.messageReceivedTotal = new OperaCounter(Name.MESSAGE_RECEIVED_TOTAL,
-        Constants.Namespace.NETWORK, Subsystem_Middleware,
-        HelpMsg.MESSAGE_RECEIVED_TOTAL,
-        Constants.IDENTIFIER);
+            Constants.Namespace.NETWORK, Subsystem_Middleware,
+            HelpMsg.MESSAGE_RECEIVED_TOTAL,
+            Constants.IDENTIFIER);
     this.messageSentTotal = new OperaCounter(Name.MESSAGE_SENT_TOTAL,
-        Constants.Namespace.NETWORK, Subsystem_Middleware,
-        HelpMsg.MESSAGE_SENT_TOTAL,
-        Constants.IDENTIFIER);
+            Constants.Namespace.NETWORK, Subsystem_Middleware,
+            HelpMsg.MESSAGE_SENT_TOTAL,
+            Constants.IDENTIFIER);
   }
 
   /**
@@ -66,7 +66,7 @@ public class MiddlewareCollector {
     messageReceivedTotal.increment(receiverId);
     receivedMessageSize.observe(receiverId, size);
     propagationDelay.observe(receiverId,
-        Duration.between(sentTimeStamp.toLocalDateTime(), LocalDateTime.now()).toMillis());
+            Duration.between(sentTimeStamp.toLocalDateTime(), LocalDateTime.now()).toMillis());
   }
 
   /**

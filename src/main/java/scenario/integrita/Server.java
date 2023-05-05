@@ -21,7 +21,6 @@ import scenario.integrita.utils.StatusCode;
  * Integrita server implementation.
  */
 public class Server implements BaseNode {
-  private Logger logger;
   // Integrita related fields
   int index; // server's index
   int totalServers; // total number of servers
@@ -30,7 +29,6 @@ public class Server implements BaseNode {
   byte[] sk; // server's signature key
   HistoryTreeStore db;
   NodeAddress status; // the last node address seen by the server
-
   // simulator related properties
   @SuppressFBWarnings(value = "URF_UNREAD_FIELD", justification = "skipping unread fields error, work-in-progress")
   Identifier id;
@@ -38,6 +36,7 @@ public class Server implements BaseNode {
   // all identifiers including self
   @SuppressFBWarnings(value = "URF_UNREAD_FIELD", justification = "skipping unread fields error, work-in-progress")
   ArrayList<Identifier> ids;
+  private Logger logger;
 
   // Constructors -------------------------------------------------------------------------
 

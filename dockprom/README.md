@@ -1,10 +1,13 @@
 dockprom
 ========
 
-A monitoring solution for Docker hosts and containers with [Prometheus](https://prometheus.io/), [Grafana](http://grafana.org/), [cAdvisor](https://github.com/google/cadvisor),
-[NodeExporter](https://github.com/prometheus/node_exporter) and alerting with [AlertManager](https://github.com/prometheus/alertmanager).
+A monitoring solution for Docker hosts and containers
+with [Prometheus](https://prometheus.io/), [Grafana](http://grafana.org/), [cAdvisor](https://github.com/google/cadvisor),
+[NodeExporter](https://github.com/prometheus/node_exporter) and alerting
+with [AlertManager](https://github.com/prometheus/alertmanager).
 
-***If you're looking for the Docker Swarm version please go to [stefanprodan/swarmprom](https://github.com/stefanprodan/swarmprom)***
+***If you're looking for the Docker Swarm version please go
+to [stefanprodan/swarmprom](https://github.com/stefanprodan/swarmprom)***
 
 ## Install
 
@@ -34,7 +37,10 @@ Containers:
 
 ## Setup Grafana
 
-Navigate to `http://<host-ip>:3000` and login with user ***admin*** password ***admin***. You can change the credentials in the compose file or by supplying the `ADMIN_USER` and `ADMIN_PASSWORD` environment variables on compose up. The config file can be added directly in grafana part like this
+Navigate to `http://<host-ip>:3000` and login with user ***admin*** password ***admin***. You can change the credentials
+in the compose file or by supplying the `ADMIN_USER` and `ADMIN_PASSWORD` environment variables on compose up. The
+config file can be added directly in grafana part like this
+
 ```
 grafana:
   image: grafana/grafana:7.2.0
@@ -42,13 +48,17 @@ grafana:
     - config
 
 ```
+
 and the config file format should have this content
+
 ```
 GF_SECURITY_ADMIN_USER=admin
 GF_SECURITY_ADMIN_PASSWORD=changeme
 GF_USERS_ALLOW_SIGN_UP=false
 ```
+
 If you want to change the password, you have to remove this entry, otherwise the change will not take effect
+
 ```
 - grafana_data:/var/lib/grafana
 ```
@@ -118,11 +128,14 @@ The Monitor Services Dashboard shows key metrics for monitoring the containers t
 
 ## Define alerts
 
-Three alert groups have been setup within the [alert.rules](https://github.com/stefanprodan/dockprom/blob/master/prometheus/alert.rules) configuration file:
+Three alert groups have been setup within
+the [alert.rules](https://github.com/stefanprodan/dockprom/blob/master/prometheus/alert.rules) configuration file:
 
-* Monitoring services alerts [targets](https://github.com/stefanprodan/dockprom/blob/master/prometheus/alert.rules#L2-L11)
+* Monitoring services
+  alerts [targets](https://github.com/stefanprodan/dockprom/blob/master/prometheus/alert.rules#L2-L11)
 * Docker Host alerts [host](https://github.com/stefanprodan/dockprom/blob/master/prometheus/alert.rules#L13-L40)
-* Docker Containers alerts [containers](https://github.com/stefanprodan/dockprom/blob/master/prometheus/alert.rules#L42-L69)
+* Docker Containers
+  alerts [containers](https://github.com/stefanprodan/dockprom/blob/master/prometheus/alert.rules#L42-L69)
 
 You can modify the alert rules and reload them by making a HTTP POST call to Prometheus:
 
@@ -232,15 +245,19 @@ Trigger an alert if a container is using more than 1.2GB of RAM for more than 30
 ## Setup alerting
 
 The AlertManager service is responsible for handling alerts sent by Prometheus server.
-AlertManager can send notifications via email, Pushover, Slack, HipChat or any other system that exposes a webhook interface.
+AlertManager can send notifications via email, Pushover, Slack, HipChat or any other system that exposes a webhook
+interface.
 A complete list of integrations can be found [here](https://prometheus.io/docs/alerting/configuration).
 
 You can view and silence notifications by accessing `http://<host-ip>:9093`.
 
-The notification receivers can be configured in [alertmanager/config.yml](https://github.com/stefanprodan/dockprom/blob/master/alertmanager/config.yml) file.
+The notification receivers can be configured
+in [alertmanager/config.yml](https://github.com/stefanprodan/dockprom/blob/master/alertmanager/config.yml) file.
 
-To receive alerts via Slack you need to make a custom integration by choose ***incoming web hooks*** in your Slack team app page.
-You can find more details on setting up Slack integration [here](http://www.robustperception.io/using-slack-with-the-alertmanager/).
+To receive alerts via Slack you need to make a custom integration by choose ***incoming web hooks*** in your Slack team
+app page.
+You can find more details on setting up Slack
+integration [here](http://www.robustperception.io/using-slack-with-the-alertmanager/).
 
 Copy the Slack Webhook URL into the ***api_url*** field and specify a Slack ***channel***.
 
@@ -268,18 +285,21 @@ To push data, simply execute:
 
     echo "some_metric 3.14" | curl --data-binary @- http://user:password@localhost:9091/metrics/job/some_job
 
-Please replace the `user:password` part with your user and password set in the initial configuration (default: `admin:admin`).
+Please replace the `user:password` part with your user and password set in the initial configuration (
+default: `admin:admin`).
 
 ## Updating Grafana to v5.2.2
 
-[In Grafana versions >= 5.1 the id of the grafana user has been changed](http://docs.grafana.org/installation/docker/#migration-from-a-previous-version-of-the-docker-container-to-5-1-or-later). Unfortunately this means that files created prior to 5.1 won’t have the correct permissions for later versions.
+[In Grafana versions >= 5.1 the id of the grafana user has been changed](http://docs.grafana.org/installation/docker/#migration-from-a-previous-version-of-the-docker-container-to-5-1-or-later).
+Unfortunately this means that files created prior to 5.1 won’t have the correct permissions for later versions.
 
-| Version |   User  | User ID |
+| Version |  User   | User ID |
 |:-------:|:-------:|:-------:|
 |  < 5.1  | grafana |   104   |
-|  \>= 5.1 | grafana |   472   |
+| \>= 5.1 | grafana |   472   |
 
 There are two possible solutions to this problem.
+
 - Change ownership from 104 to 472
 - Start the upgraded container as user 104
 

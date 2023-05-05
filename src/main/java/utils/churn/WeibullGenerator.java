@@ -33,7 +33,7 @@ public class WeibullGenerator implements ChurnGenerator {
     this.mx = mx;
     this.rand = new JDKRandomGenerator();
     this.generator = new WeibullDistribution(rand, alpha, beta,
-        WeibullDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+            WeibullDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
   }
 
   @Override

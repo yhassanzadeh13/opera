@@ -47,14 +47,14 @@ public class Simulator implements Orchestrator {
   private final ArrayList<Identifier> offlineNodes = new ArrayList<>();
   private final CountDownLatch allNodesReady;
   private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay =
-      new HashMap<>();
+          new HashMap<>();
   private final SimulatorMetricsCollector simulatorMetricsCollector;
   private final MetricsNetwork metricsNetwork;
   private final MetricServer metricServer;
 
   private HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers;
   private PriorityQueue<SimpleEntryComparable<Long, Identifier>> onlineNodes =
-      new PriorityQueue<>();
+          new PriorityQueue<>();
 
   /**
    * Initializes a new simulation.
@@ -138,7 +138,7 @@ public class Simulator implements Orchestrator {
 
     // generate new underlays and assign them to the nodes middles layers.
     for (Map.Entry<SimpleEntry<String, Integer>, MiddleLayer> node :
-        this.allMiddleLayers.entrySet()) {
+            this.allMiddleLayers.entrySet()) {
       MiddleLayer middleLayer = node.getValue();
       String address = node.getKey().getKey();
       int port = node.getKey().getValue();
@@ -146,7 +146,7 @@ public class Simulator implements Orchestrator {
         middleLayer.setUnderlay(UnderlayFactory.newUnderlay(networkType, port, middleLayer));
       } else {
         LocalUnderlay underlay = UnderlayFactory.getMockUnderlay(address, port, middleLayer,
-            allLocalUnderlay);
+                allLocalUnderlay);
         middleLayer.setUnderlay(underlay);
         allLocalUnderlay.put(node.getKey(), underlay);
       }
@@ -307,7 +307,7 @@ public class Simulator implements Orchestrator {
       if (isReady.get(this.allFullAddresses.get(id))) {
         int sessionLength = sessionLengthGenerator.next();
         log.info("generated new session length of {} ms for node {}, termination at {}", id,
-            sessionLength, time + sessionLength);
+                sessionLength, time + sessionLength);
         onlineNodes.add(new SimpleEntryComparable<>(time + sessionLength, id));
         this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
       }
@@ -350,9 +350,9 @@ public class Simulator implements Orchestrator {
         int sessionLength = sessionLengthGenerator.next();
         this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
         log.info("generated new session length of {} ms for node {}, termination at {}", id,
-            sessionLength, time + sessionLength);
+                sessionLength, time + sessionLength);
         this.onlineNodes.add(
-            new SimpleEntryComparable<>(System.currentTimeMillis() + sessionLength, id));
+                new SimpleEntryComparable<>(System.currentTimeMillis() + sessionLength, id));
 
         // assign a next node arrival time
         interArrivalTime = interArrivalGen.next();
@@ -360,8 +360,8 @@ public class Simulator implements Orchestrator {
         nextArrival = System.currentTimeMillis() + interArrivalTime;
         Duration nextArrivalDuration = Duration.ofMillis(interArrivalTime);
         log.info("next node {} in {} hours {} minutes {} seconds {} milliseconds", id,
-            nextArrivalDuration.toHoursPart(), nextArrivalDuration.toMinutesPart(),
-            nextArrivalDuration.toSecondsPart(), nextArrivalDuration.toMillis());
+                nextArrivalDuration.toHoursPart(), nextArrivalDuration.toMinutesPart(),
+                nextArrivalDuration.toSecondsPart(), nextArrivalDuration.toMillis());
       }
     }
 

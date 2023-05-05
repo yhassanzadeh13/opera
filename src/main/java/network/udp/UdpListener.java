@@ -16,11 +16,11 @@ import network.packets.Request;
  * thread.
  */
 public class UdpListener implements Runnable {
-  private Logger logger;
   // Owned resource by the `UDPUnderlay`.
   private final DatagramSocket listenSocket;
   // Owned resource by the `UDPUnderlay`.
   private final UdpUnderlay underlay;
+  private Logger logger;
   // Owned resource by the `UDPUnderlay`. Used to dispatch the received
   // responses to the main thread.
 
