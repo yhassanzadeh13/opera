@@ -205,9 +205,12 @@ public class ExponentialGeneratorTest {
      * Case c: Lambda value = Double.POSITIVE_INFINITY
      * Case d: Lambda value = Double.NEGATIVE_INFINITY
      * Case e: Lambda value = Double.NaN
+     * Case f: Lambda value = 0
+     * Case g: Lambda value = -1
+     * Case h: Lambda value = 1
      */
     @Test
-    public void testExtremeCases() {
+    public void testLambdaExtremeCases() {
         // Case a: Lambda value = Double.MAX_VALUE
         assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(Double.MAX_VALUE,
                 1, 100));
@@ -224,8 +227,57 @@ public class ExponentialGeneratorTest {
                 () -> new ExponentialGenerator(Double.NEGATIVE_INFINITY, 1, 100));
 
         // Case e: Lambda value = Double.NaN
-        assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(Double.NaN, 1,
-                100));
+        assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(Double.NaN, 1, 100));
+
+        // Case f: Lambda value = 0
+        assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(0, 1, 100));
+
+        // Case g: Lambda value = -1
+        assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(-1, 1, 100));
+
+        // Case h: Lambda value = 1
+        assertDoesNotThrow(() -> new ExponentialGenerator(1, 1, 100));
+    }
+
+
+    /**
+     * Test extreme cases for min and max values, i.e. min = max, min > max, min = 0, max = 0, min = 1, max = 1,
+     * min = 0, max = -1, min = -1, max = 0. All cases should throw an IllegalArgumentException.
+     */
+    @Test
+    public void testMinMaxExtremeCases() {
+        // Case a: min = 0, max = 0
+        assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(1, 0, 0));
+
+        // Case b: min = 0, max = 1
+        assertDoesNotThrow(() -> new ExponentialGenerator(1, 0, 1));
+
+        // Case c: min = 1, max = 0
+        assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(1, 1, 0));
+
+        // Case d: min = 1, max = 1
+        assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(1, 1, 1));
+
+        // Case e: min = 0, max = -1
+        assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(1, 0, -1));
+
+        // Case f: min = -1, max = 0
+        assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(1, -1, 0));
+
+        // Case g: min = -1, max = -1
+        assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(1, -1, -1));
+
+        // Case i: min = 0, max = Integer.MAX_VALUE
+        assertDoesNotThrow(() -> new ExponentialGenerator(1, 0, Integer.MAX_VALUE));
+
+        // Case j: min = Integer.MAX_VALUE, max = Integer.MAX_VALUE
+        assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(1, Integer.MAX_VALUE, Integer.MAX_VALUE));
+
+        // Case k: min = Integer.Nan, max = 1
+        assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(1, Integer.MIN_VALUE, 1));
+
+        // Case l: min = Integer.MIN_VALUE, max = Integer.MIN_VALUE
+        assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(1, Integer.MIN_VALUE, Integer.MIN_VALUE));
     }
 
     /**

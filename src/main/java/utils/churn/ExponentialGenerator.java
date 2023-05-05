@@ -91,8 +91,8 @@ public class ExponentialGenerator implements ChurnGenerator {
      *
      * @param lambda lambda value of the distribution, i.e., the rate parameter. It must be positive.
      *               the higher the lambda, the mean and variance of the distribution are smaller.
-     * @param min    minimum value of the distribution.
-     * @param max    maximum value of the distribution.
+     * @param min    minimum value of the distribution, must be positive.
+     * @param max    maximum value of the distribution, must be greater than min.
      */
     public ExponentialGenerator(double lambda, int min, int max) {
         this(lambda, min, max, new Random());
@@ -103,13 +103,16 @@ public class ExponentialGenerator implements ChurnGenerator {
      *
      * @param lambda lambda value of the distribution, i.e., the rate parameter. It must be positive.
      * @param rand   random generator.
-     * @param min    minimum value of the distribution.
-     * @param max    maximum value of the distribution.
+     * @param min    minimum value of the distribution, must be positive.
+     * @param max    maximum value of the distribution, must be greater than min.
      */
     public ExponentialGenerator(double lambda, int min, int max, Random rand) {
         if (lambda <= 0) {
-            throw new IllegalArgumentException(String.format("Lambda (%f) must be positive",
-                    lambda));
+            throw new IllegalArgumentException(String.format("Lambda (%f) must be positive", lambda));
+        }
+
+        if (min < 0) {
+            throw new IllegalArgumentException(String.format("Min (%d) must be positive", min));
         }
 
         if (lambda >= Double.MAX_VALUE) {
@@ -117,13 +120,11 @@ public class ExponentialGenerator implements ChurnGenerator {
         }
 
         if (Double.isNaN(lambda)) {
-            throw new IllegalArgumentException(String.format("Lambda (%f) must be a number",
-                    lambda));
+            throw new IllegalArgumentException(String.format("Lambda (%f) must be a number", lambda));
         }
 
         if (min >= max) {
-            throw new IllegalArgumentException(String.format("Min (%d) must be smaller than max (%d)",
-                    min, max));
+            throw new IllegalArgumentException(String.format("Min (%d) must be smaller than max (%d)", min, max));
         }
 
         this.lambda = lambda;
