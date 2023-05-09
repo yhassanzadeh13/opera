@@ -21,7 +21,7 @@ public class OperaGauge implements Gauge {
    */
   public OperaGauge(String name, String namespace, String subsystem, String helpMessage, String... labelNames) {
     this.gauge = io.prometheus.client.Gauge.build().namespace(namespace).subsystem(subsystem).name(name).help(
-        helpMessage).labelNames(labelNames).register();
+            helpMessage).labelNames(labelNames).register();
   }
 
   /**

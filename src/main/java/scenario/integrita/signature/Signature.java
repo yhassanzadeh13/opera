@@ -10,7 +10,7 @@ public class Signature {
    */
   public static byte[][] keyGen() {
     // @TODO generate keys
-    byte[][] result =  new byte[2][];
+    byte[][] result = new byte[2][];
     return result;
   }
 

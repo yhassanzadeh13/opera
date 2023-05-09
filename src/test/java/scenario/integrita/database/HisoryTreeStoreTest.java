@@ -1,11 +1,10 @@
 package scenario.integrita.database;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import scenario.integrita.historytree.HistoryTreeNode;
 import scenario.integrita.historytree.NodeAddress;

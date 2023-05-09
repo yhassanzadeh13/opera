@@ -3,7 +3,7 @@ package network.latency;
 import java.util.HashMap;
 
 import node.Identifier;
-import utils.generator.GaussianGenerator;
+import utils.churn.GaussianGenerator;
 
 /**
  * Creates synthetic and symmetric latecy between nodes.
@@ -15,6 +15,10 @@ public class LatencyGenerator {
 
   public LatencyGenerator() {
     this.nodesSimulatedLatency = new HashMap<>();
+  }
+
+  private static String concat(Identifier a, Identifier b) {
+    return a.toString() + b.toString();
   }
 
   /**
@@ -37,9 +41,5 @@ public class LatencyGenerator {
       this.nodesSimulatedLatency.put(hash, Math.abs(generator.next()));
     }
     return this.nodesSimulatedLatency.get(hash);
-  }
-
-  private static String concat(Identifier a, Identifier b) {
-    return a.toString() + b.toString();
   }
 }

@@ -18,10 +18,10 @@ import scenario.integrita.user.User;
  * Integrita client implementation.
  */
 public class Client extends User implements BaseNode {
-  private Logger logger;
   Identifier id;
   MiddleLayer network;
   ArrayList<Identifier> ids; // all ids inclding self
+  private Logger logger;
 
   public Client() {
 
@@ -30,7 +30,7 @@ public class Client extends User implements BaseNode {
   /**
    * Constructor of Client.
    *
-   * @param selfId identifier of the node.
+   * @param selfId  identifier of the node.
    * @param network network of the node.
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of MiddleLayer")

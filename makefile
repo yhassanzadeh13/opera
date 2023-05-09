@@ -11,3 +11,5 @@ test:
 generate:
 	@mvn clean install
 	@mvn compile
+docker-stop-opera:
+	docker container stop $$(docker ps -aq --filter name="opera" --format="{{.ID}}") || true

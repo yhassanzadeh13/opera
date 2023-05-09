@@ -14,9 +14,8 @@ public class Transaction implements Serializable {
   private final Identifier identifier;
   private final Identifier owner;
   private final List<Identifier> validators;
-  private boolean collected;
-
   private final Block prevBlock;
+  private boolean collected;
 
   /**
    * Constructor of Transaction.

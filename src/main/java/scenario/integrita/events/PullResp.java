@@ -4,7 +4,7 @@ import network.packets.Event;
 import node.BaseNode;
 
 /**
- *  PullResp event encapsulates a sever-side response to the client's pull request.
+ * PullResp event encapsulates a sever-side response to the client's pull request.
  */
 public class PullResp implements Event {
   String msg;

@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import network.FixtureNode;
-import network.*;
+import network.MiddleLayer;
+import network.NetworkProtocol;
+import network.Underlay;
+import network.UnderlayFactory;
 import node.Identifier;
 import node.IdentifierGenerator;
 

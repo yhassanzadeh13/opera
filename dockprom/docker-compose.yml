@@ -5,8 +5,8 @@ networks:
     driver: bridge
 
 volumes:
-    prometheus_data: {}
-    grafana_data: {}
+  prometheus_data: { }
+  grafana_data: { }
 
 services:
 
@@ -123,9 +123,9 @@ services:
       - "9091:9091"
     volumes:
       - ./caddy:/etc/caddy
-#    environment:
-#      - ADMIN_USER=${ADMIN_USER:-admin}
-#      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+    #    environment:
+    #      - ADMIN_USER=${ADMIN_USER:-admin}
+    #      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
     restart: unless-stopped
     networks:
       - monitor-net
