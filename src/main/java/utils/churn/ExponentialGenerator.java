@@ -90,23 +90,11 @@ public class ExponentialGenerator implements ChurnGenerator {
    * Constructor of ExponentialGenerator.
    *
    * @param lambda lambda value of the distribution, i.e., the rate parameter. It must be positive.
-   *               the higher the lambda, the mean and variance of the distribution are smaller.
-   * @param min    minimum value of the distribution, must be positive.
-   * @param max    maximum value of the distribution, must be greater than min.
-   */
-  public ExponentialGenerator(double lambda, int min, int max) {
-    this(lambda, min, max, new Random());
-  }
-
-  /**
-   * Constructor of ExponentialGenerator.
-   *
-   * @param lambda lambda value of the distribution, i.e., the rate parameter. It must be positive.
    * @param rand   random generator.
    * @param min    minimum value of the distribution, must be positive.
    * @param max    maximum value of the distribution, must be greater than min.
    */
-  public ExponentialGenerator(double lambda, int min, int max, Random rand) {
+  public ExponentialGenerator(double lambda, int min, int max) {
     if (lambda <= 0) {
       throw new IllegalArgumentException(String.format("Lambda (%f) must be positive", lambda));
     }
@@ -128,7 +116,7 @@ public class ExponentialGenerator implements ChurnGenerator {
     }
 
     this.lambda = lambda;
-    this.rand = rand;
+    this.rand = new Random();
     this.min = min;
     this.max = max;
   }
