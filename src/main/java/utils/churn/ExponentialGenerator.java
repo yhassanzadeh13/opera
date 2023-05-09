@@ -90,7 +90,6 @@ public class ExponentialGenerator implements ChurnGenerator {
    * Constructor of ExponentialGenerator.
    *
    * @param lambda lambda value of the distribution, i.e., the rate parameter. It must be positive.
-   * @param rand   random generator.
    * @param min    minimum value of the distribution, must be positive.
    * @param max    maximum value of the distribution, must be greater than min.
    */
