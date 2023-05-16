@@ -11,5 +11,5 @@ public interface ChurnGenerator {
    *
    * @return the next churn value in milliseconds (ms).
    */
-  int next();
+  double next();
 }

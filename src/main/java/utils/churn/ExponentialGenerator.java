@@ -126,7 +126,7 @@ public class ExponentialGenerator implements ChurnGenerator {
    * @return the next value of the distribution as an integer.
    */
   @Override
-  public int next() {
+  public double next() {
     // generates a uniform random number between 0 and 1 and adds a small value to avoid log(0)
     double u = rand.nextDouble() + 0.000_000_000_1; // to avoid log(0)
     // generates the next value according to the exponential distribution.
@@ -144,6 +144,6 @@ public class ExponentialGenerator implements ChurnGenerator {
     }
 
     // returns the next value as an integer.
-    return (int) Math.round(e);
+    return Math.round(e);
   }
 }

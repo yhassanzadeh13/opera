@@ -21,8 +21,8 @@ public class LatencyGeneratorTest {
 
     for (int i = 0; i < NODE_CNT; i++) {
       for (int j = 0; j < i; j++) {
-        int delay1 = latencyGenerator.getSimulatedLatency(ids.get(i), ids.get(j), true);
-        int delay2 = latencyGenerator.getSimulatedLatency(ids.get(j), ids.get(i), true);
+        double delay1 = latencyGenerator.getSimulatedLatency(ids.get(i), ids.get(j), true);
+        double delay2 = latencyGenerator.getSimulatedLatency(ids.get(j), ids.get(i), true);
         assertEquals(delay1, delay2);
       }
     }
@@ -41,7 +41,7 @@ public class LatencyGeneratorTest {
     for (int i = 0; i < ITERATIONS; i++) {
       int ind1 = rand.nextInt(NODE_CNT);
       int ind2 = rand.nextInt(NODE_CNT);
-      int delay = latencyGenerator.getSimulatedLatency(ids.get(ind1), ids.get(ind2), true);
+      double delay = latencyGenerator.getSimulatedLatency(ids.get(ind1), ids.get(ind2), true);
       totalDelay += delay;
     }
     double mean = (double) totalDelay / ITERATIONS;

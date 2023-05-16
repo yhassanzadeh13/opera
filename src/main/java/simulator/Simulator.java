@@ -53,7 +53,7 @@ public class Simulator implements Orchestrator {
   private final MetricServer metricServer;
 
   private HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers;
-  private PriorityQueue<SimpleEntryComparable<Long, Identifier>> onlineNodes =
+  private PriorityQueue<SimpleEntryComparable<Double, Identifier>> onlineNodes =
           new PriorityQueue<>();
 
   /**
@@ -305,17 +305,19 @@ public class Simulator implements Orchestrator {
     long time = System.currentTimeMillis();
     for (Identifier id : this.allId) {
       if (isReady.get(this.allFullAddresses.get(id))) {
-        int sessionLength = sessionLengthGenerator.next();
+        double sessionLength = sessionLengthGenerator.next();
         log.info("generated new session length of {} ms for node {}, termination at {}", id,
                 sessionLength, time + sessionLength);
         onlineNodes.add(new SimpleEntryComparable<>(time + sessionLength, id));
-        this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
+        // TODO: fix this
+        this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, (int) sessionLength);
       }
     }
     // hold next arrival time
-    int interArrivalTime = interArrivalGen.next();
-    this.simulatorMetricsCollector.onNewInterArrivalGenerated(interArrivalTime);
-    long nextArrival = System.currentTimeMillis() + interArrivalTime;
+    double interArrivalTime = interArrivalGen.next();
+    // TODO: fix this
+    this.simulatorMetricsCollector.onNewInterArrivalGenerated((int) interArrivalTime);
+    double nextArrival = System.currentTimeMillis() + interArrivalTime;
 
     while (System.currentTimeMillis() - time < lifeTime) {
       if (!onlineNodes.isEmpty()) {
@@ -347,8 +349,9 @@ public class Simulator implements Orchestrator {
 
         // TODO: this logic has a repetition (see earlier in the code)
         // assign a termination time
-        int sessionLength = sessionLengthGenerator.next();
-        this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
+        double sessionLength = sessionLengthGenerator.next();
+        // TODO: fix this
+        this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, (int) sessionLength);
         log.info("generated new session length of {} ms for node {}, termination at {}", id,
                 sessionLength, time + sessionLength);
         this.onlineNodes.add(
@@ -356,9 +359,10 @@ public class Simulator implements Orchestrator {
 
         // assign a next node arrival time
         interArrivalTime = interArrivalGen.next();
-        this.simulatorMetricsCollector.onNewInterArrivalGenerated(interArrivalTime);
+        // TODO: fix this
+        this.simulatorMetricsCollector.onNewInterArrivalGenerated((int) interArrivalTime);
         nextArrival = System.currentTimeMillis() + interArrivalTime;
-        Duration nextArrivalDuration = Duration.ofMillis(interArrivalTime);
+        Duration nextArrivalDuration = Duration.ofMillis((int) interArrivalTime);
         log.info("next node {} in {} hours {} minutes {} seconds {} milliseconds", id,
                 nextArrivalDuration.toHoursPart(), nextArrivalDuration.toMinutesPart(),
                 nextArrivalDuration.toSecondsPart(), nextArrivalDuration.toMillis());

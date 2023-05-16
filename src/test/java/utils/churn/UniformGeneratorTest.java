@@ -28,7 +28,7 @@ class UniformGeneratorTest {
   @Test
   void next_alwaysReturnsValueInRange() {
     for (int i = 0; i < 1000; i++) {
-      int value = generator.next();
+      double value = generator.next();
       assertTrue(value >= min && value < max,
               "Generated value should be within the specified range");
     }
@@ -46,8 +46,8 @@ class UniformGeneratorTest {
     int tolerance = (int) (sampleSize * 0.1);
     int[] counts = new int[max - min];
     for (int i = 0; i < sampleSize; i++) {
-      int value = generator.next();
-      counts[value - min]++;
+      double value = generator.next();
+      counts[(int) value - min]++;
     }
 
     for (int count : counts) {
@@ -73,7 +73,7 @@ class UniformGeneratorTest {
     assertTrue(tolerance > 0, "Tolerance should be greater than 0");
     Map<Integer, Integer> counts = new java.util.HashMap<>();
     for (int i = 0; i < (max - min); i++) {
-      int value = generator.next();
+      int value = (int) generator.next();
       counts.put(value, counts.getOrDefault(value, 0) + 1);
       assertTrue(counts.get(value) <= tolerance,
               "Value count should be within the acceptable tolerance");
@@ -99,7 +99,7 @@ class UniformGeneratorTest {
     double sumSquared = 0;
 
     for (int i = 0; i < sampleSize; i++) {
-      int value = generator.next();
+      double value = generator.next();
       sum += value;
       sumSquared += Math.pow(value, 2);
     }

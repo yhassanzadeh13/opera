@@ -33,7 +33,7 @@ public class UniformGenerator implements ChurnGenerator {
   }
 
   @Override
-  public int next() {
+  public double next() {
     return min + rand.nextInt(max - min);
   }
 }

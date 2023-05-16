@@ -11,7 +11,7 @@ import utils.churn.GaussianGenerator;
 public class LatencyGenerator {
   public static final int MeanLatency = 159;
   public static final int StdLatency = 96;
-  private final HashMap<String, Integer> nodesSimulatedLatency;
+  private final HashMap<String, Double> nodesSimulatedLatency;
 
   public LatencyGenerator() {
     this.nodesSimulatedLatency = new HashMap<>();
@@ -29,7 +29,7 @@ public class LatencyGenerator {
    * @param bidirectional True, if simulated latency from A to B is the same as from B to A, false otherwise.
    * @return new simulated latency.
    */
-  public int getSimulatedLatency(Identifier nodeA, Identifier nodeB, boolean bidirectional) {
+  public double getSimulatedLatency(Identifier nodeA, Identifier nodeB, boolean bidirectional) {
     if (bidirectional && nodeA.compareTo(nodeB) < 0) {
       Identifier tmp = nodeA;
       nodeA = nodeB;
