@@ -85,13 +85,9 @@ public class GaussianGenerator implements ChurnGenerator {
      */
     @Override
     public double next() {
-        double value = Math.floor(rand.nextGaussian() * this.std + this.mean);
+        double value = rand.nextGaussian() * this.std + this.mean;
         if (value < this.min) {
             return this.min;
-        } else if (value > this.max) {
-            return this.max;
-        } else {
-            return value;
-        }
+        } else return Math.min(value, this.max);
     }
 }
