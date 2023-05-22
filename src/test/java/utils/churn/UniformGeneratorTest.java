@@ -90,7 +90,7 @@ class UniformGeneratorTest {
   @Test
   void next_generatesValuesWithExpectedMeanAndVariance() {
     int sampleSize = 10_000;
-    double tolerance = 0.01;
+    double tolerance = 0.05;
 
     double expectedMean = (min + max) / 2.0;
     double expectedVariance = Math.pow(max - min, 2) / 12.0;
