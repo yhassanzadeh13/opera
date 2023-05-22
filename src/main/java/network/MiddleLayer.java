@@ -94,9 +94,10 @@ public class MiddleLayer {
     Integer port = fullAddress.getValue();
 
     // sleep for the simulated duration
-    int sleepTime = this.latencyGenerator.getSimulatedLatency(nodeId, destinationId, true);
+    double sleepTime = this.latencyGenerator.getSimulatedLatency(nodeId, destinationId, true);
     try {
-      Thread.sleep(sleepTime);
+      // TODO: fix this, we don't need to sleep!
+      Thread.sleep((int) sleepTime);
     } catch (InterruptedException ex) {
       this.logger.fatal("failed to sleep thread for the simulated delay, sleep time {}", sleepTime, ex);
     }

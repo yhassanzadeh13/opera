@@ -21,7 +21,7 @@ public class ExponentialGeneratorTest {
   @Test
   void testPositiveLambdaValue() {
     ExponentialGenerator generator = new ExponentialGenerator(1, 1, 100);
-    int result = generator.next();
+    double result = generator.next();
     assertTrue(result > 0);
   }
 
@@ -109,12 +109,12 @@ public class ExponentialGeneratorTest {
               minValues[i],
               maxValues[i]);
       for (int j = 0; j < numberOfSamples; j++) {
-        int generatedValue = generator.next();
+        double generatedValue = generator.next();
         assertTrue(generatedValue >= minValues[i],
-                String.format("Generated value %d is smaller than the minimum value %d",
+                String.format("Generated value %f is smaller than the minimum value %d",
                         generatedValue, minValues[i]));
         assertTrue(generatedValue <= maxValues[i],
-                String.format("Generated value %d is larger than the maximum value %d",
+                String.format("Generated value %f is larger than the maximum value %d",
                         generatedValue, maxValues[i]));
       }
     }
@@ -141,7 +141,7 @@ public class ExponentialGeneratorTest {
       ExponentialGenerator generator = new ExponentialGenerator(lambdas[i], minValue, maxValue);
       double sum = 0;
       for (int j = 0; j < numberOfSamples; j++) {
-        int generatedValue = generator.next();
+        double generatedValue = generator.next();
         assertTrue(generatedValue >= 0, "Generated value should be greater than or equal to 0");
         sum += generatedValue;
       }
@@ -178,7 +178,7 @@ public class ExponentialGeneratorTest {
       double sum = 0;
       double sumOfSquares = 0;
       for (int j = 0; j < numberOfSamples; j++) {
-        int generatedValue = generator.next();
+        double generatedValue = generator.next();
         assertTrue(generatedValue >= 0, "Generated value should be greater than or equal to 0");
         sum += generatedValue;
         sumOfSquares += generatedValue * generatedValue;
@@ -295,7 +295,7 @@ public class ExponentialGeneratorTest {
     double sumSquare = 0;
 
     for (int i = 0; i < numberOfSamples; i++) {
-      int generatedValue = generator.next();
+      double generatedValue = generator.next();
       sum += generatedValue;
       sumSquare += generatedValue * generatedValue;
     }

@@ -37,7 +37,7 @@ public class WeibullGenerator implements ChurnGenerator {
   }
 
   @Override
-  public int next() {
-    return (int) (mn + (mx - mn) * this.generator.sample());
+  public double next() {
+    return (mn + (mx - mn) * this.generator.sample());
   }
 }
