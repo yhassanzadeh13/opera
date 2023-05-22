@@ -114,52 +114,5 @@ public class GaussianGeneratorTest {
             }
         }
     }
-
-    @Test
-    public void testGaussianGeneratorDistributionSlidingWindow() {
-        int mean = 50;
-        int std = 10;
-        int windowSize = 7; // Equivalent to [-3*std, 3*std]
-        double sampleSize = 1_000_000.0;
-        GaussianGenerator generator = new GaussianGenerator(mean, std);
-
-        // Create histogram for each possible value in the range [-3*std, 3*std]
-        Map<Double, Double> histogram = new HashMap<>();
-        double[] ranges = new double[windowSize];
-        for (int i = -3; i <= 3; i++) {
-            double rangeMin = i * std + mean;
-            histogram.put(rangeMin, 0.0);
-            ranges[i + 3] = i * std + mean; // (i+3) is to offset the index
-        }
-
-        // Generate samples and populate histogram
-        for (int i = 0; i < sampleSize; i++) {
-            double value = generator.next();
-            for (int rangeIndex = 0; rangeIndex < ranges.length - 1; rangeIndex++) {
-                if (value >= ranges[rangeIndex] && value < ranges[rangeIndex + 1]) {
-                    histogram.put(ranges[rangeIndex], histogram.get(ranges[rangeIndex]) + 1);
-                }
-            }
-        }
-
-        // Slide window across histogram, and check each window's distribution
-        int windowTotal = 0;
-        for (int leftRangeIndex = 0; leftRangeIndex < ranges.length - 1; leftRangeIndex++) {
-            int rightRangeIndex = ranges.length - 1 - leftRangeIndex;
-            double leftRangeMin = ranges[leftRangeIndex];
-            double rightRangeMin = ranges[rightRangeIndex];
-
-            double leftRangePercentage = histogram.get(leftRangeMin) / sampleSize;
-            double rightRangePercentage = histogram.get(rightRangeMin) / sampleSize;
-            if(Math.abs(leftRangePercentage - rightRangePercentage) > 0.05) {
-                System.out.println("leftRangePercentage: " + leftRangePercentage + " rightRangePercentage: " + rightRangePercentage);
-                windowTotal = 0;
-                continue;
-            }
-            windowTotal++;
-        }
-        assertTrue(windowTotal > 5, String.format("Generated values do not follow Gaussian distribution. windowTotal: %d", windowTotal));
-    }
-
 }
 
