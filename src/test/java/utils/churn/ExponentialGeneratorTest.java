@@ -111,10 +111,10 @@ public class ExponentialGeneratorTest {
       for (int j = 0; j < numberOfSamples; j++) {
         double generatedValue = generator.next();
         assertTrue(generatedValue >= minValues[i],
-                String.format("Generated value %d is smaller than the minimum value %d",
+                String.format("Generated value %f is smaller than the minimum value %d",
                         generatedValue, minValues[i]));
         assertTrue(generatedValue <= maxValues[i],
-                String.format("Generated value %d is larger than the maximum value %d",
+                String.format("Generated value %f is larger than the maximum value %d",
                         generatedValue, maxValues[i]));
       }
     }
