@@ -1,18 +1,5 @@
 package simulator;
 
-import java.net.Inet4Address;
-import java.net.UnknownHostException;
-import java.time.Duration;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.PriorityQueue;
-import java.util.Random;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import metrics.integration.MetricServer;
 import metrics.integration.MetricsNetwork;
@@ -27,6 +14,14 @@ import node.Identifier;
 import node.IdentifierGenerator;
 import utils.SimpleEntryComparable;
 import utils.churn.ChurnGenerator;
+
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
+import java.time.Duration;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Simulator simulates situations between nodes with actions performed between the nodes.
@@ -309,14 +304,13 @@ public class Simulator implements Orchestrator {
         log.info("generated new session length of {} ms for node {}, termination at {}", id,
                 sessionLength, time + sessionLength);
         onlineNodes.add(new SimpleEntryComparable<>(time + sessionLength, id));
-        // TODO: fix this
-        this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, (int) sessionLength);
+        this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
       }
     }
+
     // hold next arrival time
     double interArrivalTime = interArrivalGen.next();
-    // TODO: fix this
-    this.simulatorMetricsCollector.onNewInterArrivalGenerated((int) interArrivalTime);
+    this.simulatorMetricsCollector.onNewInterArrivalGenerated(interArrivalTime);
     double nextArrival = System.currentTimeMillis() + interArrivalTime;
 
     while (System.currentTimeMillis() - time < lifeTime) {
@@ -351,7 +345,7 @@ public class Simulator implements Orchestrator {
         // assign a termination time
         double sessionLength = sessionLengthGenerator.next();
         // TODO: fix this
-        this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, (int) sessionLength);
+        this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
         log.info("generated new session length of {} ms for node {}, termination at {}", id,
                 sessionLength, time + sessionLength);
         this.onlineNodes.add(
@@ -359,8 +353,7 @@ public class Simulator implements Orchestrator {
 
         // assign a next node arrival time
         interArrivalTime = interArrivalGen.next();
-        // TODO: fix this
-        this.simulatorMetricsCollector.onNewInterArrivalGenerated((int) interArrivalTime);
+        this.simulatorMetricsCollector.onNewInterArrivalGenerated(interArrivalTime);
         nextArrival = System.currentTimeMillis() + interArrivalTime;
         Duration nextArrivalDuration = Duration.ofMillis((int) interArrivalTime);
         log.info("next node {} in {} hours {} minutes {} seconds {} milliseconds", id,
