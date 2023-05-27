@@ -69,7 +69,7 @@ public class SimulatorMetricsCollector {
    * @param id            identifier of node.
    * @param sessionLength its session length.
    */
-  public void onNewSessionLengthGenerated(Identifier id, int sessionLength) {
+  public void onNewSessionLengthGenerated(Identifier id, double sessionLength) {
     this.sessionLengthHistogram.observe(id, sessionLength);
   }
 
@@ -80,7 +80,7 @@ public class SimulatorMetricsCollector {
    *
    * @param interArrival its inter arrival time.
    */
-  public void onNewInterArrivalGenerated(int interArrival) {
+  public void onNewInterArrivalGenerated(double interArrival) {
     // Since inter arrival time is a global parameter, we record it by the collector id which
     // is a global identifier.
     this.interarrivalTimeHistogram.observe(interArrival);

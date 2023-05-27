@@ -309,14 +309,13 @@ public class Simulator implements Orchestrator {
         log.info("generated new session length of {} ms for node {}, termination at {}", id,
                 sessionLength, time + sessionLength);
         onlineNodes.add(new SimpleEntryComparable<>(time + sessionLength, id));
-        // TODO: fix this
-        this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, (int) sessionLength);
+        this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
       }
     }
+
     // hold next arrival time
     double interArrivalTime = interArrivalGen.next();
-    // TODO: fix this
-    this.simulatorMetricsCollector.onNewInterArrivalGenerated((int) interArrivalTime);
+    this.simulatorMetricsCollector.onNewInterArrivalGenerated(interArrivalTime);
     double nextArrival = System.currentTimeMillis() + interArrivalTime;
 
     while (System.currentTimeMillis() - time < lifeTime) {
@@ -351,7 +350,7 @@ public class Simulator implements Orchestrator {
         // assign a termination time
         double sessionLength = sessionLengthGenerator.next();
         // TODO: fix this
-        this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, (int) sessionLength);
+        this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
         log.info("generated new session length of {} ms for node {}, termination at {}", id,
                 sessionLength, time + sessionLength);
         this.onlineNodes.add(
@@ -359,8 +358,7 @@ public class Simulator implements Orchestrator {
 
         // assign a next node arrival time
         interArrivalTime = interArrivalGen.next();
-        // TODO: fix this
-        this.simulatorMetricsCollector.onNewInterArrivalGenerated((int) interArrivalTime);
+        this.simulatorMetricsCollector.onNewInterArrivalGenerated(interArrivalTime);
         nextArrival = System.currentTimeMillis() + interArrivalTime;
         Duration nextArrivalDuration = Duration.ofMillis((int) interArrivalTime);
         log.info("next node {} in {} hours {} minutes {} seconds {} milliseconds", id,
