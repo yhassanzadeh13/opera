@@ -42,7 +42,7 @@ class UniformGeneratorTest {
    */
   @Test
   void next_generatesUniformlyDistributedValues() {
-    int sampleSize = 10_000;
+    int sampleSize = 1_000_000;
     int tolerance = (int) (sampleSize * 0.1);
     int[] counts = new int[max - min];
     for (int i = 0; i < sampleSize; i++) {
