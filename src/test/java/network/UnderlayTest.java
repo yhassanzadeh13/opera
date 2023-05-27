@@ -105,14 +105,14 @@ public class UnderlayTest {
       String address = allFullAddresses.get(id).getKey();
       int port = allFullAddresses.get(id).getValue();
 
-      MiddleLayer middleLayer = new MiddleLayer(id, allFullAddresses, new NoopOrchestrator());
-      FixtureNode node = new FixtureNode(id, allId, middleLayer);
-      middleLayer.setOverlay(node);
+      Network network = new Network(id, allFullAddresses, new NoopOrchestrator());
+      FixtureNode node = new FixtureNode(id, allId, network);
+      network.setOverlay(node);
 
       LocalUnderlay underlay = new LocalUnderlay(address, port, allLocalUnderlay);
-      underlay.initialize(port, middleLayer);
+      underlay.initialize(port, network);
 
-      middleLayer.setUnderlay(underlay);
+      network.setUnderlay(underlay);
       instances.add(node);
       allLocalUnderlay.put(new AbstractMap.SimpleEntry<>(address, port), underlay);
     }

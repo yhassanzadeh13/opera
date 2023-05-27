@@ -12,7 +12,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
-import network.MiddleLayer;
 import network.packets.Event;
 import node.BaseNode;
 import node.Identifier;
@@ -47,7 +46,7 @@ public class LightChainNode implements BaseNode {
   private Logger logger;
   private List<Identifier> allId;
   private Identifier identifier;
-  private MiddleLayer network;
+  private network.Network network;
   private boolean isRegistry;
   private Map<Identifier, Transaction> transactions;
   private Map<Identifier, Block> blocks;
@@ -75,7 +74,7 @@ public class LightChainNode implements BaseNode {
    * @param network used to communicate with other nodes
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "network is externally mutable")
-  public LightChainNode(Identifier nodeId, MiddleLayer network) {
+  public LightChainNode(Identifier nodeId, network.Network network) {
     this.identifier = nodeId;
     this.network = network;
     this.transactions = new HashMap<>();
@@ -194,7 +193,7 @@ public class LightChainNode implements BaseNode {
    * @return a new instance of LightChainNode
    */
   @Override
-  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network) {
+  public BaseNode newInstance(Identifier selfId, String nameSpace, network.Network network) {
     return new LightChainNode(selfId, network);
   }
 

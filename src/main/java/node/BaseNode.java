@@ -2,7 +2,6 @@ package node;
 
 import java.util.ArrayList;
 
-import network.MiddleLayer;
 import network.packets.Event;
 
 
@@ -47,6 +46,6 @@ public interface BaseNode {
    * @param network   communication network for the new node.
    * @return a new instance of the special node class.
    */
-  BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network);
+  BaseNode newInstance(Identifier selfId, String nameSpace, network.Network network);
 
 }

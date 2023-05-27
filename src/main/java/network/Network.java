@@ -22,7 +22,7 @@ import simulator.Orchestrator;
  * to the overlay.
  */
 // TODO: rename MiddleLayer to NetworkBroker
-public class MiddleLayer {
+public class Network {
   private final Logger logger;
   //TODO add bucket size to the default metrics
   private final HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses;
@@ -42,15 +42,15 @@ public class MiddleLayer {
    * @param orchestrator     Orchestrator for the middle layer
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "allFullAddresses is externally mutable")
-  public MiddleLayer(Identifier nodeId, HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses,
-                     Orchestrator orchestrator) throws IllegalStateException {
+  public Network(Identifier nodeId, HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses,
+                 Orchestrator orchestrator) throws IllegalStateException {
 
     if (orchestrator == null) {
       throw new IllegalArgumentException("orchestrator cannot be null");
     }
 
     this.nodeId = nodeId;
-    this.logger = OperaLogger.getLoggerForNodeComponent(MiddleLayer.class.getCanonicalName(), nodeId, "middlelayer");
+    this.logger = OperaLogger.getLoggerForNodeComponent(Network.class.getCanonicalName(), nodeId, "middlelayer");
     this.allFullAddresses = allFullAddresses;
     this.orchestrator = orchestrator;
     this.metricsCollector = OperaMiddlewareCollector.getInstance();

@@ -2,7 +2,6 @@ package utils;
 
 import java.util.ArrayList;
 
-import network.MiddleLayer;
 import network.packets.Event;
 import node.BaseNode;
 import node.Identifier;
@@ -13,12 +12,12 @@ import node.Identifier;
 public class FixtureNode implements BaseNode {
   private Identifier selfId;
   private ArrayList<Identifier> allId;
-  private MiddleLayer network;
+  private network.Network network;
 
   public FixtureNode() {
   }
 
-  FixtureNode(Identifier selfId, MiddleLayer network) {
+  FixtureNode(Identifier selfId, network.Network network) {
     this.selfId = selfId;
     this.network = network;
   }
@@ -41,7 +40,7 @@ public class FixtureNode implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network) {
+  public BaseNode newInstance(Identifier selfId, String nameSpace, network.Network network) {
     return new FixtureNode(selfId, network);
   }
 

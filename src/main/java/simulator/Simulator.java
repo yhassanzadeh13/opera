@@ -18,7 +18,6 @@ import metrics.integration.MetricServer;
 import metrics.integration.MetricsNetwork;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
-import network.MiddleLayer;
 import network.NetworkProtocol;
 import network.UnderlayFactory;
 import network.local.LocalUnderlay;
@@ -52,7 +51,7 @@ public class Simulator implements Orchestrator {
   private final MetricsNetwork metricsNetwork;
   private final MetricServer metricServer;
 
-  private HashMap<SimpleEntry<String, Integer>, MiddleLayer> allMiddleLayers;
+  private HashMap<SimpleEntry<String, Integer>, network.Network> allMiddleLayers;
   private PriorityQueue<SimpleEntryComparable<Double, Identifier>> onlineNodes =
           new PriorityQueue<>();
 
@@ -128,30 +127,30 @@ public class Simulator implements Orchestrator {
         Identifier id = allId.get(globalIndex++);
 
         isReady.put(this.allFullAddresses.get(id), false);
-        MiddleLayer middleLayer = new MiddleLayer(id, this.allFullAddresses, this);
+        network.Network network = new network.Network(id, this.allFullAddresses, this);
 
-        BaseNode node = r.getBaseNode().newInstance(id, r.getNameSpace(), middleLayer);
-        middleLayer.setOverlay(node);
-        this.allMiddleLayers.put(this.allFullAddresses.get(id), middleLayer);
+        BaseNode node = r.getBaseNode().newInstance(id, r.getNameSpace(), network);
+        network.setOverlay(node);
+        this.allMiddleLayers.put(this.allFullAddresses.get(id), network);
       }
     }
 
     // generate new underlays and assign them to the nodes middles layers.
-    for (Map.Entry<SimpleEntry<String, Integer>, MiddleLayer> node :
+    for (Map.Entry<SimpleEntry<String, Integer>, network.Network> node :
             this.allMiddleLayers.entrySet()) {
-      MiddleLayer middleLayer = node.getValue();
+      network.Network network = node.getValue();
       String address = node.getKey().getKey();
       int port = node.getKey().getValue();
       if (networkType != NetworkProtocol.MOCK_NETWORK) {
-        middleLayer.setUnderlay(UnderlayFactory.newUnderlay(networkType, port, middleLayer));
+        network.setUnderlay(UnderlayFactory.newUnderlay(networkType, port, network));
       } else {
-        LocalUnderlay underlay = UnderlayFactory.getMockUnderlay(address, port, middleLayer,
+        LocalUnderlay underlay = UnderlayFactory.getMockUnderlay(address, port, network,
                 allLocalUnderlay);
-        middleLayer.setUnderlay(underlay);
+        network.setUnderlay(underlay);
         allLocalUnderlay.put(node.getKey(), underlay);
       }
       // call the node onCreat method of the nodes
-      middleLayer.create(this.allId);
+      network.create(this.allId);
     }
   }
 
@@ -181,7 +180,7 @@ public class Simulator implements Orchestrator {
     }
 
     // start all nodes in new threads
-    for (MiddleLayer middleNetwork : this.allMiddleLayers.values()) {
+    for (network.Network middleNetwork : this.allMiddleLayers.values()) {
       // TODO: this should also have a timeout.
       middleNetwork.start();
     }
@@ -228,7 +227,7 @@ public class Simulator implements Orchestrator {
     }
   }
 
-  public MiddleLayer getMiddleLayer(Identifier id) {
+  public network.Network getMiddleLayer(Identifier id) {
     SimpleEntry<String, Integer> address = this.allFullAddresses.get(id);
     return this.allMiddleLayers.get(address);
   }
@@ -247,9 +246,9 @@ public class Simulator implements Orchestrator {
     SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(nodeId);
 
     // stop the nodes on a new thread
-    MiddleLayer middleLayer = this.allMiddleLayers.get(fullAddress);
-    if (middleLayer != null) {
-      middleLayer.stop();
+    network.Network network = this.allMiddleLayers.get(fullAddress);
+    if (network != null) {
+      network.stop();
     }
     // add the offline nodes list
     this.offlineNodes.add(nodeId);
@@ -342,14 +341,13 @@ public class Simulator implements Orchestrator {
 
         // creat the new node in a new thread
         // Once the node call `ready` method, the node's onStart method will be called
-        MiddleLayer middleLayer = this.getMiddleLayer(id);
-        middleLayer.initUnderLay();
-        middleLayer.create(this.allId);
+        network.Network network = this.getMiddleLayer(id);
+        network.initUnderLay();
+        network.create(this.allId);
 
         // TODO: this logic has a repetition (see earlier in the code)
         // assign a termination time
         double sessionLength = sessionLengthGenerator.next();
-        // TODO: fix this
         this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
         log.info("generated new session length of {} ms for node {}, termination at {}", id,
                 sessionLength, time + sessionLength);

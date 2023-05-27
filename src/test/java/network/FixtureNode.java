@@ -13,11 +13,11 @@ import node.Identifier;
 public class FixtureNode implements BaseNode {
   private final Identifier selfId;
   private final ArrayList<Identifier> allId;
-  private final MiddleLayer network;
+  private final Network network;
   public AtomicInteger receivedMessages = new AtomicInteger(0);
 
 
-  public FixtureNode(Identifier selfId, ArrayList<Identifier> allId, MiddleLayer network) {
+  public FixtureNode(Identifier selfId, ArrayList<Identifier> allId, Network network) {
     this.selfId = selfId;
     this.network = network;
     this.allId = allId;
@@ -42,7 +42,7 @@ public class FixtureNode implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network) {
+  public BaseNode newInstance(Identifier selfId, String nameSpace, Network network) {
     return null;
   }
 

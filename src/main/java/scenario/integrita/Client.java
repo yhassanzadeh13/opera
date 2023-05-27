@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
-import network.MiddleLayer;
 import network.packets.Event;
 import node.BaseNode;
 import node.Identifier;
@@ -19,7 +18,7 @@ import scenario.integrita.user.User;
  */
 public class Client extends User implements BaseNode {
   Identifier id;
-  MiddleLayer network;
+  network.Network network;
   ArrayList<Identifier> ids; // all ids inclding self
   private Logger logger;
 
@@ -34,7 +33,7 @@ public class Client extends User implements BaseNode {
    * @param network network of the node.
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of MiddleLayer")
-  public Client(Identifier selfId, MiddleLayer network) {
+  public Client(Identifier selfId, network.Network network) {
     this.id = selfId;
     this.network = network;
     this.logger = OperaLogger.getLoggerForNodeComponent(this.getClass().getCanonicalName(), selfId, "integrita_client");
@@ -70,7 +69,7 @@ public class Client extends User implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network) {
+  public BaseNode newInstance(Identifier selfId, String nameSpace, network.Network network) {
     return new Client(selfId, network);
   }
 }

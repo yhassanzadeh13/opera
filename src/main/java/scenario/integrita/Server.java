@@ -6,7 +6,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import groovy.lang.Tuple;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
-import network.MiddleLayer;
 import network.packets.Event;
 import node.BaseNode;
 import node.Identifier;
@@ -32,7 +31,7 @@ public class Server implements BaseNode {
   // simulator related properties
   @SuppressFBWarnings(value = "URF_UNREAD_FIELD", justification = "skipping unread fields error, work-in-progress")
   Identifier id;
-  MiddleLayer network;
+  network.Network network;
   // all identifiers including self
   @SuppressFBWarnings(value = "URF_UNREAD_FIELD", justification = "skipping unread fields error, work-in-progress")
   ArrayList<Identifier> ids;
@@ -50,7 +49,7 @@ public class Server implements BaseNode {
    * Constructor.
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of network")
-  public Server(Identifier selfId, MiddleLayer network) {
+  public Server(Identifier selfId, network.Network network) {
     this.id = selfId;
     this.network = network;
     this.logger = OperaLogger.getLoggerForNodeComponent(this.getClass().getCanonicalName(), selfId, "integrita_server");
@@ -172,7 +171,7 @@ public class Server implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network) {
+  public BaseNode newInstance(Identifier selfId, String nameSpace, network.Network network) {
     return new Server(selfId, network);
   }
 }
