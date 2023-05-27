@@ -47,7 +47,7 @@ public class Fixtures {
       network.Network network = new network.Network(id, allFullAddresses, new NoopOrchestrator());
 
       network.FixtureNode node = new FixtureNode(id, allId, network);
-      network.setOverlay(node);
+      network.setNode(node);
       Underlay underlay = UnderlayFactory.newUnderlay(underlayName, 0, network);
       assert underlay != null;
       int port = underlay.getPort();

@@ -130,7 +130,7 @@ public class Simulator implements Orchestrator {
         network.Network network = new network.Network(id, this.allFullAddresses, this);
 
         BaseNode node = r.getBaseNode().newInstance(id, r.getNameSpace(), network);
-        network.setOverlay(node);
+        network.setNode(node);
         this.allMiddleLayers.put(this.allFullAddresses.get(id), network);
       }
     }

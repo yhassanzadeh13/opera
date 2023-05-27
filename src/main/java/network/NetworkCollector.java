@@ -13,11 +13,11 @@ import node.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Encapsulates metrics collectors for network.
+ * A singleton class which collects metrics for the network layer.
+ * It is shared among all the network layers of the nodes in simulation.
  */
-// TODO: rename to middleware.
-public class MiddlewareCollector {
-  public static final String Subsystem_Middleware = "middleware";
+public class NetworkCollector {
+  public static final String SUBSYSTEM_NETWORK = "network";
   private final Histogram propagationDelay;
   private final Histogram receivedMessageSize;
   private final Histogram sentMessageSize;
@@ -26,30 +26,30 @@ public class MiddlewareCollector {
 
 
   /**
-   * Atomically initiates metric collector for middlelayer exactly once.
+   * Atomically initiates metric collector for networking layer exactly once.
    */
-  public MiddlewareCollector() {
+  public NetworkCollector() {
     this.propagationDelay = new OperaHistogram(Name.PROPAGATION_DELAY,
-            Constants.Namespace.NETWORK, Subsystem_Middleware,
+            Constants.Namespace.NETWORK, SUBSYSTEM_NETWORK,
             HelpMsg.PROPAGATION_DELAY,
             Constants.Histogram.DEFAULT_HISTOGRAM,
             Constants.IDENTIFIER);
     this.receivedMessageSize = new OperaHistogram(Name.RECEIVED_MESSAGE_SIZE,
-            Constants.Namespace.NETWORK, Subsystem_Middleware,
+            Constants.Namespace.NETWORK, SUBSYSTEM_NETWORK,
             HelpMsg.RECEIVED_MESSAGE_SIZE,
             Constants.Histogram.DEFAULT_HISTOGRAM,
             Constants.IDENTIFIER);
     this.sentMessageSize = new OperaHistogram(Name.SENT_MESSAGE_SIZE,
-            Constants.Namespace.NETWORK, Subsystem_Middleware,
+            Constants.Namespace.NETWORK, SUBSYSTEM_NETWORK,
             HelpMsg.SENT_MESSAGE_SIZE,
             Constants.Histogram.DEFAULT_HISTOGRAM,
             Constants.IDENTIFIER);
     this.messageReceivedTotal = new OperaCounter(Name.MESSAGE_RECEIVED_TOTAL,
-            Constants.Namespace.NETWORK, Subsystem_Middleware,
+            Constants.Namespace.NETWORK, SUBSYSTEM_NETWORK,
             HelpMsg.MESSAGE_RECEIVED_TOTAL,
             Constants.IDENTIFIER);
     this.messageSentTotal = new OperaCounter(Name.MESSAGE_SENT_TOTAL,
-            Constants.Namespace.NETWORK, Subsystem_Middleware,
+            Constants.Namespace.NETWORK, SUBSYSTEM_NETWORK,
             HelpMsg.MESSAGE_SENT_TOTAL,
             Constants.IDENTIFIER);
   }

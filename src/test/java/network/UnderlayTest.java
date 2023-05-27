@@ -107,7 +107,7 @@ public class UnderlayTest {
 
       Network network = new Network(id, allFullAddresses, new NoopOrchestrator());
       FixtureNode node = new FixtureNode(id, allId, network);
-      network.setOverlay(node);
+      network.setNode(node);
 
       LocalUnderlay underlay = new LocalUnderlay(address, port, allLocalUnderlay);
       underlay.initialize(port, network);

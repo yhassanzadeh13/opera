@@ -8,14 +8,14 @@ public class OperaMiddlewareCollector {
   /**
    * The singleton instance of the collector.
    */
-  private static final MiddlewareCollector instance = new MiddlewareCollector();
+  private static final NetworkCollector instance = new NetworkCollector();
 
   /**
    * Private constructor to prevent instantiation.
    *
    * @return the singleton instance of the middleware collector
    */
-  public static MiddlewareCollector getInstance() {
+  public static NetworkCollector getInstance() {
     return instance;
   }
 }
