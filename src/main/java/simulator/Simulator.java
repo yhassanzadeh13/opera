@@ -1,5 +1,18 @@
 package simulator;
 
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
+import java.time.Duration;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.PriorityQueue;
+import java.util.Random;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import metrics.integration.MetricServer;
 import metrics.integration.MetricsNetwork;
@@ -14,14 +27,6 @@ import node.Identifier;
 import node.IdentifierGenerator;
 import utils.SimpleEntryComparable;
 import utils.churn.ChurnGenerator;
-
-import java.net.Inet4Address;
-import java.net.UnknownHostException;
-import java.time.Duration;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.*;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Simulator simulates situations between nodes with actions performed between the nodes.
