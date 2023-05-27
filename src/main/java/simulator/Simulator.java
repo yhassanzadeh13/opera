@@ -361,7 +361,7 @@ public class Simulator implements Orchestrator {
         Duration nextArrivalDuration = Duration.ofMillis((int) interArrivalTime);
         log.info("next node {} in {} hours {} minutes {} seconds {} milliseconds", id,
                 nextArrivalDuration.toHoursPart(), nextArrivalDuration.toMinutesPart(),
-                nextArrivalDuration.toSecondsPart(), nextArrivalDuration.toMillis());
+                nextArrivalDuration.toSecondsPart(), nextArrivalDuration.toMillisPart());
       }
     }
 
