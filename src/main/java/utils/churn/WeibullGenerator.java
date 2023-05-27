@@ -3,29 +3,22 @@ package utils.churn;
 import org.apache.commons.math3.distribution.WeibullDistribution;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 
-import java.sql.SQLOutput;
-
 /**
  * This class implements the Weibull distribution to generate churn values.
  * The Weibull distribution is a continuous probability distribution named after Wallodi Weibull,
  * who described it in detail in 1951.
  * It is a versatile distribution that can assume the characteristics of many types of statistical distributions based
  * on the values of the shape and scale parameters.
- * <p>
  * In the context of this class, it's represented by two parameters: shape and scale.
  * Shape parameter < 1: distribution represents high values at the beginning that decrease over time.
  * Shape parameter = 1: the distribution simulates the exponential distribution.
  * Shape parameter > 1: the distribution depicts low values that increases over time in a bell-shape.
  * The scale parameter is a positive real number that represents the scale of the distribution.
- * <p>
  * Here is the formula for the Weibull distribution probability density function:
- * <p>
  * f(x; shape, scale) = (shape / scale) * (x / scale)^(shape - 1) * exp(-(x / scale)^shape)
- * <p>
  * Weibull distribution is a generalization of the exponential distribution that adds an additional shape parameter.
  * It can model different types of distribution shapes including exponential, Rayleigh, and Frechet distributions,
  * all of which are specific cases of Weibull depending on the values of alpha and beta.
- * <p>
  * For the generation of random numbers following a Weibull distribution,
  * an instance of WeibullDistribution from the Apache Commons Math library is used.
  * https://en.wikipedia.org/wiki/Weibull_distribution
@@ -45,8 +38,8 @@ public class WeibullGenerator implements ChurnGenerator {
   /**
    * Constructor for WeibullDistribution.
    *
-   * @param min    min value
-   * @param max    max value
+   * @param min            min value
+   * @param max            max value
    * @param shapeParameter the shape parameter of the distribution.
    * @param scaleParameter the scale parameter of the distribution.
    */
