@@ -45,12 +45,12 @@ public class GaussianGenerator implements ChurnGenerator {
   /**
    * The mean value of the Gaussian distribution, protocol parameter.
    */
-  private final int mean;
+  private final double mean;
 
   /**
    * The Standard Deviation of Gaussian distribution, protocol parameter.
    */
-  private final int std;
+  private final double std;
 
   /**
    * Constructor of the GaussianGenerator.
@@ -58,7 +58,7 @@ public class GaussianGenerator implements ChurnGenerator {
    * @param mean mean of the distribution.
    * @param std  standard deviation of the values
    */
-  public GaussianGenerator(int mean, int std) {
+  public GaussianGenerator(double mean, double std) {
     this(mean, std, 0, Double.MAX_VALUE);
   }
 
@@ -70,7 +70,7 @@ public class GaussianGenerator implements ChurnGenerator {
    * @param min  minimum value of the distribution.
    * @param max  maximum value of the distribution.
    */
-  public GaussianGenerator(int mean, int std, double min, double max) {
+  public GaussianGenerator(double mean, double std, double min, double max) {
     this.mean = mean;
     this.std = std;
     this.min = min;
