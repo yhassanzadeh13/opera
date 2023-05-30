@@ -1,7 +1,6 @@
 package network.local;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import network.MiddleLayer;
 import network.packets.Request;
 
 /**
@@ -12,16 +11,16 @@ public class LocalHandler implements Runnable {
   final Request request;
 
   // destination middle layer to send the request
-  final MiddleLayer destinationMiddleLayer;
+  final network.Network destinationNetwork;
 
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of MiddleLayer")
-  public LocalHandler(Request request, MiddleLayer destinationMiddleLayer) {
+  public LocalHandler(Request request, network.Network destinationNetwork) {
     this.request = request;
-    this.destinationMiddleLayer = destinationMiddleLayer;
+    this.destinationNetwork = destinationNetwork;
   }
 
   @Override
   public void run() {
-    destinationMiddleLayer.receive(this.request);
+    destinationNetwork.receive(this.request);
   }
 }

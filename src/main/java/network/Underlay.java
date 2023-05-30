@@ -9,7 +9,7 @@ import node.Identifier;
  */
 
 public abstract class Underlay {
-  protected MiddleLayer middleLayer; // TODO: make this final.
+  protected Network network; // TODO: make this final.
 
   public abstract int getPort();
 
@@ -23,19 +23,19 @@ public abstract class Underlay {
    * Dispatches a request to the middle layer.
    */
   public void dispatchRequest(Request request) {
-    middleLayer.receive(request);
+    network.receive(request);
   }
 
   /**
    * Initializes the underlay.
    *
    * @param port        the port that the underlay should be bound to.
-   * @param middleLayer middle layer for underlay.
+   * @param network middle layer for underlay.
    * @return true iff the initialization was successful.
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of MiddleLayer")
-  public final boolean initialize(int port, MiddleLayer middleLayer) {
-    this.middleLayer = middleLayer;
+  public final boolean initialize(int port, Network network) {
+    this.network = network;
     return initUnderlay(port);
   }
 
@@ -67,6 +67,6 @@ public abstract class Underlay {
   public abstract void terminate() throws IllegalStateException;
 
   public Identifier getNodeId() {
-    return middleLayer.getNodeId();
+    return network.getNodeId();
   }
 }

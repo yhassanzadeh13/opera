@@ -16,41 +16,69 @@ import node.Identifier;
 import simulator.Orchestrator;
 
 /**
- * Represents a mediator between the overlay and the underlay. The requests coming from the underlay are directed
- * to the overlay and the responses emitted by the overlay are returned to the underlay. The requests coming from
- * the overlay are either directed to the underlay or to another local overlay, and the emitted response is returned
- * to the overlay.
+ * Represents the high level networking layer of the individual nodes. Each instance of this class
+ * is responsible for a single node. It is responsible for sending and receiving messages to and from
+ * other nodes by interacting with the lower level underlay primitives, e.g., TCP, UDP, etc.
  */
-// TODO: rename MiddleLayer to NetworkBroker
-public class MiddleLayer {
+public class Network {
   private final Logger logger;
-  //TODO add bucket size to the default metrics
-  private final HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses;
-  private final Identifier nodeId;
-  // TODO : make the communication between the nodes and the simulator (the master node) through the network
-  private final Orchestrator orchestrator;
-  private final MiddlewareCollector metricsCollector;
-  private final LatencyGenerator latencyGenerator;
-  private Underlay underlay;
-  private BaseNode overlay;
 
   /**
-   * Constructor of MiddleLayer.
+   * Hash table of the full addresses of all the nodes in the network.
+   * The key is the identifier of the node and the value is a pair of the IP address and the port.
+   * The IP address is a string and the port is an integer.
+   */
+  private final HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses;
+
+  /**
+   * Identifier of the node itself.
+   */
+  private final Identifier nodeId;
+
+  /**
+   * The Orchestrator is the interface of the network with the rest of the simulator.
+   */
+  private final Orchestrator orchestrator;
+
+  /**
+   * The metrics collector.
+   */
+  private final NetworkCollector metricsCollector;
+
+  /**
+   * The latency generator. Used to generate synthetic latency between nodes imitating real world networks.
+   */
+  private final LatencyGenerator latencyGenerator;
+
+  /**
+   * The underlay is the low level networking layer of the individual nodes, it represents a single TCP/IP transport
+   * layer protocol, e.g., TCP, UDP, etc. It is responsible for sending and receiving messages to and from other nodes.
+   */
+  private Underlay underlay;
+
+  /**
+   * The node is the instance of the node that owns this network instance, it is responsible for handling the messages.
+   */
+  private BaseNode node;
+
+  /**
+   * Creates a new network instance.
    *
-   * @param nodeId           identifier of the node
-   * @param allFullAddresses Hashmap of the all addresses
-   * @param orchestrator     Orchestrator for the middle layer
+   * @param nodeId           the unique identifier of the node.
+   * @param allFullAddresses the full addresses of all the nodes in the network.
+   * @param orchestrator     the orchestrator.
+   * @throws IllegalStateException if the orchestrator is null.
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "allFullAddresses is externally mutable")
-  public MiddleLayer(Identifier nodeId, HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses,
-                     Orchestrator orchestrator) throws IllegalStateException {
-
+  public Network(Identifier nodeId,
+                 HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses,
+                 Orchestrator orchestrator) throws IllegalStateException {
     if (orchestrator == null) {
       throw new IllegalArgumentException("orchestrator cannot be null");
     }
 
     this.nodeId = nodeId;
-    this.logger = OperaLogger.getLoggerForNodeComponent(MiddleLayer.class.getCanonicalName(), nodeId, "middlelayer");
+    this.logger = OperaLogger.getLoggerForNodeComponent(Network.class.getCanonicalName(), nodeId, "middlelayer");
     this.allFullAddresses = allFullAddresses;
     this.orchestrator = orchestrator;
     this.metricsCollector = OperaMiddlewareCollector.getInstance();
@@ -69,12 +97,12 @@ public class MiddleLayer {
     return nodeId;
   }
 
-  public BaseNode getOverlay() {
-    return overlay;
+  public BaseNode getNode() {
+    return node;
   }
 
-  public void setOverlay(BaseNode overlay) {
-    this.overlay = overlay;
+  public void setNode(BaseNode node) {
+    this.node = node;
   }
 
   /**
@@ -138,7 +166,7 @@ public class MiddleLayer {
         this.stop();
       }
     } else {
-      overlay.onNewMessage(request.getOriginalId(), request.getEvent());
+      node.onNewMessage(request.getOriginalId(), request.getEvent());
     }
 
   }
@@ -149,7 +177,7 @@ public class MiddleLayer {
    */
   public void start() {
     this.logger.info("starting node on address {}", getAddress(nodeId));
-    new Thread(() -> overlay.onStart()).start();
+    new Thread(() -> node.onStart()).start();
   }
 
   /**
@@ -157,7 +185,7 @@ public class MiddleLayer {
    */
   public void stop() {
     new Thread(() -> {
-      overlay.onStop();
+      node.onStop();
       try {
         underlay.terminate();
       } catch (IllegalStateException e) {
@@ -200,6 +228,6 @@ public class MiddleLayer {
    */
   public void create(ArrayList<Identifier> allId) {
     logger.info("creating node {} on address {}", nodeId, getAddress(nodeId));
-    new Thread(() -> overlay.onCreate(allId)).start();
+    new Thread(() -> node.onCreate(allId)).start();
   }
 }

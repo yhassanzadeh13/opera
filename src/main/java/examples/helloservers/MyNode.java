@@ -3,7 +3,6 @@ package examples.helloservers;
 import java.util.ArrayList;
 import java.util.Random;
 
-import network.MiddleLayer;
 import network.packets.Event;
 import node.BaseNode;
 import node.Identifier;
@@ -15,10 +14,10 @@ public class MyNode implements BaseNode {
   private static final Random rng = new Random();
   private Identifier selfId;
   private ArrayList<Identifier> allId;
-  private MiddleLayer network;
+  private network.Network network;
 
   // TODO: enable metrics
-  MyNode(Identifier selfId, MiddleLayer network) {
+  MyNode(Identifier selfId, network.Network network) {
     this.selfId = selfId;
     this.network = network;
   }
@@ -68,7 +67,7 @@ public class MyNode implements BaseNode {
   }
 
   @Override
-  public BaseNode newInstance(Identifier selfId, String nameSpace, MiddleLayer network) {
+  public BaseNode newInstance(Identifier selfId, String nameSpace, network.Network network) {
     return new MyNode(selfId, network);
   }
 }

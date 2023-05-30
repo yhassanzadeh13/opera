@@ -34,4 +34,14 @@ public class OperaGauge implements Gauge {
   public void set(Identifier id, double value) {
     this.gauge.labels(id.toString()).set(value);
   }
+
+  /**
+   * Set the gauge with a specific name and identifier.
+   *
+   * @param value value by which metric is set.
+   */
+  @Override
+  public void set(double value) {
+    this.gauge.set(value);
+  }
 }

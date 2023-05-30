@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import network.FixtureNode;
-import network.MiddleLayer;
 import network.NetworkProtocol;
 import network.Underlay;
 import network.UnderlayFactory;
@@ -45,15 +44,15 @@ public class Fixtures {
     for (int i = 0; i < count; i++) {
       Identifier id = allId.get(i);
 
-      MiddleLayer middleLayer = new MiddleLayer(id, allFullAddresses, new NoopOrchestrator());
+      network.Network network = new network.Network(id, allFullAddresses, new NoopOrchestrator());
 
-      network.FixtureNode node = new FixtureNode(id, allId, middleLayer);
-      middleLayer.setOverlay(node);
-      Underlay underlay = UnderlayFactory.newUnderlay(underlayName, 0, middleLayer);
+      network.FixtureNode node = new FixtureNode(id, allId, network);
+      network.setNode(node);
+      Underlay underlay = UnderlayFactory.newUnderlay(underlayName, 0, network);
       assert underlay != null;
       int port = underlay.getPort();
       allFullAddresses.put(id, new AbstractMap.SimpleEntry<>(underlay.getAddress(), port));
-      middleLayer.setUnderlay(underlay);
+      network.setUnderlay(underlay);
 
       nodes.add(node);
     }
