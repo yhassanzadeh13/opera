@@ -320,6 +320,7 @@ public class Simulator implements Orchestrator {
     while (System.currentTimeMillis() - time < lifeTime) {
       this.simulatorMetricsCollector.updateOnlineNodes(onlineNodes.size());
       this.simulatorMetricsCollector.updateOfflineNodes(offlineNodes.size());
+
       if (!onlineNodes.isEmpty()) {
         assert onlineNodes.peek() != null;
         if (System.currentTimeMillis() > onlineNodes.peek().getKey()) {

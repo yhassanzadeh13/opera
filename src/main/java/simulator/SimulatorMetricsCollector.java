@@ -66,14 +66,12 @@ public class SimulatorMetricsCollector {
     this.onlineNodesCounter = new OperaGauge(Name.ONLINE_NODES,
             NAMESPACE_SIMULATOR,
             SUBSYSTEM_CHURN,
-            HelpMsg.ONLINE_NODES,
-            Constants.IDENTIFIER);
+            HelpMsg.ONLINE_NODES);
 
     this.offlineNodesCounter = new OperaGauge(Name.OFFLINE_NODES,
             NAMESPACE_SIMULATOR,
             SUBSYSTEM_CHURN,
-            HelpMsg.OFFLINE_NODES,
-            Constants.IDENTIFIER);
+            HelpMsg.OFFLINE_NODES);
 
   }
 
