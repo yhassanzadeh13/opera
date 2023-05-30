@@ -351,6 +351,7 @@ public class Simulator implements Orchestrator {
         // TODO: this logic has a repetition (see earlier in the code)
         // assign a termination time
         double sessionLength = sessionLengthGenerator.next();
+        // TODO: fix this
         this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
         log.info("generated new session length of {} ms for node {}, termination at {}", id,
                 sessionLength, time + sessionLength);
