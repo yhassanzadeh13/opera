@@ -318,6 +318,8 @@ public class Simulator implements Orchestrator {
     double nextArrival = System.currentTimeMillis() + interArrivalTime;
 
     while (System.currentTimeMillis() - time < lifeTime) {
+      this.simulatorMetricsCollector.updateOnlineNodes(onlineNodes.size());
+      this.simulatorMetricsCollector.updateOfflineNodes(offlineNodes.size());
       if (!onlineNodes.isEmpty()) {
         assert onlineNodes.peek() != null;
         if (System.currentTimeMillis() > onlineNodes.peek().getKey()) {

@@ -40,6 +40,16 @@ public class NoopCollector {
     public void set(Identifier id, double value) {
       // do nothing
     }
+
+    /**
+     * Set the gauge with a specific name and identifier.
+     *
+     * @param value value by which metric is set.
+     */
+    @Override
+    public void set(double value) {
+        // do nothing
+    }
   }
 
   static class NoopCounter implements Counter {
