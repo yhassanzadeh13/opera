@@ -4,6 +4,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import events.StopStartEvent;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
@@ -68,6 +69,7 @@ public class Network {
    * @param orchestrator     the orchestrator.
    * @throws IllegalStateException if the orchestrator is null.
    */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "allFullAddresses is externally mutable")
   public Network(Identifier nodeId,
                  HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses,
                  Orchestrator orchestrator) throws IllegalStateException {
@@ -77,7 +79,7 @@ public class Network {
 
     this.nodeId = nodeId;
     this.logger = OperaLogger.getLoggerForNodeComponent(Network.class.getCanonicalName(), nodeId, "middlelayer");
-    this.allFullAddresses = new java.util.HashMap<>(allFullAddresses);
+    this.allFullAddresses = allFullAddresses;
     this.orchestrator = orchestrator;
     this.metricsCollector = OperaMiddlewareCollector.getInstance();
     this.latencyGenerator = new LatencyGenerator();
