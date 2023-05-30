@@ -4,7 +4,6 @@ import network.NetworkProtocol;
 import simulator.Factory;
 import simulator.Recipe;
 import simulator.Simulator;
-import utils.churn.UniformGenerator;
 
 /**
  * Hello Servers is a simulator example which consist of 5 nodes.
