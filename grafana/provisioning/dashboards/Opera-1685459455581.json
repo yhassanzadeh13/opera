@@ -15,7 +15,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "10.0.0-109971pre"
+      "version": "10.1.0-119777pre"
     },
     {
       "type": "panel",
@@ -358,7 +358,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0-109971pre",
+      "pluginVersion": "10.1.0-119777pre",
       "targets": [
         {
           "datasource": {
@@ -423,7 +423,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "10.0.0-109971pre",
+      "pluginVersion": "10.1.0-119777pre",
       "targets": [
         {
           "datasource": {
@@ -787,7 +787,7 @@
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},

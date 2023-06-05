@@ -40,7 +40,7 @@ public class MetricsNetwork {
   private static final int PROMETHEUS_PORT = 9090;
   private static final String PROMETHEUS_CONTAINER_NAME = "opera_prometheus";
   private static final String PROMETHEUS_IMAGE = "prom/prometheus";
-  private static final String PROMETHEUS_VOLUME = "prometheus_volume";
+  private static final String PROMETHEUS_VOLUME = "opera_prometheus_volume";
   private static final String PROMETHEUS_MAIN_CMD = "prom/prometheus:main";
   private static final String PROMETHEUS_VOLUME_BINDING_ETC =
           "/prometheus" + ":" + "/etc/prometheus";
@@ -49,7 +49,7 @@ public class MetricsNetwork {
   // Grafana
   private static final int GRAFANA_PORT = 3000;
   private static final String GRAFANA_CONTAINER_NAME = "opera_grafana";
-  private static final String GRAFANA_VOLUME = "grafana_volume";
+  private static final String GRAFANA_VOLUME = "opera_grafana_volume";
   private static final String GRAFANA_IMAGE = "grafana/grafana";
   private static final String GRAFANA_MAIN_CMD = "grafana/grafana:main";
   private static final String GRAFANA_NO_SIGN_UP = "GF_USERS_ALLOW_SIGN_UP=false";
