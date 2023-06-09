@@ -3,7 +3,6 @@ package scenario.finalita.events;
 import network.packets.Event;
 import node.BaseNode;
 import node.Identifier;
-import scenario.finalita.LightChainNode;
 
 
 /**

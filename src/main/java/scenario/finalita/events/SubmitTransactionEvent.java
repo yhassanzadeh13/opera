@@ -2,7 +2,6 @@ package scenario.finalita.events;
 
 import network.packets.Event;
 import node.BaseNode;
-import scenario.finalita.LightChainNode;
 import scenario.finalita.Transaction;
 
 /**
