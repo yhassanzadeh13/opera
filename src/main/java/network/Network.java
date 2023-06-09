@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import events.StopStartEvent;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
 import network.latency.LatencyGenerator;
@@ -60,6 +59,7 @@ public class Network {
    * The node is the instance of the node that owns this network instance, it is responsible for handling the messages.
    */
   private BaseNode node;
+
 
   /**
    * Creates a new network instance.
@@ -142,7 +142,6 @@ public class Network {
     return success;
   }
 
-
   public String getAddress(Identifier nodeId) {
     SimpleEntry<String, Integer> address = allFullAddresses.get(nodeId);
     return address.getKey() + ":" + address.getValue();
@@ -153,23 +152,11 @@ public class Network {
    */
   public void receive(Request request) {
     this.metricsCollector.onMessageReceived(nodeId, request.getEvent().size(), request.getSentTimeStamp());
-
+    node.onNewMessage(request.getOriginalId(), request.getEvent());
     // TODO: add request type
     this.logger.debug("event received from {}", request.getOriginalId());
-
-    // check if the event is start, stop event and handle it directly
-    if (request.getEvent() instanceof StopStartEvent) {
-      StopStartEvent event = (StopStartEvent) request.getEvent();
-      if (event.getState()) {
-        this.start();
-      } else {
-        this.stop();
-      }
-    } else {
-      node.onNewMessage(request.getOriginalId(), request.getEvent());
-    }
-
   }
+
 
   /**
    * start the node in a new thread.
