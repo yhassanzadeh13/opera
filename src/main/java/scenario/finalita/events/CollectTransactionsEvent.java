@@ -1,7 +1,6 @@
 package scenario.finalita.events;
 
 import network.packets.Event;
-import node.BaseNode;
 import node.Identifier;
 
 
@@ -15,11 +14,6 @@ public class CollectTransactionsEvent implements Event {
   public CollectTransactionsEvent(Identifier requester, Integer requiredNumber) {
     this.requester = requester;
     this.requiredNumber = requiredNumber;
-  }
-
-  @Override
-  public boolean actionPerformed(BaseNode baseNode) {
-    return true;
   }
 
   @Override

@@ -1,7 +1,6 @@
 package scenario.finalita.events;
 
 import network.packets.Event;
-import node.BaseNode;
 import scenario.finalita.Transaction;
 
 /**
@@ -14,11 +13,6 @@ public class SubmitTransactionEvent implements Event {
 
   public SubmitTransactionEvent(Transaction transaction) {
     this.transaction = transaction;
-  }
-
-  @Override
-  public boolean actionPerformed(BaseNode hostNode) {
-    return true;
   }
 
   @Override

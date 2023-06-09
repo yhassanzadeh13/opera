@@ -1,7 +1,6 @@
 package scenario.integrita.events;
 
 import network.packets.Event;
-import node.BaseNode;
 import scenario.integrita.utils.StatusCode;
 
 /**
@@ -22,11 +21,6 @@ public class PushResp implements Event {
             + "msg='" + msg + '\''
             + ", code=" + code
             + '}';
-  }
-
-  @Override
-  public boolean actionPerformed(BaseNode hostNode) {
-    return false;
   }
 
   @Override

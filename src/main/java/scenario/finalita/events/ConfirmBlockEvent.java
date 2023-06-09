@@ -1,7 +1,6 @@
 package scenario.finalita.events;
 
 import network.packets.Event;
-import node.BaseNode;
 import node.Identifier;
 
 
@@ -17,11 +16,6 @@ public class ConfirmBlockEvent implements Event {
 
   public Identifier getBlockId() {
     return blockId;
-  }
-
-  @Override
-  public boolean actionPerformed(BaseNode hostNode) {
-    return true;
   }
 
   @Override

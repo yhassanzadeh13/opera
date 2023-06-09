@@ -1,7 +1,6 @@
 package scenario.finalita.events;
 
 import network.packets.Event;
-import node.BaseNode;
 import scenario.finalita.Block;
 
 
@@ -19,9 +18,6 @@ public class SubmitBlockEvent implements Event {
   public Block getBlock() {
     return block;
   }
-
-  @Override
-  public boolean actionPerformed(BaseNode hostNode) {}
 
   @Override
   public int size() {

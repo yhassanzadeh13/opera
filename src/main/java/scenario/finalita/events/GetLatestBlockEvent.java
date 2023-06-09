@@ -1,7 +1,6 @@
 package scenario.finalita.events;
 
 import network.packets.Event;
-import node.BaseNode;
 import node.Identifier;
 
 
@@ -18,11 +17,6 @@ public class GetLatestBlockEvent implements Event {
 
   public Identifier getRequester() {
     return requester;
-  }
-
-  @Override
-  public boolean actionPerformed(BaseNode hostNode) {
-    return true;
   }
 
   @Override

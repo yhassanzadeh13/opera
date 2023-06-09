@@ -3,7 +3,6 @@ package examples.helloservers;
 import java.io.Serializable;
 
 import network.packets.Event;
-import node.BaseNode;
 
 /**
  * HelloEvent is an event which enables node to send "Thank You" if the message is "Hello"
@@ -19,11 +18,6 @@ public class HelloEvent implements Event, Serializable {
    */
   public HelloEvent(String msg) {
     this.msg = msg;
-  }
-
-  @Override
-  public boolean actionPerformed(BaseNode hostNode) {
-    return true;
   }
 
   public String getMsg() {

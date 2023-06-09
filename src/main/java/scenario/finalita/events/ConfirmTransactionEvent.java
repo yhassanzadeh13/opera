@@ -1,9 +1,7 @@
 package scenario.finalita.events;
 
 import network.packets.Event;
-import node.BaseNode;
 import node.Identifier;
-import scenario.finalita.LightChainNode;
 
 
 /**
@@ -14,16 +12,6 @@ public class ConfirmTransactionEvent implements Event {
 
   public ConfirmTransactionEvent(Identifier transactionId) {
     this.transactionId = transactionId;
-  }
-
-  @Override
-  public boolean actionPerformed(BaseNode hostNode) {
-
-    LightChainNode node = (LightChainNode) hostNode;
-
-    node.confirmTransactionValidation(this.transactionId);
-
-    return true;
   }
 
   @Override

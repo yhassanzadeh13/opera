@@ -1,7 +1,6 @@
 package scenario.finalita.events;
 
 import network.packets.Event;
-import node.BaseNode;
 import scenario.finalita.Block;
 
 
@@ -17,11 +16,6 @@ public class DeliverLatestBlockEvent implements Event {
 
   public Block getLatestBlock() {
     return latestBlock;
-  }
-
-  @Override
-  public boolean actionPerformed(BaseNode hostNode) {
-    return true;
   }
 
   @Override

@@ -4,7 +4,6 @@ import java.util.List;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import network.packets.Event;
-import node.BaseNode;
 import scenario.finalita.Transaction;
 
 
@@ -22,11 +21,6 @@ public class DeliverTransactionsEvent implements Event {
 
   public List<Transaction> getTransactions() {
     return transactions;
-  }
-
-  @Override
-  public boolean actionPerformed(BaseNode hostNode) {
-    return true;
   }
 
   @Override

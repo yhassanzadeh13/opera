@@ -1,16 +1,11 @@
 package utils;
 
 import network.packets.Event;
-import node.BaseNode;
 
 /**
  * A basic Event to use to check whether Utils coded correctly.
  */
 public class FixtureEvent implements Event {
-  @Override
-  public boolean actionPerformed(BaseNode hostNode) {
-    return true;
-  }
 
   @Override
   public String logMessage() {

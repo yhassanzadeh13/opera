@@ -2,7 +2,6 @@ package scenario.integrita.events;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import network.packets.Event;
-import node.BaseNode;
 import scenario.integrita.historytree.HistoryTreeNode;
 
 /**
@@ -37,11 +36,6 @@ public class Push implements Event {
             + "historyTreeNode=" + historyTreeNode
             + ", msg='" + msg + '\''
             + '}';
-  }
-
-  @Override
-  public boolean actionPerformed(BaseNode hostNode) {
-    return false;
   }
 
   @Override

@@ -1,7 +1,6 @@
 package scenario.finalita.events;
 
 import network.packets.Event;
-import node.BaseNode;
 import scenario.finalita.Block;
 
 
@@ -14,11 +13,6 @@ public class ValidateBlockEvent implements Event {
 
   public ValidateBlockEvent(Block block) {
     this.block = block;
-  }
-
-  @Override
-  public boolean actionPerformed(BaseNode hostNode) {
-    return true;
   }
 
   @Override
