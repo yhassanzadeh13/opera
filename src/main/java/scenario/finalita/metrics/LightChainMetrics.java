@@ -1,4 +1,4 @@
-package scenario.pov.metrics;
+package scenario.finalita.metrics;
 
 import metrics.Constants;
 import metrics.opera.OperaCounter;

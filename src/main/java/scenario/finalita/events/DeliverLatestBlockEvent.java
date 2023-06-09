@@ -1,35 +1,28 @@
-package scenario.pov.events;
+package scenario.finalita.events;
 
 import network.packets.Event;
 import node.BaseNode;
-import scenario.pov.Block;
-import scenario.pov.LightChainNode;
+import scenario.finalita.Block;
+import scenario.finalita.LightChainNode;
 
 
 /**
  * updates nodes block to the latestBlock.
  */
 public class DeliverLatestBlockEvent implements Event {
-
   private final Block latestBlock;
 
   public DeliverLatestBlockEvent(Block latestBlock) {
     this.latestBlock = latestBlock;
   }
 
-  @Override
-  public boolean actionPerformed(BaseNode hostNode) {
-
-    LightChainNode node = (LightChainNode) hostNode;
-
-    node.updateLatestBlock(this.latestBlock);
-
-    return true;
+  public Block getLatestBlock() {
+    return latestBlock;
   }
 
   @Override
-  public String logMessage() {
-    return null;
+  public boolean actionPerformed(BaseNode hostNode) {
+    return true;
   }
 
   @Override

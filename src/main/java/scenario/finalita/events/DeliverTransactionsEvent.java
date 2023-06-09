@@ -1,12 +1,12 @@
-package scenario.pov.events;
+package scenario.finalita.events;
 
 import java.util.List;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import network.packets.Event;
 import node.BaseNode;
-import scenario.pov.LightChainNode;
-import scenario.pov.Transaction;
+import scenario.finalita.LightChainNode;
+import scenario.finalita.Transaction;
 
 
 /**
@@ -16,6 +16,10 @@ import scenario.pov.Transaction;
 public class DeliverTransactionsEvent implements Event {
   private final List<Transaction> transactions;
 
+  public List<Transaction> getTransactions() {
+    return transactions;
+  }
+
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to access externally mutable object, transactions")
   public DeliverTransactionsEvent(List<Transaction> transactions) {
     this.transactions = transactions;
@@ -23,14 +27,7 @@ public class DeliverTransactionsEvent implements Event {
 
   @Override
   public boolean actionPerformed(BaseNode hostNode) {
-    LightChainNode node = (LightChainNode) hostNode;
-    node.deliverTransactions(this.transactions);
     return true;
-  }
-
-  @Override
-  public String logMessage() {
-    return null;
   }
 
   @Override

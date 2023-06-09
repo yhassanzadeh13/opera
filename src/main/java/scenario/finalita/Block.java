@@ -1,4 +1,4 @@
-package scenario.pov;
+package scenario.finalita;
 
 import java.io.Serializable;
 import java.util.List;

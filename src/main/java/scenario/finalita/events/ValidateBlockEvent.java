@@ -1,9 +1,9 @@
-package scenario.pov.events;
+package scenario.finalita.events;
 
 import network.packets.Event;
 import node.BaseNode;
-import scenario.pov.Block;
-import scenario.pov.LightChainNode;
+import scenario.finalita.Block;
+import scenario.finalita.LightChainNode;
 
 
 /**
@@ -11,7 +11,6 @@ import scenario.pov.LightChainNode;
  * Size: Returns number of encoded bytes.
  */
 public class ValidateBlockEvent implements Event {
-
   private final Block block;
 
   public ValidateBlockEvent(Block block) {
@@ -20,11 +19,6 @@ public class ValidateBlockEvent implements Event {
 
   @Override
   public boolean actionPerformed(BaseNode hostNode) {
-
-    LightChainNode node = (LightChainNode) hostNode;
-
-    node.validateBlock(this.block);
-
     return true;
   }
 
@@ -34,8 +28,7 @@ public class ValidateBlockEvent implements Event {
     return 1;
   }
 
-  @Override
-  public String logMessage() {
-    return null;
+  public Block getBlock() {
+    return block;
   }
 }

@@ -1,4 +1,4 @@
-package scenario.pov;
+package scenario.finalita;
 
 import network.NetworkProtocol;
 import simulator.Factory;

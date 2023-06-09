@@ -1,13 +1,4 @@
-package scenario.pov;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+package scenario.finalita;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import modules.logger.Logger;
@@ -16,8 +7,13 @@ import network.packets.Event;
 import node.BaseNode;
 import node.Identifier;
 import node.IdentifierGenerator;
-import scenario.pov.events.*;
-import scenario.pov.metrics.LightChainMetrics;
+import scenario.finalita.events.*;
+import scenario.finalita.metrics.LightChainMetrics;
+
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 
 /**
@@ -177,11 +173,55 @@ public class LightChainNode implements BaseNode {
    * Performs the action of the message by passing an instance of this LightChain Node.
    *
    * @param originId the ID of the sender node
-   * @param msg      the content of the message
+   * @param event    the content of the message
    */
   @Override
-  public void onNewMessage(Identifier originId, Event msg) {
-    msg.actionPerformed(this);
+  public void onNewMessage(Identifier originId, Event event) {
+    if (event instanceof CollectTransactionsEvent) {
+      if (!this.isRegistry()) {
+        throw new IllegalStateException("CollectTransactionsEvent is only for registry node");
+      }
+      CollectTransactionsEvent collectTransactionsEvent = (CollectTransactionsEvent) event;
+      this.collectTransactions(collectTransactionsEvent.getRequester(), collectTransactionsEvent.getRequiredNumber());
+      return;
+    } else if (event instanceof ConfirmBlockEvent) {
+      ConfirmBlockEvent confirmBlockEvent = (ConfirmBlockEvent) event;
+      this.confirmBlockValidation(confirmBlockEvent.getBlockId());
+      return;
+    } else if (event instanceof DeliverLatestBlockEvent) {
+      DeliverLatestBlockEvent deliverLatestBlockEvent = (DeliverLatestBlockEvent) event;
+      this.updateLatestBlock(deliverLatestBlockEvent.getLatestBlock());
+    } else if (event instanceof DeliverTransactionsEvent) {
+      DeliverTransactionsEvent deliverTransactionsEvent = (DeliverTransactionsEvent) event;
+      this.deliverTransactions(deliverTransactionsEvent.getTransactions());
+      return;
+    } else if (event instanceof GetLatestBlockEvent) {
+      if (!this.isRegistry) {
+        throw new IllegalStateException("Submit Transaction Event is submitted to a node other than registry");
+      }
+      GetLatestBlockEvent getLatestBlockEvent = (GetLatestBlockEvent) event;
+      this.getLatestBlock(getLatestBlockEvent.getRequester());
+      return;
+    } else if (event instanceof SubmitBlockEvent) {
+      if (!this.isRegistry) {
+        throw new IllegalStateException("Submit Transaction Event is submitted to a node other than registry");
+      }
+      SubmitBlockEvent submitBlockEvent = (SubmitBlockEvent) event;
+      this.appendBlock(submitBlockEvent.getBlock());
+      return;
+    } else if (event instanceof SubmitTransactionEvent) {
+      if (this.isRegistry) {
+        throw new IllegalStateException("Submit Transaction Event is submitted to registry");
+      }
+      this.addTransaction(((SubmitTransactionEvent) event).getTransaction());
+    } else if (event instanceof ValidateBlockEvent) {
+      this.validateBlock(((ValidateBlockEvent) event).getBlock());
+      return;
+    } else if (event instanceof ValidateTransactionEvent) {
+        this.validateTransaction(((ValidateTransactionEvent) event).getTransaction());
+        return;
+    }
+    throw new IllegalStateException("Unknown message type: " + event.getClass().getName());
   }
 
   /**
@@ -589,7 +629,8 @@ public class LightChainNode implements BaseNode {
    * @param requiredNumber the required number of transactions
    * @return a list of transactions matching the number required
    */
-  public List<Transaction> collectTransactions(Identifier requester, Integer requiredNumber) throws IllegalStateException {
+  public List<Transaction> collectTransactions(Identifier requester, Integer requiredNumber) throws
+          IllegalStateException {
     if (!this.isRegistry) {
       throw new IllegalStateException("collect transactions is called from a non-registry node");
     }

@@ -20,9 +20,9 @@ scenario.integrita.historytree
 scenario.integrita.signature
 scenario.integrita.user
 scenario.integrita.utils
-scenario.pov
-scenario.pov.events
-scenario.pov.metrics
+scenario.finalita
+scenario.finalita.events
+scenario.finalita.metrics
 simulator
 utils
 utils.churn

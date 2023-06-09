@@ -11,14 +11,9 @@ public class PushResp implements Event {
   StatusCode code;
   String msg;
 
-
   public PushResp(StatusCode code, String msg) {
     this.msg = msg;
     this.code = code;
-  }
-
-  public void setMsg(String msg) {
-    this.msg = msg;
   }
 
   @Override
@@ -32,11 +27,6 @@ public class PushResp implements Event {
   @Override
   public boolean actionPerformed(BaseNode hostNode) {
     return false;
-  }
-
-  @Override
-  public String logMessage() {
-    return this.toString();
   }
 
   @Override

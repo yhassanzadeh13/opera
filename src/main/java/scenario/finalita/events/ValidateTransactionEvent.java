@@ -1,9 +1,9 @@
-package scenario.pov.events;
+package scenario.finalita.events;
 
 import network.packets.Event;
 import node.BaseNode;
-import scenario.pov.LightChainNode;
-import scenario.pov.Transaction;
+import scenario.finalita.LightChainNode;
+import scenario.finalita.Transaction;
 
 
 /**
@@ -20,10 +20,6 @@ public class ValidateTransactionEvent implements Event {
 
   @Override
   public boolean actionPerformed(BaseNode hostNode) {
-
-    LightChainNode node = (LightChainNode) hostNode;
-    node.validateTransaction(this.transaction);
-
     return true;
   }
 
@@ -33,8 +29,7 @@ public class ValidateTransactionEvent implements Event {
     return 1;
   }
 
-  @Override
-  public String logMessage() {
-    return null;
+  public Transaction getTransaction() {
+    return transaction;
   }
 }

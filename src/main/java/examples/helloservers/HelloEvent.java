@@ -22,49 +22,16 @@ public class HelloEvent implements Event, Serializable {
    * @param originalId identifier of sender.
    * @param targetId   identifier of receiver..
    */
-  public HelloEvent(String msg, Identifier originalId, Identifier targetId) {
+  public HelloEvent(String msg) {
     this.msg = msg;
-    this.originalId = originalId;
-    this.targetId = targetId;
-  }
-
-  public String getMsg() {
-    return msg;
-  }
-
-  public void setMsg(String msg) {
-    this.msg = msg;
-  }
-
-  public Identifier getOriginalId() {
-    return originalId;
-  }
-
-  public void setOriginalId(Identifier originalId) {
-    this.originalId = originalId;
-  }
-
-  public Identifier getTargetId() {
-    return targetId;
-  }
-
-  public void setTargetId(Identifier targetId) {
-    this.targetId = targetId;
   }
 
   @Override
   public boolean actionPerformed(BaseNode hostNode) {
-    MyNode node = (MyNode) hostNode;
-    if (this.msg.equals("Hello")) {
-      node.sendNewMessage("Thank You");
-    } else {
-      node.sendNewMessage("Hello");
-    }
     return true;
   }
 
-  @Override
-  public String logMessage() {
+  public String getMsg() {
     return msg;
   }
 

@@ -65,7 +65,7 @@ public class Client extends User implements BaseNode {
 
   @Override
   public void onNewMessage(Identifier originId, Event msg) {
-    this.logger.info("received message from {} with content {}", originId, msg.logMessage());
+    this.logger.info("received message from {} with content {}", originId, msg.toString());
   }
 
   @Override

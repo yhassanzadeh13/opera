@@ -45,11 +45,6 @@ public class Push implements Event {
   }
 
   @Override
-  public String logMessage() {
-    return this.toString();
-  }
-
-  @Override
   public int size() {
     return 0;
   }

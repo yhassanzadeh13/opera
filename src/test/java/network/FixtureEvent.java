@@ -13,11 +13,6 @@ public class FixtureEvent implements Event {
   }
 
   @Override
-  public String logMessage() {
-    return null;
-  }
-
-  @Override
   public int size() {
     // TODO: return number of encoded bytes
     return 1;

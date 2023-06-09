@@ -165,7 +165,7 @@ public class Server implements BaseNode {
 
   @Override
   public void onNewMessage(Identifier originId, Event msg) {
-    this.logger.info("received a new message from {} with content {}", originId, msg.logMessage());
+    this.logger.info("received a new message from {} with content {}", originId, msg.toString());
     PushResp pushResp = new PushResp(StatusCode.Accept, "Hello Back");
     network.send(originId, pushResp);
   }

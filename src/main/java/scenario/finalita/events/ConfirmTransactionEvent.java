@@ -1,16 +1,15 @@
-package scenario.pov.events;
+package scenario.finalita.events;
 
 import network.packets.Event;
 import node.BaseNode;
 import node.Identifier;
-import scenario.pov.LightChainNode;
+import scenario.finalita.LightChainNode;
 
 
 /**
  * Checks validation of transaction event.
  */
 public class ConfirmTransactionEvent implements Event {
-
   private final Identifier transactionId;
 
   public ConfirmTransactionEvent(Identifier transactionId) {
@@ -31,10 +30,5 @@ public class ConfirmTransactionEvent implements Event {
   public int size() {
     // TODO: return number of encoded bytes
     return 1;
-  }
-
-  @Override
-  public String logMessage() {
-    return null;
   }
 }

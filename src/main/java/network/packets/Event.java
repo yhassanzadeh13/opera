@@ -11,7 +11,6 @@ import node.BaseNode;
  */
 
 public interface Event extends Serializable {
-
   /**
    * Should be activated by the event host node in order for the event to take action
    * This method should be called in the event host node by calling event.actionPerformed(this)
@@ -22,14 +21,6 @@ public interface Event extends Serializable {
    * @return True if action was performed successfully. False otherwise
    */
   boolean actionPerformed(BaseNode hostNode);
-
-  /**
-   * This method is used for log purpose. It will be activated by the simulator to log the
-   * event during simulation.
-   *
-   * @return a string that represents the log message of the event.
-   */
-  String logMessage();
 
   /**
    * Getter of the size in bytes.

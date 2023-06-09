@@ -48,7 +48,7 @@ public class MyNode implements BaseNode {
       return;
     }
     int ind = rng.nextInt(allId.size());
-    HelloEvent helloMessage = new HelloEvent(msg, selfId, allId.get(ind));
+    HelloEvent helloMessage = new HelloEvent(msg);
     network.send(allId.get(ind), helloMessage);
   }
 
@@ -63,7 +63,12 @@ public class MyNode implements BaseNode {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    msg.actionPerformed(this);
+    HelloEvent helloMessage = (HelloEvent) msg;
+    if (helloMessage.getMsg().equals("Hello")) {
+      this.sendNewMessage("Thank You");
+    } else {
+      this.sendNewMessage("Hello");
+    }
   }
 
   @Override
