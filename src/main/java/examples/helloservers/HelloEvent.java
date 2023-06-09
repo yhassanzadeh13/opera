@@ -12,8 +12,6 @@ import node.Identifier;
  */
 public class HelloEvent implements Event, Serializable {
   private String msg;
-  private Identifier originalId;
-  private Identifier targetId;
 
   /**
    * Constructor.
