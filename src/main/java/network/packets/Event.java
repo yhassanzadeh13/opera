@@ -2,8 +2,6 @@ package network.packets;
 
 import java.io.Serializable;
 
-import node.BaseNode;
-
 
 /**
  * The Event interface is a base interface for the events that the nodes will
