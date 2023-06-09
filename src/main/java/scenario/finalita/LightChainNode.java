@@ -7,10 +7,23 @@ import network.packets.Event;
 import node.BaseNode;
 import node.Identifier;
 import node.IdentifierGenerator;
-import scenario.finalita.events.*;
+import scenario.finalita.events.CollectTransactionsEvent;
+import scenario.finalita.events.ConfirmBlockEvent;
+import scenario.finalita.events.ConfirmTransactionEvent;
+import scenario.finalita.events.DeliverLatestBlockEvent;
+import scenario.finalita.events.DeliverTransactionsEvent;
+import scenario.finalita.events.GetLatestBlockEvent;
+import scenario.finalita.events.SubmitBlockEvent;
+import scenario.finalita.events.SubmitTransactionEvent;
+import scenario.finalita.events.ValidateBlockEvent;
+import scenario.finalita.events.ValidateTransactionEvent;
 import scenario.finalita.metrics.LightChainMetrics;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -218,8 +231,8 @@ public class LightChainNode implements BaseNode {
       this.validateBlock(((ValidateBlockEvent) event).getBlock());
       return;
     } else if (event instanceof ValidateTransactionEvent) {
-        this.validateTransaction(((ValidateTransactionEvent) event).getTransaction());
-        return;
+      this.validateTransaction(((ValidateTransactionEvent) event).getTransaction());
+      return;
     }
     throw new IllegalStateException("Unknown message type: " + event.getClass().getName());
   }
