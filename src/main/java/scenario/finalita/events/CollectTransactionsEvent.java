@@ -16,11 +16,6 @@ public class CollectTransactionsEvent implements Event {
     this.requiredNumber = requiredNumber;
   }
 
-  @Override
-  public int size() {
-    return 0;
-  }
-
   public Identifier getRequester() {
     return requester;
   }

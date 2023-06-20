@@ -13,10 +13,4 @@ public class ConfirmTransactionEvent implements Event {
   public ConfirmTransactionEvent(Identifier transactionId) {
     this.transactionId = transactionId;
   }
-
-  @Override
-  public int size() {
-    // TODO: return number of encoded bytes
-    return 1;
-  }
 }

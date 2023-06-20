@@ -17,10 +17,4 @@ public class DeliverLatestBlockEvent implements Event {
   public Block getLatestBlock() {
     return latestBlock;
   }
-
-  @Override
-  public int size() {
-    // TODO: return number of encoded bytes
-    return 1;
-  }
 }

@@ -18,10 +18,4 @@ public class SubmitBlockEvent implements Event {
   public Block getBlock() {
     return block;
   }
-
-  @Override
-  public int size() {
-    // TODO: return number of encoded bytes
-    return 1;
-  }
 }

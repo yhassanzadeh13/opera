@@ -22,9 +22,4 @@ public class PushResp implements Event {
             + ", code=" + code
             + '}';
   }
-
-  @Override
-  public int size() {
-    return 0;
-  }
 }

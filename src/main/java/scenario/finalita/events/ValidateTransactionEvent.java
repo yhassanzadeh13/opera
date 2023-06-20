@@ -16,12 +16,6 @@ public class ValidateTransactionEvent implements Event {
     this.transaction = tx;
   }
 
-  @Override
-  public int size() {
-    // TODO: return number of encoded bytes
-    return 1;
-  }
-
   public Transaction getTransaction() {
     return transaction;
   }

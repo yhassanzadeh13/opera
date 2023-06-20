@@ -17,9 +17,4 @@ public class ConfirmBlockEvent implements Event {
   public Identifier getBlockId() {
     return blockId;
   }
-
-  @Override
-  public int size() {
-    return 0;
-  }
 }

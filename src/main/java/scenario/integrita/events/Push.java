@@ -37,9 +37,4 @@ public class Push implements Event {
             + ", msg='" + msg + '\''
             + '}';
   }
-
-  @Override
-  public int size() {
-    return 0;
-  }
 }

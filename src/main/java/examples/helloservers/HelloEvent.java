@@ -8,7 +8,7 @@ import network.packets.Event;
  * HelloEvent is an event which enables node to send "Thank You" if the message is "Hello"
  * else sends "Hello" message back to that node.
  */
-public class HelloEvent implements Event, Serializable {
+public class HelloEvent implements Event {
   private final String msg;
 
   /**
@@ -22,11 +22,5 @@ public class HelloEvent implements Event, Serializable {
 
   public String getMsg() {
     return msg;
-  }
-
-  @Override
-  public int size() {
-    // TODO: return number of encoded bytes
-    return 1;
   }
 }

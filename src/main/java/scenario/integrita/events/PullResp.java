@@ -11,9 +11,4 @@ public class PullResp implements Event {
   public void setMsg(String msg) {
     this.msg = msg;
   }
-
-  @Override
-  public int size() {
-    return 0;
-  }
 }

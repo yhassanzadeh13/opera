@@ -22,10 +22,4 @@ public class DeliverTransactionsEvent implements Event {
   public List<Transaction> getTransactions() {
     return transactions;
   }
-
-  @Override
-  public int size() {
-    // TODO: return number of encoded bytes
-    return 1;
-  }
 }

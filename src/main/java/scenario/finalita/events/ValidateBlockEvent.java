@@ -15,12 +15,6 @@ public class ValidateBlockEvent implements Event {
     this.block = block;
   }
 
-  @Override
-  public int size() {
-    // TODO: return number of encoded bytes
-    return 1;
-  }
-
   public Block getBlock() {
     return block;
   }
