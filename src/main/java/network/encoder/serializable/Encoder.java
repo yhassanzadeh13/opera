@@ -4,6 +4,14 @@ import network.packets.Event;
 
 import java.io.*;
 
+/**
+ * Encoder is an implementation of the Encoder interface which uses Java's built-in object serialization and
+ * deserialization to convert events to byte arrays and back. This encoder is used by default by the networking layer
+ * to encode and decode events. Note that this encoder assumes that Event is actually a class, not an interface,
+ * because the Serializable interface doesn't define any methods. Also note that Java's built-in serialization has
+ * various shortcomings and should not be used for production code unless you're
+ * aware of its limitations and potential issues.
+ */
 public class Encoder implements network.encoder.Encoder {
     /**
      * Encodes an event into a byte array.
