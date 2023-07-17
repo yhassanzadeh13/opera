@@ -96,12 +96,12 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></code>, <code><a href="../../../network/packets/Event.html" title="interface in network.packets">Event</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></code>, <code><a href="../../../network/packets/Event.html" title="interface in network.model">Event</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">ConfirmBlockEvent</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements <a href="../../../network/packets/Event.html" title="interface in network.packets">Event</a></span></div>
+implements <a href="../../../network/packets/Event.html" title="interface in network.model">Event</a></span></div>
 <div class="block">It checks validation of block event in a node.</div>
 <dl class="notes">
 <dt>See Also:</dt>
@@ -194,7 +194,7 @@ implements <a href="../../../network/packets/Event.html" title="interface in net
  This method should be called in the event host node by calling event.actionPerformed(this)</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../network/packets/Event.html#actionPerformed(node.BaseNode)">actionPerformed</a></code>&nbsp;in interface&nbsp;<code><a href="../../../network/packets/Event.html" title="interface in network.packets">Event</a></code></dd>
+<dd><code><a href="../../../network/packets/Event.html#actionPerformed(node.BaseNode)">actionPerformed</a></code>&nbsp;in interface&nbsp;<code><a href="../../../network/packets/Event.html" title="interface in network.model">Event</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>hostNode</code> - an instance of the host node in order to perform the event action. Please note that
                  this parameter is of the type BaseNode. Therefore, in order to access the node params
@@ -213,7 +213,7 @@ implements <a href="../../../network/packets/Event.html" title="interface in net
  event during simulation.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../network/packets/Event.html#logMessage()">logMessage</a></code>&nbsp;in interface&nbsp;<code><a href="../../../network/packets/Event.html" title="interface in network.packets">Event</a></code></dd>
+<dd><code><a href="../../../network/packets/Event.html#logMessage()">logMessage</a></code>&nbsp;in interface&nbsp;<code><a href="../../../network/packets/Event.html" title="interface in network.model">Event</a></code></dd>
 <dt>Returns:</dt>
 <dd>a string that represents the log message of the event.</dd>
 </dl>
@@ -227,7 +227,7 @@ implements <a href="../../../network/packets/Event.html" title="interface in net
 <div class="block">Getter of the size in bytes.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../network/packets/Event.html#size()">size</a></code>&nbsp;in interface&nbsp;<code><a href="../../../network/packets/Event.html" title="interface in network.packets">Event</a></code></dd>
+<dd><code><a href="../../../network/packets/Event.html#size()">size</a></code>&nbsp;in interface&nbsp;<code><a href="../../../network/packets/Event.html" title="interface in network.model">Event</a></code></dd>
 <dt>Returns:</dt>
 <dd>size returns length of payload event in bytes.</dd>
 </dl>

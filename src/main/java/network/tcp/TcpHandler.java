@@ -7,7 +7,7 @@ import java.net.Socket;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
-import network.packets.Request;
+import network.model.Request;
 
 
 /**

@@ -4,7 +4,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import network.packets.Request;
+import network.model.Request;
 
 
 /**

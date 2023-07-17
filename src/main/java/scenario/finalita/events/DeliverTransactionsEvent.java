@@ -3,7 +3,7 @@ package scenario.finalita.events;
 import java.util.List;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import network.packets.Event;
+import network.model.Event;
 import scenario.finalita.Transaction;
 
 

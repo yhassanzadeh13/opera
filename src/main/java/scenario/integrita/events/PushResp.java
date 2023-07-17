@@ -1,6 +1,6 @@
 package scenario.integrita.events;
 
-import network.packets.Event;
+import network.model.Event;
 import scenario.integrita.utils.StatusCode;
 
 /**

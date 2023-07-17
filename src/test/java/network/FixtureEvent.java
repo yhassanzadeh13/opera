@@ -1,6 +1,6 @@
 package network;
 
-import network.packets.Event;
+import network.model.Event;
 
 /**
  * A basic Event to use to check whether Underlays coded correctly.

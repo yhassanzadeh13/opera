@@ -1,7 +1,7 @@
 package scenario.integrita.events;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import network.packets.Event;
+import network.model.Event;
 import scenario.integrita.historytree.HistoryTreeNode;
 
 /**

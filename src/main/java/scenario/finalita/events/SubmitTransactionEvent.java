@@ -1,6 +1,6 @@
 package scenario.finalita.events;
 
-import network.packets.Event;
+import network.model.Event;
 import scenario.finalita.Transaction;
 
 /**

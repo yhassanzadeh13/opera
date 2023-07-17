@@ -3,7 +3,7 @@ package network.javarmi;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import network.packets.Request;
+import network.model.Request;
 
 /**
  * Represents a Java RMI Service. An RMI service only has a single function that dispatches the received request

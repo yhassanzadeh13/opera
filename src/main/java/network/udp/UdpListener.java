@@ -8,7 +8,7 @@ import java.net.SocketException;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
-import network.packets.Request;
+import network.model.Request;
 
 /**
  * Implements a routine that continuously listens a local udp port for requests and responses, and delegates

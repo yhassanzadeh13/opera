@@ -3,7 +3,7 @@ package examples.helloservers;
 import java.util.ArrayList;
 import java.util.Random;
 
-import network.packets.Event;
+import network.model.Event;
 import node.BaseNode;
 import node.Identifier;
 

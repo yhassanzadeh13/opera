@@ -1,7 +1,7 @@
 package network;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import network.packets.Request;
+import network.model.Request;
 import node.Identifier;
 
 /**

@@ -1,8 +1,6 @@
 package examples.helloservers;
 
-import java.io.Serializable;
-
-import network.packets.Event;
+import network.model.Event;
 
 /**
  * HelloEvent is an event which enables node to send "Thank You" if the message is "Hello"

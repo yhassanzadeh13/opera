@@ -1,6 +1,6 @@
 package scenario.integrita.events;
 
-import network.packets.Event;
+import network.model.Event;
 
 /**
  * PullResp event encapsulates a sever-side response to the client's pull request.

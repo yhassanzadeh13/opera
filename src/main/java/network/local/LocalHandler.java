@@ -1,7 +1,7 @@
 package network.local;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import network.packets.Request;
+import network.model.Request;
 
 /**
  * Sends request to a middle layer.

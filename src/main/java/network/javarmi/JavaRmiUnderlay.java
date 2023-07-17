@@ -8,7 +8,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ExportException;
 
 import network.Underlay;
-import network.packets.Request;
+import network.model.Request;
 
 
 /**

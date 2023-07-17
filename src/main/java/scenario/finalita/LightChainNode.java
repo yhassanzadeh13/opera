@@ -12,7 +12,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
-import network.packets.Event;
+import network.model.Event;
 import node.BaseNode;
 import node.Identifier;
 import node.IdentifierGenerator;

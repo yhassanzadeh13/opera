@@ -9,7 +9,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import network.Underlay;
-import network.packets.Request;
+import network.model.Request;
 
 
 /**

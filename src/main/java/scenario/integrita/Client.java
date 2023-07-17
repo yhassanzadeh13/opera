@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
-import network.packets.Event;
+import network.model.Event;
 import node.BaseNode;
 import node.Identifier;
 import scenario.integrita.events.Push;

@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import network.Underlay;
-import network.packets.Request;
+import network.model.Request;
 
 
 /**

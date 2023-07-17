@@ -8,7 +8,7 @@ network
 network.javarmi
 network.latency
 network.local
-network.packets
+network.model
 network.tcp
 network.udp
 node

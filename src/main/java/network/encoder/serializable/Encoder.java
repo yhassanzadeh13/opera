@@ -1,6 +1,6 @@
 package network.encoder.serializable;
 
-import network.packets.Event;
+import network.model.Event;
 
 import java.io.*;
 

@@ -1,6 +1,6 @@
 package scenario.integrita.events;
 
-import network.packets.Event;
+import network.model.Event;
 
 /**
  * Pull event encapsulates a client-side pull request to the server.

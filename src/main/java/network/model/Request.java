@@ -1,4 +1,4 @@
-package network.packets;
+package network.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
