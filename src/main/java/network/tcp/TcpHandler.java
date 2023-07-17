@@ -7,7 +7,7 @@ import java.net.Socket;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
-import network.model.Request;
+import network.model.Message;
 
 
 /**
@@ -45,9 +45,9 @@ public class TcpHandler implements Runnable {
       return;
     }
     // Read the request from the connection.
-    Request request;
+    Message request;
     try {
-      request = (Request) requestStream.readObject();
+      request = (Message) requestStream.readObject();
       underlay.dispatchRequest(request);
     } catch (IOException e) {
       this.logger.fatal("could not read the request from the incoming connection.", e);

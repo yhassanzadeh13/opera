@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import network.Underlay;
-import network.model.Request;
+import network.model.Message;
 
 
 /**
@@ -62,7 +62,7 @@ public class LocalUnderlay extends Underlay {
    * @return response for the given request. Null in case of failure
    */
   @Override
-  public boolean sendMessage(String address, int port, Request request) {
+  public boolean sendMessage(String address, int port, Message request) {
     SimpleEntry<String, Integer> fullAddress = new SimpleEntry<>(address, port);
     if (!allUnderlay.containsKey(fullAddress)) {
       // TODO: throw illegal state exception.

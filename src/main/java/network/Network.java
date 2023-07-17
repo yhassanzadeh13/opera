@@ -1,5 +1,6 @@
 package network;
 
+import java.io.UncheckedIOException;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,9 +8,10 @@ import java.util.HashMap;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
+import network.encoder.Encoder;
 import network.latency.LatencyGenerator;
 import network.model.Event;
-import network.model.Request;
+import network.model.Message;
 import node.BaseNode;
 import node.Identifier;
 import simulator.Orchestrator;
@@ -21,6 +23,8 @@ import simulator.Orchestrator;
  */
 public class Network {
   private final Logger logger;
+
+  private final Encoder encoder;
 
   /**
    * Hash table of the full addresses of all the nodes in the network.
@@ -83,6 +87,7 @@ public class Network {
     this.orchestrator = orchestrator;
     this.metricsCollector = OperaMiddlewareCollector.getInstance();
     this.latencyGenerator = new LatencyGenerator();
+    this.encoder = new network.encoder.serializable.Encoder();
   }
 
   public Underlay getUnderlay() {
@@ -113,11 +118,17 @@ public class Network {
    * @return true if event was sent successfully. false, otherwise.
    */
   public boolean send(Identifier destinationId, Event event) {
-    // check the readiness of the destination node
     SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(destinationId);
 
-    // wrap the event by request class
-    Request request = new Request(event, this.nodeId, destinationId);
+    // encode the event into bytes
+    byte[] encodedEvent = null;
+    try {
+      encodedEvent = this.encoder.encode(event);
+    } catch (UncheckedIOException ex) {
+      this.logger.error("failed to encode event", ex);
+      return false;
+    }
+    Message msg = new Message(encodedEvent, this.nodeId, destinationId);
     String destinationAddress = fullAddress.getKey();
     Integer port = fullAddress.getValue();
 
@@ -131,14 +142,14 @@ public class Network {
     }
 
     // Bounce the request up.
-    boolean success = underlay.sendMessage(destinationAddress, port, request);
+    boolean success = underlay.sendMessage(destinationAddress, port, msg);
     if (success) {
       this.logger.debug("sent event to {}", destinationId);
     } else {
       this.logger.warn("failed to send event to {}", destinationId);
     }
 
-    this.metricsCollector.onMessageSent(nodeId, event.size());
+    this.metricsCollector.onMessageSent(nodeId, encodedEvent.length);
     return success;
   }
 
@@ -150,11 +161,19 @@ public class Network {
   /**
    * Called by the underlay to collect the response from the overlay.
    */
-  public void receive(Request request) {
-    this.metricsCollector.onMessageReceived(nodeId, request.getEvent().size(), request.getSentTimeStamp());
-    node.onNewMessage(request.getOriginalId(), request.getEvent());
-    // TODO: add request type
-    this.logger.debug("event received from {}", request.getOriginalId());
+  public void receive(Message msg) {
+    this.metricsCollector.onMessageReceived(nodeId, msg.getEncodedEvent().length, msg.getSentTimeStamp());
+
+    Event event;
+    try {
+      event = this.encoder.decode(msg.getEncodedEvent());
+      node.onNewMessage(msg.getOriginId(), event);
+    } catch (IllegalStateException | UncheckedIOException e) {
+      this.logger.error("failed to decode the event from {}", msg.getOriginId(), e);
+      return;
+    }
+
+    this.logger.debug("event received from {} event type {}", msg.getOriginId(), event.getClass().getName());
   }
 
 

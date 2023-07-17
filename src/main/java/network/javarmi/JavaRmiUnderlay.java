@@ -8,7 +8,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ExportException;
 
 import network.Underlay;
-import network.model.Request;
+import network.model.Message;
 
 
 /**
@@ -86,7 +86,7 @@ public class JavaRmiUnderlay extends Underlay {
    * @return response received from the server.
    */
   @Override
-  public boolean sendMessage(String address, int port, Request request) {
+  public boolean sendMessage(String address, int port, Message request) {
     if (host == null) {
       // TODO: throw illegal state exception.
       return false;
