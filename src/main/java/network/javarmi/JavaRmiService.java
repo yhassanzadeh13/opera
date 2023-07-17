@@ -10,5 +10,5 @@ import java.rmi.RemoteException;
  * to the local `RequestHandler` instance.
  */
 public interface JavaRmiService extends Remote {
-    void handleRequest(Message request) throws RemoteException;
+  void handleRequest(Message request) throws RemoteException;
 }

@@ -7,32 +7,32 @@ import node.BaseNode;
  * for simulation.
  */
 public class Recipe {
-    private final BaseNode baseNode;
-    private final String nameSpace;
-    private final int total;
+  private final BaseNode baseNode;
+  private final String nameSpace;
+  private final int total;
 
-    /**
-     * Constructor of recipe.
-     *
-     * @param baseNode  instance of a base node.
-     * @param nameSpace (optional) string to virtually group nodes with identical name space.
-     * @param total     total number of node instances of this type.
-     */
-    public Recipe(BaseNode baseNode, String nameSpace, int total) {
-        this.baseNode = baseNode;
-        this.nameSpace = nameSpace;
-        this.total = total;
-    }
+  /**
+   * Constructor of recipe.
+   *
+   * @param baseNode  instance of a base node.
+   * @param nameSpace (optional) string to virtually group nodes with identical name space.
+   * @param total     total number of node instances of this type.
+   */
+  public Recipe(BaseNode baseNode, String nameSpace, int total) {
+    this.baseNode = baseNode;
+    this.nameSpace = nameSpace;
+    this.total = total;
+  }
 
-    public BaseNode getBaseNode() {
-        return baseNode;
-    }
+  public BaseNode getBaseNode() {
+    return baseNode;
+  }
 
-    public String getNameSpace() {
-        return nameSpace;
-    }
+  public String getNameSpace() {
+    return nameSpace;
+  }
 
-    public int getTotal() {
-        return total;
-    }
+  public int getTotal() {
+    return total;
+  }
 }

@@ -9,64 +9,64 @@ import node.Identifier;
  */
 
 public abstract class Underlay {
-    protected Network network; // TODO: make this final.
+  protected Network network; // TODO: make this final.
 
-    public abstract int getPort();
+  public abstract int getPort();
 
-    public abstract String getAddress();
+  public abstract String getAddress();
 
-    public String getFullAddress() {
-        return getAddress() + ":" + getPort();
-    }
+  public String getFullAddress() {
+    return getAddress() + ":" + getPort();
+  }
 
-    /**
-     * Dispatches a request to the middle layer.
-     */
-    public void dispatchRequest(Message request) {
-        network.receive(request);
-    }
+  /**
+   * Dispatches a request to the middle layer.
+   */
+  public void dispatchRequest(Message request) {
+    network.receive(request);
+  }
 
-    /**
-     * Initializes the underlay.
-     *
-     * @param port    the port that the underlay should be bound to.
-     * @param network middle layer for underlay.
-     * @return true iff the initialization was successful.
-     */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of MiddleLayer")
-    public final boolean initialize(int port, Network network) {
-        this.network = network;
-        return initUnderlay(port);
-    }
+  /**
+   * Initializes the underlay.
+   *
+   * @param port    the port that the underlay should be bound to.
+   * @param network middle layer for underlay.
+   * @return true iff the initialization was successful.
+   */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of MiddleLayer")
+  public final boolean initialize(int port, Network network) {
+    this.network = network;
+    return initUnderlay(port);
+  }
 
-    /**
-     * Contains the underlay-specific initialization procedures.
-     *
-     * @param port the port that the underlay should be bound to.
-     * @return true iff the initialization was successful.
-     */
-    protected abstract boolean initUnderlay(int port);
+  /**
+   * Contains the underlay-specific initialization procedures.
+   *
+   * @param port the port that the underlay should be bound to.
+   * @return true iff the initialization was successful.
+   */
+  protected abstract boolean initUnderlay(int port);
 
-    /**
-     * Can be used to send a request to a remote server that runs the same underlay architecture.
-     *
-     * @param address address of the remote server.
-     * @param port    port of the remote server.
-     * @param request the request.
-     * @return True in case of success, False otherwise
-     */
-    public abstract boolean sendMessage(String address, int port, Message request);
+  /**
+   * Can be used to send a request to a remote server that runs the same underlay architecture.
+   *
+   * @param address address of the remote server.
+   * @param port    port of the remote server.
+   * @param request the request.
+   * @return True in case of success, False otherwise
+   */
+  public abstract boolean sendMessage(String address, int port, Message request);
 
 
-    /**
-     * Terminates the node.
-     *
-     * @throws IllegalStateException if it could not terminate the node.
-     */
-    // TODO: add timeout
-    public abstract void terminate() throws IllegalStateException;
+  /**
+   * Terminates the node.
+   *
+   * @throws IllegalStateException if it could not terminate the node.
+   */
+  // TODO: add timeout
+  public abstract void terminate() throws IllegalStateException;
 
-    public Identifier getNodeId() {
-        return network.getNodeId();
-    }
+  public Identifier getNodeId() {
+    return network.getNodeId();
+  }
 }

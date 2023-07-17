@@ -6,10 +6,10 @@ package utils.churn;
  * till it leaves (session length). All units are in milliseconds (ms).
  */
 public interface ChurnGenerator {
-    /**
-     * Generates the next churn value in milliseconds (ms).
-     *
-     * @return the next churn value in milliseconds (ms).
-     */
-    double next();
+  /**
+   * Generates the next churn value in milliseconds (ms).
+   *
+   * @return the next churn value in milliseconds (ms).
+   */
+  double next();
 }

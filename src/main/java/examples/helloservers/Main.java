@@ -12,19 +12,19 @@ import simulator.Simulator;
  * Simulation goes like this infinitely.
  */
 public class Main {
-    /**
-     * creates a new helloservers simulation for 5 nodes.
-     *
-     * @param args nothing
-     */
-    public static void main(String[] args) {
-        final String nameSpace = "example-helloservers";
-        Factory factory = new Factory();
-        factory.addRecipe(new Recipe(new MyNode(), nameSpace, 5));
-        Simulator simulator = new Simulator(factory, NetworkProtocol.MOCK_NETWORK);
-        simulator.churnSimulation(
-                1_000_000,
-                new utils.churn.GaussianGenerator(10_000, 20_000),
-                new utils.churn.GaussianGenerator(10_000, 20_000));
-    }
+  /**
+   * creates a new helloservers simulation for 5 nodes.
+   *
+   * @param args nothing
+   */
+  public static void main(String[] args) {
+    final String nameSpace = "example-helloservers";
+    Factory factory = new Factory();
+    factory.addRecipe(new Recipe(new MyNode(), nameSpace, 5));
+    Simulator simulator = new Simulator(factory, NetworkProtocol.MOCK_NETWORK);
+    simulator.churnSimulation(
+      1_000_000,
+      new utils.churn.GaussianGenerator(10_000, 20_000),
+      new utils.churn.GaussianGenerator(10_000, 20_000));
+  }
 }

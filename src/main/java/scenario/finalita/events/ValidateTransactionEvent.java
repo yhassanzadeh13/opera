@@ -10,13 +10,13 @@ import scenario.finalita.Transaction;
  */
 public class ValidateTransactionEvent implements Event {
 
-    private final Transaction transaction;
+  private final Transaction transaction;
 
-    public ValidateTransactionEvent(Transaction tx) {
-        this.transaction = tx;
-    }
+  public ValidateTransactionEvent(Transaction tx) {
+    this.transaction = tx;
+  }
 
-    public Transaction getTransaction() {
-        return transaction;
-    }
+  public Transaction getTransaction() {
+    return transaction;
+  }
 }

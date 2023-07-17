@@ -9,15 +9,15 @@ import java.util.AbstractMap;
  * @param <V> Type of the Value
  */
 public class SimpleEntryComparable<K extends Comparable<? super K>, V>
-        extends AbstractMap.SimpleEntry<K, V>
-        implements Comparable<SimpleEntryComparable<K, V>> {
+  extends AbstractMap.SimpleEntry<K, V>
+  implements Comparable<SimpleEntryComparable<K, V>> {
 
-    public SimpleEntryComparable(K key, V value) {
-        super(key, value);
-    }
+  public SimpleEntryComparable(K key, V value) {
+    super(key, value);
+  }
 
-    @Override
-    public int compareTo(final SimpleEntryComparable<K, V> other) {
-        return getKey().compareTo(other.getKey());
-    }
+  @Override
+  public int compareTo(final SimpleEntryComparable<K, V> other) {
+    return getKey().compareTo(other.getKey());
+  }
 }

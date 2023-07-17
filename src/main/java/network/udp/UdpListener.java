@@ -16,53 +16,53 @@ import java.net.SocketException;
  * thread.
  */
 public class UdpListener implements Runnable {
-    // Owned resource by the `UDPUnderlay`.
-    private final DatagramSocket listenSocket;
-    // Owned resource by the `UDPUnderlay`.
-    private final UdpUnderlay underlay;
-    private final Logger logger;
-    // Owned resource by the `UDPUnderlay`. Used to dispatch the received
-    // responses to the main thread.
+  // Owned resource by the `UDPUnderlay`.
+  private final DatagramSocket listenSocket;
+  // Owned resource by the `UDPUnderlay`.
+  private final UdpUnderlay underlay;
+  private final Logger logger;
+  // Owned resource by the `UDPUnderlay`. Used to dispatch the received
+  // responses to the main thread.
 
-    /**
-     * Constructor of the `UDPListener`.
-     *
-     * @param listenSocket Socket of the Listener
-     * @param underlay     Underlay for the Listener
-     */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of listen socket")
-    public UdpListener(DatagramSocket listenSocket, UdpUnderlay underlay) {
-        this.listenSocket = listenSocket;
-        this.underlay = underlay;
-        this.logger = OperaLogger.getLoggerForNodeComponent(UdpListener.class.getCanonicalName(), this.underlay.getNodeId(), "udp-listener");
+  /**
+   * Constructor of the `UDPListener`.
+   *
+   * @param listenSocket Socket of the Listener
+   * @param underlay     Underlay for the Listener
+   */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of listen socket")
+  public UdpListener(DatagramSocket listenSocket, UdpUnderlay underlay) {
+    this.listenSocket = listenSocket;
+    this.underlay = underlay;
+    this.logger = OperaLogger.getLoggerForNodeComponent(UdpListener.class.getCanonicalName(), this.underlay.getNodeId(), "udp-listener");
+  }
+
+  @Override
+  public void run() {
+    while (true) {
+      try {
+        // Allocate the size for a packet.
+        byte[] packetBytes = new byte[UdpUnderlay.MAX_PACKET_SIZE];
+        DatagramPacket packet = new DatagramPacket(packetBytes, packetBytes.length);
+        // Wait for a packet.
+        listenSocket.receive(packet);
+        // Deserialize the packet.
+        Object packetObject = UdpUtils.deserialize(packet.getData(), packet.getLength());
+        // handle the request in a new `UDPHandler` thread.
+        Message request = (Message) packetObject;
+
+        this.logger.debug("received a new incoming request from " + packet.getAddress().getHostAddress());
+        new Thread(new UdpHandler(listenSocket, request, packet.getAddress(), packet.getPort(), underlay)).start();
+        // TODO: manage the termination of the handler threads.
+      } catch (SocketException e) {
+        // Once the listener socket is closed by an outside thread, this point will be reached, and
+        // we will stop listening.
+
+        this.logger.debug("listener socket closed.");
+        return;
+      } catch (IOException e) {
+        this.logger.fatal("could not accept incoming connection.", e);
+      }
     }
-
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                // Allocate the size for a packet.
-                byte[] packetBytes = new byte[UdpUnderlay.MAX_PACKET_SIZE];
-                DatagramPacket packet = new DatagramPacket(packetBytes, packetBytes.length);
-                // Wait for a packet.
-                listenSocket.receive(packet);
-                // Deserialize the packet.
-                Object packetObject = UdpUtils.deserialize(packet.getData(), packet.getLength());
-                // handle the request in a new `UDPHandler` thread.
-                Message request = (Message) packetObject;
-
-                this.logger.debug("received a new incoming request from " + packet.getAddress().getHostAddress());
-                new Thread(new UdpHandler(listenSocket, request, packet.getAddress(), packet.getPort(), underlay)).start();
-                // TODO: manage the termination of the handler threads.
-            } catch (SocketException e) {
-                // Once the listener socket is closed by an outside thread, this point will be reached, and
-                // we will stop listening.
-
-                this.logger.debug("listener socket closed.");
-                return;
-            } catch (IOException e) {
-                this.logger.fatal("could not accept incoming connection.", e);
-            }
-        }
-    }
+  }
 }

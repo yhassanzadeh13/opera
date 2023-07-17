@@ -9,22 +9,22 @@ import scenario.integrita.user.User;
  */
 public interface Store {
 
-    boolean insert(HistoryTreeNode historyTreeNode);
+  boolean insert(HistoryTreeNode historyTreeNode);
 
-    boolean insert(User user);
+  boolean insert(User user);
 
-    HistoryTreeNode get(NodeAddress nodeAddress);
+  HistoryTreeNode get(NodeAddress nodeAddress);
 
-    User get(Integer id);
+  User get(Integer id);
 
-    boolean delete(NodeAddress nodeAddress);
+  boolean delete(NodeAddress nodeAddress);
 
-    boolean delete(User user);
+  boolean delete(User user);
 
-    boolean contains(User user);
+  boolean contains(User user);
 
-    boolean contains(HistoryTreeNode historyTreeNode);
+  boolean contains(HistoryTreeNode historyTreeNode);
 
-    boolean contains(NodeAddress nodeAddress);
+  boolean contains(NodeAddress nodeAddress);
 
 }

@@ -10,13 +10,13 @@ import simulator.Orchestrator;
  */
 public class NoopOrchestrator implements Orchestrator {
 
-    @Override
-    public void ready(Identifier nodeId) {
+  @Override
+  public void ready(Identifier nodeId) {
 
-    }
+  }
 
-    @Override
-    public void done(Identifier nodeId) {
+  @Override
+  public void done(Identifier nodeId) {
 
-    }
+  }
 }

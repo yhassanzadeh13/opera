@@ -24,49 +24,49 @@ import org.apache.commons.math3.random.JDKRandomGenerator;
  * https://en.wikipedia.org/wiki/Weibull_distribution
  */
 public class WeibullGenerator implements ChurnGenerator {
-    /**
-     * The min value of the distribution, protocol parameter.
-     */
-    private final double min;
-    /**
-     * The max value of the distribution, protocol parameter.
-     */
-    private final double max;
+  /**
+   * The min value of the distribution, protocol parameter.
+   */
+  private final double min;
+  /**
+   * The max value of the distribution, protocol parameter.
+   */
+  private final double max;
 
-    private final WeibullDistribution generator;
+  private final WeibullDistribution generator;
 
-    /**
-     * Constructor for WeibullDistribution.
-     *
-     * @param min            min value
-     * @param max            max value
-     * @param shapeParameter the shape parameter of the distribution.
-     * @param scaleParameter the scale parameter of the distribution.
-     */
-    public WeibullGenerator(double min, double max, double shapeParameter, double scaleParameter) {
-        this.min = min;
-        this.max = max;
-        JDKRandomGenerator rand = new JDKRandomGenerator();
-        this.generator = new WeibullDistribution(
-                rand,
-                shapeParameter,
-                scaleParameter,
-                WeibullDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+  /**
+   * Constructor for WeibullDistribution.
+   *
+   * @param min            min value
+   * @param max            max value
+   * @param shapeParameter the shape parameter of the distribution.
+   * @param scaleParameter the scale parameter of the distribution.
+   */
+  public WeibullGenerator(double min, double max, double shapeParameter, double scaleParameter) {
+    this.min = min;
+    this.max = max;
+    JDKRandomGenerator rand = new JDKRandomGenerator();
+    this.generator = new WeibullDistribution(
+      rand,
+      shapeParameter,
+      scaleParameter,
+      WeibullDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+  }
+
+  /**
+   * Generates a random number following the Weibull distribution within the range [min, max].
+   *
+   * @return a random number following the Weibull distribution within the range [min, max].
+   */
+  @Override
+  public double next() {
+    double sample = this.generator.sample();
+    if (sample < min) {
+      sample = min;
+    } else if (sample > max) {
+      sample = max;
     }
-
-    /**
-     * Generates a random number following the Weibull distribution within the range [min, max].
-     *
-     * @return a random number following the Weibull distribution within the range [min, max].
-     */
-    @Override
-    public double next() {
-        double sample = this.generator.sample();
-        if (sample < min) {
-            sample = min;
-        } else if (sample > max) {
-            sample = max;
-        }
-        return sample;
-    }
+    return sample;
+  }
 }
