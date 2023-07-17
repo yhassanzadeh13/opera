@@ -9,13 +9,13 @@ import scenario.finalita.Block;
  * Size: Returns number of encoded bytes.
  */
 public class SubmitBlockEvent implements Event {
-  private final Block block;
+    private final Block block;
 
-  public SubmitBlockEvent(Block block) {
-    this.block = block;
-  }
+    public SubmitBlockEvent(Block block) {
+        this.block = block;
+    }
 
-  public Block getBlock() {
-    return block;
-  }
+    public Block getBlock() {
+        return block;
+    }
 }

@@ -66,84 +66,84 @@ import java.util.Random;
  * 0  1  2  3  4  5  6  7
  */
 public class ExponentialGenerator implements ChurnGenerator {
-  /**
-   * The lambda value of the distribution, protocol parameter.
-   */
-  private final double lambda;
+    /**
+     * The lambda value of the distribution, protocol parameter.
+     */
+    private final double lambda;
 
-  /**
-   * Random generator.
-   */
-  private final Random rand;
+    /**
+     * Random generator.
+     */
+    private final Random rand;
 
-  /**
-   * The min value of the distribution, protocol parameter.
-   */
-  private final int min;
+    /**
+     * The min value of the distribution, protocol parameter.
+     */
+    private final int min;
 
-  /**
-   * The max value of the distribution, protocol parameter.
-   */
-  private final int max;
+    /**
+     * The max value of the distribution, protocol parameter.
+     */
+    private final int max;
 
-  /**
-   * Constructor of ExponentialGenerator.
-   *
-   * @param lambda lambda value of the distribution, i.e., the rate parameter. It must be positive.
-   * @param min    minimum value of the distribution, must be positive.
-   * @param max    maximum value of the distribution, must be greater than min.
-   */
-  public ExponentialGenerator(double lambda, int min, int max) {
-    if (lambda <= 0) {
-      throw new IllegalArgumentException(String.format("Lambda (%f) must be positive", lambda));
+    /**
+     * Constructor of ExponentialGenerator.
+     *
+     * @param lambda lambda value of the distribution, i.e., the rate parameter. It must be positive.
+     * @param min    minimum value of the distribution, must be positive.
+     * @param max    maximum value of the distribution, must be greater than min.
+     */
+    public ExponentialGenerator(double lambda, int min, int max) {
+        if (lambda <= 0) {
+            throw new IllegalArgumentException(String.format("Lambda (%f) must be positive", lambda));
+        }
+
+        if (min < 0) {
+            throw new IllegalArgumentException(String.format("Min (%d) must be positive", min));
+        }
+
+        if (lambda >= Double.MAX_VALUE) {
+            throw new IllegalArgumentException("Lambda must be smaller than Double.MAX_VALUE");
+        }
+
+        if (Double.isNaN(lambda)) {
+            throw new IllegalArgumentException(String.format("Lambda (%f) must be a number", lambda));
+        }
+
+        if (min >= max) {
+            throw new IllegalArgumentException(String.format("Min (%d) must be smaller than max (%d)", min, max));
+        }
+
+        this.lambda = lambda;
+        this.rand = new Random();
+        this.min = min;
+        this.max = max;
     }
 
-    if (min < 0) {
-      throw new IllegalArgumentException(String.format("Min (%d) must be positive", min));
+    /**
+     * Generates the next value of the distribution as an integer between min and max.
+     *
+     * @return the next value of the distribution as an integer.
+     */
+    @Override
+    public double next() {
+        // generates a uniform random number between 0 and 1 and adds a small value to avoid log(0)
+        double u = rand.nextDouble() + 0.000_000_000_1; // to avoid log(0)
+        // generates the next value according to the exponential distribution.
+        double e = -Math.log(1 - u) / lambda;
+        // amplifies the value to fit the desired range.
+        e = e * (max - min) + min;
+
+        // checks if the value is within the desired range (exponential distribution is not bounded).
+        if (e < min) {
+            e = min;
+        }
+
+        if (e > max) {
+            e = max;
+        }
+
+        // returns the next value as an integer.
+        return Math.round(e);
     }
-
-    if (lambda >= Double.MAX_VALUE) {
-      throw new IllegalArgumentException("Lambda must be smaller than Double.MAX_VALUE");
-    }
-
-    if (Double.isNaN(lambda)) {
-      throw new IllegalArgumentException(String.format("Lambda (%f) must be a number", lambda));
-    }
-
-    if (min >= max) {
-      throw new IllegalArgumentException(String.format("Min (%d) must be smaller than max (%d)", min, max));
-    }
-
-    this.lambda = lambda;
-    this.rand = new Random();
-    this.min = min;
-    this.max = max;
-  }
-
-  /**
-   * Generates the next value of the distribution as an integer between min and max.
-   *
-   * @return the next value of the distribution as an integer.
-   */
-  @Override
-  public double next() {
-    // generates a uniform random number between 0 and 1 and adds a small value to avoid log(0)
-    double u = rand.nextDouble() + 0.000_000_000_1; // to avoid log(0)
-    // generates the next value according to the exponential distribution.
-    double e = -Math.log(1 - u) / lambda;
-    // amplifies the value to fit the desired range.
-    e = e * (max - min) + min;
-
-    // checks if the value is within the desired range (exponential distribution is not bounded).
-    if (e < min) {
-      e = min;
-    }
-
-    if (e > max) {
-      e = max;
-    }
-
-    // returns the next value as an integer.
-    return Math.round(e);
-  }
 }

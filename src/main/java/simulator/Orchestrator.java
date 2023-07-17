@@ -9,7 +9,7 @@ import node.Identifier;
  * getSimulatedLatency: Getter for Orchestrator network.latency.
  */
 public interface Orchestrator {
-  void ready(Identifier nodeId);
+    void ready(Identifier nodeId);
 
-  void done(Identifier nodeId);
+    void done(Identifier nodeId);
 }

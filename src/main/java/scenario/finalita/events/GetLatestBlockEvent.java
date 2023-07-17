@@ -9,13 +9,13 @@ import node.Identifier;
  * Size: Returns number of encoded bytes.
  */
 public class GetLatestBlockEvent implements Event {
-  private final Identifier requester;
+    private final Identifier requester;
 
-  public GetLatestBlockEvent(Identifier requester) {
-    this.requester = requester;
-  }
+    public GetLatestBlockEvent(Identifier requester) {
+        this.requester = requester;
+    }
 
-  public Identifier getRequester() {
-    return requester;
-  }
+    public Identifier getRequester() {
+        return requester;
+    }
 }

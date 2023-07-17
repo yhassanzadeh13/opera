@@ -8,13 +8,13 @@ import node.Identifier;
  * It checks validation of block event in a node.
  */
 public class ConfirmBlockEvent implements Event {
-  private final Identifier blockId;
+    private final Identifier blockId;
 
-  public ConfirmBlockEvent(Identifier blockId) {
-    this.blockId = blockId;
-  }
+    public ConfirmBlockEvent(Identifier blockId) {
+        this.blockId = blockId;
+    }
 
-  public Identifier getBlockId() {
-    return blockId;
-  }
+    public Identifier getBlockId() {
+        return blockId;
+    }
 }

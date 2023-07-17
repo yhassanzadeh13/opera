@@ -29,67 +29,67 @@ import java.util.Random;
  * can be optionally constrained to a specific range (min, max).
  */
 public class GaussianGenerator implements ChurnGenerator {
-  /**
-   * The min value of the distribution, protocol parameter.
-   */
-  private final double min;
-  /**
-   * The max value of the distribution, protocol parameter.
-   */
-  private final double max;
-  /**
-   * Random generator.
-   */
-  private final Random rand;
+    /**
+     * The min value of the distribution, protocol parameter.
+     */
+    private final double min;
+    /**
+     * The max value of the distribution, protocol parameter.
+     */
+    private final double max;
+    /**
+     * Random generator.
+     */
+    private final Random rand;
 
-  /**
-   * The mean value of the Gaussian distribution, protocol parameter.
-   */
-  private final double mean;
+    /**
+     * The mean value of the Gaussian distribution, protocol parameter.
+     */
+    private final double mean;
 
-  /**
-   * The Standard Deviation of Gaussian distribution, protocol parameter.
-   */
-  private final double std;
+    /**
+     * The Standard Deviation of Gaussian distribution, protocol parameter.
+     */
+    private final double std;
 
-  /**
-   * Constructor of the GaussianGenerator.
-   *
-   * @param mean mean of the distribution.
-   * @param std  standard deviation of the values
-   */
-  public GaussianGenerator(double mean, double std) {
-    this(mean, std, 0, Double.MAX_VALUE);
-  }
-
-  /**
-   * Constructor of the GaussianGenerator.
-   *
-   * @param mean mean of the distribution.
-   * @param std  standard deviation of the values
-   * @param min  minimum value of the distribution.
-   * @param max  maximum value of the distribution.
-   */
-  public GaussianGenerator(double mean, double std, double min, double max) {
-    this.mean = mean;
-    this.std = std;
-    this.min = min;
-    this.max = max;
-    this.rand = new Random();
-  }
-
-  /**
-   * Generates the next churn value.
-   *
-   * @return the next churn value in seconds.
-   */
-  @Override
-  public double next() {
-    double value = rand.nextGaussian() * this.std + this.mean;
-    if (value < this.min) {
-      return this.min;
-    } else {
-      return Math.min(value, this.max);
+    /**
+     * Constructor of the GaussianGenerator.
+     *
+     * @param mean mean of the distribution.
+     * @param std  standard deviation of the values
+     */
+    public GaussianGenerator(double mean, double std) {
+        this(mean, std, 0, Double.MAX_VALUE);
     }
-  }
+
+    /**
+     * Constructor of the GaussianGenerator.
+     *
+     * @param mean mean of the distribution.
+     * @param std  standard deviation of the values
+     * @param min  minimum value of the distribution.
+     * @param max  maximum value of the distribution.
+     */
+    public GaussianGenerator(double mean, double std, double min, double max) {
+        this.mean = mean;
+        this.std = std;
+        this.min = min;
+        this.max = max;
+        this.rand = new Random();
+    }
+
+    /**
+     * Generates the next churn value.
+     *
+     * @return the next churn value in seconds.
+     */
+    @Override
+    public double next() {
+        double value = rand.nextGaussian() * this.std + this.mean;
+        if (value < this.min) {
+            return this.min;
+        } else {
+            return Math.min(value, this.max);
+        }
+    }
 }

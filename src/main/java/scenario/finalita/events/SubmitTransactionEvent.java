@@ -9,13 +9,13 @@ import scenario.finalita.Transaction;
  */
 public class SubmitTransactionEvent implements Event {
 
-  private final Transaction transaction;
+    private final Transaction transaction;
 
-  public SubmitTransactionEvent(Transaction transaction) {
-    this.transaction = transaction;
-  }
+    public SubmitTransactionEvent(Transaction transaction) {
+        this.transaction = transaction;
+    }
 
-  public Transaction getTransaction() {
-    return transaction;
-  }
+    public Transaction getTransaction() {
+        return transaction;
+    }
 }

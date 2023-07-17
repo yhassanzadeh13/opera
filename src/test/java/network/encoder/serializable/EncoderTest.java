@@ -4,9 +4,7 @@ import network.model.Event;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class EncoderTest {
 
@@ -38,7 +36,7 @@ class EncoderTest {
     }
 
     static class TestEvent implements Event {
-        private String name;
+        private final String name;
 
         TestEvent(String name) {
             this.name = name;

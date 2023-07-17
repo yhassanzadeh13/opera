@@ -8,19 +8,19 @@ import network.model.Message;
  */
 public class LocalHandler implements Runnable {
 
-  final Message request;
+    final Message request;
 
-  // destination middle layer to send the request
-  final network.Network destinationNetwork;
+    // destination middle layer to send the request
+    final network.Network destinationNetwork;
 
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of MiddleLayer")
-  public LocalHandler(Message request, network.Network destinationNetwork) {
-    this.request = request;
-    this.destinationNetwork = destinationNetwork;
-  }
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of MiddleLayer")
+    public LocalHandler(Message request, network.Network destinationNetwork) {
+        this.request = request;
+        this.destinationNetwork = destinationNetwork;
+    }
 
-  @Override
-  public void run() {
-    destinationNetwork.receive(this.request);
-  }
+    @Override
+    public void run() {
+        destinationNetwork.receive(this.request);
+    }
 }

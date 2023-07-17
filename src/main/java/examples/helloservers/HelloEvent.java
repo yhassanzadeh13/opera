@@ -7,18 +7,18 @@ import network.model.Event;
  * else sends "Hello" message back to that node.
  */
 public class HelloEvent implements Event {
-  private final String msg;
+    private final String msg;
 
-  /**
-   * Constructor.
-   *
-   * @param msg        message to send.
-   */
-  public HelloEvent(String msg) {
-    this.msg = msg;
-  }
+    /**
+     * Constructor.
+     *
+     * @param msg message to send.
+     */
+    public HelloEvent(String msg) {
+        this.msg = msg;
+    }
 
-  public String getMsg() {
-    return msg;
-  }
+    public String getMsg() {
+        return msg;
+    }
 }
