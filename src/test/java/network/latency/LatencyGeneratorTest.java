@@ -1,4 +1,4 @@
-package network;
+package network.latency;
 
 import java.util.ArrayList;
 
