@@ -1,5 +1,7 @@
 package scenario.integrita;
 
+import java.util.ArrayList;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
@@ -9,8 +11,6 @@ import node.Identifier;
 import scenario.integrita.events.Push;
 import scenario.integrita.historytree.HistoryTreeNode;
 import scenario.integrita.user.User;
-
-import java.util.ArrayList;
 
 
 /**

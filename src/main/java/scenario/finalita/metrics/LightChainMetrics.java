@@ -20,23 +20,23 @@ public class LightChainMetrics {
    */
   public LightChainMetrics() {
     this.transactionCount = new OperaCounter(LightChain.Name.TRANSACTION_COUNT,
-      Constants.Namespace.DEMO,
-      SUBSYSTEM_LIGHTCHAIN,
-      LightChain.HelpMsg.TRANSACTION_COUNT);
+                                             Constants.Namespace.DEMO,
+                                             SUBSYSTEM_LIGHTCHAIN,
+                                             LightChain.HelpMsg.TRANSACTION_COUNT);
     this.finalizedBlockHeightPerNode = new OperaGauge(LightChain.Name.CURRENT_BLOCK_HEIGHT,
-      Constants.Namespace.DEMO,
-      SUBSYSTEM_LIGHTCHAIN,
-      LightChain.HelpMsg.CURRENT_BLOCK_HEIGHT,
-      Constants.IDENTIFIER); // label
+                                                      Constants.Namespace.DEMO,
+                                                      SUBSYSTEM_LIGHTCHAIN,
+                                                      LightChain.HelpMsg.CURRENT_BLOCK_HEIGHT,
+                                                      Constants.IDENTIFIER); // label
     this.blockIdsPerHeight = new OperaHistogram(LightChain.Name.BLOCK_IDS_PER_HEIGHT,
-      Constants.Namespace.DEMO,
-      SUBSYSTEM_LIGHTCHAIN,
-      LightChain.HelpMsg.BLOCK_IDS_PER_HEIGHT,
-      // Histogram keeps number of unique block ids per height, it can be as big as
-      // the number of nodes in the network (one unique block id per node).
-      // At this time it is far too big to go beyond 1000 nodes in an Opera simulation.
-      // That is why we keep buckets sizes exponential to 2 up to 1024.
-      new double[]{1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024});
+                                                Constants.Namespace.DEMO,
+                                                SUBSYSTEM_LIGHTCHAIN,
+                                                LightChain.HelpMsg.BLOCK_IDS_PER_HEIGHT,
+                                                // Histogram keeps number of unique block ids per height, it can be as big as
+                                                // the number of nodes in the network (one unique block id per node).
+                                                // At this time it is far too big to go beyond 1000 nodes in an Opera simulation.
+                                                // That is why we keep buckets sizes exponential to 2 up to 1024.
+                                                new double[]{1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024});
   }
 
   /**

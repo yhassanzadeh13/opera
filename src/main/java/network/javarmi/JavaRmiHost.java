@@ -1,10 +1,10 @@
 package network.javarmi;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import network.model.Message;
-
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import network.model.Message;
 
 
 /**

@@ -1,9 +1,9 @@
 package network.latency;
 
+import java.util.HashMap;
+
 import node.Identifier;
 import utils.churn.GaussianGenerator;
-
-import java.util.HashMap;
 
 /**
  * Creates synthetic and symmetric latecy between nodes.

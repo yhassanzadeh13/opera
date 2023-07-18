@@ -1,18 +1,17 @@
 package simulator;
 
-import node.Identifier;
-import node.IdentifierGenerator;
-import org.apache.commons.math3.random.JDKRandomGenerator;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import utils.SharedVariable;
-
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
 
 import static org.junit.jupiter.api.Assertions.*;
+import node.Identifier;
+import node.IdentifierGenerator;
+import org.apache.commons.math3.random.JDKRandomGenerator;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import utils.SharedVariable;
 
 class SharedVariableTest {
 
@@ -50,12 +49,12 @@ class SharedVariableTest {
     assertTrue(SharedVariable.getInstance().requestLock(allId.get(1), "Test"));
     // read from node 2
     assertEquals(new AbstractMap.SimpleEntry<>(allId.get(0), 5),
-      SharedVariable.getInstance().read(allId.get(1),
-        "Test"));
+                 SharedVariable.getInstance().read(allId.get(1),
+                                                   "Test"));
     // read from node 3
     assertEquals(new AbstractMap.SimpleEntry<>(allId.get(0), 5),
-      SharedVariable.getInstance().read(allId.get(2),
-        "Test"));
+                 SharedVariable.getInstance().read(allId.get(2),
+                                                   "Test"));
     // read again from node 3 should throws an exception
     assertNull(SharedVariable.getInstance().read(allId.get(2), "Test"));
     // unregistered variable

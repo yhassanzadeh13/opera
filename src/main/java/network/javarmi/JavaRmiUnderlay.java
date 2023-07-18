@@ -1,14 +1,14 @@
 package network.javarmi;
 
-import network.Underlay;
-import network.model.Message;
-
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ExportException;
+
+import network.Underlay;
+import network.model.Message;
 
 
 /**

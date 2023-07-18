@@ -1,8 +1,8 @@
 package network.encoder;
 
-import network.model.Event;
-
 import java.io.UncheckedIOException;
+
+import network.model.Event;
 
 /**
  * Encoder is an interface for encoding and decoding events into byte arrays and vice versa. It is used by the

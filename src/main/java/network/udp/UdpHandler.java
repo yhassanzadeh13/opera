@@ -1,10 +1,10 @@
 package network.udp;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import network.model.Message;
-
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import network.model.Message;
 
 
 /**

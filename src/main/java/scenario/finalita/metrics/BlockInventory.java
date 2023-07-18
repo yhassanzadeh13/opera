@@ -1,12 +1,12 @@
 package scenario.finalita.metrics;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import node.Identifier;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import node.Identifier;
 
 /**
  * Collects the identifiers of unique blocks at each height.

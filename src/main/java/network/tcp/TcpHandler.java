@@ -1,13 +1,13 @@
 package network.tcp;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.Socket;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
 import network.model.Message;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.net.Socket;
 
 
 /**

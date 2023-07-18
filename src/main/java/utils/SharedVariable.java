@@ -1,16 +1,16 @@
 package utils;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import modules.logger.Logger;
-import modules.logger.OperaLogger;
-import node.Identifier;
-import node.IdentifierGenerator;
-
 import java.util.AbstractMap;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import modules.logger.Logger;
+import modules.logger.OperaLogger;
+import node.Identifier;
+import node.IdentifierGenerator;
 
 /**
  * local static variable between the nodes with a buffer size of 1

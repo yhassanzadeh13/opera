@@ -1,8 +1,8 @@
 package simulator;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.ArrayList;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Factory supports creating several types of nodes each with a certain instances.

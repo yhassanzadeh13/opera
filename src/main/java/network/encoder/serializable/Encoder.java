@@ -1,8 +1,8 @@
 package network.encoder.serializable;
 
-import network.model.Event;
-
 import java.io.*;
+
+import network.model.Event;
 
 /**
  * Encoder is an implementation of the Encoder interface which uses Java's built-in object serialization and

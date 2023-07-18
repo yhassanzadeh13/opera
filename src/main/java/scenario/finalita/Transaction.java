@@ -1,11 +1,11 @@
 package scenario.finalita;
 
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import node.Identifier;
-
 import java.io.Serializable;
 import java.util.List;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import node.Identifier;
 
 /**
  * Transaction representation in Proof-of-Validation.

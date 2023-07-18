@@ -1,11 +1,11 @@
 package examples.helloservers;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import network.model.Event;
 import node.BaseNode;
 import node.Identifier;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * MyNode is a basenode to be fixture node for the hello servers simulation.

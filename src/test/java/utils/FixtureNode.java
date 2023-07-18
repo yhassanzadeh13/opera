@@ -1,10 +1,10 @@
 package utils;
 
+import java.util.ArrayList;
+
 import network.model.Event;
 import node.BaseNode;
 import node.Identifier;
-
-import java.util.ArrayList;
 
 /**
  * A basic BaseNode to check whether Utils coded correctly or not.

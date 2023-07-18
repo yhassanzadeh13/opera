@@ -1,13 +1,13 @@
 package network.tcp;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import modules.logger.Logger;
-import modules.logger.OperaLogger;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import modules.logger.Logger;
+import modules.logger.OperaLogger;
 
 /**
  * Implements a routine that continuously listens a local tcp port and delegates the handling

@@ -1,10 +1,10 @@
 package network.udp;
 
-import network.Underlay;
-import network.model.Message;
-
 import java.io.IOException;
 import java.net.*;
+
+import network.Underlay;
+import network.model.Message;
 
 
 /**

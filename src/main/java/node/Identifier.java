@@ -1,9 +1,9 @@
 package node;
 
-import io.ipfs.multibase.Multibase;
-
 import java.io.Serializable;
 import java.util.Arrays;
+
+import io.ipfs.multibase.Multibase;
 
 /**
  * Represents a 32-byte unique identifier.

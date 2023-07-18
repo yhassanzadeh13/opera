@@ -1,8 +1,8 @@
 package metrics.integration;
 
-import io.prometheus.client.exporter.HTTPServer;
-
 import java.io.IOException;
+
+import io.prometheus.client.exporter.HTTPServer;
 
 /**
  * HTTP Server constructor class for the Prometheus exposer server.

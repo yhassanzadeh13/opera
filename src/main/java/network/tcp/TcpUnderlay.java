@@ -1,14 +1,14 @@
 package network.tcp;
 
-import network.Underlay;
-import network.model.Message;
-
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import network.Underlay;
+import network.model.Message;
 
 
 /**

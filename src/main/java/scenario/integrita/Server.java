@@ -1,5 +1,7 @@
 package scenario.integrita;
 
+import java.util.ArrayList;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import groovy.lang.Tuple;
 import modules.logger.Logger;
@@ -13,8 +15,6 @@ import scenario.integrita.historytree.HistoryTreeNode;
 import scenario.integrita.historytree.NodeAddress;
 import scenario.integrita.signature.Signature;
 import scenario.integrita.utils.StatusCode;
-
-import java.util.ArrayList;
 
 /**
  * Integrita server implementation.

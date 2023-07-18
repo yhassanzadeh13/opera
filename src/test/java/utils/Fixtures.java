@@ -1,15 +1,15 @@
 package utils;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import network.FixtureNode;
 import network.NetworkProtocol;
 import network.Underlay;
 import network.UnderlayFactory;
 import node.Identifier;
 import node.IdentifierGenerator;
-
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Fixtures {
   /**

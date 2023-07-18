@@ -1,5 +1,10 @@
 package network;
 
+import java.io.UncheckedIOException;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
@@ -10,11 +15,6 @@ import network.model.Message;
 import node.BaseNode;
 import node.Identifier;
 import simulator.Orchestrator;
-
-import java.io.UncheckedIOException;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Represents the high level networking layer of the individual nodes. Each instance of this class

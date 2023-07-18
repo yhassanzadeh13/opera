@@ -1,14 +1,14 @@
 package network.udp;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import modules.logger.Logger;
-import modules.logger.OperaLogger;
-import network.model.Message;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import modules.logger.Logger;
+import modules.logger.OperaLogger;
+import network.model.Message;
 
 /**
  * Implements a routine that continuously listens a local udp port for requests and responses, and delegates

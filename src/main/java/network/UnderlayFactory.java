@@ -1,12 +1,12 @@
 package network;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.HashMap;
+
 import network.javarmi.JavaRmiUnderlay;
 import network.local.LocalUnderlay;
 import network.tcp.TcpUnderlay;
 import network.udp.UdpUnderlay;
-
-import java.util.AbstractMap.SimpleEntry;
-import java.util.HashMap;
 
 /**
  * UnderlayFactory is a factory which consists of Underlays.

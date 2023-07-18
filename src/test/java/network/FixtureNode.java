@@ -1,11 +1,11 @@
 package network;
 
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import network.model.Event;
 import node.BaseNode;
 import node.Identifier;
-
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A basic BaseNode to check whether Underlays coded correctly or not.

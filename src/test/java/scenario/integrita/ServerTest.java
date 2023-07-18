@@ -1,5 +1,6 @@
 package scenario.integrita;
 
+import static org.junit.jupiter.api.Assertions.*;
 import groovy.lang.Tuple;
 import org.junit.jupiter.api.Test;
 import scenario.integrita.historytree.HistoryTreeNode;
@@ -7,8 +8,6 @@ import scenario.integrita.historytree.NodeAddress;
 import scenario.integrita.user.User;
 import scenario.integrita.utils.OperationType;
 import scenario.integrita.utils.StatusCode;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class ServerTest {
 

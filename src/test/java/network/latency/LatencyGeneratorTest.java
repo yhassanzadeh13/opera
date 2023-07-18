@@ -1,14 +1,13 @@
 package network.latency;
 
-import node.Identifier;
-import org.apache.commons.math3.random.JDKRandomGenerator;
-import org.junit.jupiter.api.Test;
-import utils.Fixtures;
-
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import node.Identifier;
+import org.apache.commons.math3.random.JDKRandomGenerator;
+import org.junit.jupiter.api.Test;
+import utils.Fixtures;
 
 
 public class LatencyGeneratorTest {

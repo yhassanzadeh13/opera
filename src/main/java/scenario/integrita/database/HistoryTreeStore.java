@@ -1,13 +1,13 @@
 package scenario.integrita.database;
 
-import scenario.integrita.historytree.HistoryTreeNode;
-import scenario.integrita.historytree.NodeAddress;
-import scenario.integrita.user.User;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import scenario.integrita.historytree.HistoryTreeNode;
+import scenario.integrita.historytree.NodeAddress;
+import scenario.integrita.user.User;
 
 /**
  * storage unit of the history tree. It contains methods to persist and update a database of history tree nodes.

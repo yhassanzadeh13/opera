@@ -1,13 +1,5 @@
 package network;
 
-import network.local.LocalUnderlay;
-import node.Identifier;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import utils.Fixtures;
-import utils.NoopOrchestrator;
-import utils.timeouts.Eventually;
-
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.AbstractMap;
@@ -18,6 +10,13 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static utils.Fixtures.nodeListFixture;
+import network.local.LocalUnderlay;
+import node.Identifier;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import utils.Fixtures;
+import utils.NoopOrchestrator;
+import utils.timeouts.Eventually;
 
 /**
  * Tests the communication and termination of every network underlay.

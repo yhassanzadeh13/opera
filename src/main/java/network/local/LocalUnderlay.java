@@ -1,11 +1,11 @@
 package network.local;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.HashMap;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import network.Underlay;
 import network.model.Message;
-
-import java.util.AbstractMap.SimpleEntry;
-import java.util.HashMap;
 
 
 /**

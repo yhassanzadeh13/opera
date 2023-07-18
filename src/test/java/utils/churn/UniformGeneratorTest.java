@@ -1,11 +1,10 @@
 package utils.churn;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for UniformGenerator class.
@@ -31,7 +30,7 @@ class UniformGeneratorTest {
     for (int i = 0; i < 1000; i++) {
       double value = generator.next();
       assertTrue(value >= min && value < max,
-        "Generated value should be within the specified range");
+                 "Generated value should be within the specified range");
     }
   }
 
@@ -53,9 +52,9 @@ class UniformGeneratorTest {
 
     for (int count : counts) {
       assertTrue(count > 0,
-        "Each value in the range should be generated at least once");
+                 "Each value in the range should be generated at least once");
       assertTrue(count >= sampleSize / max - tolerance && count <= sampleSize / max + tolerance,
-        "Value count should be within the acceptable tolerance");
+                 "Value count should be within the acceptable tolerance");
     }
   }
 
@@ -77,7 +76,7 @@ class UniformGeneratorTest {
       int value = (int) generator.next();
       counts.put(value, counts.getOrDefault(value, 0) + 1);
       assertTrue(counts.get(value) <= tolerance,
-        "Value count should be within the acceptable tolerance");
+                 "Value count should be within the acceptable tolerance");
     }
   }
 
@@ -109,9 +108,9 @@ class UniformGeneratorTest {
     double sampleVariance = (sumSquared - (Math.pow(sum, 2) / sampleSize)) / (sampleSize - 1);
 
     assertTrue(Math.abs(((float) (expectedMean - sampleMean)) / expectedMean) < tolerance,
-      "Sample mean should be close to the expected mean of a uniform distribution");
+               "Sample mean should be close to the expected mean of a uniform distribution");
     assertTrue(Math.abs(((float) (expectedVariance - sampleVariance)) / expectedVariance) < tolerance,
-      "Sample variance should be close to the expected variance of a uniform distribution");
+               "Sample variance should be close to the expected variance of a uniform distribution");
   }
 }
 

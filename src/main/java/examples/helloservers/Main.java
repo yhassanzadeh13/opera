@@ -4,6 +4,7 @@ import network.NetworkProtocol;
 import simulator.Factory;
 import simulator.Recipe;
 import simulator.Simulator;
+import utils.churn.ChurnGenerator;
 
 /**
  * Hello Servers is a simulator example which consist of 5 nodes.
@@ -22,9 +23,9 @@ public class Main {
     Factory factory = new Factory();
     factory.addRecipe(new Recipe(new MyNode(), nameSpace, 5));
     Simulator simulator = new Simulator(factory, NetworkProtocol.MOCK_NETWORK);
-    simulator.churnSimulation(
-      1_000_000,
-      new utils.churn.GaussianGenerator(10_000, 20_000),
-      new utils.churn.GaussianGenerator(10_000, 20_000));
+
+    ChurnGenerator interArrival = new utils.churn.GaussianGenerator(10_000, 20_000);
+    ChurnGenerator sessionLength = new utils.churn.GaussianGenerator(10_000, 20_000);
+    simulator.churnSimulation(1_000_000, interArrival, sessionLength);
   }
 }

@@ -1,8 +1,7 @@
 package utils.churn;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class ExponentialGeneratorTest {
   /**
@@ -12,7 +11,7 @@ public class ExponentialGeneratorTest {
   @Test
   void testZeroLambdaValue() {
     assertThrows(IllegalArgumentException.class,
-      () -> new ExponentialGenerator(0, 1, 100));
+                 () -> new ExponentialGenerator(0, 1, 100));
   }
 
   /**
@@ -33,7 +32,7 @@ public class ExponentialGeneratorTest {
   @Test
   void testMaxValueLambda() {
     assertThrows(IllegalArgumentException.class,
-      () -> new ExponentialGenerator(Double.MAX_VALUE, 1, 100));
+                 () -> new ExponentialGenerator(Double.MAX_VALUE, 1, 100));
   }
 
   /**
@@ -43,7 +42,7 @@ public class ExponentialGeneratorTest {
   @Test
   void testTooLargeLambdaValue() {
     assertThrows(IllegalArgumentException.class,
-      () -> new ExponentialGenerator(Double.POSITIVE_INFINITY, 1, 100));
+                 () -> new ExponentialGenerator(Double.POSITIVE_INFINITY, 1, 100));
   }
 
   /**
@@ -112,11 +111,11 @@ public class ExponentialGeneratorTest {
       for (int j = 0; j < numberOfSamples; j++) {
         double generatedValue = generator.next();
         assertTrue(generatedValue >= minValues[i],
-          String.format("Generated value %f is smaller than the minimum value %d",
-            generatedValue, minValues[i]));
+                   String.format("Generated value %f is smaller than the minimum value %d",
+                                 generatedValue, minValues[i]));
         assertTrue(generatedValue <= maxValues[i],
-          String.format("Generated value %f is larger than the maximum value %d",
-            generatedValue, maxValues[i]));
+                   String.format("Generated value %f is larger than the maximum value %d",
+                                 generatedValue, maxValues[i]));
       }
     }
 
@@ -213,18 +212,18 @@ public class ExponentialGeneratorTest {
   public void testLambdaExtremeCases() {
     // Case a: Lambda value = Double.MAX_VALUE
     assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(Double.MAX_VALUE,
-      1, 100));
+                                                                                1, 100));
 
     // Case b: Lambda value = Double.MIN_VALUE
     assertDoesNotThrow(() -> new ExponentialGenerator(Double.MIN_VALUE, 1, 100));
 
     // Case c: Lambda value = Double.POSITIVE_INFINITY
     assertThrows(IllegalArgumentException.class,
-      () -> new ExponentialGenerator(Double.POSITIVE_INFINITY, 1, 100));
+                 () -> new ExponentialGenerator(Double.POSITIVE_INFINITY, 1, 100));
 
     // Case d: Lambda value = Double.NEGATIVE_INFINITY
     assertThrows(IllegalArgumentException.class,
-      () -> new ExponentialGenerator(Double.NEGATIVE_INFINITY, 1, 100));
+                 () -> new ExponentialGenerator(Double.NEGATIVE_INFINITY, 1, 100));
 
     // Case e: Lambda value = Double.NaN
     assertThrows(IllegalArgumentException.class, () -> new ExponentialGenerator(Double.NaN, 1, 100));

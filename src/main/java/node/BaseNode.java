@@ -1,8 +1,8 @@
 package node;
 
-import network.model.Event;
-
 import java.util.ArrayList;
+
+import network.model.Event;
 
 
 /**

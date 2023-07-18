@@ -1,12 +1,11 @@
 package utils.churn;
 
-import org.junit.jupiter.api.Test;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for GaussianGenerator class.
@@ -76,15 +75,18 @@ public class GaussianGeneratorTest {
       // Based on the empirical rule, the correct percentage ranges for the test should be:
       // Within 1 standard deviation (±1σ) of the mean, check if around 68% of the values are generated in this range, i.e., 68.27% / 2 = 34.135% and 100% / 2 = 50%.
       if (i == -1 || i == 0) {
-        assertTrue(percentage > 0.34 && percentage < 0.5, String.format("Generated values do not follow Gaussian distribution. i: %d, percentage: %f", i, percentage));
+        assertTrue(percentage > 0.34 && percentage < 0.5,
+                   String.format("Generated values do not follow Gaussian distribution. i: %d, percentage: %f", i, percentage));
       }
       // Within 2 standard deviations (±2σ) of the mean, check if around 95% of the values are generated in this range, i.e., (95.45 - 68.27) / 2 = 13.5%.
       else if (i == -2 || i == 1) {
-        assertTrue(percentage > 0.13 && percentage < 0.34, String.format("Generated values do not follow Gaussian distribution. i: %d, percentage: %f", i, percentage));
+        assertTrue(percentage > 0.13 && percentage < 0.34,
+                   String.format("Generated values do not follow Gaussian distribution. i: %d, percentage: %f", i, percentage));
       }
       // Within 3 standard deviations (±3σ) of the mean, check if around 99% of the values are generated in this range, i.e., (99.73 - 95.45) / 2 = 2.14%.
       else if (i == -3 || i == 2) {
-        assertTrue(percentage > 0.02 && percentage < 0.13, String.format("Generated values do not follow Gaussian distribution. i: %d, percentage: %f", i, percentage));
+        assertTrue(percentage > 0.02 && percentage < 0.13,
+                   String.format("Generated values do not follow Gaussian distribution. i: %d, percentage: %f", i, percentage));
       }
     }
   }

@@ -1,9 +1,9 @@
 package network.model;
 
-import node.Identifier;
-
 import java.io.Serializable;
 import java.sql.Timestamp;
+
+import node.Identifier;
 
 /**
  * Message is the unit of communications between the nodes at the networking layer of Opera.

@@ -1,11 +1,10 @@
 package utils.churn;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.apache.commons.math3.distribution.WeibullDistribution;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This is a class used to test the WeibullGenerator class. It tests the constructor of the WeibullGenerator class,
@@ -77,7 +76,9 @@ public class WeibullGeneratorTest {
     double expectedMean = weibullDistribution.getNumericalMean();
     double expectedVariance = weibullDistribution.getNumericalVariance();
 
-    assertTrue(Math.abs(expectedMean - sampleMean) < TOLERANCE, String.format("Sample mean %f should be close to expected mean %f", sampleMean, expectedMean));
-    assertTrue(Math.abs(expectedVariance - sampleVariance) < TOLERANCE, String.format("Sample variance %f should be close to expected variance %f", sampleVariance, expectedVariance));
+    assertTrue(Math.abs(expectedMean - sampleMean) < TOLERANCE,
+               String.format("Sample mean %f should be close to expected mean %f", sampleMean, expectedMean));
+    assertTrue(Math.abs(expectedVariance - sampleVariance) < TOLERANCE,
+               String.format("Sample variance %f should be close to expected variance %f", sampleVariance, expectedVariance));
   }
 }
