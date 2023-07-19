@@ -65,8 +65,7 @@ public class NetworkCollector {
   public void onMessageReceived(Identifier receiverId, int size, @NotNull Timestamp sentTimeStamp) {
     messageReceivedTotal.increment(receiverId);
     receivedMessageSize.observe(receiverId, size);
-    propagationDelay.observe(receiverId,
-                             Duration.between(sentTimeStamp.toLocalDateTime(), LocalDateTime.now()).toMillis());
+    propagationDelay.observe(receiverId, Duration.between(sentTimeStamp.toLocalDateTime(), LocalDateTime.now()).toMillis());
   }
 
   /**

@@ -162,8 +162,9 @@ public class Network {
   /**
    * Called by the underlay to collect the response from the overlay.
    */
-  public void receive(Message msg) {
+  public void receive(final Message msg) {
     this.metricsCollector.onMessageReceived(nodeId, msg.getEncodedEvent().length, msg.getSentTimeStamp());
+    this.logger.info("received event from {}, event size {}, event timestamp", msg.getOriginId(), msg.getEncodedEvent().length, msg.getSentTimeStamp());
 
     Event event;
     try {
