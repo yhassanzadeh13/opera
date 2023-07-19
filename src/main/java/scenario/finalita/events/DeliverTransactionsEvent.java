@@ -19,10 +19,11 @@ public class DeliverTransactionsEvent implements Event {
 
   /**
    * Constructor.
+   *
    * @param transactionList list of transactions to deliver.
    */
   public DeliverTransactionsEvent(final List<Transaction> transactionList) {
-    this.transactions = transactionList;
+    this.transactions = new ArrayList<>(transactionList);
   }
 
   /**

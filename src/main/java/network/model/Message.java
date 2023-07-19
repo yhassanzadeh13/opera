@@ -39,7 +39,7 @@ public class Message implements Serializable {
    * @param targetId identifier of the node receiving the event.
    */
   public Message(final byte[] event, final Identifier origin, final Identifier targetId) {
-    this.event = event;
+    this.event = event.clone();
     this.originId = origin;
     this.targetId = targetId;
     this.sentTimeStamp = new Timestamp(System.currentTimeMillis());

@@ -51,7 +51,7 @@ public class MyNode implements BaseNode {
   }
 
   /**
-   * Default constructor, called by the simulation engine, do not call it directly!
+   * Default constructor, called by the simulation engine, do not call it directly!.
    */
   public MyNode() {
 
