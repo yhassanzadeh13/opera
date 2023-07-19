@@ -6,7 +6,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import groovy.lang.Tuple;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
-import network.packets.Event;
+import network.model.Event;
 import node.BaseNode;
 import node.Identifier;
 import scenario.integrita.database.HistoryTreeStore;
@@ -87,7 +87,7 @@ public class Server implements BaseNode {
     // check whether the node is submitted to the right server
     int serverIndex = NodeAddress.mapServerIndex(historyTreeNode.addr, totalServers);
     if (serverIndex != this.index) {
-      return new Tuple(new Object[]{StatusCode.Reject, null});
+      return new Tuple(StatusCode.Reject, null);
     }
 
     // the difference between the label of supplied node and the status of the server
@@ -95,7 +95,7 @@ public class Server implements BaseNode {
     if (this.status != null) {
       int diff = NodeAddress.toLabel(historyTreeNode.addr) - NodeAddress.toLabel(this.status);
       if (diff != totalServers) {
-        return new Tuple(new Object[]{StatusCode.Reject, null});
+        return new Tuple(StatusCode.Reject, null);
       }
     }
 
@@ -108,7 +108,7 @@ public class Server implements BaseNode {
       String msg = historyTreeNode.toLeaf();
       boolean res = Signature.verify(msg, historyTreeNode.signature, vk);
       if (!res) {
-        return new Tuple(new Object[]{StatusCode.Reject, null});
+        return new Tuple(StatusCode.Reject, null);
       }
     }
 
@@ -117,7 +117,7 @@ public class Server implements BaseNode {
       // verify signature
       String msg = historyTreeNode.toLeaf();
       if (!Signature.verify(msg, historyTreeNode.signature, this.db.getVerificationKey(historyTreeNode.userId))) {
-        new Tuple(new Object[]{StatusCode.Reject, null});
+        new Tuple(StatusCode.Reject, null);
       }
     }
 
@@ -137,11 +137,11 @@ public class Server implements BaseNode {
     if (NodeAddress.isTreeDigest(historyTreeNode.addr)) {
       String msg = historyTreeNode.toLeaf();
       byte[] signature = Signature.sign(msg, vk);
-      return new Tuple(new Object[]{StatusCode.Accept, signature});
+      return new Tuple(StatusCode.Accept, signature);
     }
 
     // if nothing goes wrong, then the push request is done successfully
-    return new Tuple(new Object[]{StatusCode.Accept, null});
+    return new Tuple(StatusCode.Accept, null);
   }
 
   // BaseNode interface implementation ---------------------------------------------------
@@ -165,7 +165,7 @@ public class Server implements BaseNode {
 
   @Override
   public void onNewMessage(Identifier originId, Event msg) {
-    this.logger.info("received a new message from {} with content {}", originId, msg.logMessage());
+    this.logger.info("received a new message from {} with content {}", originId, msg.toString());
     PushResp pushResp = new PushResp(StatusCode.Accept, "Hello Back");
     network.send(originId, pushResp);
   }

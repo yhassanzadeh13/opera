@@ -2,7 +2,7 @@ package utils;
 
 import java.util.ArrayList;
 
-import network.packets.Event;
+import network.model.Event;
 import node.BaseNode;
 import node.Identifier;
 

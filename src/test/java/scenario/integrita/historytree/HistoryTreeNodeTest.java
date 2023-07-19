@@ -1,7 +1,6 @@
 package scenario.integrita.historytree;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -42,14 +41,14 @@ public class HistoryTreeNodeTest {
 
   @Test
   void testmapServerIndex() {
-    assertTrue(1 == NodeAddress.mapServerIndex(new NodeAddress(1, 0), 4));
-    assertTrue(2 == NodeAddress.mapServerIndex(new NodeAddress(2, 0), 4));
-    assertTrue(3 == NodeAddress.mapServerIndex(new NodeAddress(2, 1), 4));
-    assertTrue(4 == NodeAddress.mapServerIndex(new NodeAddress(3, 0), 4));
-    assertTrue(1 == NodeAddress.mapServerIndex(new NodeAddress(3, 1), 4));
-    assertTrue(2 == NodeAddress.mapServerIndex(new NodeAddress(3, 2), 4));
-    assertTrue(3 == NodeAddress.mapServerIndex(new NodeAddress(4, 0), 4));
-    assertTrue(4 == NodeAddress.mapServerIndex(new NodeAddress(4, 1), 4));
-    assertTrue(1 == NodeAddress.mapServerIndex(new NodeAddress(4, 2), 4));
+    assertEquals(1, NodeAddress.mapServerIndex(new NodeAddress(1, 0), 4));
+    assertEquals(2, NodeAddress.mapServerIndex(new NodeAddress(2, 0), 4));
+    assertEquals(3, NodeAddress.mapServerIndex(new NodeAddress(2, 1), 4));
+    assertEquals(4, NodeAddress.mapServerIndex(new NodeAddress(3, 0), 4));
+    assertEquals(1, NodeAddress.mapServerIndex(new NodeAddress(3, 1), 4));
+    assertEquals(2, NodeAddress.mapServerIndex(new NodeAddress(3, 2), 4));
+    assertEquals(3, NodeAddress.mapServerIndex(new NodeAddress(4, 0), 4));
+    assertEquals(4, NodeAddress.mapServerIndex(new NodeAddress(4, 1), 4));
+    assertEquals(1, NodeAddress.mapServerIndex(new NodeAddress(4, 2), 4));
   }
 }

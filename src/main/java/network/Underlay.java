@@ -1,7 +1,7 @@
 package network;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import network.packets.Request;
+import network.model.Message;
 import node.Identifier;
 
 /**
@@ -22,14 +22,14 @@ public abstract class Underlay {
   /**
    * Dispatches a request to the middle layer.
    */
-  public void dispatchRequest(Request request) {
+  public void dispatchRequest(Message request) {
     network.receive(request);
   }
 
   /**
    * Initializes the underlay.
    *
-   * @param port        the port that the underlay should be bound to.
+   * @param port    the port that the underlay should be bound to.
    * @param network middle layer for underlay.
    * @return true iff the initialization was successful.
    */
@@ -55,7 +55,7 @@ public abstract class Underlay {
    * @param request the request.
    * @return True in case of success, False otherwise
    */
-  public abstract boolean sendMessage(String address, int port, Request request);
+  public abstract boolean sendMessage(String address, int port, Message request);
 
 
   /**

@@ -8,7 +8,7 @@ import java.net.SocketException;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
-import network.packets.Request;
+import network.model.Message;
 
 /**
  * Implements a routine that continuously listens a local udp port for requests and responses, and delegates
@@ -20,7 +20,7 @@ public class UdpListener implements Runnable {
   private final DatagramSocket listenSocket;
   // Owned resource by the `UDPUnderlay`.
   private final UdpUnderlay underlay;
-  private Logger logger;
+  private final Logger logger;
   // Owned resource by the `UDPUnderlay`. Used to dispatch the received
   // responses to the main thread.
 
@@ -49,7 +49,7 @@ public class UdpListener implements Runnable {
         // Deserialize the packet.
         Object packetObject = UdpUtils.deserialize(packet.getData(), packet.getLength());
         // handle the request in a new `UDPHandler` thread.
-        Request request = (Request) packetObject;
+        Message request = (Message) packetObject;
 
         this.logger.debug("received a new incoming request from " + packet.getAddress().getHostAddress());
         new Thread(new UdpHandler(listenSocket, request, packet.getAddress(), packet.getPort(), underlay)).start();

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="dc.created" content="2023-05-30">
-<meta name="description" content="declaration: package: network.packets, class: Request">
+<meta name="description" content="declaration: package: network.model, class: Request">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../script-dir/jquery-ui.min.css" title="Style">
@@ -87,11 +87,11 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">network.packets</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">network.model</a></div>
 <h1 title="Class Request" class="title">Class Request</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">network.packets.Request</div>
+<div class="inheritance">network.model.Message</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
@@ -122,7 +122,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/18/docs/api/java.base
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(network.packets.Event,node.Identifier,node.Identifier)" class="member-name-link">Request</a><wbr>(<a href="Event.html" title="interface in network.packets">Event</a>&nbsp;event,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(network.packets.Event,node.Identifier,node.Identifier)" class="member-name-link">Request</a><wbr>(<a href="Event.html" title="interface in network.model">Event</a>&nbsp;event,
  <a href="../../node/Identifier.html" title="class in node">Identifier</a>&nbsp;originalId,
  <a href="../../node/Identifier.html" title="class in node">Identifier</a>&nbsp;destinationId)</code></div>
 <div class="col-last even-row-color">
@@ -145,7 +145,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/18/docs/api/java.base
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../node/Identifier.html" title="class in node">Identifier</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDestinationId()" class="member-name-link">getDestinationId</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Event.html" title="interface in network.packets">Event</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Event.html" title="interface in network.model">Event</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEvent()" class="member-name-link">getEvent</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../node/Identifier.html" title="class in node">Identifier</a></code></div>
@@ -174,7 +174,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/18/docs/api/java.base
 <li>
 <section class="detail" id="&lt;init&gt;(network.packets.Event,node.Identifier,node.Identifier)">
 <h3>Request</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Request</span><wbr><span class="parameters">(<a href="Event.html" title="interface in network.packets">Event</a>&nbsp;event,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Request</span><wbr><span class="parameters">(<a href="Event.html" title="interface in network.model">Event</a>&nbsp;event,
  <a href="../../node/Identifier.html" title="class in node">Identifier</a>&nbsp;originalId,
  <a href="../../node/Identifier.html" title="class in node">Identifier</a>&nbsp;destinationId)</span></div>
 <div class="block">Constructor for the Request.</div>
@@ -197,7 +197,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/18/docs/api/java.base
 <li>
 <section class="detail" id="getEvent()">
 <h3>getEvent</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Event.html" title="interface in network.packets">Event</a></span>&nbsp;<span class="element-name">getEvent</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Event.html" title="interface in network.model">Event</a></span>&nbsp;<span class="element-name">getEvent</span>()</div>
 </section>
 </li>
 <li>

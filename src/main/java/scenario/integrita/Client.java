@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
-import network.packets.Event;
+import network.model.Event;
 import node.BaseNode;
 import node.Identifier;
 import scenario.integrita.events.Push;
@@ -65,7 +65,7 @@ public class Client extends User implements BaseNode {
 
   @Override
   public void onNewMessage(Identifier originId, Event msg) {
-    this.logger.info("received message from {} with content {}", originId, msg.logMessage());
+    this.logger.info("received message from {} with content {}", originId, msg.toString());
   }
 
   @Override

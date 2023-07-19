@@ -1,11 +1,6 @@
 package network.udp;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 
 /**
  * Contains various static helper methods to be used by the udp underlay implementation.

@@ -3,8 +3,7 @@ package scenario.integrita.database;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import scenario.integrita.historytree.HistoryTreeNode;
 import scenario.integrita.historytree.NodeAddress;
@@ -51,7 +50,7 @@ public class HisoryTreeStoreTest {
 
     // test get method
     // insertion of historyTreeNode1 should get through but not historyTreeNode2
-    assertTrue(historyTreeStore.get(historyTreeNode1.addr) == historyTreeNode1);
+    assertSame(historyTreeStore.get(historyTreeNode1.addr), historyTreeNode1);
 
     // duplicates are not allowed
     assertTrue((historyTreeStore.totalNodes() == 2));
@@ -67,7 +66,7 @@ public class HisoryTreeStoreTest {
     assertTrue(historyTreeStore.contains(historyTreeNode3));
 
     // test get method
-    assertTrue(historyTreeStore.get(historyTreeNode3.addr) == historyTreeNode3);
+    assertSame(historyTreeStore.get(historyTreeNode3.addr), historyTreeNode3);
   }
 
   @Test
@@ -83,9 +82,9 @@ public class HisoryTreeStoreTest {
 
     // check whether the inserted users are correctly included
     // insertion of historyTreeNode1 should get through but not historyTreeNode2
-    assertTrue(historyTreeStore.get(u1.id) == u1);
-    assertTrue(historyTreeStore.get(u2.id) == u2);
-    assertTrue(historyTreeStore.get(u3.id) == u3);
+    assertSame(historyTreeStore.get(u1.id), u1);
+    assertSame(historyTreeStore.get(u2.id), u2);
+    assertSame(historyTreeStore.get(u3.id), u3);
 
     // duplicates are not allowed
     assertTrue((historyTreeStore.totalUsers() == 3));

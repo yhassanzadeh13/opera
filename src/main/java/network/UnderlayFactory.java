@@ -20,7 +20,7 @@ public class UnderlayFactory {
    *
    * @param address          address of the underlay
    * @param port             port of the underlay
-   * @param network      middle layer of the underlay
+   * @param network          middle layer of the underlay
    * @param allLocalUnderlay hashmap of all underlays
    * @return underlay
    */
@@ -35,7 +35,7 @@ public class UnderlayFactory {
    *
    * @param underlayName the underlay type name according to underlayTypes yaml file
    * @param port         port of the underlay
-   * @param network  middle layer of the underlay
+   * @param network      middle layer of the underlay
    * @return new underlay instance according to the given type
    */
   public static Underlay newUnderlay(NetworkProtocol underlayName, int port, Network network) {

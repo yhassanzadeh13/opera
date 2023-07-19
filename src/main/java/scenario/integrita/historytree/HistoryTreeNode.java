@@ -56,12 +56,12 @@ public class HistoryTreeNode implements Serializable {
   @Override
   public String toString() {
     return "HistoryTreeNode{"
-            + "addr=" + addr
-            + ", op='" + op + '\''
-            + ", hash=" + hash
-            + ", signature=" + Arrays.toString(signature)
-            + ", userId=" + userId
-            + '}';
+      + "addr=" + addr
+      + ", op='" + op + '\''
+      + ", hash=" + hash
+      + ", signature=" + Arrays.toString(signature)
+      + ", userId=" + userId
+      + '}';
   }
 
   /**

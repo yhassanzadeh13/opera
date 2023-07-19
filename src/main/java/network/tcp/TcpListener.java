@@ -18,7 +18,7 @@ public class TcpListener implements Runnable {
   private final ServerSocket serverSocket;
   // Owned resource by the `TCPUnderlay`.
   private final TcpUnderlay underlay;
-  private Logger logger;
+  private final Logger logger;
 
   /**
    * Constructor of the `TCPListener`.

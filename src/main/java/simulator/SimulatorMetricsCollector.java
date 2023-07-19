@@ -12,8 +12,22 @@ import node.Identifier;
 public class SimulatorMetricsCollector {
   private static final String SUBSYSTEM_CHURN = "churn";
   private static final String NAMESPACE_SIMULATOR = "simulator";
-  private static final double[] CHURN_BUCKETS =
-          new double[]{1, 100, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000, 512000, 1024000, 2048000, 4096000};
+  private static final double[] CHURN_BUCKETS = new double[]{1,
+    100,
+    500,
+    1000,
+    2000,
+    4000,
+    8000,
+    16000,
+    32000,
+    64000,
+    128000,
+    256000,
+    512000,
+    1024000,
+    2048000,
+    4096000};
 
   private final OperaHistogram sessionLengthHistogram;
   private final OperaHistogram interarrivalTimeHistogram;
@@ -25,25 +39,25 @@ public class SimulatorMetricsCollector {
    */
   public SimulatorMetricsCollector() {
     this.sessionLengthHistogram = new OperaHistogram(Name.SESSION_LENGTH,
-            NAMESPACE_SIMULATOR,
-            SUBSYSTEM_CHURN,
-            HelpMsg.SESSION_LENGTH,
-            CHURN_BUCKETS,
-            Constants.IDENTIFIER);
+                                                     NAMESPACE_SIMULATOR,
+                                                     SUBSYSTEM_CHURN,
+                                                     HelpMsg.SESSION_LENGTH,
+                                                     CHURN_BUCKETS,
+                                                     Constants.IDENTIFIER);
     this.interarrivalTimeHistogram = new OperaHistogram(Name.INTER_ARRIVAL,
-            NAMESPACE_SIMULATOR,
-            SUBSYSTEM_CHURN,
-            HelpMsg.INTER_ARRIVAL,
-            CHURN_BUCKETS);
+                                                        NAMESPACE_SIMULATOR,
+                                                        SUBSYSTEM_CHURN,
+                                                        HelpMsg.INTER_ARRIVAL,
+                                                        CHURN_BUCKETS);
     this.onlineNodesCounter = new OperaGauge(Name.ONLINE_NODES,
-            NAMESPACE_SIMULATOR,
-            SUBSYSTEM_CHURN,
-            HelpMsg.ONLINE_NODES);
+                                             NAMESPACE_SIMULATOR,
+                                             SUBSYSTEM_CHURN,
+                                             HelpMsg.ONLINE_NODES);
 
     this.offlineNodesCounter = new OperaGauge(Name.OFFLINE_NODES,
-            NAMESPACE_SIMULATOR,
-            SUBSYSTEM_CHURN,
-            HelpMsg.OFFLINE_NODES);
+                                              NAMESPACE_SIMULATOR,
+                                              SUBSYSTEM_CHURN,
+                                              HelpMsg.OFFLINE_NODES);
 
   }
 

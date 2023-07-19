@@ -26,13 +26,13 @@ public class OperaHistogram implements Histogram {
    */
   public OperaHistogram(String name, String namespace, String subsystem, String helpMessage, double[] buckets, String... labelNames) {
     this.histogram = io.prometheus.client.Histogram.build()
-            .buckets(buckets)
-            .namespace(namespace)
-            .name(name)
-            .subsystem(subsystem)
-            .help(helpMessage)
-            .labelNames(labelNames)
-            .register();
+                                                   .buckets(buckets)
+                                                   .namespace(namespace)
+                                                   .name(name)
+                                                   .subsystem(subsystem)
+                                                   .help(helpMessage)
+                                                   .labelNames(labelNames)
+                                                   .register();
   }
 
   /**
@@ -51,12 +51,12 @@ public class OperaHistogram implements Histogram {
    */
   public OperaHistogram(String name, String namespace, String subsystem, String helpMessage, double[] buckets) {
     this.histogram = io.prometheus.client.Histogram.build()
-            .buckets(buckets)
-            .namespace(namespace)
-            .name(name)
-            .subsystem(subsystem)
-            .help(helpMessage)
-            .register();
+                                                   .buckets(buckets)
+                                                   .namespace(namespace)
+                                                   .name(name)
+                                                   .subsystem(subsystem)
+                                                   .help(helpMessage)
+                                                   .register();
   }
 
 

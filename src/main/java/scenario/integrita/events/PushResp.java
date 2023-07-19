@@ -1,7 +1,6 @@
 package scenario.integrita.events;
 
-import network.packets.Event;
-import node.BaseNode;
+import network.model.Event;
 import scenario.integrita.utils.StatusCode;
 
 /**
@@ -11,36 +10,16 @@ public class PushResp implements Event {
   StatusCode code;
   String msg;
 
-
   public PushResp(StatusCode code, String msg) {
     this.msg = msg;
     this.code = code;
   }
 
-  public void setMsg(String msg) {
-    this.msg = msg;
-  }
-
   @Override
   public String toString() {
     return "PushResp{"
-            + "msg='" + msg + '\''
-            + ", code=" + code
-            + '}';
-  }
-
-  @Override
-  public boolean actionPerformed(BaseNode hostNode) {
-    return false;
-  }
-
-  @Override
-  public String logMessage() {
-    return this.toString();
-  }
-
-  @Override
-  public int size() {
-    return 0;
+      + "msg='" + msg + '\''
+      + ", code=" + code
+      + '}';
   }
 }

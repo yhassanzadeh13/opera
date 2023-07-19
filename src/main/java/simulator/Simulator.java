@@ -45,15 +45,13 @@ public class Simulator implements Orchestrator {
   private final Factory factory;
   private final ArrayList<Identifier> offlineNodes = new ArrayList<>();
   private final CountDownLatch allNodesReady;
-  private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay =
-          new HashMap<>();
+  private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
   private final SimulatorMetricsCollector simulatorMetricsCollector;
   private final MetricsNetwork metricsNetwork;
   private final MetricServer metricServer;
 
   private HashMap<SimpleEntry<String, Integer>, network.Network> allMiddleLayers;
-  private PriorityQueue<SimpleEntryComparable<Double, Identifier>> onlineNodes =
-          new PriorityQueue<>();
+  private PriorityQueue<SimpleEntryComparable<Double, Identifier>> onlineNodes = new PriorityQueue<>();
 
   /**
    * Initializes a new simulation.
@@ -96,8 +94,7 @@ public class Simulator implements Orchestrator {
     return identifiers;
   }
 
-  private HashMap<Identifier, SimpleEntry<String, Integer>> generateFullAddressed(int n,
-                                                                                  int startPort) {
+  private HashMap<Identifier, SimpleEntry<String, Integer>> generateFullAddressed(int n, int startPort) {
     log.info("generating full addresses of {} nodes for simulation", n);
 
     // TODO: introduce address object.
@@ -136,16 +133,14 @@ public class Simulator implements Orchestrator {
     }
 
     // generate new underlays and assign them to the nodes middles layers.
-    for (Map.Entry<SimpleEntry<String, Integer>, network.Network> node :
-            this.allMiddleLayers.entrySet()) {
+    for (Map.Entry<SimpleEntry<String, Integer>, network.Network> node : this.allMiddleLayers.entrySet()) {
       network.Network network = node.getValue();
       String address = node.getKey().getKey();
       int port = node.getKey().getValue();
       if (networkType != NetworkProtocol.MOCK_NETWORK) {
         network.setUnderlay(UnderlayFactory.newUnderlay(networkType, port, network));
       } else {
-        LocalUnderlay underlay = UnderlayFactory.getMockUnderlay(address, port, network,
-                allLocalUnderlay);
+        LocalUnderlay underlay = UnderlayFactory.getMockUnderlay(address, port, network, allLocalUnderlay);
         network.setUnderlay(underlay);
         allLocalUnderlay.put(node.getKey(), underlay);
       }
@@ -306,7 +301,7 @@ public class Simulator implements Orchestrator {
       if (isReady.get(this.allFullAddresses.get(id))) {
         double sessionLength = sessionLengthGenerator.next();
         log.info("generated new session length of {} ms for node {}, termination at {}", id,
-                sessionLength, time + sessionLength);
+                 sessionLength, time + sessionLength);
         onlineNodes.add(new SimpleEntryComparable<>(time + sessionLength, id));
         this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
       }
@@ -354,9 +349,9 @@ public class Simulator implements Orchestrator {
         // TODO: fix this
         this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
         log.info("generated new session length of {} ms for node {}, termination at {}", id,
-                sessionLength, time + sessionLength);
+                 sessionLength, time + sessionLength);
         this.onlineNodes.add(
-                new SimpleEntryComparable<>(System.currentTimeMillis() + sessionLength, id));
+          new SimpleEntryComparable<>(System.currentTimeMillis() + sessionLength, id));
 
         // assign a next node arrival time
         interArrivalTime = interArrivalGen.next();
@@ -364,8 +359,8 @@ public class Simulator implements Orchestrator {
         nextArrival = System.currentTimeMillis() + interArrivalTime;
         Duration nextArrivalDuration = Duration.ofMillis((int) interArrivalTime);
         log.info("next node {} in {} hours {} minutes {} seconds {} milliseconds", id,
-                nextArrivalDuration.toHoursPart(), nextArrivalDuration.toMinutesPart(),
-                nextArrivalDuration.toSecondsPart(), nextArrivalDuration.toMillisPart());
+                 nextArrivalDuration.toHoursPart(), nextArrivalDuration.toMinutesPart(),
+                 nextArrivalDuration.toSecondsPart(), nextArrivalDuration.toMillisPart());
       }
     }
 

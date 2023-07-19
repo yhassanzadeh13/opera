@@ -21,7 +21,7 @@ public class OperaCounter implements Counter {
    */
   public OperaCounter(String name, String namespace, String subsystem, String helpMessage, String... labelNames) {
     this.counter = io.prometheus.client.Counter.build().namespace(namespace).subsystem(subsystem).name(name).help(
-            helpMessage).labelNames(labelNames).register();
+      helpMessage).labelNames(labelNames).register();
   }
 
   /**
@@ -35,7 +35,7 @@ public class OperaCounter implements Counter {
    */
   public OperaCounter(String name, String namespace, String subsystem, String helpMessage) {
     this.counter = io.prometheus.client.Counter.build().namespace(namespace).subsystem(subsystem).name(name).help(
-            helpMessage).register();
+      helpMessage).register();
   }
 
   /**

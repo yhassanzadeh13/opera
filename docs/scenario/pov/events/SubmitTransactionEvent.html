@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="dc.created" content="2023-05-30">
-<meta name="description" content="declaration: package: scenario.pov.events, class: SubmitTransactionEvent">
+<meta name="description" content="declaration: package: scenario.finalita.events, class: SubmitTransactionEvent">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../script-dir/jquery-ui.min.css" title="Style">
@@ -87,21 +87,21 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">scenario.pov.events</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">scenario.finalita.events</a></div>
 <h1 title="Class SubmitTransactionEvent" class="title">Class SubmitTransactionEvent</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">scenario.pov.events.SubmitTransactionEvent</div>
+<div class="inheritance">scenario.finalita.events.SubmitTransactionEvent</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></code>, <code><a href="../../../network/packets/Event.html" title="interface in network.packets">Event</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></code>, <code><a href="../../../network/packets/Event.html" title="interface in network.model">Event</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">SubmitTransactionEvent</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements <a href="../../../network/packets/Event.html" title="interface in network.packets">Event</a></span></div>
+implements <a href="../../../network/packets/Event.html" title="interface in network.model">Event</a></span></div>
 <div class="block">Adds a new transaction to a node.
  Size: Returns number of encoded bytes.</div>
 <dl class="notes">
@@ -123,7 +123,7 @@ implements <a href="../../../network/packets/Event.html" title="interface in net
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(scenario.pov.Transaction)" class="member-name-link">SubmitTransactionEvent</a><wbr>(<a href="../Transaction.html" title="class in scenario.pov">Transaction</a>&nbsp;transaction)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(scenario.pov.Transaction)" class="member-name-link">SubmitTransactionEvent</a><wbr>(<a href="../Transaction.html" title="class in scenario.finalita">Transaction</a>&nbsp;transaction)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -175,7 +175,7 @@ implements <a href="../../../network/packets/Event.html" title="interface in net
 <li>
 <section class="detail" id="&lt;init&gt;(scenario.pov.Transaction)">
 <h3>SubmitTransactionEvent</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SubmitTransactionEvent</span><wbr><span class="parameters">(<a href="../Transaction.html" title="class in scenario.pov">Transaction</a>&nbsp;transaction)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SubmitTransactionEvent</span><wbr><span class="parameters">(<a href="../Transaction.html" title="class in scenario.finalita">Transaction</a>&nbsp;transaction)</span></div>
 </section>
 </li>
 </ul>
@@ -195,7 +195,7 @@ implements <a href="../../../network/packets/Event.html" title="interface in net
  This method should be called in the event host node by calling event.actionPerformed(this)</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../network/packets/Event.html#actionPerformed(node.BaseNode)">actionPerformed</a></code>&nbsp;in interface&nbsp;<code><a href="../../../network/packets/Event.html" title="interface in network.packets">Event</a></code></dd>
+<dd><code><a href="../../../network/packets/Event.html#actionPerformed(node.BaseNode)">actionPerformed</a></code>&nbsp;in interface&nbsp;<code><a href="../../../network/packets/Event.html" title="interface in network.model">Event</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>hostNode</code> - an instance of the host node in order to perform the event action. Please note that
                  this parameter is of the type BaseNode. Therefore, in order to access the node params
@@ -214,7 +214,7 @@ implements <a href="../../../network/packets/Event.html" title="interface in net
  event during simulation.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../network/packets/Event.html#logMessage()">logMessage</a></code>&nbsp;in interface&nbsp;<code><a href="../../../network/packets/Event.html" title="interface in network.packets">Event</a></code></dd>
+<dd><code><a href="../../../network/packets/Event.html#logMessage()">logMessage</a></code>&nbsp;in interface&nbsp;<code><a href="../../../network/packets/Event.html" title="interface in network.model">Event</a></code></dd>
 <dt>Returns:</dt>
 <dd>a string that represents the log message of the event.</dd>
 </dl>
@@ -228,7 +228,7 @@ implements <a href="../../../network/packets/Event.html" title="interface in net
 <div class="block">Getter of the size in bytes.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../network/packets/Event.html#size()">size</a></code>&nbsp;in interface&nbsp;<code><a href="../../../network/packets/Event.html" title="interface in network.packets">Event</a></code></dd>
+<dd><code><a href="../../../network/packets/Event.html#size()">size</a></code>&nbsp;in interface&nbsp;<code><a href="../../../network/packets/Event.html" title="interface in network.model">Event</a></code></dd>
 <dt>Returns:</dt>
 <dd>size returns length of payload event in bytes.</dd>
 </dl>

@@ -11,12 +11,7 @@ import com.github.dockerjava.api.command.InspectVolumeResponse;
 import com.github.dockerjava.api.command.ListVolumesResponse;
 import com.github.dockerjava.api.command.PullImageResultCallback;
 import com.github.dockerjava.api.exception.ConflictException;
-import com.github.dockerjava.api.model.Bind;
-import com.github.dockerjava.api.model.Container;
-import com.github.dockerjava.api.model.ExposedPort;
-import com.github.dockerjava.api.model.HostConfig;
-import com.github.dockerjava.api.model.Network;
-import com.github.dockerjava.api.model.Ports;
+import com.github.dockerjava.api.model.*;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
@@ -42,10 +37,8 @@ public class MetricsNetwork {
   private static final String PROMETHEUS_IMAGE = "prom/prometheus";
   private static final String PROMETHEUS_VOLUME = "opera_prometheus_volume";
   private static final String PROMETHEUS_MAIN_CMD = "prom/prometheus:main";
-  private static final String PROMETHEUS_VOLUME_BINDING_ETC =
-          "/prometheus" + ":" + "/etc/prometheus";
-  private static final String PROMETHEUS_VOLUME_BINDING_VOLUME =
-          "prometheus_volume" + ":" + "/prometheus";
+  private static final String PROMETHEUS_VOLUME_BINDING_ETC = "/prometheus" + ":" + "/etc/prometheus";
+  private static final String PROMETHEUS_VOLUME_BINDING_VOLUME = "prometheus_volume" + ":" + "/prometheus";
   // Grafana
   private static final int GRAFANA_PORT = 3000;
   private static final String GRAFANA_CONTAINER_NAME = "opera_grafana";
@@ -54,17 +47,12 @@ public class MetricsNetwork {
   private static final String GRAFANA_MAIN_CMD = "grafana/grafana:main";
   private static final String GRAFANA_NO_SIGN_UP = "GF_USERS_ALLOW_SIGN_UP=false";
   private static final String GRAFANA_VOLUME_BINDING = "grafana_volume:/var/lib/grafana";
-  private static final String GRAFANA_ADMIN_USER_NAME =
-          "GF_SECURITY_ADMIN_USER=${ADMIN_USER" + ":-admin}";
-  private static final String GRAFANA_ADMIN_PASSWORD =
-          "GF_SECURITY_ADMIN_PASSWORD=$" + "{ADMIN_PASSWORD:-admin}";
-  private static final String GRAFANA_DASHBOARD_BINDING =
-          "/grafana/provisioning/dashboards:/etc/grafana/provisioning" + "/dashboards";
-  private static final String GRAFANA_DATA_SOURCE_BINDING =
-          "/grafana/provisioning/datasources:/etc/grafana" + "/provisioning/datasources";
+  private static final String GRAFANA_ADMIN_USER_NAME = "GF_SECURITY_ADMIN_USER=${ADMIN_USER" + ":-admin}";
+  private static final String GRAFANA_ADMIN_PASSWORD = "GF_SECURITY_ADMIN_PASSWORD=$" + "{ADMIN_PASSWORD:-admin}";
+  private static final String GRAFANA_DASHBOARD_BINDING = "/grafana/provisioning/dashboards:/etc/grafana/provisioning" + "/dashboards";
+  private static final String GRAFANA_DATA_SOURCE_BINDING = "/grafana/provisioning/datasources:/etc/grafana" + "/provisioning/datasources";
   protected final DockerClient dockerClient;
-  private final Logger logger = OperaLogger.getLoggerForSimulator(
-          MetricsNetwork.class.getCanonicalName());
+  private final Logger logger = OperaLogger.getLoggerForSimulator(MetricsNetwork.class.getCanonicalName());
 
   /**
    * Default constructor.
@@ -72,14 +60,12 @@ public class MetricsNetwork {
   public MetricsNetwork() {
     DockerClientConfig config = DefaultDockerClientConfig.createDefaultConfigBuilder().build();
 
-    DockerHttpClient client = new ApacheDockerHttpClient.Builder().dockerHost(
-                    config.getDockerHost())
-            .sslConfig(config.getSSLConfig())
-            .maxConnections(100)
-            .connectionTimeout(Duration.ofSeconds(30))
-            .responseTimeout(Duration.ofSeconds(45))
-            .build();
-
+    DockerHttpClient client = new ApacheDockerHttpClient.Builder().dockerHost(config.getDockerHost())
+                                                                  .sslConfig(config.getSSLConfig())
+                                                                  .maxConnections(100)
+                                                                  .connectionTimeout(Duration.ofSeconds(30))
+                                                                  .responseTimeout(Duration.ofSeconds(45))
+                                                                  .build();
     this.dockerClient = DockerClientImpl.getInstance(config, client);
   }
 
@@ -107,13 +93,13 @@ public class MetricsNetwork {
     if (this.isContainerRunning(PROMETHEUS_CONTAINER_NAME)) {
       logger.warn("prometheus container already running, skipping creation");
     } else {
-      CreateContainerResponse prometheusContainer = this.getStoppedContainer(
-              PROMETHEUS_CONTAINER_NAME);
+      CreateContainerResponse prometheusContainer = this.getStoppedContainer(PROMETHEUS_CONTAINER_NAME);
       if (prometheusContainer == null) {
         logger.info("prometheus container not found, creating new one");
         prometheusContainer = this.createPrometheusContainer();
       }
-      dockerClient.startContainerCmd(prometheusContainer.getId()).exec();
+      dockerClient.startContainerCmd(prometheusContainer.getId())
+                  .exec();
       logger.info("created prometheus container");
     }
     logger.info("created prometheus container");
@@ -128,12 +114,15 @@ public class MetricsNetwork {
         logger.info("grafana container not found, creating new one");
         grafanaContainer = this.createGrafanaContainer();
       }
-      dockerClient.startContainerCmd(grafanaContainer.getId()).exec();
+      dockerClient.startContainerCmd(grafanaContainer.getId())
+                  .exec();
       logger.info("created grafana container");
     }
 
-    this.logger.info("prometheus is running at localhost:{}", PROMETHEUS_PORT);
-    this.logger.info("grafana is running at localhost:{}", GRAFANA_PORT);
+    this.logger.info("prometheus is running at localhost:{}",
+                     PROMETHEUS_PORT);
+    this.logger.info("grafana is running at localhost:{}",
+                     GRAFANA_PORT);
   }
 
   /**
@@ -143,18 +132,22 @@ public class MetricsNetwork {
    * @param volumeName volume name to create.
    */
   protected void createVolumesIfNotExist(String volumeName) {
-    ListVolumesResponse volumesResponse = this.dockerClient.listVolumesCmd().exec();
+    ListVolumesResponse volumesResponse = this.dockerClient.listVolumesCmd()
+                                                           .exec();
     List<InspectVolumeResponse> volumes = volumesResponse.getVolumes();
 
     for (InspectVolumeResponse v : volumes) {
-      if (v.getName().equals(volumeName)) {
+      if (v.getName()
+           .equals(volumeName)) {
         // volume exists
         return;
       }
     }
 
     // volume name does not exist, create one.
-    this.dockerClient.createVolumeCmd().withName(volumeName).exec();
+    this.dockerClient.createVolumeCmd()
+                     .withName(volumeName)
+                     .exec();
   }
 
   /**
@@ -162,17 +155,22 @@ public class MetricsNetwork {
    * if the network does not exist.
    */
   private void createNetworkIfNotExist() {
-    List<Network> networks = this.dockerClient.listNetworksCmd().exec();
+    List<Network> networks = this.dockerClient.listNetworksCmd()
+                                              .exec();
 
     for (Network n : networks) {
-      if (n.getName().equals(NETWORK_NAME)) {
+      if (n.getName()
+           .equals(NETWORK_NAME)) {
         // network exists
         return;
       }
     }
 
     // network does not exist, create one/
-    dockerClient.createNetworkCmd().withName(NETWORK_NAME).withDriver(NETWORK_DRIVER_NAME).exec();
+    dockerClient.createNetworkCmd()
+                .withName(NETWORK_NAME)
+                .withDriver(NETWORK_DRIVER_NAME)
+                .exec();
   }
 
   /**
@@ -185,15 +183,17 @@ public class MetricsNetwork {
     // pull image
     try {
       this.dockerClient.pullImageCmd(GRAFANA_IMAGE)
-              .withTag(MAIN_TAG)
-              .exec(new PullImageResultCallback())
-              .awaitCompletion(60, TimeUnit.SECONDS);
+                       .withTag(MAIN_TAG)
+                       .exec(new PullImageResultCallback())
+                       .awaitCompletion(60,
+                                        TimeUnit.SECONDS);
     } catch (InterruptedException ex) {
       throw new IllegalStateException("(timeout) could not run grafana container" + ex);
     }
 
     Ports grafanaPortBindings = new Ports();
-    grafanaPortBindings.bind(ExposedPort.tcp(GRAFANA_PORT), Ports.Binding.bindPort(GRAFANA_PORT));
+    grafanaPortBindings.bind(ExposedPort.tcp(GRAFANA_PORT),
+                             Ports.Binding.bindPort(GRAFANA_PORT));
 
     List<Bind> grafBinds = new ArrayList<Bind>();
     grafBinds.add(Bind.parse(GRAFANA_VOLUME_BINDING));
@@ -201,18 +201,18 @@ public class MetricsNetwork {
     grafBinds.add(Bind.parse(System.getProperty(USER_DIR) + GRAFANA_DATA_SOURCE_BINDING));
 
     HostConfig hostConfig = new HostConfig().withBinds(grafBinds)
-            .withNetworkMode(NETWORK_NAME)
-            .withPortBindings(grafanaPortBindings);
+                                            .withNetworkMode(NETWORK_NAME)
+                                            .withPortBindings(grafanaPortBindings);
 
     try {
       return this.dockerClient.createContainerCmd(GRAFANA_MAIN_CMD)
-              .withName(GRAFANA_CONTAINER_NAME)
-              .withTty(true)
-              .withEnv(GRAFANA_ADMIN_USER_NAME)
-              .withEnv(GRAFANA_ADMIN_PASSWORD)
-              .withEnv(GRAFANA_NO_SIGN_UP)
-              .withHostConfig(hostConfig)
-              .exec();
+                              .withName(GRAFANA_CONTAINER_NAME)
+                              .withTty(true)
+                              .withEnv(GRAFANA_ADMIN_USER_NAME)
+                              .withEnv(GRAFANA_ADMIN_PASSWORD)
+                              .withEnv(GRAFANA_NO_SIGN_UP)
+                              .withHostConfig(hostConfig)
+                              .exec();
     } catch (ConflictException ex) {
       // reaching here means there is a bug in the code.
       throw new IllegalStateException("container already exists (conflict exception)" + ex);
@@ -228,31 +228,32 @@ public class MetricsNetwork {
   private CreateContainerResponse createPrometheusContainer() throws IllegalStateException {
     try {
       this.dockerClient.pullImageCmd(PROMETHEUS_IMAGE)
-              .withTag(MAIN_TAG)
-              .exec(new PullImageResultCallback())
-              .awaitCompletion(60, TimeUnit.SECONDS);
+                       .withTag(MAIN_TAG)
+                       .exec(new PullImageResultCallback())
+                       .awaitCompletion(60,
+                                        TimeUnit.SECONDS);
     } catch (InterruptedException ex) {
       throw new IllegalStateException("(timeout) could not run prometheus container" + ex);
     }
 
     Ports promPortBindings = new Ports();
     promPortBindings.bind(ExposedPort.tcp(PROMETHEUS_PORT),
-            Ports.Binding.bindPort(PROMETHEUS_PORT));
+                          Ports.Binding.bindPort(PROMETHEUS_PORT));
 
     List<Bind> promBinds = new ArrayList<Bind>();
     promBinds.add(Bind.parse(System.getProperty(USER_DIR) + PROMETHEUS_VOLUME_BINDING_ETC));
     promBinds.add(Bind.parse(PROMETHEUS_VOLUME_BINDING_VOLUME));
 
     HostConfig hostConfig = new HostConfig().withBinds(promBinds)
-            .withNetworkMode(NETWORK_NAME)
-            .withPortBindings(promPortBindings);
+                                            .withNetworkMode(NETWORK_NAME)
+                                            .withPortBindings(promPortBindings);
 
     try {
       return this.dockerClient.createContainerCmd(PROMETHEUS_MAIN_CMD)
-              .withName(PROMETHEUS_CONTAINER_NAME)
-              .withTty(true)
-              .withHostConfig(hostConfig)
-              .exec();
+                              .withName(PROMETHEUS_CONTAINER_NAME)
+                              .withTty(true)
+                              .withHostConfig(hostConfig)
+                              .exec();
     } catch (ConflictException ex) {
       // reaching here means there is a bug in the code.
       throw new IllegalStateException("container already exists (conflict exception)" + ex);
@@ -267,9 +268,9 @@ public class MetricsNetwork {
    */
   private List<Container> findContainerWithName(String name) {
     return this.dockerClient.listContainersCmd()
-            .withShowAll(true)
-            .withNameFilter(List.of(name))
-            .exec();
+                            .withShowAll(true)
+                            .withNameFilter(List.of(name))
+                            .exec();
   }
 
   /**

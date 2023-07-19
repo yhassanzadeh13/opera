@@ -48,7 +48,7 @@ public class NoopCollector {
      */
     @Override
     public void set(double value) {
-        // do nothing
+      // do nothing
     }
   }
 

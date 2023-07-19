@@ -4,7 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import network.packets.Request;
+import network.model.Message;
 
 
 /**
@@ -19,7 +19,7 @@ public class JavaRmiHost extends UnicastRemoteObject implements network.javarmi.
   }
 
   @Override
-  public void handleRequest(Request request) {
+  public void handleRequest(Message request) {
     underlay.dispatchRequest(request);
   }
 }

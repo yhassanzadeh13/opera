@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import network.Underlay;
-import network.packets.Request;
+import network.model.Message;
 
 
 /**
@@ -54,7 +54,7 @@ public class TcpUnderlay extends Underlay {
    * @return the response emitted by the remote server.
    */
   @Override
-  public boolean sendMessage(String address, int port, Request request) {
+  public boolean sendMessage(String address, int port, Message request) {
     Socket remote;
     ObjectOutputStream requestStream;
 

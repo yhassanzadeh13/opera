@@ -48,10 +48,10 @@ public class WeibullGenerator implements ChurnGenerator {
     this.max = max;
     JDKRandomGenerator rand = new JDKRandomGenerator();
     this.generator = new WeibullDistribution(
-            rand,
-            shapeParameter,
-            scaleParameter,
-            WeibullDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+      rand,
+      shapeParameter,
+      scaleParameter,
+      WeibullDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
   }
 
   /**

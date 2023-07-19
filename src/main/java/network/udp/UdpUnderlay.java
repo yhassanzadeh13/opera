@@ -1,15 +1,10 @@
 package network.udp;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.net.*;
 
 import network.Underlay;
-import network.packets.Request;
+import network.model.Message;
 
 
 /**
@@ -71,7 +66,7 @@ public class UdpUnderlay extends Underlay {
    * @return the response emitted by the server.
    */
   @Override
-  public boolean sendMessage(String address, int port, Request request) {
+  public boolean sendMessage(String address, int port, Message request) {
     // Convert a string address to an actual address to be used for udp.
     InetAddress destAddress;
     try {

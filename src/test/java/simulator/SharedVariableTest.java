@@ -49,12 +49,12 @@ class SharedVariableTest {
     assertTrue(SharedVariable.getInstance().requestLock(allId.get(1), "Test"));
     // read from node 2
     assertEquals(new AbstractMap.SimpleEntry<>(allId.get(0), 5),
-            SharedVariable.getInstance().read(allId.get(1),
-                    "Test"));
+                 SharedVariable.getInstance().read(allId.get(1),
+                                                   "Test"));
     // read from node 3
     assertEquals(new AbstractMap.SimpleEntry<>(allId.get(0), 5),
-            SharedVariable.getInstance().read(allId.get(2),
-                    "Test"));
+                 SharedVariable.getInstance().read(allId.get(2),
+                                                   "Test"));
     // read again from node 3 should throws an exception
     assertNull(SharedVariable.getInstance().read(allId.get(2), "Test"));
     // unregistered variable
