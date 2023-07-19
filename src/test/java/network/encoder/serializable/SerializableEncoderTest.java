@@ -1,18 +1,20 @@
 package network.encoder.serializable;
 
+import java.io.UncheckedIOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 import network.model.Event;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class EncoderTest {
+class SerializableEncoderTest {
 
-  private Encoder encoder;
+  private SerializableEncoder encoder;
   private Event event;
 
   @BeforeEach
   void setUp() {
-    encoder = new Encoder();
+    encoder = new SerializableEncoder();
     event = new TestEvent("Test Event");
   }
 
@@ -31,7 +33,7 @@ class EncoderTest {
   @Test
   void decodeShouldThrowExceptionForInvalidData() {
     byte[] invalidData = new byte[]{0, 1, 2, 3};
-    assertThrows(IllegalStateException.class, () -> encoder.decode(invalidData));
+    assertThrows(UncheckedIOException.class, () -> encoder.decode(invalidData));
   }
 
   static class TestEvent implements Event {

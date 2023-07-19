@@ -9,6 +9,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import modules.logger.Logger;
 import modules.logger.OperaLogger;
 import network.encoder.Encoder;
+import network.encoder.serializable.SerializableEncoder;
 import network.latency.LatencyGenerator;
 import network.model.Event;
 import network.model.Message;
@@ -87,7 +88,7 @@ public class Network {
     this.orchestrator = orchestrator;
     this.metricsCollector = OperaMiddlewareCollector.getInstance();
     this.latencyGenerator = new LatencyGenerator();
-    this.encoder = new network.encoder.serializable.Encoder();
+    this.encoder = new SerializableEncoder();
   }
 
   public Underlay getUnderlay() {

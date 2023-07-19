@@ -12,7 +12,7 @@ import network.model.Event;
  * various shortcomings and should not be used for production code unless you're
  * aware of its limitations and potential issues.
  */
-public class Encoder implements network.encoder.Encoder {
+public class SerializableEncoder implements network.encoder.Encoder {
   /**
    * Encodes an event into a byte array.
    *
@@ -20,7 +20,7 @@ public class Encoder implements network.encoder.Encoder {
    * @return the encoded event.
    * @throws UncheckedIOException if an I/O error occurs.
    */
-  public byte[] encode(Event event) throws UncheckedIOException {
+  public byte[] encode(final Event event) throws UncheckedIOException {
     try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
          ObjectOutputStream out = new ObjectOutputStream(bos)) {
       out.writeObject(event);
@@ -37,7 +37,7 @@ public class Encoder implements network.encoder.Encoder {
    * @return the decoded event.
    * @throws IllegalStateException if the decoded object is not an instance of Event.
    */
-  public Event decode(byte[] bytes) throws IllegalStateException, UncheckedIOException {
+  public Event decode(final byte[] bytes) throws IllegalStateException, UncheckedIOException {
     try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
          ObjectInputStream in = new ObjectInputStream(bis)) {
       return (Event) in.readObject();

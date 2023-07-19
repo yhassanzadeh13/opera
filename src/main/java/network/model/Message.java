@@ -38,7 +38,7 @@ public class Message implements Serializable {
    * @param origin   identifier of the node sending the event.
    * @param targetId identifier of the node receiving the event.
    */
-  public Message(byte[] event, Identifier origin, Identifier targetId) {
+  public Message(final byte[] event, final Identifier origin, final Identifier targetId) {
     this.event = event;
     this.originId = origin;
     this.targetId = targetId;
@@ -46,12 +46,12 @@ public class Message implements Serializable {
   }
 
   /**
-   * Returns the encoded event in bytes.
+   * Returns the encoded event in bytes (shallow copy).
    *
-   * @return the encoded event in bytes.
+   * @return the encoded event in bytes (shallow copy).
    */
   public byte[] getEncodedEvent() {
-    return event;
+    return event.clone();
   }
 
   /**
