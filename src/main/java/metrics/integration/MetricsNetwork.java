@@ -185,7 +185,7 @@ public class MetricsNetwork {
       this.dockerClient.pullImageCmd(GRAFANA_IMAGE)
                        .withTag(MAIN_TAG)
                        .exec(new PullImageResultCallback())
-                       .awaitCompletion(60,
+                       .awaitCompletion(300, // to account for slow internet connections.
                                         TimeUnit.SECONDS);
     } catch (InterruptedException ex) {
       throw new IllegalStateException("(timeout) could not run grafana container" + ex);
@@ -230,7 +230,7 @@ public class MetricsNetwork {
       this.dockerClient.pullImageCmd(PROMETHEUS_IMAGE)
                        .withTag(MAIN_TAG)
                        .exec(new PullImageResultCallback())
-                       .awaitCompletion(60,
+                       .awaitCompletion(300, // to account for a slow internet connection.
                                         TimeUnit.SECONDS);
     } catch (InterruptedException ex) {
       throw new IllegalStateException("(timeout) could not run prometheus container" + ex);
