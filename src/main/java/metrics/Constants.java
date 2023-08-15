@@ -26,5 +26,6 @@ public class Constants {
   public static class Histogram {
     @SuppressFBWarnings(value = "MS_MUTABLE_ARRAY", justification = "not a concern with current architecture")
     public static final double[] DEFAULT_HISTOGRAM = new double[]{Double.MAX_VALUE};
+    public static final double[] MESSAGE_SIZE_HISTOGRAM = new double[]{100, 1000, 100_000, 1_000_000, 10_000_000};
   }
 }

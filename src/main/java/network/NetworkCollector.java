@@ -37,12 +37,12 @@ public class NetworkCollector {
     this.receivedMessageSize = new OperaHistogram(Name.RECEIVED_MESSAGE_SIZE,
                                                   Constants.Namespace.NETWORK, SUBSYSTEM_NETWORK,
                                                   HelpMsg.RECEIVED_MESSAGE_SIZE,
-                                                  Constants.Histogram.DEFAULT_HISTOGRAM,
+                                                  Constants.Histogram.MESSAGE_SIZE_HISTOGRAM,
                                                   Constants.IDENTIFIER);
     this.sentMessageSize = new OperaHistogram(Name.SENT_MESSAGE_SIZE,
                                               Constants.Namespace.NETWORK, SUBSYSTEM_NETWORK,
                                               HelpMsg.SENT_MESSAGE_SIZE,
-                                              Constants.Histogram.DEFAULT_HISTOGRAM,
+                                              Constants.Histogram.MESSAGE_SIZE_HISTOGRAM,
                                               Constants.IDENTIFIER);
     this.messageReceivedTotal = new OperaCounter(Name.MESSAGE_RECEIVED_TOTAL,
                                                  Constants.Namespace.NETWORK, SUBSYSTEM_NETWORK,
