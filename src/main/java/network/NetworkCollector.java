@@ -32,17 +32,17 @@ public class NetworkCollector {
     this.propagationDelay = new OperaHistogram(Name.PROPAGATION_DELAY,
                                                Constants.Namespace.NETWORK, SUBSYSTEM_NETWORK,
                                                HelpMsg.PROPAGATION_DELAY,
-                                               Constants.Histogram.DEFAULT_HISTOGRAM,
+                                               Constants.Histogram.getDefaultHistogram(),
                                                Constants.IDENTIFIER);
     this.receivedMessageSize = new OperaHistogram(Name.RECEIVED_MESSAGE_SIZE,
                                                   Constants.Namespace.NETWORK, SUBSYSTEM_NETWORK,
                                                   HelpMsg.RECEIVED_MESSAGE_SIZE,
-                                                  Constants.Histogram.DEFAULT_HISTOGRAM,
+                                                  Constants.Histogram.getMessageSizeHistogram(),
                                                   Constants.IDENTIFIER);
     this.sentMessageSize = new OperaHistogram(Name.SENT_MESSAGE_SIZE,
                                               Constants.Namespace.NETWORK, SUBSYSTEM_NETWORK,
                                               HelpMsg.SENT_MESSAGE_SIZE,
-                                              Constants.Histogram.DEFAULT_HISTOGRAM,
+                                              Constants.Histogram.getMessageSizeHistogram(),
                                               Constants.IDENTIFIER);
     this.messageReceivedTotal = new OperaCounter(Name.MESSAGE_RECEIVED_TOTAL,
                                                  Constants.Namespace.NETWORK, SUBSYSTEM_NETWORK,

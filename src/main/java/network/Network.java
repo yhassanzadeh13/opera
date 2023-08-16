@@ -151,6 +151,7 @@ public class Network {
     }
 
     this.metricsCollector.onMessageSent(nodeId, encodedEvent.length);
+    this.logger.trace("sent event to {}, event size {}", destinationId, encodedEvent.length);
     return success;
   }
 
@@ -164,7 +165,7 @@ public class Network {
    */
   public void receive(final Message msg) {
     this.metricsCollector.onMessageReceived(nodeId, msg.getEncodedEvent().length, msg.getSentTimeStamp());
-    this.logger.info("received event from {}, event size {}, event timestamp", msg.getOriginId(), msg.getEncodedEvent().length, msg.getSentTimeStamp());
+    this.logger.trace("received event from {}, event size {}, event timestamp", msg.getOriginId(), msg.getEncodedEvent().length, msg.getSentTimeStamp());
 
     Event event;
     try {

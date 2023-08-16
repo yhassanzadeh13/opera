@@ -49,8 +49,8 @@ public class MetricsNetwork {
   private static final String GRAFANA_VOLUME_BINDING = "grafana_volume:/var/lib/grafana";
   private static final String GRAFANA_ADMIN_USER_NAME = "GF_SECURITY_ADMIN_USER=${ADMIN_USER" + ":-admin}";
   private static final String GRAFANA_ADMIN_PASSWORD = "GF_SECURITY_ADMIN_PASSWORD=$" + "{ADMIN_PASSWORD:-admin}";
-  private static final String GRAFANA_DASHBOARD_BINDING = "/grafana/provisioning/dashboards:/etc/grafana/provisioning" + "/dashboards";
-  private static final String GRAFANA_DATA_SOURCE_BINDING = "/grafana/provisioning/datasources:/etc/grafana" + "/provisioning/datasources";
+  private static final String GRAFANA_DASHBOARD_BINDING = "/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards";
+  private static final String GRAFANA_DATA_SOURCE_BINDING = "/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources";
   protected final DockerClient dockerClient;
   private final Logger logger = OperaLogger.getLoggerForSimulator(MetricsNetwork.class.getCanonicalName());
 
@@ -95,7 +95,7 @@ public class MetricsNetwork {
     } else {
       CreateContainerResponse prometheusContainer = this.getStoppedContainer(PROMETHEUS_CONTAINER_NAME);
       if (prometheusContainer == null) {
-        logger.info("prometheus container not found, creating new one");
+        logger.info("prometheus container not found, creating new one, this can take time...");
         prometheusContainer = this.createPrometheusContainer();
       }
       dockerClient.startContainerCmd(prometheusContainer.getId())
@@ -111,7 +111,7 @@ public class MetricsNetwork {
     } else {
       CreateContainerResponse grafanaContainer = this.getStoppedContainer(GRAFANA_CONTAINER_NAME);
       if (grafanaContainer == null) {
-        logger.info("grafana container not found, creating new one");
+        logger.info("grafana container not found, creating new one, this can take time...");
         grafanaContainer = this.createGrafanaContainer();
       }
       dockerClient.startContainerCmd(grafanaContainer.getId())
@@ -185,7 +185,7 @@ public class MetricsNetwork {
       this.dockerClient.pullImageCmd(GRAFANA_IMAGE)
                        .withTag(MAIN_TAG)
                        .exec(new PullImageResultCallback())
-                       .awaitCompletion(60,
+                       .awaitCompletion(300, // to account for slow internet connections.
                                         TimeUnit.SECONDS);
     } catch (InterruptedException ex) {
       throw new IllegalStateException("(timeout) could not run grafana container" + ex);
@@ -230,7 +230,7 @@ public class MetricsNetwork {
       this.dockerClient.pullImageCmd(PROMETHEUS_IMAGE)
                        .withTag(MAIN_TAG)
                        .exec(new PullImageResultCallback())
-                       .awaitCompletion(60,
+                       .awaitCompletion(300, // to account for a slow internet connection.
                                         TimeUnit.SECONDS);
     } catch (InterruptedException ex) {
       throw new IllegalStateException("(timeout) could not run prometheus container" + ex);
