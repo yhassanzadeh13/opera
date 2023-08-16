@@ -1,7 +1,5 @@
 package metrics;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * Global constants used across codebase.
  */
