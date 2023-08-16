@@ -79,7 +79,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -158,7 +158,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "histogram_quantile(0.95, sum(rate(simulator_churn_inter_arrival_bucket{job=\"opera\"}[2m])) by (le))",
@@ -169,7 +169,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "histogram_quantile(0.70, sum(rate(simulator_churn_inter_arrival_bucket{job=\"opera\"}[2m])) by (le))",
@@ -181,7 +181,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "histogram_quantile(0.50, sum(rate(simulator_churn_inter_arrival_bucket{job=\"opera\"}[2m])) by (le))",
@@ -197,7 +197,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -276,7 +276,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "histogram_quantile(0.95, sum(rate(simulator_churn_session_length_bucket{job=\"opera\"}[2m])) by (le))",
@@ -287,7 +287,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "histogram_quantile(0.70, sum(rate(simulator_churn_session_length_bucket{job=\"opera\"}[2m])) by (le))",
@@ -299,7 +299,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "histogram_quantile(0.50, sum(rate(simulator_churn_session_length_bucket{job=\"opera\"}[2m])) by (le))",
@@ -315,7 +315,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -365,7 +365,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "simulator_churn_offline_nodes{job=\"opera\"}",
@@ -380,7 +380,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -430,7 +430,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "simulator_churn_online_nodes{job=\"opera\"}",
@@ -445,7 +445,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "description": "x-axis is the buckets of inter-arrival times in seconds\ny-axis is the counter of inter-arrival points in each bucket",
       "fieldConfig": {
@@ -500,7 +500,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "sum(rate(simulator_churn_inter_arrival_bucket{job=\"opera\"}[2m])) / sum(rate(simulator_churn_inter_arrival_count{job=\"opera\"}[2m]))",
@@ -515,7 +515,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "description": "x-axis is the buckets of session length times in seconds\ny-axis is the counter of session length points in each bucket",
       "fieldConfig": {
@@ -570,7 +570,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "sum(rate(simulator_churn_session_length_bucket{job=\"opera\"}[2m])) / sum(rate(simulator_churn_session_length_count{job=\"opera\"}[2m]))",
@@ -598,7 +598,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -676,7 +676,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "avg by (job) (rate(network_network_message_received_total[1m]))",
@@ -691,7 +691,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "description": "",
       "fieldConfig": {
@@ -770,7 +770,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "avg by (job)(rate(network_network_message_sent_total[1m]))",
@@ -785,7 +785,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -864,7 +864,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "histogram_quantile(0.95, sum(rate(network_network_received_message_size_bucket{job=\"opera\"}[2m])) by (le))",
@@ -875,7 +875,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "histogram_quantile(0.70, sum(rate(network_network_received_message_size_bucket{job=\"opera\"}[2m])) by (le))",
@@ -887,7 +887,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "histogram_quantile(0.50, sum(rate(network_network_received_message_size_bucket{job=\"opera\"}[2m])) by (le))",
@@ -903,7 +903,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -982,7 +982,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "histogram_quantile(0.95, sum(rate(network_network_sent_message_size_bucket{job=\"opera\"}[2m])) by (le))",
@@ -993,7 +993,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "histogram_quantile(0.70, sum(rate(network_network_sent_message_size_bucket{job=\"opera\"}[2m])) by (le))",
@@ -1005,7 +1005,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "editorMode": "code",
           "expr": "histogram_quantile(0.50, sum(rate(network_network_sent_message_size_bucket{job=\"opera\"}[2m])) by (le))",

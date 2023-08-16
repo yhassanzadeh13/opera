@@ -1,5 +1,4 @@
 apiVersion: 1
-
 datasources:
   - name: Prometheus
     type: prometheus
@@ -9,3 +8,4 @@ datasources:
     basicAuth: false
     isDefault: true
     editable: true
+    uid: prometheus
