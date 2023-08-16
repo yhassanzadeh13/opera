@@ -296,13 +296,13 @@ public class Simulator implements Orchestrator {
     this.onlineNodes = new PriorityQueue<>();
 
     // assign initial terminate time stamp for all nodes
-    long time = System.currentTimeMillis();
+    long startTime = System.currentTimeMillis();
     for (Identifier id : this.allId) {
       if (isReady.get(this.allFullAddresses.get(id))) {
         double sessionLength = sessionLengthGenerator.next();
         log.info("generated new session length of {} ms for node {}, termination at {}", id,
-                 sessionLength, time + sessionLength);
-        onlineNodes.add(new SimpleEntryComparable<>(time + sessionLength, id));
+                 sessionLength, startTime + sessionLength);
+        onlineNodes.add(new SimpleEntryComparable<>(startTime + sessionLength, id));
         this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
       }
     }
@@ -312,7 +312,7 @@ public class Simulator implements Orchestrator {
     this.simulatorMetricsCollector.onNewInterArrivalGenerated(interArrivalTime);
     double nextArrival = System.currentTimeMillis() + interArrivalTime;
 
-    while (System.currentTimeMillis() - time < lifeTime) {
+    while (System.currentTimeMillis() - startTime < lifeTime) {
       this.simulatorMetricsCollector.updateOnlineNodes(onlineNodes.size());
       this.simulatorMetricsCollector.updateOfflineNodes(offlineNodes.size());
 
@@ -349,7 +349,7 @@ public class Simulator implements Orchestrator {
         // TODO: fix this
         this.simulatorMetricsCollector.onNewSessionLengthGenerated(id, sessionLength);
         log.info("generated new session length of {} ms for node {}, termination at {}", id,
-                 sessionLength, time + sessionLength);
+                 sessionLength, startTime + sessionLength);
         this.onlineNodes.add(
           new SimpleEntryComparable<>(System.currentTimeMillis() + sessionLength, id));
 
