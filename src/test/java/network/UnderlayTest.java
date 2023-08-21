@@ -1,6 +1,7 @@
 package network;
 
 import java.net.Inet4Address;
+import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -132,17 +133,18 @@ public class UnderlayTest {
    * @return A list of generated nodes.
    */
   private ArrayList<FixtureNode> generateLocalNodes(int nodeCount) {
-    HashMap<AbstractMap.SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
+    // TODO: do we need this?
+    HashMap<InetSocketAddress, LocalUnderlay> allLocalUnderlay = new HashMap<>();
     ArrayList<FixtureNode> instances = new ArrayList<>();
     ArrayList<Identifier> allId = Fixtures.identifierListFixture(nodeCount);
-    HashMap<Identifier, AbstractMap.SimpleEntry<String, Integer>> allFullAddresses = new HashMap<>();
+    HashMap<Identifier, InetSocketAddress> allFullAddresses = new HashMap<>();
     HashMap<AbstractMap.SimpleEntry<String, Integer>, Boolean> isReady = new HashMap<>();
 
     // Generate full addresses
     try {
       String address = Inet4Address.getLocalHost().getHostAddress();
       for (int i = 0; i < nodeCount; i++) {
-        allFullAddresses.put(allId.get(i), new AbstractMap.SimpleEntry<>(address, i));
+        allFullAddresses.put(allId.get(i), new InetSocketAddress(address, i));
         isReady.put(new AbstractMap.SimpleEntry<>(address, i), true);
       }
     } catch (UnknownHostException e) {
@@ -151,19 +153,18 @@ public class UnderlayTest {
 
     for (int i = 0; i < nodeCount; i++) {
       Identifier id = allId.get(i);
-      String address = allFullAddresses.get(id).getKey();
-      int port = allFullAddresses.get(id).getValue();
+      InetSocketAddress address = allFullAddresses.get(id);
 
       Network network = new Network(id, allFullAddresses, new NoopOrchestrator());
       FixtureNode node = new FixtureNode(id, allId, network);
       network.setNode(node);
 
-      LocalUnderlay underlay = new LocalUnderlay(address, port, allLocalUnderlay);
-      underlay.initialize(port, network);
+      LocalUnderlay underlay = new LocalUnderlay(address, allLocalUnderlay);
+      underlay.initialize(address.getPort(), network);
 
       network.setUnderlay(underlay);
       instances.add(node);
-      allLocalUnderlay.put(new AbstractMap.SimpleEntry<>(address, port), underlay);
+      allLocalUnderlay.put(address, underlay);
     }
 
     return instances;

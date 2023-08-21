@@ -1,6 +1,7 @@
 package simulator;
 
 import java.net.Inet4Address;
+import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.time.Duration;
 import java.util.AbstractMap.SimpleEntry;
@@ -40,17 +41,21 @@ public class Simulator implements Orchestrator {
    */
   private final int readyTimeoutMs = 1000;
   private final ArrayList<Identifier> allId;
-  private final HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses;
-  private final HashMap<SimpleEntry<String, Integer>, Boolean> isReady;
+  private final HashMap<Identifier, InetSocketAddress> allFullAddresses;
+  private final HashMap<InetSocketAddress, Boolean> isReady;
   private final Factory factory;
   private final ArrayList<Identifier> offlineNodes = new ArrayList<>();
   private final CountDownLatch allNodesReady;
-  private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay = new HashMap<>();
+  // TODO: do we need this? we already have allNetworks
+  private final HashMap<InetSocketAddress, LocalUnderlay> allLocalUnderlay = new HashMap<>();
   private final SimulatorMetricsCollector simulatorMetricsCollector;
   private final MetricsNetwork metricsNetwork;
   private final MetricServer metricServer;
 
-  private HashMap<SimpleEntry<String, Integer>, network.Network> allMiddleLayers;
+  /**
+   * All the network instances of the nodes in the simulation.
+   */
+  private HashMap<InetSocketAddress, network.Network> allNetworks;
   private PriorityQueue<SimpleEntryComparable<Double, Identifier>> onlineNodes = new PriorityQueue<>();
 
   /**
@@ -94,16 +99,22 @@ public class Simulator implements Orchestrator {
     return identifiers;
   }
 
-  private HashMap<Identifier, SimpleEntry<String, Integer>> generateFullAddressed(int n, int startPort) {
+  /**
+   * Creates identifier and address mapping for the nodes.
+   *
+   * @param n         number of nodes in the simulation.
+   * @param startPort starting port for the nodes.
+   * @return HashMap of identifier to address mapping.
+   */
+  private HashMap<Identifier, InetSocketAddress> generateFullAddressed(int n, int startPort) {
     log.info("generating full addresses of {} nodes for simulation", n);
 
-    // TODO: introduce address object.
-    HashMap<Identifier, SimpleEntry<String, Integer>> identifierToAddress = new HashMap<>();
+    HashMap<Identifier, InetSocketAddress> identifierToAddress = new HashMap<>();
     try {
       // TODO: replace with localhost.
       String address = Inet4Address.getLocalHost().getHostAddress();
       for (int i = 0; i < n; i++) {
-        identifierToAddress.put(allId.get(i), new SimpleEntry<>(address, startPort + i));
+        identifierToAddress.put(allId.get(i), new InetSocketAddress(address, startPort + i));
       }
     } catch (UnknownHostException e) {
       log.fatal("failed to get localhost address", e);
@@ -115,7 +126,7 @@ public class Simulator implements Orchestrator {
    * Generate new instances for the nodes and add them to the network.
    */
   private void generateNodesInstances(NetworkProtocol networkType) {
-    this.allMiddleLayers = new HashMap<>();
+    this.allNetworks = new HashMap<>();
 
     // generate nodes, and middle layers instances
     int globalIndex = 0;
@@ -128,19 +139,19 @@ public class Simulator implements Orchestrator {
 
         BaseNode node = r.getBaseNode().newInstance(id, r.getNameSpace(), network);
         network.setNode(node);
-        this.allMiddleLayers.put(this.allFullAddresses.get(id), network);
+        this.allNetworks.put(this.allFullAddresses.get(id), network);
       }
     }
 
     // generate new underlays and assign them to the nodes middles layers.
-    for (Map.Entry<SimpleEntry<String, Integer>, network.Network> node : this.allMiddleLayers.entrySet()) {
+    for (Map.Entry<InetSocketAddress, network.Network> node : this.allNetworks.entrySet()) {
       network.Network network = node.getValue();
-      String address = node.getKey().getKey();
-      int port = node.getKey().getValue();
+      InetSocketAddress address = node.getKey();
+      int port = node.getKey().getPort();
       if (networkType != NetworkProtocol.MOCK_NETWORK) {
         network.setUnderlay(UnderlayFactory.newUnderlay(networkType, port, network));
       } else {
-        LocalUnderlay underlay = UnderlayFactory.getMockUnderlay(address, port, network, allLocalUnderlay);
+        LocalUnderlay underlay = UnderlayFactory.getMockUnderlay(address, network, allLocalUnderlay);
         network.setUnderlay(underlay);
         allLocalUnderlay.put(node.getKey(), underlay);
       }
@@ -175,7 +186,7 @@ public class Simulator implements Orchestrator {
     }
 
     // start all nodes in new threads
-    for (network.Network middleNetwork : this.allMiddleLayers.values()) {
+    for (network.Network middleNetwork : this.allNetworks.values()) {
       // TODO: this should also have a timeout.
       middleNetwork.start();
     }
@@ -222,9 +233,10 @@ public class Simulator implements Orchestrator {
     }
   }
 
+  // TODO: do we need this?
   public network.Network getMiddleLayer(Identifier id) {
-    SimpleEntry<String, Integer> address = this.allFullAddresses.get(id);
-    return this.allMiddleLayers.get(address);
+    InetSocketAddress address = this.allFullAddresses.get(id);
+    return this.allNetworks.get(address);
   }
 
   /**
@@ -238,10 +250,10 @@ public class Simulator implements Orchestrator {
 
     // mark the nodes as not ready
     isReady.put(this.allFullAddresses.get(nodeId), false);
-    SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(nodeId);
+    InetSocketAddress address = allFullAddresses.get(nodeId);
 
     // stop the nodes on a new thread
-    network.Network network = this.allMiddleLayers.get(fullAddress);
+    network.Network network = this.allNetworks.get(address);
     if (network != null) {
       network.stop();
     }
@@ -270,11 +282,6 @@ public class Simulator implements Orchestrator {
     log.info("constant time simulation has ended, total lifetime was {} ms", duration);
 
     this.terminate();
-  }
-
-  public String getAddress(Identifier nodeId) {
-    SimpleEntry<String, Integer> address = allFullAddresses.get(nodeId);
-    return address.getKey() + ":" + address.getValue();
   }
 
   /**

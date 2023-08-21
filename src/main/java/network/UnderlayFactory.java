@@ -1,5 +1,7 @@
 package network;
 
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 
@@ -24,9 +26,9 @@ public class UnderlayFactory {
    * @param allLocalUnderlay hashmap of all underlays
    * @return underlay
    */
-  public static LocalUnderlay getMockUnderlay(String address, int port, Network network, HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay) {
-    LocalUnderlay underlay = new LocalUnderlay(address, port, allLocalUnderlay);
-    underlay.initialize(port, network);
+  public static LocalUnderlay getMockUnderlay(InetSocketAddress address, Network network, HashMap<InetSocketAddress, LocalUnderlay> allLocalUnderlay) {
+    LocalUnderlay underlay = new LocalUnderlay(address, allLocalUnderlay);
+    underlay.initialize(address.getPort(), network);
     return underlay;
   }
 

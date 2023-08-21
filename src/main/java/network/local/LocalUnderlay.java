@@ -1,5 +1,7 @@
 package network.local;
 
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 
@@ -13,10 +15,9 @@ import network.model.Message;
  */
 
 public class LocalUnderlay extends Underlay {
-  private final String selfAddress;
-  private final int port;
+  InetSocketAddress selfAddress;
   // TODO: replace it with a network Hub.
-  private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allUnderlay;
+  private final HashMap<InetSocketAddress, LocalUnderlay> allUnderlay;
 
   /**
    * Constructor of LocalUnderlay.
@@ -26,9 +27,8 @@ public class LocalUnderlay extends Underlay {
    * @param allUnderlay hashmap of all underlays
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of allUnderlays")
-  public LocalUnderlay(String selfAddress, int port, HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allUnderlay) {
+  public LocalUnderlay(InetSocketAddress selfAddress, HashMap<InetSocketAddress, LocalUnderlay> allUnderlay) {
     this.selfAddress = selfAddress;
-    this.port = port;
     this.allUnderlay = allUnderlay;
   }
 
@@ -38,18 +38,21 @@ public class LocalUnderlay extends Underlay {
 
   @Override
   public int getPort() {
-    return this.port;
+    return this.getPort();
   }
 
   @Override
   public String getAddress() {
-    return this.selfAddress;
+    return this.selfAddress.getAddress().toString();
   }
 
   @Override
   protected boolean initUnderlay(int port) {
-    // the underlay to the underlay cluster
-    allUnderlay.put(new SimpleEntry<>(this.selfAddress, this.port), this);
+    if (this.selfAddress.getPort() > 0) {
+      throw new IllegalStateException("Underlay is already initialized");
+    }
+    this.selfAddress = new InetSocketAddress(this.selfAddress.getAddress(), port);
+    allUnderlay.put(this.selfAddress, this);
     return true;
   }
 
@@ -89,8 +92,8 @@ public class LocalUnderlay extends Underlay {
    * @param underlay underlay to add.
    * @return true if identifier was found and instance was added successfully. False, otherwise.
    */
-  public boolean addInstance(String address, int port, LocalUnderlay underlay) {
-    allUnderlay.put(new SimpleEntry<>(address, port), underlay);
+  public boolean addInstance(InetSocketAddress address, LocalUnderlay underlay) {
+    allUnderlay.put(address, underlay);
     return true;
   }
 }
