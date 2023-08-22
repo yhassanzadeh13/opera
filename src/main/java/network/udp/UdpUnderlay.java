@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.*;
 
 import network.Underlay;
+import network.exception.OperaNetworkingException;
 import network.model.Message;
 
 
@@ -57,39 +58,33 @@ public class UdpUnderlay extends Underlay {
   }
 
   /**
-   * Sends an udp request the given address. The size of the request in bytes cannot exceed the size
-   * defined in `UDPUtils.MAX_PACKET_SIZE`.
+   * Sends a message to a remote node. The size of request cannot exceed the maximum packet size MAX_PACKET_SIZE.
    *
-   * @param address address of the remote server.
-   * @param port    port of the remote server.
-   * @param request request to send.
-   * @return the response emitted by the server.
+   * @param targetAddress address of the remote node who should receive the message.
+   * @param message       the message to be sent.
+   * @throws network.exception.OperaNetworkingException if it could not send the message.
    */
   @Override
-  public boolean sendMessage(String address, int port, Message request) {
+  public void send(final InetSocketAddress targetAddress, final Message message) throws OperaNetworkingException {
     // Convert a string address to an actual address to be used for udp.
     InetAddress destAddress;
     try {
-      destAddress = Inet4Address.getByName(address);
+      destAddress = Inet4Address.getByName(targetAddress.getAddress().getHostAddress());
     } catch (UnknownHostException e) {
-      // TODO: throw illegal state exception.
-      return false;
+      throw new OperaNetworkingException(String.format("could not convert address into inet %s", targetAddress.toString()), e);
     }
     // Serialize the request.
-    byte[] requestBytes = UdpUtils.serialize(request);
+    byte[] requestBytes = UdpUtils.serialize(message);
     if (requestBytes == null) {
-      // TODO: throw illegal state exception.
-      return false;
+      throw new OperaNetworkingException(String.format("could not serialize request %s", message.toString()));
     }
     // Then, send the request.
-    DatagramPacket requestPacket = new DatagramPacket(requestBytes, requestBytes.length, destAddress, port);
+    DatagramPacket packet = new DatagramPacket(requestBytes, requestBytes.length, destAddress, targetAddress.getPort());
     try {
-      udpSocket.send(requestPacket);
+      udpSocket.send(packet);
     } catch (IOException e) {
-      // TODO: throw illegal state exception.
-      return false;
+      throw new OperaNetworkingException(String.format("could not send request %s", message.toString()), e);
     }
-    return true;
   }
 
   /**

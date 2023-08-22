@@ -1,8 +1,6 @@
 package network;
 
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 
 import network.javarmi.JavaRmiUnderlay;
@@ -21,12 +19,13 @@ public class UnderlayFactory {
    * getter of a mock Underlay.
    *
    * @param address          address of the underlay
-   * @param port             port of the underlay
    * @param network          middle layer of the underlay
    * @param allLocalUnderlay hashmap of all underlays
    * @return underlay
    */
-  public static LocalUnderlay getMockUnderlay(InetSocketAddress address, Network network, HashMap<InetSocketAddress, LocalUnderlay> allLocalUnderlay) {
+  public static LocalUnderlay getMockUnderlay(InetSocketAddress address,
+                                              Network network,
+                                              HashMap<InetSocketAddress, LocalUnderlay> allLocalUnderlay) {
     LocalUnderlay underlay = new LocalUnderlay(address, allLocalUnderlay);
     underlay.initialize(address.getPort(), network);
     return underlay;

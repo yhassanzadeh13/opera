@@ -1,5 +1,6 @@
 package utils;
 
+import java.net.InetSocketAddress;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,9 +38,7 @@ public class Fixtures {
   public static ArrayList<network.FixtureNode> nodeListFixture(NetworkProtocol underlayName, int count) {
     ArrayList<network.FixtureNode> nodes = new ArrayList<>();
     ArrayList<Identifier> allId = identifierListFixture(count);
-    HashMap<Identifier, AbstractMap.SimpleEntry<String, Integer>> allFullAddresses = new HashMap<>();
-    HashMap<AbstractMap.SimpleEntry<String, Integer>, Boolean> isReady = new HashMap<>();
-
+    HashMap<Identifier, InetSocketAddress> allFullAddresses = new HashMap<>();
 
     for (int i = 0; i < count; i++) {
       Identifier id = allId.get(i);
@@ -50,8 +49,7 @@ public class Fixtures {
       network.setNode(node);
       Underlay underlay = UnderlayFactory.newUnderlay(underlayName, 0, network);
       assert underlay != null;
-      int port = underlay.getPort();
-      allFullAddresses.put(id, new AbstractMap.SimpleEntry<>(underlay.getAddress(), port));
+      allFullAddresses.put(id, new InetSocketAddress(underlay.getAddress(), underlay.getPort()));
       network.setUnderlay(underlay);
 
       nodes.add(node);

@@ -11,6 +11,7 @@ import modules.logger.Logger;
 import modules.logger.OperaLogger;
 import network.encoder.Encoder;
 import network.encoder.serializable.SerializableEncoder;
+import network.exception.OperaNetworkingException;
 import network.latency.LatencyGenerator;
 import network.model.Event;
 import network.model.Message;
@@ -84,7 +85,7 @@ public class Network {
     }
 
     this.nodeId = nodeId;
-    this.logger = OperaLogger.getLoggerForNodeComponent(Network.class.getCanonicalName(), nodeId, "middlelayer");
+    this.logger = OperaLogger.getLoggerForNodeComponent(Network.class.getCanonicalName(), nodeId, "network");
     this.allFullAddresses = allFullAddresses;
     this.orchestrator = orchestrator;
     this.metricsCollector = OperaMiddlewareCollector.getInstance();
@@ -120,7 +121,7 @@ public class Network {
    * @return true if event was sent successfully. false, otherwise.
    */
   public boolean send(Identifier destinationId, Event event) {
-    InetSocketAddress fullAddress = allFullAddresses.get(destinationId);
+    InetSocketAddress targetAddress = allFullAddresses.get(destinationId);
 
     // encode the event into bytes
     byte[] encodedEvent = null;
@@ -131,8 +132,8 @@ public class Network {
       return false;
     }
     Message msg = new Message(encodedEvent, this.nodeId, destinationId);
-    InetAddress destinationAddress = fullAddress.getAddress();
-    Integer port = fullAddress.getPort();
+    InetAddress destinationAddress = targetAddress.getAddress();
+    Integer port = targetAddress.getPort();
 
     // sleep for the simulated duration
     double sleepTime = this.latencyGenerator.getSimulatedLatency(nodeId, destinationId, true);
@@ -143,17 +144,17 @@ public class Network {
       this.logger.fatal("failed to sleep thread for the simulated delay, sleep time {}", sleepTime, ex);
     }
 
-    // Bounce the request up.
-    boolean success = underlay.sendMessage(destinationAddress.toString(), port, msg);
-    if (success) {
-      this.logger.debug("sent event to {}", destinationId);
-    } else {
-      this.logger.warn("failed to send event to {}", destinationId);
+    // TODO: Bounce the request up.
+    try {
+      underlay.send(targetAddress, msg);
+    } catch (OperaNetworkingException ex) {
+      this.logger.error("failed to send event to {}", destinationId, ex);
+      return false;
     }
 
     this.metricsCollector.onMessageSent(nodeId, encodedEvent.length);
     this.logger.trace("sent event to {}, event size {}", destinationId, encodedEvent.length);
-    return success;
+    return true;
   }
 
   /**

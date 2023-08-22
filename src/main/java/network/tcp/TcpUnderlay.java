@@ -2,14 +2,15 @@ package network.tcp;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.HashSet;
 
 import network.Underlay;
+import network.exception.OperaNetworkingException;
 import network.model.Message;
-
 
 /**
  * tcp underlay implementation.
@@ -21,6 +22,41 @@ public class TcpUnderlay extends Underlay {
   private Thread listenerThread;
   // The local tcp socket that can accept incoming tcp connections.
   private ServerSocket serverSocket;
+
+  /**
+   * Sends a message to a remote node.
+   *
+   * @param targetAddress address of the remote node who should receive the message.
+   * @param message       the message to be sent.
+   * @throws OperaNetworkingException if it could not send the message.
+   */
+  @Override
+  public void send(final InetSocketAddress targetAddress, final Message message) throws OperaNetworkingException {
+    Socket remote;
+    ObjectOutputStream requestStream;
+
+    String fullAddress = targetAddress.getAddress() + ":" + targetAddress.getPort();
+    requestStream = streamCache.getOrDefault(fullAddress, null);
+    if (requestStream == null) {
+      // Connect to the remote tcp server.
+      try {
+        remote = new Socket(targetAddress.getAddress(), targetAddress.getPort());
+        remote.setKeepAlive(true);
+
+        socketCache.add(remote);
+        requestStream = new ObjectOutputStream(remote.getOutputStream());
+        streamCache.put(fullAddress, requestStream);
+      } catch (IOException e) {
+        throw new OperaNetworkingException("could not connect to remote server", e);
+      }
+    }
+    // Send the request.
+    try {
+      requestStream.writeObject(message);
+    } catch (IOException e) {
+      throw new OperaNetworkingException("could not write object on stream", e);
+    }
+  }
 
   /**
    * Creates a tcp socket at the given port and starts listening it.
@@ -42,46 +78,6 @@ public class TcpUnderlay extends Underlay {
     // and handle the requests as implemented in the `RequestHandler` class.
     listenerThread = new Thread(new TcpListener(serverSocket, this));
     listenerThread.start();
-    return true;
-  }
-
-  /**
-   * Sends request using the port and address of the remote server and gets the response.
-   *
-   * @param address address of the remote server.
-   * @param port    port of the remote server
-   * @param request the request to send.
-   * @return the response emitted by the remote server.
-   */
-  @Override
-  public boolean sendMessage(String address, int port, Message request) {
-    Socket remote;
-    ObjectOutputStream requestStream;
-
-    String fullAddress = address + ":" + port;
-    requestStream = streamCache.getOrDefault(fullAddress, null);
-
-    if (requestStream == null) {
-      // Connect to the remote tcp server.
-      try {
-        remote = new Socket(address, port);
-        remote.setKeepAlive(true);
-
-        socketCache.add(remote);
-        requestStream = new ObjectOutputStream(remote.getOutputStream());
-        streamCache.put(fullAddress, requestStream);
-      } catch (IOException e) {
-        // TODO: throw illegal state exception.
-        return false;
-      }
-    }
-    // Send the request.
-    try {
-      requestStream.writeObject(request);
-    } catch (IOException e) {
-      // TODO: throw illegal state exception.
-      return false;
-    }
     return true;
   }
 

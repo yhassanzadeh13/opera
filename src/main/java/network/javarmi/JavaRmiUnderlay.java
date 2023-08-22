@@ -1,5 +1,6 @@
 package network.javarmi;
 
+import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -8,6 +9,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ExportException;
 
 import network.Underlay;
+import network.exception.OperaNetworkingException;
 import network.model.Message;
 
 
@@ -78,32 +80,27 @@ public class JavaRmiUnderlay extends Underlay {
   }
 
   /**
-   * Invokes the appropriate RMI method on the server with the given address.
+   * Sends a message to a remote node.
    *
-   * @param address address of the remote server.
-   * @param port    port of the remote server.
-   * @param request request to send.
-   * @return response received from the server.
+   * @param targetAddress address of the remote node who should receive the message.
+   * @param message       the message to be sent.
+   * @throws OperaNetworkingException if it could not send the message.
    */
   @Override
-  public boolean sendMessage(String address, int port, Message request) {
+  public void send(final InetSocketAddress targetAddress, final Message message) throws OperaNetworkingException {
     if (host == null) {
-      // TODO: throw illegal state exception.
-      return false;
+      throw new OperaNetworkingException("Java RMI underlay is not initialized");
     }
     // Connect to the remote adapter.
-    JavaRmiService remote = remote(address + ":" + port);
+    JavaRmiService remote = remote(targetAddress.getAddress() + ":" + targetAddress.getPort());
     if (remote == null) {
-      // TODO: throw illegal state exception.
-      return false;
+      throw new OperaNetworkingException("could not connect to remote server");
     }
     // Use the remote handler to dispatch the request.
     try {
-      remote.handleRequest(request);
-      return true;
+      remote.handleRequest(message);
     } catch (RemoteException e) {
-      // TODO: throw illegal state exception.
-      return false;
+      throw new OperaNetworkingException("could not send message via rmi", e);
     }
   }
 

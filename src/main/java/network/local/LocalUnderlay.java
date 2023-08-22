@@ -1,12 +1,12 @@
 package network.local;
 
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import network.Underlay;
+import network.exception.OperaNetworkingException;
 import network.model.Message;
 
 
@@ -15,19 +15,24 @@ import network.model.Message;
  */
 
 public class LocalUnderlay extends Underlay {
-  InetSocketAddress selfAddress;
   // TODO: replace it with a network Hub.
+  /**
+   * Hash table of the full addresses of all the nodes in the network.
+   */
   private final HashMap<InetSocketAddress, LocalUnderlay> allUnderlay;
+  /**
+   * Address of the current instance of underlay.
+   */
+  private InetSocketAddress selfAddress;
 
   /**
    * Constructor of LocalUnderlay.
    *
    * @param selfAddress Address of the underlay
-   * @param port        port of the Underlay
    * @param allUnderlay hashmap of all underlays
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of allUnderlays")
-  public LocalUnderlay(InetSocketAddress selfAddress, HashMap<InetSocketAddress, LocalUnderlay> allUnderlay) {
+  public LocalUnderlay(final InetSocketAddress selfAddress, final HashMap<InetSocketAddress, LocalUnderlay> allUnderlay) {
     this.selfAddress = selfAddress;
     this.allUnderlay = allUnderlay;
   }
@@ -57,42 +62,36 @@ public class LocalUnderlay extends Underlay {
   }
 
   /**
-   * Sends a request to Underlay. Return true if no errors.
+   * Sends a message to a remote node.
    *
-   * @param address address of the remote server.
-   * @param port    port of the remote server.
-   * @param request the request.
-   * @return response for the given request. Null in case of failure
+   * @param targetAddress address of the remote node who should receive the message.
+   * @param message       the message to be sent.
+   * @throws network.exception.OperaNetworkingException if it could not send the message.
    */
   @Override
-  public boolean sendMessage(String address, int port, Message request) {
-    SimpleEntry<String, Integer> fullAddress = new SimpleEntry<>(address, port);
-    if (!allUnderlay.containsKey(fullAddress)) {
-      // TODO: throw illegal state exception.
-      return false;
+  public void send(final InetSocketAddress targetAddress, final Message message) throws OperaNetworkingException {
+    if (!allUnderlay.containsKey(targetAddress)) {
+      throw new OperaNetworkingException(String.format("Could not find underlay for %s", targetAddress));
     }
-
-    Underlay destinationUnderlay = allUnderlay.get(fullAddress);
+    Underlay destinationUnderlay = allUnderlay.get(targetAddress);
 
     // handle the request in a separated thread
     new Thread() {
       @Override
       public void run() {
-        destinationUnderlay.dispatchRequest(request);
+        destinationUnderlay.dispatchRequest(message);
       }
     }.start();
-    return true;
   }
 
   /**
    * associate a middle layer to a specific node.
    *
    * @param address  address of the node
-   * @param port     identifier of the node
    * @param underlay underlay to add.
    * @return true if identifier was found and instance was added successfully. False, otherwise.
    */
-  public boolean addInstance(InetSocketAddress address, LocalUnderlay underlay) {
+  public boolean addInstance(final InetSocketAddress address, final LocalUnderlay underlay) {
     allUnderlay.put(address, underlay);
     return true;
   }
