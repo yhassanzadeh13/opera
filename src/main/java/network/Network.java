@@ -132,8 +132,6 @@ public class Network {
       return false;
     }
     Message msg = new Message(encodedEvent, this.nodeId, destinationId);
-    InetAddress destinationAddress = targetAddress.getAddress();
-    Integer port = targetAddress.getPort();
 
     // sleep for the simulated duration
     double sleepTime = this.latencyGenerator.getSimulatedLatency(nodeId, destinationId, true);
