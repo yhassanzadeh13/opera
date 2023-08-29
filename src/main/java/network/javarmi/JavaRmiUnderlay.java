@@ -92,9 +92,10 @@ public class JavaRmiUnderlay extends Underlay {
       throw new OperaNetworkingException("Java RMI underlay is not initialized");
     }
     // Connect to the remote adapter.
-    JavaRmiService remote = remote(targetAddress.getAddress() + ":" + targetAddress.getPort());
+    JavaRmiService remote = remote(targetAddress.getAddress().getHostAddress() + ":" + targetAddress.getPort());
     if (remote == null) {
-      throw new OperaNetworkingException("could not connect to remote server");
+      throw new OperaNetworkingException(String.format("could not connect to remote server %s",
+                                                       targetAddress.getAddress().getHostAddress().toString() + ":" + targetAddress.getPort()));
     }
     // Use the remote handler to dispatch the request.
     try {
