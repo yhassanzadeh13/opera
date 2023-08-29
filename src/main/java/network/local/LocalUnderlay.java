@@ -52,9 +52,6 @@ public class LocalUnderlay extends Underlay {
 
   @Override
   protected boolean initUnderlay(int port) {
-    if (this.selfAddress.getPort() > 0) {
-      throw new IllegalStateException("Underlay is already initialized");
-    }
     this.selfAddress = new InetSocketAddress(this.selfAddress.getAddress(), port);
     allUnderlay.put(this.selfAddress, this);
     return true;
