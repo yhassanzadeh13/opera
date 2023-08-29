@@ -3,16 +3,14 @@ package network.local;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import network.Underlay;
 import network.exception.OperaNetworkingException;
 import network.model.Message;
 
 
 /**
- * Serves as the LocalUnderlay layer of the simulator.
+ * Local connection underlay implementation.
  */
-
 public class LocalUnderlay extends Underlay {
   // TODO: replace it with a network Hub.
   /**
@@ -25,33 +23,48 @@ public class LocalUnderlay extends Underlay {
   private InetSocketAddress selfAddress;
 
   /**
-   * Constructor of LocalUnderlay.
+   * Constructs a `LocalUnderlay` instance and binds it to the given port.
    *
-   * @param selfAddress Address of the underlay
-   * @param allUnderlay hashmap of all underlays
+   * @param selfAddress address of the current instance of underlay.
+   * @param allUnderlay hash table of the full addresses of all the nodes in the network.
    */
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of allUnderlays")
   public LocalUnderlay(final InetSocketAddress selfAddress, final HashMap<InetSocketAddress, LocalUnderlay> allUnderlay) {
     this.selfAddress = selfAddress;
-    this.allUnderlay = allUnderlay;
+    this.allUnderlay = new HashMap<>(allUnderlay);
   }
 
   @Override
   public void terminate() {
   }
 
+  /**
+   * Returns the port that the underlay is bound to.
+   *
+   * @return the port that the underlay is bound to.
+   */
   @Override
   public int getPort() {
-    return this.getPort();
+    return this.selfAddress.getPort();
   }
 
+  /**
+   * Returns the address of the current instance of underlay.
+   *
+   * @return the address of the current instance of underlay.
+   */
   @Override
   public String getAddress() {
     return this.selfAddress.getAddress().toString();
   }
 
+  /**
+   * Constructs a `LocalUnderlay` instance and binds it to the given port.
+   *
+   * @param port the port that the underlay should be bound to.
+   * @return true iff the Java RMI initialization was successful.
+   */
   @Override
-  protected boolean initUnderlay(int port) {
+  protected boolean initUnderlay(final int port) {
     this.selfAddress = new InetSocketAddress(this.selfAddress.getAddress(), port);
     allUnderlay.put(this.selfAddress, this);
     return true;
