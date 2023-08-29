@@ -1,7 +1,6 @@
 package network.local;
 
 import java.net.InetSocketAddress;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
