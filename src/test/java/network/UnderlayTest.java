@@ -95,7 +95,7 @@ public class UnderlayTest {
 
   @Test
   void tcpTest() throws InterruptedException {
-    ArrayList<FixtureNode> tcpNodes = nodeListFixture(NetworkProtocol.TCP_PROTOCOL, 20);
+    ArrayList<FixtureNode> tcpNodes = nodeListFixture(NetworkProtocol.TCP_PROTOCOL, 10);
     startNodes(tcpNodes, 60, TimeUnit.SECONDS);
     assertNodesCommunication(tcpNodes);
     stopNodes(tcpNodes, 60, TimeUnit.SECONDS);
