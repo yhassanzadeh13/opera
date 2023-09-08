@@ -1,6 +1,9 @@
 package network;
 
+import java.net.InetSocketAddress;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import network.exception.OperaNetworkingException;
 import network.model.Message;
 import node.Identifier;
 
@@ -10,6 +13,15 @@ import node.Identifier;
 
 public abstract class Underlay {
   protected Network network; // TODO: make this final.
+
+  /**
+   * Sends a message to a remote node.
+   *
+   * @param targetAddress address of the remote node who should receive the message.
+   * @param message       the message to be sent.
+   * @throws OperaNetworkingException if it could not send the message.
+   */
+  public abstract void send(InetSocketAddress targetAddress, Message message) throws OperaNetworkingException;
 
   public abstract int getPort();
 
@@ -46,17 +58,6 @@ public abstract class Underlay {
    * @return true iff the initialization was successful.
    */
   protected abstract boolean initUnderlay(int port);
-
-  /**
-   * Can be used to send a request to a remote server that runs the same underlay architecture.
-   *
-   * @param address address of the remote server.
-   * @param port    port of the remote server.
-   * @param request the request.
-   * @return True in case of success, False otherwise
-   */
-  public abstract boolean sendMessage(String address, int port, Message request);
-
 
   /**
    * Terminates the node.

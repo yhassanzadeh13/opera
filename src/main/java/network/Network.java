@@ -1,7 +1,7 @@
 package network;
 
 import java.io.UncheckedIOException;
-import java.util.AbstractMap.SimpleEntry;
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,6 +10,7 @@ import modules.logger.Logger;
 import modules.logger.OperaLogger;
 import network.encoder.Encoder;
 import network.encoder.serializable.SerializableEncoder;
+import network.exception.OperaNetworkingException;
 import network.latency.LatencyGenerator;
 import network.model.Event;
 import network.model.Message;
@@ -32,7 +33,7 @@ public class Network {
    * The key is the identifier of the node and the value is a pair of the IP address and the port.
    * The IP address is a string and the port is an integer.
    */
-  private final HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses;
+  private final HashMap<Identifier, InetSocketAddress> allFullAddresses;
 
   /**
    * Identifier of the node itself.
@@ -75,15 +76,15 @@ public class Network {
    * @throws IllegalStateException if the orchestrator is null.
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "allFullAddresses is externally mutable")
-  public Network(Identifier nodeId,
-                 HashMap<Identifier, SimpleEntry<String, Integer>> allFullAddresses,
-                 Orchestrator orchestrator) throws IllegalStateException {
+  public Network(final Identifier nodeId,
+                 final HashMap<Identifier, InetSocketAddress> allFullAddresses,
+                 final Orchestrator orchestrator) throws IllegalStateException {
     if (orchestrator == null) {
       throw new IllegalArgumentException("orchestrator cannot be null");
     }
 
     this.nodeId = nodeId;
-    this.logger = OperaLogger.getLoggerForNodeComponent(Network.class.getCanonicalName(), nodeId, "middlelayer");
+    this.logger = OperaLogger.getLoggerForNodeComponent(Network.class.getCanonicalName(), nodeId, "network");
     this.allFullAddresses = allFullAddresses;
     this.orchestrator = orchestrator;
     this.metricsCollector = OperaMiddlewareCollector.getInstance();
@@ -119,7 +120,7 @@ public class Network {
    * @return true if event was sent successfully. false, otherwise.
    */
   public boolean send(Identifier destinationId, Event event) {
-    SimpleEntry<String, Integer> fullAddress = allFullAddresses.get(destinationId);
+    InetSocketAddress targetAddress = allFullAddresses.get(destinationId);
 
     // encode the event into bytes
     byte[] encodedEvent = null;
@@ -130,8 +131,6 @@ public class Network {
       return false;
     }
     Message msg = new Message(encodedEvent, this.nodeId, destinationId);
-    String destinationAddress = fullAddress.getKey();
-    Integer port = fullAddress.getValue();
 
     // sleep for the simulated duration
     double sleepTime = this.latencyGenerator.getSimulatedLatency(nodeId, destinationId, true);
@@ -142,22 +141,17 @@ public class Network {
       this.logger.fatal("failed to sleep thread for the simulated delay, sleep time {}", sleepTime, ex);
     }
 
-    // Bounce the request up.
-    boolean success = underlay.sendMessage(destinationAddress, port, msg);
-    if (success) {
-      this.logger.debug("sent event to {}", destinationId);
-    } else {
-      this.logger.warn("failed to send event to {}", destinationId);
+    // TODO: Bounce the request up.
+    try {
+      underlay.send(targetAddress, msg);
+    } catch (OperaNetworkingException ex) {
+      this.logger.error("failed to send event to {}", destinationId, ex);
+      return false;
     }
 
     this.metricsCollector.onMessageSent(nodeId, encodedEvent.length);
     this.logger.trace("sent event to {}, event size {}", destinationId, encodedEvent.length);
-    return success;
-  }
-
-  public String getAddress(Identifier nodeId) {
-    SimpleEntry<String, Integer> address = allFullAddresses.get(nodeId);
-    return address.getKey() + ":" + address.getValue();
+    return true;
   }
 
   /**
@@ -165,7 +159,10 @@ public class Network {
    */
   public void receive(final Message msg) {
     this.metricsCollector.onMessageReceived(nodeId, msg.getEncodedEvent().length, msg.getSentTimeStamp());
-    this.logger.trace("received event from {}, event size {}, event timestamp", msg.getOriginId(), msg.getEncodedEvent().length, msg.getSentTimeStamp());
+    this.logger.trace("received event from {}, event size {}, event timestamp",
+                      msg.getOriginId(),
+                      msg.getEncodedEvent().length,
+                      msg.getSentTimeStamp());
 
     Event event;
     try {
@@ -185,7 +182,7 @@ public class Network {
    * This method will be called once the simulator send a start event to the node
    */
   public void start() {
-    this.logger.info("starting node on address {}", getAddress(nodeId));
+    this.logger.info("starting node on address {}", this.allFullAddresses.get(nodeId).toString());
     new Thread(() -> node.onStart()).start();
   }
 
@@ -207,7 +204,7 @@ public class Network {
    * declare the node as ready (called by the overlay).
    */
   public void ready() {
-    this.logger.info("node is ready and has started on {}", getAddress(nodeId));
+    this.logger.info("node is ready and has started on {}", this.allFullAddresses.get(nodeId).toString());
     this.orchestrator.ready(this.nodeId);
   }
 
@@ -224,9 +221,9 @@ public class Network {
    * Underlay initializer.
    */
   public void initUnderLay() {
-    logger.info("initializing middlelayer for node {} on address {}", nodeId, getAddress(nodeId));
+    logger.info("initializing middlelayer for node {} on address {}", nodeId, this.allFullAddresses.get(nodeId).toString());
 
-    int port = this.allFullAddresses.get(this.nodeId).getValue();
+    int port = this.allFullAddresses.get(this.nodeId).getPort();
     this.underlay.initUnderlay(port);
   }
 
@@ -236,7 +233,7 @@ public class Network {
    * @param allId List of IDs of all nodes.
    */
   public void create(ArrayList<Identifier> allId) {
-    logger.info("creating node {} on address {}", nodeId, getAddress(nodeId));
+    logger.info("creating node {} on address {}", nodeId, this.allFullAddresses.get(nodeId).toString());
     new Thread(() -> node.onCreate(allId)).start();
   }
 }

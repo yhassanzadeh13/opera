@@ -1,9 +1,9 @@
 package network;
 
-import java.util.AbstractMap.SimpleEntry;
-import java.util.HashMap;
+import java.net.InetSocketAddress;
 
 import network.javarmi.JavaRmiUnderlay;
+import network.local.LocalHub;
 import network.local.LocalUnderlay;
 import network.tcp.TcpUnderlay;
 import network.udp.UdpUnderlay;
@@ -15,18 +15,18 @@ public class UnderlayFactory {
   private UnderlayFactory() {
   }
 
+  private static final LocalHub localHub = new LocalHub();
+
   /**
-   * getter of a mock Underlay.
+   * Creates and returns a new LocalUnderlay instance.
    *
-   * @param address          address of the underlay
-   * @param port             port of the underlay
-   * @param network          middle layer of the underlay
-   * @param allLocalUnderlay hashmap of all underlays
-   * @return underlay
+   * @param address the address of the underlay.
+   * @param network the network layer of the underlay.
+   * @return a new LocalUnderlay instance.
    */
-  public static LocalUnderlay getMockUnderlay(String address, int port, Network network, HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allLocalUnderlay) {
-    LocalUnderlay underlay = new LocalUnderlay(address, port, allLocalUnderlay);
-    underlay.initialize(port, network);
+  public static LocalUnderlay createMockUnderlay(InetSocketAddress address, Network network) {
+    LocalUnderlay underlay = new LocalUnderlay(address, localHub);
+    underlay.initialize(address.getPort(), network);
     return underlay;
   }
 

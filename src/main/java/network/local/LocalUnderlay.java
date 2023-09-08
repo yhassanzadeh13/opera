@@ -1,96 +1,78 @@
 package network.local;
 
-import java.util.AbstractMap.SimpleEntry;
-import java.util.HashMap;
+import java.net.InetSocketAddress;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import network.Underlay;
+import network.exception.OperaNetworkingException;
 import network.model.Message;
 
 
 /**
- * Serves as the LocalUnderlay layer of the simulator.
+ * Local connection underlay implementation.
  */
-
 public class LocalUnderlay extends Underlay {
-  private final String selfAddress;
-  private final int port;
-  // TODO: replace it with a network Hub.
-  private final HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allUnderlay;
+  /**
+   * Address of the current instance of underlay.
+   */
+  private InetSocketAddress selfAddress;
+  private final LocalHub hub;
 
   /**
-   * Constructor of LocalUnderlay.
+   * Constructs a `LocalUnderlay` instance and binds it to the given port.
    *
-   * @param selfAddress Address of the underlay
-   * @param port        port of the Underlay
-   * @param allUnderlay hashmap of all underlays
+   * @param selfAddress address of the current instance of underlay.
    */
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "it is meant to expose internal state of allUnderlays")
-  public LocalUnderlay(String selfAddress, int port, HashMap<SimpleEntry<String, Integer>, LocalUnderlay> allUnderlay) {
+  public LocalUnderlay(final InetSocketAddress selfAddress, LocalHub hub) {
     this.selfAddress = selfAddress;
-    this.port = port;
-    this.allUnderlay = allUnderlay;
+    this.hub = hub;
   }
 
   @Override
   public void terminate() {
   }
 
+  /**
+   * Returns the port that the underlay is bound to.
+   *
+   * @return the port that the underlay is bound to.
+   */
   @Override
   public int getPort() {
-    return this.port;
+    return this.selfAddress.getPort();
   }
 
+  /**
+   * Returns the address of the current instance of underlay.
+   *
+   * @return the address of the current instance of underlay.
+   */
   @Override
   public String getAddress() {
-    return this.selfAddress;
+    return this.selfAddress.getAddress().toString();
   }
 
+  /**
+   * Constructs a `LocalUnderlay` instance and binds it to the given port.
+   *
+   * @param port the port that the underlay should be bound to.
+   * @return true iff the Java RMI initialization was successful.
+   */
   @Override
-  protected boolean initUnderlay(int port) {
-    // the underlay to the underlay cluster
-    allUnderlay.put(new SimpleEntry<>(this.selfAddress, this.port), this);
+  protected boolean initUnderlay(final int port) {
+    this.selfAddress = new InetSocketAddress(this.selfAddress.getAddress(), port);
+    this.hub.registerUnderlay(this.selfAddress, this);
     return true;
   }
 
   /**
-   * Sends a request to Underlay. Return true if no errors.
+   * Sends a message to a remote node.
    *
-   * @param address address of the remote server.
-   * @param port    port of the remote server.
-   * @param request the request.
-   * @return response for the given request. Null in case of failure
+   * @param targetAddress address of the remote node who should receive the message.
+   * @param message       the message to be sent.
+   * @throws network.exception.OperaNetworkingException if it could not send the message.
    */
   @Override
-  public boolean sendMessage(String address, int port, Message request) {
-    SimpleEntry<String, Integer> fullAddress = new SimpleEntry<>(address, port);
-    if (!allUnderlay.containsKey(fullAddress)) {
-      // TODO: throw illegal state exception.
-      return false;
-    }
-
-    Underlay destinationUnderlay = allUnderlay.get(fullAddress);
-
-    // handle the request in a separated thread
-    new Thread() {
-      @Override
-      public void run() {
-        destinationUnderlay.dispatchRequest(request);
-      }
-    }.start();
-    return true;
-  }
-
-  /**
-   * associate a middle layer to a specific node.
-   *
-   * @param address  address of the node
-   * @param port     identifier of the node
-   * @param underlay underlay to add.
-   * @return true if identifier was found and instance was added successfully. False, otherwise.
-   */
-  public boolean addInstance(String address, int port, LocalUnderlay underlay) {
-    allUnderlay.put(new SimpleEntry<>(address, port), underlay);
-    return true;
+  public void send(final InetSocketAddress targetAddress, final Message message) throws OperaNetworkingException {
+    this.hub.routeMessage(targetAddress, message);
   }
 }
