@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static utils.Fixtures.nodeListFixture;
+import network.local.LocalHub;
 import network.local.LocalUnderlay;
 import node.Identifier;
 import org.junit.jupiter.api.Assertions;
@@ -151,6 +152,7 @@ public class UnderlayTest {
       Assertions.fail("Failed to generate full addresses: ", e);
     }
 
+    LocalHub localHub = new LocalHub();
     for (int i = 0; i < nodeCount; i++) {
       Identifier id = allId.get(i);
       InetSocketAddress address = allFullAddresses.get(id);
@@ -159,7 +161,7 @@ public class UnderlayTest {
       FixtureNode node = new FixtureNode(id, allId, network);
       network.setNode(node);
 
-      LocalUnderlay underlay = new LocalUnderlay(address, allLocalUnderlay);
+      LocalUnderlay underlay = new LocalUnderlay(address, localHub);
       underlay.initialize(address.getPort(), network);
 
       network.setUnderlay(underlay);

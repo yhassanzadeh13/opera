@@ -150,7 +150,7 @@ public class Simulator implements Orchestrator {
       if (networkType != NetworkProtocol.MOCK_NETWORK) {
         network.setUnderlay(UnderlayFactory.newUnderlay(networkType, port, network));
       } else {
-        LocalUnderlay underlay = UnderlayFactory.getMockUnderlay(address, network, allLocalUnderlay);
+        LocalUnderlay underlay = UnderlayFactory.createMockUnderlay(address, network);
         network.setUnderlay(underlay);
         allLocalUnderlay.put(node.getKey(), underlay);
       }
