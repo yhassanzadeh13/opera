@@ -63,4 +63,30 @@ public class ServerTest {
     // TODO check server signature on tree digests
     assertSame(s.getStatus(), node4.addr);
   }
+<<<<<<< HEAD
+
+  @Test
+  public void pullTest() {
+    // set up a server
+    Server s = new Server(1, 4);
+    // add a user
+    User user1 = new User(1, new byte[0]);
+    s.db.insert(user1);
+
+    // create a history tree node whose index maps to the server's index
+    NodeAddress nodeAddress1 = new NodeAddress(1, 0);
+    HistoryTreeNode node1 = new HistoryTreeNode(nodeAddress1, OperationType.Insert, 1);
+    Tuple pushRes = s.push(node1);
+    assertTrue(pushRes.get(0) == StatusCode.Accept);
+    assertTrue(s.getStatus() == node1.addr);
+
+
+    Tuple pullRes = s.pull(user1, nodeAddress1);
+    assertTrue(pullRes.get(0) == node1);
+    assertTrue(pullRes.get(1) != null);
+
+
+  }
+=======
+>>>>>>> master
 }

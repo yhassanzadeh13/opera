@@ -73,6 +73,7 @@ public class Server implements BaseNode {
   // getters and setters ---------------------
 
   public NodeAddress getStatus() {
+    //    TODO add signature
     return status;
   }
 
@@ -142,6 +143,33 @@ public class Server implements BaseNode {
 
     // if nothing goes wrong, then the push request is done successfully
     return new Tuple(StatusCode.Accept, null);
+  }
+
+  /**
+   * implements the pull algorithm based on Integrita specification.
+   * by this method, a user can retrieve a specific node of history tree from the server.
+   * The method returns a tuple, where the first item is the retrieve history tree node.
+   * The second item is a server-side signature in case that the retrieved node is a tree digest.
+   * Otherwise, the second item is null.
+   */
+  public Tuple pull(User user, NodeAddress nodeAddress) {
+    // check whether user is authorized
+    if (!this.db.contains(user)) {
+      return new Tuple(new Object[]{null, null});
+    }
+
+    if (!this.db.contains(nodeAddress)) {
+      return new Tuple(new Object[]{null, null});
+    }
+
+    HistoryTreeNode res = this.db.get(nodeAddress);
+    byte[] singauture = new byte[0];
+    if (NodeAddress.isTreeDigest(nodeAddress)) {
+      singauture = Signature.sign(res.hash, this.sk);
+    }
+    return new Tuple(new Object[]{res, singauture});
+
+
   }
 
   // BaseNode interface implementation ---------------------------------------------------
